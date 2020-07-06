@@ -66,3 +66,32 @@ Pitch <- function(object) {
   stop(m, call. = FALSE)
 }
 
+
+split_pitch_notation <- function(pitch_notation) {
+  l <- nchar(pitch_notation)
+  list(
+    step = substr(pitch_notation, 1, 1),
+    alter = substr(pitch_notation, 2, l - 1),
+    octave = substr(pitch_notation, l, l)
+  )
+}
+
+
+to_midi.pitch_notation <- function(pitch_notation) {
+  p <- split_pitch_notation(pitch_notation)
+
+  steps <- c(0, 2, 4, 5, 7, 9, 11)
+  names(steps) <- c("C", "D", "E", "F", "G", "A", "B")
+
+  alter <- p$alter
+  # can not use "" as name
+  alter <- replace(alter, alter == "", " ")
+  alters <- c(0, 1, 2, -1, -2)
+  names(alters) <- c(" ", "#", "##", "-", "--")
+
+  p$octave <- as.double(p$octave)
+
+  midi <- steps[p$step] + alters[alter] + 12 * (p$octave + 1)
+  unname(midi)
+}
+
