@@ -95,3 +95,47 @@ to_midi.pitch_notation <- function(pitch_notation) {
   unname(midi)
 }
 
+
+#' @title Flatten PitchVoice into Character
+flatten.PitchVoice <- function(pitch) {
+  l <- length(pitch)
+
+  for (i in 1:l) {
+    s_i <- pitch[[i]]
+    type_i <- class(s_i)[1]
+    if (type_i == "PitchChord") {
+      l_i <- length(s_i)
+      pitch[[i]][1] <- paste0("(", s_i[1])
+      pitch[[i]][l_i] <- paste0(s_i[l_i], ")")
+    }
+  }
+
+  unlist(pitch)
+}
+
+
+#' @export
+print.Pitch <- function(x, ...) {
+  type <- class(x)[1]
+
+  if (type %in% c("PitchRest", "PitchNote")) {
+    s <- paste0(x, "\n")
+
+  } else if (type == "PitchChord") {
+    s <- to_string(x)
+
+  } else if (type == "PitchVoice") {
+    s <- to_string(
+      flatten.PitchVoice(x),
+      left = "[", right = "]"
+    )
+
+  } else if (type == "PitchVoices") {
+    x <- lapply(x, flatten.PitchVoice)
+    s <- to_string.list(x)
+  }
+
+  cat(s)
+  invisible(s)
+}
+
