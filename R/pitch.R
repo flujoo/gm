@@ -139,3 +139,35 @@ print.Pitch <- function(x, ...) {
   invisible(s)
 }
 
+
+#' @export
+to_Element <- function(object, ...) {
+  UseMethod("to_Element")
+}
+
+
+#' @title Convert PitchNote to Element
+#' @export
+to_Element.PitchNote <- function(object, ...) {
+  p <- split_pitch_notation(object)
+
+  step_ <- Element("step", p$step)
+  octave <- Element("octave", p$octave)
+
+  alter <- p$alter
+  if (alter != "") {
+    alter <- switch(
+      alter,
+      "#" = "1",
+      "##" = "2",
+      "-" = "-1",
+      "--" = "-2"
+    )
+    alter <- Element("alter", alter)
+    content <- list(step_, alter, octave)
+  } else {
+    content <- list(step_, octave)
+  }
+
+  Element("pitch", content)
+}
