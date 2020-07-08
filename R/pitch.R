@@ -67,7 +67,7 @@ Pitch <- function(object) {
 }
 
 
-split_pitch_notation <- function(pitch_notation) {
+split.pitch_notation <- function(pitch_notation) {
   l <- nchar(pitch_notation)
   list(
     step = substr(pitch_notation, 1, 1),
@@ -78,7 +78,7 @@ split_pitch_notation <- function(pitch_notation) {
 
 
 to_midi.pitch_notation <- function(pitch_notation) {
-  p <- split_pitch_notation(pitch_notation)
+  p <- split.pitch_notation(pitch_notation)
 
   steps <- c(0, 2, 4, 5, 7, 9, 11)
   names(steps) <- c("C", "D", "E", "F", "G", "A", "B")
@@ -134,7 +134,7 @@ to_Element <- function(object, ...) {
 #' @title Convert PitchNote to Element
 #' @export
 to_Element.PitchNote <- function(object, ...) {
-  p <- split_pitch_notation(object)
+  p <- split.pitch_notation(object)
 
   step_ <- Element("step", p$step)
   octave <- Element("octave", p$octave)
