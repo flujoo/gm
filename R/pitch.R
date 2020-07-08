@@ -1,4 +1,4 @@
-#' @title Create a Pitch Object
+#' @title Create Pitch Object
 #'
 #' @description Create an object of S3 class "Pitch",
 #' which is to represent the pitch aspect of music.
