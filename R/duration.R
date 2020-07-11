@@ -93,8 +93,7 @@ Duration <- function(object) {
   # error message
   m <- "invalid input to Duration"
 
-  if (is.character(object) && l == 1 &&
-      validate.duration_notation(object)) {
+  if (is.character(object) && validate.duration_notation(object)) {
     class(object) <- c("DurationNote", "Duration")
     return(object)
   }
