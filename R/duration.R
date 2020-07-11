@@ -72,3 +72,56 @@ to_value.duration_notation <- function(duration_notation,
   sum(type * dot / tuplet)
 }
 
+
+validate.duration_notation <- function(duration_notation) {
+  reg_type <- paste(duration_types, collapse = "|")
+  reg_single <- paste0("(", reg_type, ")\\.{0,4}(/[1-9][0-9]*)?")
+  reg <- paste0("^", reg_single, "(-", reg_single, ")*$")
+  grepl(reg, duration_notation)
+}
+
+
+#' @title Create Duration Object
+#'
+#' @description Create an object of S3 class "Duration",
+#' which is to represent the durational aspect of music.
+#'
+#' @export
+Duration <- function(object) {
+
+  l <- length(object)
+  # error message
+  m <- "invalid input to Duration"
+
+  if (is.character(object) && l == 1 &&
+      validate.duration_notation(object)) {
+    class(object) <- c("DurationNote", "Duration")
+    return(object)
+  }
+
+  if (is.list(object) && l > 0) {
+
+    if (all(sapply(object, is.character))) {
+      for (i in 1:l) {
+        object[[i]] <- Duration(object[[i]])
+      }
+      class(object) <- c("DurationVoice", "Duration")
+      return(object)
+
+
+    } else if (all(sapply(object, is.list))) {
+      for (i in 1:l) {
+        o <- object[[i]]
+        if (all(sapply(o, is.character))) {
+          object[[i]] <- Duration(o)
+        } else {
+          stop(m, call. = FALSE)
+        }
+      }
+      class(object) <- c("DurationVoices", "Duration")
+      return(object)
+    }
+  }
+
+  stop(m, call. = FALSE)
+}
