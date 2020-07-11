@@ -124,3 +124,42 @@ Duration <- function(object) {
 
   stop(m, call. = FALSE)
 }
+
+
+#' @export
+print.Duration <- function(x, ...) {
+
+  if (is.atomic(x)) {
+    if (length(x) == 1) {
+      s <- paste0(x, "\n")
+    } else {
+      s <- to_string.vector(x, c("(", ")"))
+    }
+
+  # if any item is of length larger than 1,
+  # wrap ALL items in list into parentheses
+  } else if (is.list(x)) {
+    if (all(sapply(x, is.atomic))) {
+      if (any(sapply(x, length) > 1)) {
+        con <- function(x) TRUE
+        x <- unlist(delimit.list(x, con, c("(", ")")))
+      }
+      s <- to_string.vector(x, c("[", "]"))
+
+    } else if (all(sapply(x, is.list))) {
+      group <- FALSE
+      for (o in x) {
+        group <- group || any(sapply(o, length) > 1)
+      }
+      if (group) {
+        con <- function(x) TRUE
+        f <- function(x) unlist(delimit.list(x, con, c("(", ")")))
+        x <- lapply(x, f)
+      }
+      s <- to_string.list(x)
+    }
+  }
+
+  cat(s)
+  invisible(s)
+}
