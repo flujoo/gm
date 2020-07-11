@@ -10,14 +10,16 @@ split.duration_notation <- function(duration_notation) {
   for (dn in dns) {
     # separate tuplet
     typedot_tuplet <- strsplit(dn, "/")[[1]]
-    tuplet <- c(tuplet, as.numeric(typedot_tuplet[2]))
+    tuplet_ <- typedot_tuplet[2]
+    tuplet_ <- ifelse(is.na(tuplet_), "", tuplet_)
+    tuplet <- c(tuplet, tuplet_)
     # separate dot from type
     typedot <- typedot_tuplet[1]
     type_dot <- strsplit(typedot, "[.]")[[1]]
     type_ <- type_dot[1]
     type <- c(type, type_)
     dot_ <- substr(typedot, nchar(type_) + 1, nchar(typedot))
-    dot <- c(dot, nchar(dot_))
+    dot <- c(dot, dot_)
   }
 
   list(type = type, dot = dot, tuplet = tuplet)
