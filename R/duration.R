@@ -25,3 +25,50 @@ split.duration_notation <- function(duration_notation) {
   list(type = type, dot = dot, tuplet = tuplet)
 }
 
+
+duration_types <- c(
+  "maxima", "long", "breve", "whole", "half", "quarter", "8th",
+  "16th", "32nd", "64th", "128th", "256th", "512th", "1024th"
+)
+
+
+to_value.duration_types <- function(quarter = 1, as_fraction = TRUE) {
+  l <- length(duration_types)
+  vs <- rep(0, l)
+  names(vs) <- duration_types
+
+  i_q <- which(duration_types == "quarter")
+  vs[i_q] <- quarter
+  vs[(i_q - 1):1] <- quarter * 2^(1:(i_q - 1))
+  vs[(i_q + 1):l] <- quarter / 2^(1:(l - i_q))
+
+  if (as_fraction) {
+    MASS::fractions(vs)
+  } else {
+    vs
+  }
+}
+
+
+to_value.duration_notation <- function(duration_notation,
+                                       quarter = 1, as_fraction = TRUE) {
+  dn <- split.duration_notation(duration_notation)
+  vs <- to_value.duration_types(quarter, as_fraction)
+
+  type <- unname(vs[dn$type])
+
+  dot <- dn$dot
+  dot[dot == ""] <- 1
+  dot[dot == "."] <- 1.5
+  dot[dot == ".."] <- 1.75
+  dot[dot == "..."] <- 1.875
+  dot[dot == "...."] <- 1.9375
+  dot <- as.numeric(dot)
+
+  tuplet <- dn$tuplet
+  tuplet[tuplet == ""] <- 1
+  tuplet <- as.numeric(tuplet)
+
+  sum(type * dot / tuplet)
+}
+
