@@ -98,26 +98,23 @@ to_midi.pitch_notation <- function(pitch_notation) {
 
 #' @export
 print.Pitch <- function(x, ...) {
-  type <- class(x)[1]
-
-  if (type %in% c("PitchRest", "PitchNote")) {
-    s <- paste0(x, "\n")
-
-  } else if (type == "PitchChord") {
-    s <- to_string.vector(x, c("(", ")"))
-
-  } else if (type == "PitchVoice") {
-    s <- to_string.vector(
-      unlist(delimit.list(x, function(x_i) length(x_i) > 1, c("(", ")"))),
-      c("[", "]"),
-    )
-
-  } else if (type == "PitchVoices") {
-    f <- function(x) {
-      unlist(delimit.list(x, function(v) length(v) > 1, c("(", ")")))
+  if (is.atomic(x)) {
+    l <- length(x)
+    if (l == 1) {
+      s <- paste0(x, "\n")
+    } else if (l > 1) {
+      s <- to_string.vector(x, c("(", ")"))
     }
-    x <- lapply(x, f)
-    s <- to_string.list(x)
+  } else if (is.list(x)) {
+    con <- function(x) length(x) > 1
+    if (all(sapply(x, is.atomic))) {
+      ss <- unlist(delimit.list(x, con, c("(", ")")))
+      s <- to_string.vector(ss, c("[", "]"))
+    } else if (all(sapply(x, is.list))) {
+      f <- function(x) unlist(delimit.list(x, con, c("(", ")")))
+      x <- lapply(x, f)
+      s <- to_string.list(x)
+    }
   }
 
   cat(s)
