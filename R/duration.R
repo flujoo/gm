@@ -133,7 +133,7 @@ print.Duration <- function(x, ...) {
     if (length(x) == 1) {
       s <- paste0(x, "\n")
     } else {
-      s <- to_string.vector(x, c("(", ")"))
+      s <- to_string.vector(x, "|")
     }
 
   # if any item is of length larger than 1,
@@ -142,7 +142,7 @@ print.Duration <- function(x, ...) {
     if (all(sapply(x, is.atomic))) {
       if (any(sapply(x, length) > 1)) {
         con <- function(x) TRUE
-        x <- unlist(delimit.list(x, con, c("(", ")")))
+        x <- unlist(delimit.list(x, con, "|"))
       }
       s <- to_string.vector(x, c("[", "]"))
 
@@ -153,7 +153,7 @@ print.Duration <- function(x, ...) {
       }
       if (group) {
         con <- function(x) TRUE
-        f <- function(x) unlist(delimit.list(x, con, c("(", ")")))
+        f <- function(x) unlist(delimit.list(x, con, "|"))
         x <- lapply(x, f)
       }
       s <- to_string.list(x)
