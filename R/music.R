@@ -24,3 +24,40 @@ Music <- function(pitch, duration) {
 
   stop(e)
 }
+
+
+#' @export
+print.Music <- function(x, ...) {
+  p <- x$pitch
+  d <- x$duration
+  l <- length(p)
+
+  if (is.atomic(p)) {
+    if (l > 1) {
+      p <- delimit.vector(p, c("<", ">"))
+    }
+    s <- to_string.vector(c(p, d), c("(", ")"))
+
+  } else if (is.list(p)) {
+    if (all(sapply(p, is.atomic))) {
+      s <- delimit.list(p, function(x) length(x) > 1, c("<", ">"))
+      for (i in 1:l) {
+        s[[i]] <- delimit.vector(c(s[[i]], d[[i]]), c("(", ")"))
+      }
+      s <- to_string.vector(unlist(s), c("[", "]"))
+
+    } else if (all(sapply(p, is.list))) {
+      for (i in 1:l) {
+        s_i <- delimit.list(p[[i]], function(x) length(x) > 1, c("<", ">"))
+        for (j in 1:length(s_i)) {
+          p[[i]][[j]] <- delimit.vector(c(s_i[[j]], d[[i]][[j]]), c("(", ")"))
+        }
+        p[[i]] <- unlist(p[[i]])
+      }
+      s <- to_string.list(p)
+    }
+  }
+
+  cat(s)
+  invisible(s)
+}
