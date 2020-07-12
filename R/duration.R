@@ -93,7 +93,8 @@ Duration <- function(object) {
   # error message
   m <- "invalid input to Duration"
 
-  if (is.character(object) && validate.duration_notation(object)) {
+  if (is.character(object) && l == 1 &&
+      validate.duration_notation(object)) {
     class(object) <- c("DurationNote", "Duration")
     return(object)
   }
@@ -130,32 +131,13 @@ Duration <- function(object) {
 print.Duration <- function(x, ...) {
 
   if (is.atomic(x)) {
-    if (length(x) == 1) {
-      s <- paste0(x, "\n")
-    } else {
-      s <- to_string.vector(x, "|")
-    }
+    s <- paste0(x, "\n")
 
-  # if any item is of length larger than 1,
-  # wrap ALL items in list into parentheses
   } else if (is.list(x)) {
     if (all(sapply(x, is.atomic))) {
-      if (any(sapply(x, length) > 1)) {
-        con <- function(x) TRUE
-        x <- unlist(delimit.list(x, con, "|"))
-      }
       s <- to_string.vector(x, c("[", "]"))
 
     } else if (all(sapply(x, is.list))) {
-      group <- FALSE
-      for (o in x) {
-        group <- group || any(sapply(o, length) > 1)
-      }
-      if (group) {
-        con <- function(x) TRUE
-        f <- function(x) unlist(delimit.list(x, con, "|"))
-        x <- lapply(x, f)
-      }
       s <- to_string.list(x)
     }
   }
