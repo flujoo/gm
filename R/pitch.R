@@ -123,6 +123,22 @@ print.Pitch <- function(x, ...) {
 
 
 #' @export
+`[.PitchChord` <- function(x, i, ...) {
+  ks <- i[i %in% (1:length(x))]
+  l <- length(ks)
+  if (l > 0) {
+    p <- unclass(x)[ks]
+    if (l == 1) {
+      class(p) <- c("PitchNote", "Pitch")
+    } else if (l > 1) {
+      class(p) <- c("PitchChord", "Pitch")
+    }
+    return(p)
+  }
+}
+
+
+#' @export
 to_Element <- function(object, ...) {
   UseMethod("to_Element")
 }
