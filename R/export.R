@@ -253,3 +253,9 @@ show.MusicXML <- function(object, to = c("score", "audio"),
     }
   }
 }
+
+
+show.musicxml <- function(path, ...) {
+  m <- readLines(path)
+  show.MusicXML(m, ...)
+}
