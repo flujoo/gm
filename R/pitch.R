@@ -179,7 +179,11 @@ to_Element.Pitch <- function(object, ...) {
     e <- list()
     for (i in 1:length(object)) {
       p <- to_Element.Pitch(object[i])
-      e[[i]] <- list(Element("chord"), p)
+      if (i == 1) {
+        e[[i]] <- p
+      } else {
+        e[[i]] <- list(Element("chord"), p)
+      }
     }
     return(e)
   }
