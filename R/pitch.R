@@ -149,6 +149,7 @@ to_Element.Pitch <- function(object, ...) {
   type <- class(object)[1]
 
   if (type == "PitchNote") {
+    object <- unclass(object)
     p <- split.pitch_notation(object)
     step_ <- Element("step", p$step)
     octave <- Element("octave", p$octave)
