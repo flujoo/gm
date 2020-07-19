@@ -155,64 +155,41 @@ to_Element <- function(object, ...) {
 
 
 #' @export
-to_Element.Pitch <- function(object, ...) {
-  type <- class(object)[1]
+to_Element.PitchNote <- function(object, ...) {
+  p <- split.pitch_notations(unclass(object))
 
-  if (type == "PitchNote") {
-    object <- unclass(object)
-    p <- split.pitch_notation(object)
-    step_ <- Element("step", p$step)
-    octave <- Element("octave", p$octave)
+  step_ <- Element("step", p$step)
+  octave <- Element("octave", p$octave)
 
-    alter <- p$alter
-    if (alter != "") {
-      alter <- switch(
-        alter,
-        "#" = "1",
-        "##" = "2",
-        "-" = "-1",
-        "--" = "-2"
-      )
-      alter <- Element("alter", alter)
-      content <- list(step_, alter, octave)
+  alter <- p$alter
+  if (alter != "") {
+    alter <- switch(
+      alter,
+      "#" = "1",
+      "##" = "2",
+      "-" = "-1",
+      "--" = "-2"
+    )
+    alter <- Element("alter", alter)
+    content <- list(step_, alter, octave)
+  } else {
+    content <- list(step_, octave)
+  }
+
+  Element("pitch", content)
+}
+
+
+#' @export
+to_Element.PitchChord <- function(object, ...) {
+  e <- list()
+  for (i in 1:length(object)) {
+    p <- to_Element.PitchNote(object[i])
+    if (i == 1) {
+      e[[i]] <- p
     } else {
-      content <- list(step_, octave)
+      e[[i]] <- list(Element("chord"), p)
     }
-
-    return(Element("pitch", content))
   }
-
-  if (type == "PitchRest") {
-    return(Element("rest"))
-  }
-
-  if (type == "PitchChord") {
-    e <- list()
-    for (i in 1:length(object)) {
-      p <- to_Element.Pitch(object[i])
-      if (i == 1) {
-        e[[i]] <- p
-      } else {
-        e[[i]] <- list(Element("chord"), p)
-      }
-    }
-    return(e)
-  }
-
-  if (type == "PitchVoice") {
-    e <- list()
-    for (i in 1:length(object)) {
-      o <- object[[i]]
-      if (class(o)[1] %in% c("PitchRest", "PitchNote")) {
-        e[[i]] <- to_Element.Pitch(o)
-      } else {
-        e <- append(e, to_Element.Pitch(o), i - 1)
-      }
-    }
-    return(e)
-  }
-
-  if (type == "PitchVoices") {
-    return(lapply(object, to_Element.Pitch))
-  }
+  e
 }
