@@ -14,8 +14,6 @@ validate.pitch_notations <- function(objects) {
 Pitch <- function(object) {
 
   l <- length(object)
-  # match pitch notation
-  reg <- "^[A-G](#{0,2}|-{0,2})[0-9]$"
   # error message
   m <- "invalid input to Pitch"
 
@@ -30,7 +28,7 @@ Pitch <- function(object) {
       return(object)
 
     # PitchNote
-    } else if (all(grepl(reg, object))) {
+    } else if (all(validate.pitch_notations(object))) {
       if (l == 1) {
         class(object) <- c("PitchNote", "Pitch")
         return(object)
