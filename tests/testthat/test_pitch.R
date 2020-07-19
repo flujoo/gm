@@ -121,7 +121,7 @@ test_that("PitchVoices", {
 
 test_that("pitch notation -> midi", {
   pns <- c("C0", "D#1", NA, "E##2", "F-3", "G--4")
-  out <- to_midi.pitch_notation(pns)
+  out <- to_midis.pitch_notations(pns)
   expected <- c(12, 27, NA, 42, 52, 65)
   expect_equal(out, expected)
 })
@@ -137,7 +137,7 @@ test_that("print short Pitch", {
   expect_equal(out, expected)
 
   out <- print.Pitch(Pitch(c("F--9", "D#4")))
-  expected <- "(F--9, D#4)\n"
+  expected <- "<F--9, D#4>\n"
   expect_equal(out, expected)
 })
 
@@ -153,11 +153,11 @@ test_that("print short PitchVoice", {
   expect_equal(out, expected)
 
   out <- print.Pitch(Pitch(list(c("F--9", "D#3"))))
-  expected <- "[(F--9, D#3)]\n"
+  expected <- "[<F--9, D#3>]\n"
   expect_equal(out, expected)
 
   out <- print.Pitch(Pitch(list(NA, c("F--9", "D#3"), "G2")))
-  expected <- "[NA, (F--9, D#3), G2]\n"
+  expected <- "[NA, <F--9, D#3>, G2]\n"
   expect_equal(out, expected)
 })
 
