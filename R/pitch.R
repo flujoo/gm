@@ -74,32 +74,37 @@ Pitch <- function(object) {
 }
 
 
-split.pitch_notation <- function(pitch_notation) {
-  l <- nchar(pitch_notation)
+#' @param pitch_notations A character vector of pitch notation(s)
+#' or \code{NA}(s). List is acceptable, if all members are pitch notations,
+#' or \code{NA}s will be coerced into characters and be split improperly.
+split.pitch_notations <- function(pitch_notations) {
+  l <- nchar(pitch_notations)
   list(
-    step = substr(pitch_notation, 1, 1),
-    alter = substr(pitch_notation, 2, l - 1),
-    octave = substr(pitch_notation, l, l)
+    step = substr(pitch_notations, 1, 1),
+    alter = substr(pitch_notations, 2, l - 1),
+    octave = substr(pitch_notations, l, l)
   )
 }
 
 
-to_midi.pitch_notation <- function(pitch_notation) {
-  p <- split.pitch_notation(pitch_notation)
+#' @param pitch_notations A character vector or a list of pitch notation(s)
+#' or \code{NA}(s).
+to_midis.pitch_notations <- function(pitch_notations) {
+  ps <- split.pitch_notations(pitch_notations)
 
   steps <- c(0, 2, 4, 5, 7, 9, 11)
   names(steps) <- c("C", "D", "E", "F", "G", "A", "B")
 
-  alter <- p$alter
+  alter <- ps$alter
   # can not use "" as name
   alter <- replace(alter, alter == "", " ")
   alters <- c(0, 1, 2, -1, -2)
   names(alters) <- c(" ", "#", "##", "-", "--")
 
-  p$octave <- as.double(p$octave)
+  ps$octave <- suppressWarnings(as.double(ps$octave))
 
-  midi <- steps[p$step] + alters[alter] + 12 * (p$octave + 1)
-  unname(midi)
+  midis <- steps[ps$step] + alters[alter] + 12 * (ps$octave + 1)
+  unname(midis)
 }
 
 
