@@ -1,3 +1,24 @@
+duration_types <- c(
+  "maxima", "long", "breve", "whole", "half", "quarter", "eighth",
+  "16th", "32nd", "64th", "128th", "256th", "512th", "1024th"
+)
+
+
+validate.duration_notations <- function(duration_notations) {
+  reg <- paste0(
+    "^",
+    "(", paste(duration_types, collapse = "|"), ")",
+    "(\\.{1,4})?",
+    # consecutive tuplet operators is acceptable,
+    # but consecutive dot blocks is not
+    "((/[1-9][0-9]*)+(\\.{1,4})?)*",
+    "-?",
+    "$"
+  )
+  grepl(reg, duration_notations)
+}
+
+
 split.duration_notation <- function(duration_notation) {
   core <- function(reg) {
     ks <- gregexpr(reg, duration_notation)[[1]]
@@ -19,12 +40,6 @@ split.duration_notation <- function(duration_notation) {
     slur = core("-")
   )
 }
-
-
-duration_types <- c(
-  "maxima", "long", "breve", "whole", "half", "quarter", "eighth",
-  "16th", "32nd", "64th", "128th", "256th", "512th", "1024th"
-)
 
 
 to_value.duration_types <- function(quarter = 1, as_fraction = TRUE) {
@@ -65,21 +80,6 @@ to_value.duration_notation <- function(duration_notation,
   tuplet <- as.numeric(tuplet)
 
   sum(type * dot / tuplet)
-}
-
-
-validate.duration_notations <- function(duration_notations) {
-  reg <- paste0(
-    "^",
-    "(", paste(duration_types, collapse = "|"), ")",
-    "(\\.{1,4})?",
-    # consecutive tuplet operators is acceptable,
-    # but consecutive dot blocks is not
-    "((/[1-9][0-9]*)+(\\.{1,4})?)*",
-    "-?",
-    "$"
-  )
-  grepl(reg, duration_notations)
 }
 
 
