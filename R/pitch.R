@@ -1,3 +1,10 @@
+#' @return A logical vector.
+validate.pitch_notations <- function(objects) {
+  reg <- "^[A-G](#{0,2}|-{0,2})[0-9]$"
+  grepl(reg, objects)
+}
+
+
 #' @title Create Pitch Object
 #'
 #' @description Create an object of S3 class "Pitch",
