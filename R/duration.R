@@ -73,11 +73,18 @@ to_value.duration_notation <- function(duration_notation,
 }
 
 
-validate.duration_notation <- function(duration_notation) {
-  reg_type <- paste(duration_types, collapse = "|")
-  reg_single <- paste0("(", reg_type, ")\\.{0,4}(/[1-9][0-9]*)?")
-  reg <- paste0("^", reg_single, "(-", reg_single, ")*$")
-  grepl(reg, duration_notation)
+validate.duration_notations <- function(duration_notations) {
+  reg <- paste0(
+    "^",
+    "(", paste(duration_types, collapse = "|"), ")",
+    "(\\.{1,4})?",
+    # consecutive tuplet operators is acceptable,
+    # but consecutive dot blocks is not
+    "((/[1-9][0-9]*)+(\\.{1,4})?)*",
+    "-?",
+    "$"
+  )
+  grepl(reg, duration_notations)
 }
 
 
