@@ -39,7 +39,8 @@ split.duration_notation <- function(duration_notation) {
 
   list(
     type = core(paste(duration_types, collapse = "|")),
-    modifier = core("/[1-9][0-9]*|\\.{1,4}"),
+    dot = core("\\.{1,4}"),
+    tuplet = core("/[1-9][0-9]*"),
     slur = core("-")
   )
 }
