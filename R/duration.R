@@ -5,13 +5,16 @@ duration_types <- c(
 
 
 validate.duration_notations <- function(duration_notations) {
+  reg_type <- paste0("(", paste(duration_types, collapse = "|"), ")")
   reg <- paste0(
     "^",
-    "(", paste(duration_types, collapse = "|"), ")",
+    # always starts with a type
+    reg_type,
+    # maybe followed by a dot block
     "(\\.{1,4})?",
-    # consecutive tuplet operators is acceptable,
-    # but consecutive dot blocks is not
-    "((/[1-9][0-9]*)+(\\.{1,4})?)*",
+    # followed by 0-n tuplet operators
+    "(/[1-9][0-9]*)*",
+    # maybe followed by a slur
     "-?",
     "$"
   )
