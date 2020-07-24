@@ -104,8 +104,6 @@ to_Element <- function(object, ...) {
 
 
 #' @export
-to_Element.PitchNote <- function(object, ...) {
-  p <- split.pitch_notations(unclass(object))
 
   step_ <- Element("step", p$step)
   octave <- Element("octave", p$octave)
@@ -126,19 +124,4 @@ to_Element.PitchNote <- function(object, ...) {
   }
 
   Element("pitch", content)
-}
-
-
-#' @export
-to_Element.PitchChord <- function(object, ...) {
-  e <- list()
-  for (i in 1:length(object)) {
-    p <- to_Element.PitchNote(object[i])
-    if (i == 1) {
-      e[[i]] <- p
-    } else {
-      e[[i]] <- list(Element("chord"), p)
-    }
-  }
-  e
 }
