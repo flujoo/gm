@@ -66,10 +66,12 @@ analyze.pitch_notations <- function(pitch_notations) {
 }
 
 
+#' @title Convert Pitch Notations to MIDI Note Numbers
 #' @param pitch_notations A character vector or a list of pitch notation(s)
 #' or \code{NA}(s).
+#' @return A numeric vector representing MIDI note numbers.
 to_midis.pitch_notations <- function(pitch_notations) {
-  ps <- split.pitch_notations(pitch_notations)
+  ps <- analyze.pitch_notations(pitch_notations)
 
   steps <- c(0, 2, 4, 5, 7, 9, 11)
   names(steps) <- c("C", "D", "E", "F", "G", "A", "B")
