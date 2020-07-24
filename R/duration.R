@@ -9,7 +9,7 @@ duration_types <- c(
 
 
 #' @title Convert Duration Type to Value
-#' @param duration_type A character.
+#' @param duration_type A character representing a duration type.
 #' @return A numeric.
 to_value.duration_type <- function(duration_type) {
   v_quarter = 1
