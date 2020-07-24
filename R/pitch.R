@@ -103,7 +103,10 @@ to_Element <- function(object, ...) {
 }
 
 
+#' @title Convert Pitch to Element
 #' @export
+to_Element.Pitch <- function(object, ...) {
+  p <- analyze.pitch_notations(unclass(object))
 
   step_ <- Element("step", p$step)
   octave <- Element("octave", p$octave)
