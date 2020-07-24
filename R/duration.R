@@ -107,15 +107,19 @@ validate.take <- function(n, unit_type, unit_dot, take_type, take_dot) {
 
 
 #' @title Create Tuplet Object
-#' @description Used in function \code{DurationNote} to specify a complex
-#' tuplet.
+#'
+#' @description Create an object of S3 class "Tuplet". Used in function
+#' \code{Duration} to specify complex tuplets.
+#'
 #' @param n A numeric which is an integer larger than 1.
-#' @param unit A character representing a duration notation indicating
+#' @param unit A character representing a duration notation, indicating
 #' the duration of the basic unit of the tuplet.
-#' @param take A character representing a duration notation indicating
-#' how many units the tuplet lasts.
+#' @param take A character representing a duration notation, indicating
+#' the duration the tuplet actually takes.
+#'
 #' @return A list with \code{"n"}, \code{"unit"} and \code{"take"} as names,
 #' whose class is \code{"Tuplet"}.
+#'
 #' @export
 Tuplet <- function(n, unit, take) {
   v_n <- n > 1 && as.integer(n) == n
