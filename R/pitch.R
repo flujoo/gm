@@ -1,7 +1,18 @@
+#' @title Validate Pitch Notations
+#' @param pitch_notations A character vector or a list of pitch notations.
 #' @return A logical vector.
-validate.pitch_notations <- function(objects) {
-  reg <- "^[A-G](#{0,2}|-{0,2})[0-9]$"
-  grepl(reg, objects)
+validate.pitch_notations <- function(pitch_notations) {
+  reg <- paste0(
+    "^",
+    # always starts with a note name
+    "[A-G]",
+    # maybe followed by an accidental
+    "(#{0,2}|-{0,2})",
+    # followed by an octave
+    "[0-9]",
+    "$"
+  )
+  grepl(reg, pitch_notations)
 }
 
 
