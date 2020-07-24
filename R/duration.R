@@ -57,9 +57,10 @@ validate.duration_notations <- function(
 
 #' @title Analyze Duration Notation
 #' @description Split a duration notation into four parts representing
-#' type, dot, tuplet(s) and slur.
-#' @param duration_notation A character.
-#' @return A list.
+#' type, dot, tuplets and slur.
+#' @param duration_notation A character representing a duration notation.
+#' @return A list with \code{"type"}, \code{"dot"}, \code{"ns"} and
+#' \code{"slur"} as names.
 analyze.duration_notation <- function(duration_notation) {
   core <- function(reg) {
     ks <- gregexpr(reg, duration_notation)[[1]]
