@@ -32,9 +32,10 @@ to_value.dot <- function(dot) {
 
 
 #' @title Validate Duration Notations
-#' @param duration_notations A character vector of duration notations.
+#' @param duration_notations A character vector or a list of
+#' duration notations.
 #' @param dot,tuplet,slur Bools indicating if duration notations can
-#' contain dot part, tuplet part, and slur part respectively.
+#' contain dot, tuplet, and slur respectively.
 #' @return A logical vector.
 validate.duration_notations <- function(
   duration_notations, dot = TRUE, tuplet = TRUE, slur = TRUE) {
