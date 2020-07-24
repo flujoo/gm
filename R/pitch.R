@@ -91,25 +91,7 @@ to_midis.pitch_notations <- function(pitch_notations) {
 
 #' @export
 print.Pitch <- function(x, ...) {
-  if (is.atomic(x)) {
-    l <- length(x)
-    if (l == 1) {
-      s <- paste0(x, "\n")
-    } else if (l > 1) {
-      s <- to_string.vector(x, c("<", ">"))
-    }
-  } else if (is.list(x)) {
-    con <- function(x) length(x) > 1
-    if (all(sapply(x, is.atomic))) {
-      ss <- unlist(delimit.list(x, con, c("<", ">")))
-      s <- to_string.vector(ss, c("[", "]"))
-    } else if (all(sapply(x, is.list))) {
-      f <- function(x) unlist(delimit.list(x, con, c("<", ">")))
-      x <- lapply(x, f)
-      s <- to_string.list(x)
-    }
-  }
-
+  s <- paste0(x, "\n")
   cat(s)
   invisible(s)
 }
