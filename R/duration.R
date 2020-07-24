@@ -121,7 +121,7 @@ validate.take <- function(n, unit_type, unit_dot, take_type, take_dot) {
 #' whose class is \code{"Tuplet"}.
 #'
 #' @export
-Tuplet <- function(n, unit, take) {
+Tuplet <- function(n, unit, take = unit) {
   v_n <- n > 1 && as.integer(n) == n
   if (!v_n) {
     stop('argument "n" should be an integer larger than 1')
@@ -138,24 +138,31 @@ Tuplet <- function(n, unit, take) {
     stop(m)
   }
 
-  v_take <- is.character(take) &&
-    length(take) == 1 &&
-    validate.duration_notations(take, tuplet = FALSE, slur = FALSE)
-  if (!v_take) {
-    m <- paste(
-      'argument "take" should be a character starting with',
-      "a duration type followed by 0-4 dots"
-    )
-    stop(m)
+  if (take != unit) {
+    v_take <- is.character(take) &&
+      length(take) == 1 &&
+      validate.duration_notations(take, tuplet = FALSE, slur = FALSE)
+    if (!v_take) {
+      m <- paste(
+        'argument "take" should be a character starting with',
+        "a duration type followed by 0-4 dots"
+      )
+      stop(m)
+    }
+
+    unit <- analyze.duration_notation(unit)
+    unit_type <- unit$type
+    unit_dot <- unit$dot
+
+    take <- analyze.duration_notation(take)
+    take_type <- take$type
+    take_dot <- take$dot
+
+  } else {
+    unit <- analyze.duration_notation(unit)
+    take_type <- unit_type <- unit$type
+    take_dot <- unit_dot <- unit$dot
   }
-
-  unit <- analyze.duration_notation(unit)
-  unit_type <- unit$type
-  unit_dot <- unit$dot
-
-  take <- analyze.duration_notation(take)
-  take_type <- take$type
-  take_dot <- take$dot
 
   if (!validate.take(n, unit_type, unit_dot, take_type, take_dot)) {
     stop('the duration of "take" is too long')
