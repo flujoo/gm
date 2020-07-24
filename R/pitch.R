@@ -45,10 +45,18 @@ Pitch <- function(pitch_notation) {
 }
 
 
+#' @title Analyze Pitch Notations
+#'
+#' @description Split each pitch notation into three parts representing
+#' note name, accidental, octave.
+#'
 #' @param pitch_notations A character vector of pitch notation(s)
 #' or \code{NA}(s). List is acceptable, if all members are pitch notations,
 #' or \code{NA}s will be coerced into characters and be split improperly.
-split.pitch_notations <- function(pitch_notations) {
+#'
+#' @return A list with \code{"step"}, \code{"alter"}, and \code{"octave"}
+#' as names.
+analyze.pitch_notations <- function(pitch_notations) {
   l <- nchar(pitch_notations)
   list(
     step = substr(pitch_notations, 1, 1),
