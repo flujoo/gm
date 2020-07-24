@@ -250,64 +250,50 @@ validate.Tuplets <- function(type, dot, Tuplets) {
 }
 
 
-#' @title Create DurationNote Object
-#' @description DurationNote is to represent the durational aspect of
-#' musical note.
+#' @title Create Duration Object
+#'
+#' @description Duration is to represent the durational aspect of
+#' musical note, rest, or chord.
+#'
 #' @param duration_notation A character representing a duration notation.
 #' @param ... 0 or more Tuplet objects.
+#'
 #' @return A list with \code{"type"}, \code{"dot"}, \code{"slur"} and
-#' \code{"tuplets"} as names, whose class is \code{"DurationNote"}.
+#' \code{"tuplets"} as names, whose class is \code{"Duration"}.
+#'
 #' @export
-DurationNote <- function(duration_notation, ...) {
+Duration <- function(duration_notation, ...) {
 
-  # validity of duration_notation
+  # validate duration_notation
   v_dn <- is.character(duration_notation) &&
     length(duration_notation) == 1 &&
     validate.duration_notations(duration_notation)
-
-  if (v_dn) {
-    dn <- analyze.duration_notation(duration_notation)
-
-    ns <- dn$ns
-    type <- dn$type
-    dot <- dn$dot
-
-    if (!is.na(ns[1])) {
-      # tuplet notations
-      tns <- to_Tuplets.ns(type, dot, ns)
-      take <- tns[[length(tns)]]$take
-      type <- take[1]
-      dot <- take[2]
-    } else {
-      tns <- list()
-    }
-
-    # tupleTupleterators
-    tos <- list(...)
-    if (length(tos)) {
-      vs <- validate.Tuplets(type, dot, tos)
-
-      if (!all(vs)) {
-        pos <- which(vs == FALSE)
-        l <- length(pos)
-        if (l == 1) {
-          m <- paste("invalid tuplet operator at position", pos)
-        } else if (l > 1) {
-          m <- paste(
-            "invalid tuplet operators at positions",
-            paste(pos, collapse = ", ")
-          )
-        }
-        stop(m)
-      }
-    }
-
-    ts_ <- append(tns, tos)
-    dn$ns <- NULL
-    dn$tuplets <- ts_
-    return(dn)
-
-  } else {
-    stop("invalid duration notation")
+  if (!v_dn) {
+    stop('argument "duration_notation" is invalid')
   }
+
+  # split duration_notation
+  dn <- analyze.duration_notation(duration_notation)
+  type <- dn$type
+  dot <- dn$dot
+  ns <- dn$ns
+
+  if (!is.na(ns[1])) {
+    # tuplet notations
+    tns <- to_Tuplets.ns(type, dot, ns)
+    take <- tns[[length(tns)]]$take
+    type <- take[1]
+    dot <- take[2]
+  } else {
+    tns <- list()
+  }
+
+  # Tuplets
+  tos <- list(...)
+  validate.Tuplets(type, dot, tos)
+
+  ts_ <- append(tns, tos)
+  dn$ns <- NULL
+  dn$tuplets <- ts_
+  dn
 }
