@@ -222,21 +222,31 @@ validate.unit <- function(type, dot, unit_type, unit_dot) {
 
 
 #' @title Validate List of Dependent Tuplets
+#' @description Stop if any of the Tuplets is invalid, or return nothing.
 validate.Tuplets <- function(type, dot, Tuplets) {
   l <- length(Tuplets)
-  vs <- logical(l)
-  for (i in 1:l) {
-    to <- Tuplets[[i]]
-    unit <- to$unit
-    unit_type <- unit[1]
-    unit_dot <- unit[2]
-    v <- validate.unit(type, dot, unit_type, unit_dot)
-    vs[i] <- v
-    take <- to$take
-    type <- take[1]
-    dot <- take[2]
+  if (l) {
+    for (i in 1:length(Tuplets)) {
+      t_ <- Tuplets[[i]]
+      unit <- t_$unit
+      unit_type <- unit[1]
+      unit_dot <- unit[2]
+
+      v <- validate.unit(type, dot, unit_type, unit_dot)
+      if (!v) {
+        if (l == 1) {
+          stop("invalid Tuplet")
+        } else {
+          m <- paste("invalid Tuplet at position", i)
+          stop(m)
+        }
+      }
+
+      take <- t_$take
+      type <- take[1]
+      dot <- take[2]
+    }
   }
-  vs
 }
 
 
