@@ -48,7 +48,7 @@ Pitch <- function(pitch_notation) {
 #' @title Analyze Pitch Notations
 #'
 #' @description Split each pitch notation into three parts representing
-#' note name, accidental, octave.
+#' note name, accidental and octave.
 #'
 #' @param pitch_notations A character vector of pitch notation(s)
 #' or \code{NA}(s). List is acceptable, if all members are pitch notations,
