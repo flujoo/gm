@@ -269,7 +269,7 @@ Duration <- function(duration_notation, ...) {
     length(duration_notation) == 1 &&
     validate.duration_notations(duration_notation)
   if (!v_dn) {
-    stop('argument "duration_notation" is invalid')
+    stop("invalid duration notation")
   }
 
   # split duration_notation
