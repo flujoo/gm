@@ -91,8 +91,8 @@ to_midis.pitch_notations <- function(pitch_notations) {
 
 #' @export
 print.Pitch <- function(x, ...) {
-  s <- paste0(x, "\n")
-  cat(s)
+  s <- unclass(x)
+  cat(s, "\n")
   invisible(s)
 }
 
