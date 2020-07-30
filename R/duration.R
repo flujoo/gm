@@ -34,11 +34,11 @@ to_value.dot <- function(dot) {
 #' @title Validate Duration Notations
 #' @param duration_notations A character vector or a list of
 #' duration notations.
-#' @param dot,tuplet,slur Bools indicating if duration notations can
-#' contain dot, tuplet, and slur respectively.
+#' @param dot,tuplet,tie Bools indicating if duration notations can
+#' contain dot, tuplet, and tie respectively.
 #' @return A logical vector.
 validate.duration_notations <- function(
-  duration_notations, dot = TRUE, tuplet = TRUE, slur = TRUE) {
+  duration_notations, dot = TRUE, tuplet = TRUE, tie = TRUE) {
   reg <- paste0(
     "^",
     # always starts with a type
@@ -47,8 +47,8 @@ validate.duration_notations <- function(
     ifelse(dot, "(\\.{1,4})?", ""),
     # followed by 0-n tuplet notations
     ifelse(tuplet, "(/([2-9]|[1-9][0-9]+))*", ""),
-    # maybe followed by a slur
-    ifelse(slur, "-?", ""),
+    # maybe followed by a tie
+    ifelse(tie, "-?", ""),
     "$"
   )
   grepl(reg, duration_notations)
@@ -57,10 +57,10 @@ validate.duration_notations <- function(
 
 #' @title Analyze Duration Notation
 #' @description Split a duration notation into four parts representing
-#' type, dot, tuplets and slur.
+#' type, dot, tuplets and tie.
 #' @param duration_notation A character representing a duration notation.
 #' @return A list with \code{"type"}, \code{"dot"}, \code{"ns"} and
-#' \code{"slur"} as names.
+#' \code{"tie"} as names.
 analyze.duration_notation <- function(duration_notation) {
   core <- function(reg) {
     ks <- gregexpr(reg, duration_notation)[[1]]
@@ -83,7 +83,7 @@ analyze.duration_notation <- function(duration_notation) {
       strsplit(core("/[1-9][0-9]*"), "/"),
       function(x) x[2]
     )),
-    slur = core("-")
+    tie = core("-")
   )
 }
 
@@ -129,7 +129,7 @@ Tuplet <- function(n, unit, take = unit) {
 
   v_unit <- is.character(unit) &&
     length(unit) == 1 &&
-    validate.duration_notations(unit, tuplet = FALSE, slur = FALSE)
+    validate.duration_notations(unit, tuplet = FALSE, tie = FALSE)
   if (!v_unit) {
     m <- paste(
       'argument "unit" should be a character starting with',
@@ -141,7 +141,7 @@ Tuplet <- function(n, unit, take = unit) {
   if (take != unit) {
     v_take <- is.character(take) &&
       length(take) == 1 &&
-      validate.duration_notations(take, tuplet = FALSE, slur = FALSE)
+      validate.duration_notations(take, tuplet = FALSE, tie = FALSE)
     if (!v_take) {
       m <- paste(
         'argument "take" should be a character starting with',
@@ -258,7 +258,7 @@ validate.Tuplets <- function(type, dot, Tuplets) {
 #' @param duration_notation A character representing a duration notation.
 #' @param ... 0 or more Tuplet objects.
 #'
-#' @return A list with \code{"type"}, \code{"dot"}, \code{"slur"} and
+#' @return A list with \code{"type"}, \code{"dot"}, \code{"tie"} and
 #' \code{"tuplets"} as names, whose class is \code{"Duration"}.
 #'
 #' @export
