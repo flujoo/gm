@@ -338,5 +338,5 @@ print.Duration <- function(x, ...) {
   v <- to_value.Duration(x)
   s <- attr(MASS::fractions(v), "fracs")
   cat(s, "\n")
-  invisible(v)
+  invisible(s)
 }
