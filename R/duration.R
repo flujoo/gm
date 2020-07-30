@@ -333,10 +333,16 @@ to_value.Duration <- function(duration) {
 }
 
 
+#' @title Convert Duration to Printable String
+to_string.Duration <- function(duration) {
+  v <- to_value.Duration(duration)
+  attr(MASS::fractions(v), "fracs")
+}
+
+
 #' @export
 print.Duration <- function(x, ...) {
-  v <- to_value.Duration(x)
-  s <- attr(MASS::fractions(v), "fracs")
+  s <- to_string.Duration(x)
   cat(s, "\n")
   invisible(s)
 }
