@@ -298,3 +298,45 @@ Duration <- function(duration_notation, ...) {
   class(dn) <- "Duration"
   dn
 }
+
+
+#' @title Convert Tuplet to Value
+to_value.Tuplet <- function(tuplet) {
+  n <- tuplet$n
+  v <- 1 / n
+
+  unit <- tuplet$unit
+  take <- tuplet$take
+  if (!identical(unit, take)) {
+    v_unit <- to_value.duration_type(unit[1]) * to_value.dot(unit[2])
+    v_take <- to_value.duration_type(take[1]) * to_value.dot(take[2])
+    v <- v * (v_take / v_unit)
+  }
+
+  v
+}
+
+
+#' @title Convert Duration to Value
+to_value.Duration <- function(duration) {
+  v_type <- to_value.duration_type(duration$type)
+  v_dot <- to_value.dot(duration$dot)
+  v <- v_type * v_dot
+
+  ts_ <- duration$tuplets
+  if (length(ts_)) {
+    v_ts <- prod(sapply(ts_, to_value.Tuplet))
+    v <- v * v_ts
+  }
+
+  v
+}
+
+
+#' @export
+print.Duration <- function(x, ...) {
+  v <- to_value.Duration(x)
+  s <- attr(MASS::fractions(v), "fracs")
+  cat(s, "\n")
+  invisible(v)
+}
