@@ -295,5 +295,6 @@ Duration <- function(duration_notation, ...) {
   ts_ <- append(tns, tos)
   dn$ns <- NULL
   dn$tuplets <- ts_
+  class(dn) <- "Duration"
   dn
 }
