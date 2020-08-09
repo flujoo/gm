@@ -84,13 +84,13 @@ to_string.Chord <- function(chord) {
   p <- sapply(chord$pitch, unclass)
   p <- delimit.vector(p, c("<", ">"))
   d <- to_string.Duration(chord$duration)
-  to_string.vector(c(p, d), c("(", ")"))
+  to_string.vector(c(p, d), c("(", ")"), end = "")
 }
 
 
 #' @export
 print.Chord <- function(x, ...) {
   s <- to_string.Chord(x)
-  cat(s)
+  cat(s, "\n")
   invisible(s)
 }
