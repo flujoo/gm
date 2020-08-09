@@ -82,15 +82,15 @@ Chord <- function(pitch, duration) {
 #' @title Convert Chord to Printable String
 to_string.Chord <- function(chord) {
   p <- sapply(chord$pitch, unclass)
-  p <- paste0("<", paste(p, collapse = ", "), ">")
+  p <- delimit.vector(p, c("<", ">"))
   d <- to_string.Duration(chord$duration)
-  paste0("(", p, ", ", d, ")")
+  to_string.vector(c(p, d), c("(", ")"))
 }
 
 
 #' @export
 print.Chord <- function(x, ...) {
   s <- to_string.Chord(x)
-  cat(s, "\n")
+  cat(s)
   invisible(s)
 }
