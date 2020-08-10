@@ -4,6 +4,10 @@
 Rest <- function(duration) {
   if (class(duration) != "Duration") {
     stop('argument "duration" should be a Duration object')
+  } else {
+    if (duration$tie == "-") {
+      stop("can not add a tie to a Rest object")
+    }
   }
   r <- list(duration = duration)
   class(r) <- "Rest"
