@@ -60,20 +60,20 @@ print.Note <- function(x, ...) {
 
 
 #' @title Create Chord Object
-#' @param pitch A list of Pitch objects.
+#' @param pitches A list of Pitch objects.
 #' @param duration A Duration object.
 #' @export
-Chord <- function(pitch, duration) {
-  v_pitch <- class(pitch) == "list" &&
-    all(sapply(pitch, function(p) class(p) == "Pitch")) &&
-    length(pitch) > 1
-  if (!v_pitch) {
-    stop('argument "pitch" should be a list of Pitch objects')
+Chord <- function(pitches, duration) {
+  v_p <- class(pitches) == "list" &&
+    all(sapply(pitches, function(p) class(p) == "Pitch")) &&
+    length(pitches) > 1
+  if (!v_p) {
+    stop('argument "pitches" should be a list of Pitch objects')
   }
   if (class(duration) != "Duration") {
     stop('argument "duration" should be a Duration object')
   }
-  c_ <- list(pitch = pitch, duration = duration)
+  c_ <- list(pitches = pitches, duration = duration)
   class(c_) <- "Chord"
   c_
 }
@@ -81,7 +81,7 @@ Chord <- function(pitch, duration) {
 
 #' @title Convert Chord to Printable String
 to_string.Chord <- function(chord) {
-  p <- sapply(chord$pitch, unclass)
+  p <- sapply(chord$pitches, unclass)
   p <- delimit.vector(p, c("<", ">"))
   d <- to_string.Duration(chord$duration)
   to_string.vector(c(p, d), c("(", ")"), end = "")
