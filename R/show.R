@@ -15,7 +15,7 @@ preface.MusicXML <- function(musicxml) {
 
 
 #' @title Convert Value to Duration Type and Dot Notation
-#' @details Only apply to non-tuplets.
+#' @details Only apply to non-tuplets and untied durations.
 to_type_dot.value <- function(value) {
   # values of all types
   vs_type <- sapply(duration_types, to_value.duration_type)
