@@ -72,7 +72,7 @@ untie.value <- function(value) {
       is_ <- which(vs < value)
       i <- is_[length(is_)]
       v_i <- vs[i]
-      return(c(v_i, core(value - v_i)))
+      return(c(core(value - v_i), v_i))
     }
   }
 
