@@ -22,7 +22,7 @@ analyze.time_signature <- function(time_signature) {
   ts_ <- strsplit(time_signature, "/")[[1]]
   n <- strsplit(ts_[1], "[+]")[[1]]
   d <- ts_[2]
-  list(numerator = n, denominator = d)
+  list(numerator = as.integer(n), denominator = as.integer(d))
 }
 
 
