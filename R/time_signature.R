@@ -46,3 +46,17 @@ print.TimeSignature <- function(x, ...) {
   cat(s, "\n")
   invisible(s)
 }
+
+
+#' @title Get Value of Denominator Part of Time Signature
+to_value.denominator <- function(denominator) {
+  2 ^ (2 - log2(denominator))
+}
+
+
+#' @title Get Total Duration of Time Signature
+to_value.TimeSignature <- function(time_signature) {
+  v_d <- to_value.denominator(time_signature$denominator)
+  v_n <- sum(time_signature$numerator)
+  v_d * v_n
+}
