@@ -26,7 +26,7 @@ analyze.time_signature <- function(time_signature) {
 }
 
 
-#' @title Create Time Signature Object
+#' @title Create TimeSignature Object
 #' @export
 TimeSignature <- function(time_signature) {
   if (!validate.time_signatures(time_signature)) {
@@ -48,13 +48,13 @@ print.TimeSignature <- function(x, ...) {
 }
 
 
-#' @title Get Value of Denominator Part of Time Signature
+#' @title Get Value of Denominator Part of TimeSignature Object
 to_value.denominator <- function(denominator) {
   2 ^ (2 - log2(denominator))
 }
 
 
-#' @title Get Total Duration of Time Signature
+#' @title Get Value of TimeSignature Object
 to_value.TimeSignature <- function(time_signature) {
   v_d <- to_value.denominator(time_signature$denominator)
   v_n <- sum(time_signature$numerator)
