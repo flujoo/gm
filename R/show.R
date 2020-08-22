@@ -80,26 +80,19 @@ untie.value <- function(value) {
 }
 
 
-#' @title Find Time Signature to Fit Duration
-infer_time_signature <- function(type, dot) {
-  # get value
-  v <- to_value.duration_type(type)
-  if (dot != "") {
-    v <- v * 2
-  }
-  # set the lower limit for value
-  v_64th <- to_value.duration_type("64th")
-  if (v < v_64th) {
-    v <- v_64th
-  }
-
-  if (v >= 1) {
-    numerator <- as.integer(v)
+#' @title Convert Value to TimeSignature Object
+#' @details Used in function \code{process.Duration},
+#' only applies to value of untied duration type.
+to_TimeSignature.value <- function(value) {
+  if (value >= 1) {
+    numerator <- as.integer(value)
     denominator <- 4L
   } else {
     numerator <- 1L
-    denominator <- as.integer(4 / v)
+    denominator <- as.integer(4 / value)
   }
 
-  list(numerator = numerator, denominator = denominator)
+  ts_ <- list(numerator = numerator, denominator = denominator)
+  class(ts_) <- "TimeSignature"
+  ts_
 }
