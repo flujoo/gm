@@ -34,11 +34,11 @@ to_value.dot <- function(dot) {
 #' @title Validate Duration Notations
 #' @param duration_notations A character vector or a list of
 #' duration notations.
-#' @param dot,tuplet,tie Bools indicating if duration notations can
-#' contain dot, tuplet, and tie respectively.
+#' @param dot,tupletor,tie Bools indicating if duration notations can
+#' contain dot, tupletor, and tie respectively.
 #' @return A logical vector.
 validate.duration_notations <- function(
-  duration_notations, dot = TRUE, tuplet = TRUE, tie = TRUE) {
+  duration_notations, dot = TRUE, tupletor = TRUE, tie = TRUE) {
   reg <- paste0(
     "^",
     # always starts with a type
@@ -46,7 +46,7 @@ validate.duration_notations <- function(
     # maybe followed by a dot block
     ifelse(dot, "(\\.{1,4})?", ""),
     # followed by 0-n tuplet notations
-    ifelse(tuplet, "(/([2-9]|[1-9][0-9]+))*", ""),
+    ifelse(tupletor, "(/([2-9]|[1-9][0-9]+))*", ""),
     # maybe followed by a tie
     ifelse(tie, "-?", ""),
     "$"
@@ -57,7 +57,7 @@ validate.duration_notations <- function(
 
 #' @title Analyze Duration Notation
 #' @description Split a duration notation into four parts representing
-#' type, dot, tuplets and tie.
+#' type, dot, tupletors and tie.
 #' @param duration_notation A character representing a duration notation.
 #' @return A list with \code{"type"}, \code{"dot"}, \code{"ns"} and
 #' \code{"tie"} as names.
@@ -97,8 +97,8 @@ divide.type <- function(type, n) {
 }
 
 
-#' @title Validate Duration of Argument \code{take} in Function \code{Tuplet}
-#' @description Used in function \code{Tuplet}.
+#' @title Validate Duration of Argument \code{take}
+#' @description Used in function \code{Tupletor}.
 validate.take <- function(n, unit_type, unit_dot, take_type, take_dot) {
   v_take <- to_value.duration_type(take_type) * to_value.dot(take_dot)
   v_unit <- to_value.duration_type(unit_type) * to_value.dot(unit_dot)
@@ -106,22 +106,22 @@ validate.take <- function(n, unit_type, unit_dot, take_type, take_dot) {
 }
 
 
-#' @title Create Tuplet Object
+#' @title Create Tupletor Object
 #'
-#' @description Create an object of S3 class "Tuplet". Used in function
+#' @description Create an object of S3 class "Tupletor". Used in function
 #' \code{Duration} to specify complex tuplets.
 #'
 #' @param n A numeric which is an integer larger than 1.
 #' @param unit A character representing a duration notation, indicating
-#' the duration of the basic unit of the tuplet.
+#' the duration of the basic unit of the tuplets.
 #' @param take A character representing a duration notation, indicating
 #' the duration the tuplet actually takes.
 #'
 #' @return A list with \code{"n"}, \code{"unit"} and \code{"take"} as names,
-#' whose class is \code{"Tuplet"}.
+#' whose class is \code{"Tupletor"}.
 #'
 #' @export
-Tuplet <- function(n, unit, take = unit) {
+Tupletor <- function(n, unit, take = unit) {
   v_n <- n > 1 && as.integer(n) == n
   if (!v_n) {
     stop('argument "n" should be an integer larger than 1')
@@ -129,7 +129,7 @@ Tuplet <- function(n, unit, take = unit) {
 
   v_unit <- is.character(unit) &&
     length(unit) == 1 &&
-    validate.duration_notations(unit, tuplet = FALSE, tie = FALSE)
+    validate.duration_notations(unit, tupletor = FALSE, tie = FALSE)
   if (!v_unit) {
     m <- paste(
       'argument "unit" should be a character starting with',
@@ -141,7 +141,7 @@ Tuplet <- function(n, unit, take = unit) {
   if (take != unit) {
     v_take <- is.character(take) &&
       length(take) == 1 &&
-      validate.duration_notations(take, tuplet = FALSE, tie = FALSE)
+      validate.duration_notations(take, tupletor = FALSE, tie = FALSE)
     if (!v_take) {
       m <- paste(
         'argument "take" should be a character starting with',
@@ -173,27 +173,27 @@ Tuplet <- function(n, unit, take = unit) {
     unit = c(unit_type, unit_dot),
     take = c(take_type, take_dot)
   )
-  class(t_) <- "Tuplet"
+  class(t_) <- "Tupletor"
   t_
 }
 
 
-#' @title Generate Tuplets from Numeric Vector
-to_Tuplets.ns <- function(type, dot, ns) {
+#' @title Generate Tupletors from Numeric Vector
+to_Tupletors.ns <- function(type, dot, ns) {
   t_ <- list()
   for (i in 1:length(ns)) {
     n <- ns[i]
     type <- divide.type(type, n)
     unit <- c(type, dot)
     t_i <- list(n = n, unit = unit, take = unit)
-    class(t_i) <- "Tuplet"
+    class(t_i) <- "Tupletor"
     t_[[i]] <- t_i
   }
   t_
 }
 
 
-#' @title Validate \code{unit} Part of Tuplet
+#' @title Validate \code{unit} Part of Tupletor
 validate.unit <- function(type, dot, unit_type, unit_dot) {
   i_type <- which(duration_types == type)
   i_unit_type <- which(duration_types == unit_type)
@@ -221,13 +221,13 @@ validate.unit <- function(type, dot, unit_type, unit_dot) {
 }
 
 
-#' @title Validate List of Dependent Tuplets
-#' @description Stop if any of the Tuplets is invalid, or return nothing.
-validate.Tuplets <- function(type, dot, Tuplets) {
-  l <- length(Tuplets)
+#' @title Validate List of Dependent Tupletors
+#' @description Stop if any of the Tupletors is invalid, or return nothing.
+validate.Tupletors <- function(type, dot, tupletors) {
+  l <- length(tupletors)
   if (l) {
-    for (i in 1:length(Tuplets)) {
-      t_ <- Tuplets[[i]]
+    for (i in 1:length(tupletors)) {
+      t_ <- tupletors[[i]]
       unit <- t_$unit
       unit_type <- unit[1]
       unit_dot <- unit[2]
@@ -235,9 +235,9 @@ validate.Tuplets <- function(type, dot, Tuplets) {
       v <- validate.unit(type, dot, unit_type, unit_dot)
       if (!v) {
         if (l == 1) {
-          stop("invalid Tuplet")
+          stop("invalid Tupletor")
         } else {
-          m <- paste("invalid Tuplet at position", i)
+          m <- paste("invalid Tupletor at position", i)
           stop(m)
         }
       }
@@ -259,7 +259,7 @@ validate.Tuplets <- function(type, dot, Tuplets) {
 #' @param ... 0 or more Tuplet objects.
 #'
 #' @return A list with \code{"type"}, \code{"dot"}, \code{"tie"} and
-#' \code{"tuplets"} as names, whose class is \code{"Duration"}.
+#' \code{"tupletors"} as names, whose class is \code{"Duration"}.
 #'
 #' @export
 Duration <- function(duration_notation, ...) {
@@ -279,8 +279,8 @@ Duration <- function(duration_notation, ...) {
   ns <- dn$ns
 
   if (!is.na(ns[1])) {
-    # tuplet notations
-    tns <- to_Tuplets.ns(type, dot, ns)
+    # tupletor notations
+    tns <- to_Tupletors.ns(type, dot, ns)
     take <- tns[[length(tns)]]$take
     type <- take[1]
     dot <- take[2]
@@ -288,20 +288,20 @@ Duration <- function(duration_notation, ...) {
     tns <- list()
   }
 
-  # Tuplets
+  # Tupletors
   tos <- list(...)
-  validate.Tuplets(type, dot, tos)
+  validate.Tupletors(type, dot, tos)
 
   ts_ <- append(tns, tos)
   dn$ns <- NULL
-  dn$tuplets <- ts_
+  dn$tupletors <- ts_
   class(dn) <- "Duration"
   dn
 }
 
 
-#' @title Convert Tuplet to Value
-to_value.Tuplet <- function(tuplet) {
+#' @title Convert Tupletor to Value
+to_value.Tupletor <- function(tupletor) {
   n <- tuplet$n
   v <- 1 / n
 
@@ -323,9 +323,9 @@ to_value.Duration <- function(duration) {
   v_dot <- to_value.dot(duration$dot)
   v <- v_type * v_dot
 
-  ts_ <- duration$tuplets
+  ts_ <- duration$tupletors
   if (length(ts_)) {
-    v_ts <- prod(sapply(ts_, to_value.Tuplet))
+    v_ts <- prod(sapply(ts_, to_value.Tupletor))
     v <- v * v_ts
   }
 
