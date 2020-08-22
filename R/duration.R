@@ -45,7 +45,7 @@ validate.duration_notations <- function(
     paste0("(", paste(duration_types, collapse = "|"), ")"),
     # maybe followed by a dot block
     ifelse(dot, "(\\.{1,4})?", ""),
-    # followed by 0-n tuplet notations
+    # followed by 0-n tupletor notations
     ifelse(tupletor, "(/([2-9]|[1-9][0-9]+))*", ""),
     # maybe followed by a tie
     ifelse(tie, "-?", ""),
@@ -256,7 +256,7 @@ validate.Tupletors <- function(type, dot, tupletors) {
 #' musical note, rest, or chord.
 #'
 #' @param duration_notation A character representing a duration notation.
-#' @param ... 0 or more Tuplet objects.
+#' @param ... 0 or more Tupletor objects.
 #'
 #' @return A list with \code{"type"}, \code{"dot"}, \code{"tie"} and
 #' \code{"tupletors"} as names, whose class is \code{"Duration"}.
@@ -302,11 +302,11 @@ Duration <- function(duration_notation, ...) {
 
 #' @title Convert Tupletor to Value
 to_value.Tupletor <- function(tupletor) {
-  n <- tuplet$n
+  n <- tupletor$n
   v <- 1 / n
 
-  unit <- tuplet$unit
-  take <- tuplet$take
+  unit <- tupletor$unit
+  take <- tupletor$take
   if (!identical(unit, take)) {
     v_unit <- to_value.duration_type(unit[1]) * to_value.dot(unit[2])
     v_take <- to_value.duration_type(take[1]) * to_value.dot(take[2])
