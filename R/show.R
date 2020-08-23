@@ -52,26 +52,29 @@ partition.value <- function(value, unit) {
 
 #' @title Untie Duration Value
 #' @details Only applies to non-tuplets.
-untie.value <- function(value) {
-  # sort duration types in an ascending order
-  ts_ <- rev(duration_types)
-  # convert duration types and their dotted durations to values
-  vs <- unlist(lapply(ts_,
-    # convert a duration type and its dotted durations
-    function(t_) {
-      to_value.duration_type(t_) *
-        sapply(0:4, to_value.dot)
+#' @param value A double representing a duration value to untie.
+#' @param axis_ A vector of doubles, against which the value is untied.
+#' If a string is supplied, it is converted to doubles first.
+untie.value <- function(value, axis_ = "type") {
+  # convert a keyword to real axis
+  if (identical(axis_, "type")) {
+    axis_ <- unname(sapply(rev(duration_types), to_value.duration_type))
+  } else if (identical(axis_, "dot")) {
+    # convert a duration type and its dotted durations to values
+    f <- function(t_) {
+      to_value.duration_type(t_) * sapply(0:4, to_value.dot)
     }
-  ))
+    axis_ <- unlist(lapply(rev(duration_types), f))
+  }
 
   # recursively
   core <- function(value) {
-    if (value %in% vs) {
+    if (value %in% axis_) {
       return(value)
     } else {
-      is_ <- which(vs < value)
+      is_ <- which(axis_ < value)
       i <- is_[length(is_)]
-      v_i <- vs[i]
+      v_i <- axis_[i]
       return(c(core(value - v_i), v_i))
     }
   }
