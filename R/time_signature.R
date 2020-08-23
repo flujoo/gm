@@ -60,3 +60,13 @@ to_value.TimeSignature <- function(time_signature) {
   v_n <- sum(time_signature$numerator)
   v_d * v_n
 }
+
+
+#' @title Convert TimeSignature to Element
+to_Element.TimeSignature <- function(object, ...) {
+  content <- list(
+    Element("beats", paste(object$numerator, collapse = "+")),
+    Element("beat-type", object$denominator)
+  )
+  Element("time", content)
+}
