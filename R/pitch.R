@@ -97,10 +97,12 @@ print.Pitch <- function(x, ...) {
 }
 
 
-#' @title Convert Pitch to Element
-#' @export
-to_Element.Pitch <- function(object, ...) {
-  p <- analyze.pitch_notations(unclass(object))
+#' @title Convert Pitch to Element "Pitch"
+#' @details MusicXML element "pitch", "step", "alter" and "octave" have no
+#' attributes. See \url{https://usermanuals.musicxml.com/MusicXML/
+#' Content/EL-MusicXML-pitch.htm}.
+to_Element_pitch.Pitch <- function(pitch) {
+  p <- analyze.pitch_notations(unclass(pitch))
 
   step_ <- Element("step", p$step)
   octave <- Element("octave", p$octave)
