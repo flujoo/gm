@@ -346,3 +346,12 @@ print.Duration <- function(x, ...) {
   cat(s, "\n")
   invisible(s)
 }
+
+
+#' @title Convert Dot to Elements
+to_Elements.dot <- function(dot) {
+  if (is.character(dot)) {
+    dot <- nchar(dot)
+  }
+  rep(list(Element("dot")), dot)
+}
