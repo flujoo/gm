@@ -97,12 +97,6 @@ print.Pitch <- function(x, ...) {
 }
 
 
-#' @export
-to_Element <- function(object, ...) {
-  UseMethod("to_Element")
-}
-
-
 #' @title Convert Pitch to Element
 #' @export
 to_Element.Pitch <- function(object, ...) {
