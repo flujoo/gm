@@ -356,3 +356,72 @@ to_Elements.dot <- function(dot, tag = "dot") {
   }
   rep(list(Element(tag)), dot)
 }
+
+
+#' @title Convert Duration to Elements
+to_Elements.Duration <- function(duration, divisions) {
+  type <- duration$type
+  dot <- duration$dot
+  tupletors <- duration$tupletors
+  l <- length(tupletors)
+  v_duration <- to_value.Duration(duration)
+  es <- list()
+
+  # get MusicXML element "duration"
+  es$duration <- Element("duration", v_duration * divisions)
+
+  # for non-tuplet
+  if (l == 0) {
+    # get MusicXML element "type" and "dot"
+    es$type <- Element("type", type)
+    es$dot <- to_Elements.dot(dot)
+
+  # for tuplet
+  } else {
+    # get ratios, which are related to MusicXML element "actual-notes"
+    # and "normal-notes" in "time-modification"
+    rs <- list()
+    take_type <- type
+    take_dot <- dot
+    for (i in 1:l) {
+      tupletor <- tupletors[[i]]
+      unit <- tupletor$unit
+      unit_type <- unit[1]
+      unit_dot <- unit[2]
+      d <- (to_value.duration_type(take_type) * to_value.dot(take_dot)) /
+        (to_value.duration_type(unit_type) * to_value.dot(unit_dot))
+      rs[[i]] <- c(tupletor$n, d)
+      take <- tupletor$take
+      take_type <- take[1]
+      take_dot <- take[2]
+    }
+
+    # get MusicXML element "type" and "dot"
+    es$type <- Element("type", take_type)
+    es$dot <- to_Elements.dot(take_dot)
+    # "take_type" and "take_dot" are from last for loop
+
+    # get "time-modification"
+    # get contents of "actual-notes" and "normal-notes"
+    an <- prod(sapply(rs, function(r) r[1]))
+    nn <- prod(sapply(rs, function(r) r[2]))
+    # get "actual-notes" and "normal-notes" Elements
+    e_an <- Element("actual-notes", an)
+    e_nn <- Element("normal-notes", nn)
+    # deal with "normal-type" and "normal-dot"
+    if (!identical(unit, take)) {
+      # "unit" and "take" are from last tupletor in the above for loop
+      # get "normal-type"
+      nt <- Element("normal-type", unit_type)
+      # get "normal-dot"
+      nd <- to_Elements.dot(unit_dot, "normal-dot")
+      # get "time-modification"
+      tm <- Element("time-modification", append(list(e_an, e_nn, nt), nd))
+    } else {
+      tm <- Element("time-modification", list(e_an, e_nn))
+    }
+    es$time_modification <- tm
+  }
+
+  es
+}
