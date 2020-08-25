@@ -355,3 +355,25 @@ to_Elements.dot <- function(dot) {
   }
   rep(list(Element("dot")), dot)
 }
+
+
+#' @title Get Tuplet's Ratios
+#' @details Used in function \code{to_Elements.Duration}. Ratios are
+#' related to MusicXML element "actual-notes" and "normal-notes"
+#' in "time-modification".
+get_ratios <- function(type, dot, tupletors, l) {
+  rs <- list()
+  for (i in 1:l) {
+    tupletor <- tupletors[[i]]
+    unit <- tupletor$unit
+    unit_type <- unit[1]
+    unit_dot <- unit[2]
+    d <- (to_value.duration_type(type) * to_value.dot(dot)) /
+      (to_value.duration_type(unit_type) * to_value.dot(unit_dot))
+    rs[[i]] <- c(tupletor$n, d)
+    take <- tupletor$take
+    type <- take[1]
+    dot <- take[2]
+  }
+  rs
+}
