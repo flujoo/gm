@@ -349,11 +349,12 @@ print.Duration <- function(x, ...) {
 
 
 #' @title Convert Dot to Elements
-to_Elements.dot <- function(dot) {
+#' @param tag "dot" or "normal-dot".
+to_Elements.dot <- function(dot, tag = "dot") {
   if (is.character(dot)) {
     dot <- nchar(dot)
   }
-  rep(list(Element("dot")), dot)
+  rep(list(Element(tag)), dot)
 }
 
 
