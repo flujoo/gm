@@ -66,7 +66,7 @@ to_value.TimeSignature <- function(time_signature) {
 #' @details MusicXML element "beats" and "beat-type" have no attribute.
 #' See \url{https://usermanuals.musicxml.com/MusicXML/Content/
 #' EL-MusicXML-time.htm}.
-to_Element_time.TimeSignature <- function(time_signature, attribute) {
+to_Element.TimeSignature <- function(time_signature, attribute) {
   content <- list(
     Element("beats", paste(time_signature$numerator, collapse = "+")),
     Element("beat-type", time_signature$denominator)
