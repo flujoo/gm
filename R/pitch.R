@@ -101,7 +101,7 @@ print.Pitch <- function(x, ...) {
 #' @details MusicXML element "pitch", "step", "alter" and "octave" have no
 #' attributes. See \url{https://usermanuals.musicxml.com/MusicXML/
 #' Content/EL-MusicXML-pitch.htm}.
-to_Element_pitch.Pitch <- function(pitch) {
+to_Element.Pitch <- function(pitch) {
   p <- analyze.pitch_notations(unclass(pitch))
 
   step_ <- Element("step", p$step)
