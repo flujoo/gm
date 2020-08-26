@@ -62,19 +62,37 @@ untie.value <- function(value, axis_ = "type") {
 }
 
 
-#' @title Convert Value to TimeSignature Object
-#' @details Used in function \code{process.Duration},
-#' only applies to value of untied duration type.
-to_TimeSignature.value <- function(value) {
-  if (value >= 1) {
-    numerator <- as.integer(value)
+#' @title Infer "Container" Time Signature
+#' @description When showing any object with a Duration, there has to
+#' be a time signature to "contain" the object (and derived ones).
+#' @details Used in function \code{process.Duration}.
+#' @param type_value The value of the \code{type} component of a Duration.
+#' @param dot The \code{dot} component.
+#' @return A list of two components: the value and the Element of the
+#' time signature.
+get_container_time_signature <- function(type_value, dot) {
+  # get value
+  v <- type_value * ifelse(dot == "", 1, 2)
+  # since 1/64 is the shortest time signature,
+  # the value must be not smaller than that
+  v_64th <- to_value.duration_type("64th")
+  if (v < v_64th) {
+    v <- v_64th
+  }
+
+  # get time signature
+  if (v >= 1) {
+    numerator <- as.integer(v)
     denominator <- 4L
   } else {
     numerator <- 1L
-    denominator <- as.integer(4 / value)
+    denominator <- as.integer(4 / v)
   }
+  content <- list(
+    Element("beats", numerator),
+    Element("beat-type", denominator)
+  )
+  e <- Element("time", content, list(`print-object`= "no"))
 
-  ts_ <- list(numerator = numerator, denominator = denominator)
-  class(ts_) <- "TimeSignature"
-  ts_
+  list(value = v, element = e)
 }
