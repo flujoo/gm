@@ -19,6 +19,16 @@ to_value.duration_type <- function(duration_type) {
 }
 
 
+#' @title Convert Value to Duration Type
+#' @details Inverse of function \code{to_value.duration_type}.
+to_duration_type.value <- function(value) {
+  v_quarter = 1
+  i_quarter <- which(duration_types == "quarter")
+  i_type <- i_quarter - log2(value / v_quarter)
+  duration_types[i_type]
+}
+
+
 #' @title Convert Dot to Value
 #' @param dot A numeric between 0 and 4, or a character consisting of
 #' 0 to 4 periods.
