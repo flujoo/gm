@@ -99,7 +99,7 @@ analyze.duration_notation <- function(duration_notation) {
 
 
 #' @title Infer Tuplet's Type
-divide.type <- function(type, n) {
+divide.duration_type <- function(type, n) {
   i_type <- which(duration_types == type)
   d <- floor(log2(n))
   i <- i_type + d
@@ -193,7 +193,7 @@ to_Tupletors.ns <- function(type, dot, ns) {
   t_ <- list()
   for (i in 1:length(ns)) {
     n <- ns[i]
-    type <- divide.type(type, n)
+    type <- divide.duration_type(type, n)
     unit <- c(type, dot)
     t_i <- list(n = n, unit = unit, take = unit)
     class(t_i) <- "Tupletor"
