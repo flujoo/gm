@@ -98,3 +98,33 @@ get_container_time_signature <- function(type_value, dot) {
 
   list(value = v, element = e)
 }
+
+
+#' @title Get Value to MusicXML Element "Divisions"
+get_divisions <- function(values) {
+  # get lowest common multiple
+  # https://stackoverflow.com/questions/147515/
+  # least-common-multiple-for-3-or-more-numbers
+  # get greatest common divisor
+  get_gcd <- function(a, b) {
+    while (b != 0) {
+      x <- a
+      a <- b
+      b <- x %% b
+    }
+    a
+  }
+  # get lowest common multiple
+  get_lcm <- function(a, b) {
+    a * b / get_gcd(a, b)
+  }
+
+  # get denominators from values
+  ds <- sapply(values, function(v) {
+    f <- attr(MASS::fractions(v), "fracs")
+    d <- strsplit(f, "/")[[1]][2]
+    ifelse(is.na(d), 1L, as.integer(d))
+  })
+
+  Reduce(get_lcm, ds)
+}
