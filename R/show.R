@@ -67,7 +67,9 @@ untie.value <- function(value, axis_ = "type") {
 #' be a time signature to "contain" the object (and derived ones).
 #' @details Used in function \code{process.Duration}.
 #' @param type_value The value of the \code{type} component of a Duration.
-#' @param dot The \code{dot} component.
+#' Because the function is used inside \code{process.Duration}, so the value
+#' is already calculated and can be passed directly.
+#' @param dot The \code{dot} component of a Duration.
 #' @return A list of two components: the value and the Element of the
 #' time signature.
 get_container_time_signature <- function(type_value, dot) {
