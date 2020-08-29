@@ -25,7 +25,7 @@ partition.value <- function(value, unit) {
     d <- ratio - ratio_l
     v <- c(unit * d, rep(unit, ratio_l))
   }
-  v
+  round_(v)
 }
 
 
