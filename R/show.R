@@ -128,3 +128,43 @@ get_divisions <- function(values) {
 
   Reduce(get_lcm, ds)
 }
+
+
+#' @title Get a Tuplet's Complementary Tuplets
+get_complementary_tuplets <- function(type, dot, tupletors) {
+  cts <- list()
+
+  for (i in length(tupletors):1) {
+    # unpack current tupletor
+    t_ <- tupletors[[i]]
+    n <- t_$n
+    unit <- t_$unit
+    unit_type <- unit[1]
+    unit_dot <- unit[2]
+    take <- t_$take
+    take_type <- take[1]
+    take_dot <- take[2]
+
+    v_unit <- to_value.duration_type(unit_type) * to_value.dot(unit_dot)
+    v_total <- n * v_unit
+    v_take <- to_value.duration_type(take_type) * to_value.dot(take_dot)
+    v_rest <- v_total - v_take
+    if (v_rest != 0) {
+      vs_rest <- partition.value(v_rest, v_unit)
+      vs_rest_1 <- vs_rest[1]
+      if (vs_rest_1 != v_unit) {
+        vs_rest <- c(untie.value(vs_rest_1, "type"), vs_rest[-1])
+      }
+
+      for (v in vs_rest) {
+        ts_ <- tupletors[1:i]
+        ts_[[i]]$take <- to_type_dot.value(v)
+        d <- list(type = type, dot = dot, tie = "", tupletors = ts_)
+        class(d) <- "Duration"
+        cts[[length(cts) + 1]] <- d
+      }
+    }
+  }
+
+  cts
+}
