@@ -132,9 +132,14 @@ get_divisions <- function(values) {
 
 #' @title Get a Tuplet's Complementary Tuplets
 get_complementary_tuplets <- function(type, dot, tupletors) {
+  l <- length(tupletors)
+  if (l == 0) {
+    return(list())
+  }
+
   cts <- list()
 
-  for (i in length(tupletors):1) {
+  for (i in l:1) {
     # unpack current tupletor
     t_ <- tupletors[[i]]
     n <- t_$n
