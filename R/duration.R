@@ -57,8 +57,7 @@ to_type_dot.value <- function(value) {
   # infer the type
   i_type <- which(vs_type == value / vs_dot[i_dot])
   type <- duration_types[i_type]
-
-  list(type = type, dot = dot)
+  c(type, dot)
 }
 
 
