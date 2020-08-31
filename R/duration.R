@@ -389,16 +389,12 @@ to_Elements.dot <- function(dot, tag = "dot") {
 
 
 #' @title Convert Duration to Elements
-to_Elements.Duration <- function(duration, divisions) {
+to_Elements.Duration <- function(duration) {
   type <- duration$type
   dot <- duration$dot
   tupletors <- duration$tupletors
   l <- length(tupletors)
-  v_duration <- to_value.Duration(duration)
   es <- list()
-
-  # get MusicXML element "duration"
-  es$duration <- Element("duration", v_duration * divisions)
 
   # for non-tuplet
   if (l == 0) {
