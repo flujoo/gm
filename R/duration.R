@@ -379,7 +379,7 @@ print.Duration <- function(x, ...) {
 
 
 #' @title Convert Dot to Elements
-#' @param tag "dot" or "normal-dot".
+#' @param tag "dot", "normal-dot" or "tuplet-dot".
 to_Elements.dot <- function(dot, tag = "dot") {
   if (is.character(dot)) {
     dot <- nchar(dot)
