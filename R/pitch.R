@@ -124,3 +124,37 @@ to_Element.Pitch <- function(pitch) {
 
   Element("pitch", content)
 }
+
+
+#' @title Convert Chord to List of Elements "Note"
+#' @param elements Other Elements to constitute these "note" Elements,
+#' which include duration-related Elements as the output of other function.
+to_Elements_note.Chord <- function(chord, elements) {
+  ps <- chord$pitches
+  l <- length(ps)
+
+  notes <- list()
+  for (i in 1:l) {
+    p <- to_Element.Pitch(ps[[i]])
+    if (i == 1) {
+      content <- append(list(p), elements)
+    } else {
+      # remove redundant Elements
+      m <- length(elements)
+      if (m > 0) {
+        es <- elements
+        for (j in 1:m) {
+          e <- es[[j]]
+          if (e$tag %in% c("notations")) {
+            es[[j]] <- NULL
+          }
+        }
+      }
+      # add Element "chord"
+      content <- append(list(Element("chord"), p), es)
+    }
+    notes[[i]] <- Element("note", content)
+  }
+
+  notes
+}
