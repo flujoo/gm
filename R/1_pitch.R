@@ -188,7 +188,7 @@ select_nna <- function(elements, container) {
 }
 
 
-to_Pitch.midi <- function(midi, fifths, next_ = NULL) {
+to_Pitch.midi <- function(midi, fifths = 0, next_ = NULL) {
   pc <- midi %% 12
   o <- midi %/% 12 - 1
   # all possible note name and alter pairs
