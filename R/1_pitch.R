@@ -255,6 +255,7 @@ normalize.pitches <- function(pitches, fifths_list) {
 
     p <- pitches[[i]]
     c_ <- class(p)
+    l_ <- length(p)
     if (i == l) {
       next_ <- NULL
     } else {
@@ -265,7 +266,7 @@ normalize.pitches <- function(pitches, fifths_list) {
     }
     fifths <- find_fifths(fifths_list, i)
 
-    if (length(p) > 1 && c_ != "Pitch" && c_ != "PitchChord") {
+    if (c_ == "list" || l_ > 1 && !(c_ %in% c("Pitch", "PitchChord"))) {
       pitches[[i]] <- PitchChord(p, fifths, next_)
     } else {
       if (c_ == "character" && validate.pitch_notation(p)) {
