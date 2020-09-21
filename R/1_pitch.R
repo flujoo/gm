@@ -243,3 +243,90 @@ to_Pitch.midi <- function(midi, fifths = 0, next_ = NULL) {
   class(p) <- "Pitch"
   p
 }
+
+
+
+# normalize pitches -------------------------------------------------
+
+normalize.pitches <- function(pitches, fifths_list) {
+  l <- length(pitches)
+
+  for (i in l:1) {
+
+    p <- pitches[[i]]
+    c_ <- class(p)
+    if (i == l) {
+      next_ <- NULL
+    } else {
+      next_ <- pitches[[i + 1]]
+      if (class(next_) != "Pitch") {
+        next_ <- NULL
+      }
+    }
+    fifths <- find_fifths(fifths_list, i)
+
+    if (length(p) > 1 && c_ != "Pitch" && c_ != "PitchChord") {
+      pitches[[i]] <- PitchChord(p, fifths, next_)
+    } else {
+      if (c_ == "character" && validate.pitch_notation(p)) {
+        pitches[[i]] <- to_Pitch.pitch_notation(p)
+      } else if (c_ %in% c("numeric", "integer") && validate.midi(p)) {
+        pitches[[i]] <- to_Pitch.midi(p, fifths, next_)
+      } else if (!is.null(p)) {
+        stop()
+      }
+    }
+  }
+
+  pitches
+}
+
+
+# fifths_list looks like list(c(1, -1), c(3, -7), c(8, 0))
+find_fifths <- function(fifths_list, i) {
+  is_ <- sapply(fifths_list, function(x) x[1])
+  fs <- sapply(fifths_list, function(x) x[2])
+  f <- fs[is_ <= i]
+  f[length(f)]
+}
+
+
+PitchChord <- function(pitches, fifths, next_) {
+  ps <- list()
+  for (p in pitches) {
+    if (class(p) == "Pitch") {
+      ps[[length(ps) + 1]] <- p
+    } else if (length(p) == 1) {
+      if (validate.pitch_notation(p)) {
+        ps[[length(ps) + 1]] <- to_Pitch.pitch_notation(p)
+      } else if (validate.midi(p)) {
+        ps[[length(ps) + 1]] <- to_Pitch.midi(p, fifths, next_)
+      } else {
+        warning()
+      }
+    } else {
+      warning()
+    }
+  }
+
+  l <- length(ps)
+  if (l == 0) {
+    warning()
+    return(NULL)
+  } else if (l == 1) {
+    warning()
+    p <- ps[[1]]
+    class(p) <- "Pitch"
+    return(p)
+  } else {
+    ps <- sort.Pitches(ps)
+    class(ps) <- "PitchChord"
+    ps
+  }
+}
+
+
+sort.Pitches <- function(pitches) {
+  midis <- sapply(pitches, to_midi.Pitch)
+  pitches[order(midis)]
+}
