@@ -82,7 +82,11 @@ to_midi.Pitch <- function(pitch) {
 # midi -> Pitch -----------------------------------------------------
 
 validate.midi <- function(midi) {
-  midi >= 12 && midi <= 127 && midi == as.integer(midi)
+  con <- midi >= 12 && midi <= 127 && midi == as.integer(midi)
+  if (is.na(con)) {
+    return(FALSE)
+  }
+  con
 }
 
 
