@@ -12,7 +12,12 @@ validate.pitch_notation <- function(pitch_notation) {
     "[0-9]",
     "$"
   )
-  grepl(reg, pitch_notation)
+  con <- grepl(reg, pitch_notation)
+
+  if (identical(con, logical(0))) {
+    return(FALSE)
+  }
+  con
 }
 
 
