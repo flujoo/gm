@@ -1,5 +1,8 @@
 # pitch notation -> Pitch -------------------------------------------
 
+#' @param pitch_notation An atomic vector.
+#' Lists may cause undesirable results.
+#' @return A logical vector.
 validate.pitch_notation <- function(pitch_notation) {
   reg <- paste0(
     "^",
@@ -14,11 +17,13 @@ validate.pitch_notation <- function(pitch_notation) {
   )
   con <- grepl(reg, pitch_notation)
 
-  # when the length of input is larger than 1, or con is logical(0),
-  # return FALSE
-  if (!identical(con, FALSE) && !identical(con, TRUE)) {
-    return(FALSE)
+  for (i in 1:length(con)) {
+    c_ <- con[i]
+    if (!identical(c_, FALSE) && !identical(c_, TRUE)) {
+      con[i] <- FALSE
+    }
   }
+
   con
 }
 
