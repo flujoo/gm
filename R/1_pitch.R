@@ -253,6 +253,13 @@ to_Pitch.midi <- function(midi, fifths = 0, next_ = NULL) {
 
 # normalize pitches -------------------------------------------------
 
+#' @details Used in function \code{Voice}.
+#' @param pitches A list of MIDI note numbers, pitch notations, Pitches,
+#' PitchChords, or \code{NULL}s. MIDIs and pitch notations will be converted
+#' to Pitches if of length 1, and to PitchChords if larger than 1.
+#' @param fifths_list A list of duplets of position and fifths, in an
+#' ascending order by position.
+#' @return A list of Pitches, PitchChords, and \code{NULL}s.
 normalize.pitches <- function(pitches, fifths_list) {
   l <- length(pitches)
 
@@ -260,7 +267,7 @@ normalize.pitches <- function(pitches, fifths_list) {
 
     p <- pitches[[i]]
     c_ <- class(p)
-    l_ <- length(p)
+    l_ <-
     if (i == l) {
       next_ <- NULL
     } else {
@@ -270,17 +277,19 @@ normalize.pitches <- function(pitches, fifths_list) {
       }
     }
     fifths <- find_fifths(fifths_list, i)
+    m <- paste('invalid item of argument "pitches" at position', i)
 
-    if (c_ == "list" || l_ > 1 && !(c_ %in% c("Pitch", "PitchChord"))) {
-      pitches[[i]] <- PitchChord(p, fifths, next_)
-    } else {
-      if (c_ == "character" && validate.pitch_notation(p)) {
-        pitches[[i]] <- to_Pitch.pitch_notation(p)
-      } else if (c_ %in% c("numeric", "integer") && validate.midi(p)) {
-        pitches[[i]] <- to_Pitch.midi(p, fifths, next_)
-      } else if (!is.null(p)) {
-        stop()
-      }
+    if (c_ == "list" || (length(p) > 1 && is.atomic(p))) {
+      tryCatch(
+        {pitches[[i]] <- PitchChord(p, fifths, next_)},
+        error = function(e) {stop(m)}
+      )
+    } else if (validate.pitch_notation(p)) {
+      pitches[[i]] <- to_Pitch.pitch_notation(p)
+    } else if (validate.midi(p)) {
+      pitches[[i]] <- to_Pitch.midi(p, fifths, next_)
+    } else if (!(c_ %in% c("Pitch", "PitchChord", "NULL"))) {
+      stop(m)
     }
   }
 
@@ -288,7 +297,6 @@ normalize.pitches <- function(pitches, fifths_list) {
 }
 
 
-# fifths_list looks like list(c(1, -1), c(3, -7), c(8, 0))
 find_fifths <- function(fifths_list, i) {
   is_ <- sapply(fifths_list, function(x) x[1])
   fs <- sapply(fifths_list, function(x) x[2])
