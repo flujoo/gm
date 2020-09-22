@@ -3,8 +3,8 @@
 validate.pitch_notation <- function(pitch_notation) {
   reg <- paste0(
     "^",
-    # a valid pitch notation always starts with a note name,
-    # which is case insensitive
+    # a valid pitch notation always starts with a note name
+    # either in uppercase or lowercase
     "([A-G]|[a-g])",
     # maybe followed by an accidental
     "(#{0,2}|-{0,2})",
@@ -14,7 +14,9 @@ validate.pitch_notation <- function(pitch_notation) {
   )
   con <- grepl(reg, pitch_notation)
 
-  if (identical(con, logical(0))) {
+  # when the length of input is larger than 1, or con is logical(0),
+  # return FALSE
+  if (!identical(con, FALSE) && !identical(con, TRUE)) {
     return(FALSE)
   }
   con
@@ -57,7 +59,7 @@ to_Pitch.pitch_notation <- function(pitch_notation) {
 
 # Pitch/pitch notation -> midi --------------------------------------
 
-to_pitch_class.note_name <- function(note_name) {
+to_value.note_name <- function(note_name) {
   nns <- c("C", "D", "E", "F", "G", "A", "B")
   pcs <- c(0, 2, 4, 5, 7, 9, 11)
   i <- which(nns == note_name)
@@ -67,13 +69,13 @@ to_pitch_class.note_name <- function(note_name) {
 
 to_midi.pitch_notation <- function(pitch_notation) {
   pn <- split.pitch_notation(pitch_notation)
-  to_pitch_class.note_name(toupper(pn[[1]])) + to_alter.accidental(pn[[2]]) +
+  to_value.note_name(toupper(pn[[1]])) + to_alter.accidental(pn[[2]]) +
     (as.double(pn[[3]]) + 1) * 12
 }
 
 
 to_midi.Pitch <- function(pitch) {
-  to_pitch_class.note_name(pitch$note_name) + pitch$alter +
+  to_value.note_name(pitch$note_name) + pitch$alter +
     (pitch$octave + 1) * 12
 }
 
@@ -83,42 +85,39 @@ to_midi.Pitch <- function(pitch) {
 
 validate.midi <- function(midi) {
   con <- midi >= 12 && midi <= 127 && midi == as.integer(midi)
-  if (is.na(con)) {
+  if (!identical(con, FALSE) && !identical(con, TRUE)) {
     return(FALSE)
   }
   con
 }
 
 
-to_note_name.pitch_class <- function(pitch_class) {
+to_note_name.value <- function(value) {
   nns <- c("C", "D", "E", "F", "G", "A", "B")
-  pcs <- c(0, 2, 4, 5, 7, 9, 11)
-  i <- which(pcs == pitch_class)
+  vs <- c(0, 2, 4, 5, 7, 9, 11)
+  i <- which(vs == value)
   nns[i]
 }
 
 
-#' @title Convert Pitch Class to All Possible Note Name and Alter Pairs
-to_note_name_alters.pitch_class <- function(pitch_class) {
-  pcs <- (pitch_class + -2:2) %% 12
+to_pitch_classes.value <- function(value) {
+  vs <- (value + -2:2) %% 12
   alters <- 2:-2
-  ps <- list()
+  pcs <- list()
   for (i in 1:5) {
-    nn <- to_note_name.pitch_class(pcs[i])
+    nn <- to_note_name.value(vs[i])
     if (!identical(nn, character(0))) {
-      ps[[length(ps) + 1]] <- list(
+      pcs[[length(pcs) + 1]] <- list(
         note_name = nn,
         alter = alters[i]
       )
     }
   }
-  ps
+  pcs
 }
 
 
-# nna: note name and alter pair
-#' @title Get All Note Name and Alter Pairs for a Given Key
-get_nnas.fifths <- function(fifths) {
+get_pitch_classes.fifths <- function(fifths) {
   fs <- c("F", "C", "G", "D", "A", "E", "B")
   if (fifths >= 0) {
     as_ <- c(rep(1, fifths), rep(0, 7 - fifths))
@@ -126,18 +125,15 @@ get_nnas.fifths <- function(fifths) {
     as_ <- c(rep(0, 7 + fifths), rep(-1, -fifths))
   }
 
-  ps <- list()
+  pcs <- list()
   for (i in 1:7) {
-    ps[[length(ps) + 1]] <- list(note_name = fs[i], alter = as_[i])
+    pcs[[length(pcs) + 1]] <- list(note_name = fs[i], alter = as_[i])
   }
-  ps
+  pcs
 }
 
 
-# hl: leading tone of a harmonic scale
-#' @title Get Hamonic Scale's Leading Tone's Note Name and Alter
-#' for a Given Key
-get_hl_nna.fifths <- function(fifths) {
+get_sharp_5th.fifths <- function(fifths) {
   i <- which(-7:7 == fifths)
   nns <- c("G", "D", "A", "E", "B", "F", "C")
   list(
@@ -147,20 +143,16 @@ get_hl_nna.fifths <- function(fifths) {
 }
 
 
-# cp: chromatic previous (pitches)
-#' @title Get a Pitch's Chromatic Previous Note Name and Alter Pairs
-#' @details Used in function \code{to_Pitch.midi} and after
-#' \code{get_nnas.fifths}.
-get_cp_nnas.Pitch <- function(pitch) {
+get_chromatic_previous_pitch_classes.Pitch <- function(pitch) {
   nn <- pitch$note_name
-  pc <- to_pitch_class.note_name(nn)
+  pc <- to_value.note_name(nn)
   a <- pitch$alter
   nns <- c("C", "D", "E", "F", "G", "A", "B")
   i <- which(nns == nn)
 
   # ascending
   asc_nn <- nns[((i - 1 - 1) %% 7) + 1]
-  asc_pc <- to_pitch_class.note_name(asc_nn)
+  asc_pc <- to_value.note_name(asc_nn)
   if (abs(asc_pc - pc) == 2) {
     asc_a <- a + 1
   } else {
@@ -170,7 +162,7 @@ get_cp_nnas.Pitch <- function(pitch) {
 
   # descending
   des_nn <- nns[((i + 1 - 1) %% 7) + 1]
-  des_pc <- to_pitch_class.note_name(des_nn)
+  des_pc <- to_value.note_name(des_nn)
   if (abs(des_pc - pc) == 2) {
     des_a <- a - 1
   } else {
@@ -182,9 +174,7 @@ get_cp_nnas.Pitch <- function(pitch) {
 }
 
 
-#' @title Select Note Name and Alter Pair
-#' @details Used in function \code{to_Pitch.midi}.
-select_nna <- function(elements, container) {
+select_pitch_class <- function(elements, container) {
   for (x in container) {
     for (y in elements) {
       nn <- y$note_name
@@ -201,9 +191,9 @@ to_Pitch.midi <- function(midi, fifths = 0, next_ = NULL) {
   pc <- midi %% 12
   o <- midi %/% 12 - 1
   # all possible note name and alter pairs
-  nnas <- to_note_name_alters.pitch_class(pc)
+  nnas <- to_pitch_classes.value(pc)
 
-  p <- select_nna(nnas, get_nnas.fifths(fifths))
+  p <- select_pitch_class(nnas, get_pitch_classes.fifths(fifths))
   if (!is.null(p)) {
     p$octave <- o
     class(p) <- "Pitch"
@@ -211,7 +201,8 @@ to_Pitch.midi <- function(midi, fifths = 0, next_ = NULL) {
   }
 
   if (!is.null(next_) && abs(to_midi.Pitch(next_) - midi) == 1) {
-    p <- select_nna(nnas, get_cp_nnas.Pitch(next_))
+    p <- select_pitch_class(nnas,
+      get_chromatic_previous_pitch_classes.Pitch(next_))
     if (!is.null(p)) {
       p$octave <- o
       class(p) <- "Pitch"
@@ -219,7 +210,7 @@ to_Pitch.midi <- function(midi, fifths = 0, next_ = NULL) {
     }
   }
 
-  p <- select_nna(nnas, list(get_hl_nna.fifths(fifths)))
+  p <- select_pitch_class(nnas, list(get_sharp_5th.fifths(fifths)))
   if (!is.null(p)) {
     p$octave <- o
     class(p) <- "Pitch"
