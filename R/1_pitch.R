@@ -88,11 +88,20 @@ to_midi.Pitch <- function(pitch) {
 
 # midi -> Pitch -----------------------------------------------------
 
+#' @param midi An atomic vector.
+#' Lists may cause undesirable results.
+#' @return A logical vector.
 validate.midi <- function(midi) {
-  con <- midi >= 12 && midi <= 127 && midi == as.integer(midi)
-  if (!identical(con, FALSE) && !identical(con, TRUE)) {
-    return(FALSE)
+  con <- (class(midi) %in% c("integer", "numeric")) & !(is.na(midi)) &
+    midi >= 12 & midi <= 127 & midi == as.integer(midi)
+
+  for (i in 1:length(con)) {
+    c_ <- con[i]
+    if (!identical(c_, FALSE) && !identical(c_, TRUE)) {
+      con[i] <- FALSE
+    }
   }
+
   con
 }
 
