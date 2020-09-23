@@ -332,7 +332,7 @@ print.PitchLine <- function(x, ...) {
 #' @param fifths_list A list of duplets of position and fifths, in an
 #' ascending order by position.
 #' @return A list of Pitches, PitchChords, and \code{NA}s.
-PitchLine <- function(pitches, fifths_list) {
+PitchLine <- function(pitches, fifths_list = list(c(1, 0))) {
   l <- length(pitches)
   if (l == 0) {
     class(pitches) <- "PitchLine"
