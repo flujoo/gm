@@ -251,7 +251,6 @@ to_Pitch.midi <- function(midi, fifths = 0, next_ = NULL) {
 
 
 
-# normalize pitches -------------------------------------------------
 # print -------------------------------------------------------------
 
 to_accidental.alter <- function(alter) {
@@ -313,6 +312,7 @@ print.PitchLine <- function(x, ...) {
 
 
 
+# PitchLine ---------------------------------------------------------
 
 #' @title Normalize Various Data Structures to Pitch Structures
 #' @description Valid data structures are handled as follows:
@@ -332,8 +332,12 @@ print.PitchLine <- function(x, ...) {
 #' @param fifths_list A list of duplets of position and fifths, in an
 #' ascending order by position.
 #' @return A list of Pitches, PitchChords, and \code{NA}s.
-normalize.pitches <- function(pitches, fifths_list) {
+PitchLine <- function(pitches, fifths_list) {
   l <- length(pitches)
+  if (l == 0) {
+    class(pitches) <- "PitchLine"
+    return(pitches)
+  }
   is_ <- c()
 
   for (i in l:1) {
@@ -393,6 +397,7 @@ normalize.pitches <- function(pitches, fifths_list) {
     }
     stop(m)
   } else {
+    class(pitches) <- "PitchLine"
     return(pitches)
   }
 }
