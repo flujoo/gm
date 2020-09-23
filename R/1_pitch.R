@@ -252,6 +252,67 @@ to_Pitch.midi <- function(midi, fifths = 0, next_ = NULL) {
 
 
 # normalize pitches -------------------------------------------------
+# print -------------------------------------------------------------
+
+to_accidental.alter <- function(alter) {
+  accidentals <- c("--", "-", "", "#", "##")
+  alters <- -2:2
+  i <- which(alters == alter)
+  accidentals[i]
+}
+
+
+to_string.Pitch <- function(pitch) {
+  pitch$alter <- to_accidental.alter(pitch$alter)
+  paste(pitch, collapse = "")
+}
+
+
+#' @export
+print.Pitch <- function(x, ...) {
+  s <- to_string.Pitch(x)
+  cat(s, "\n")
+  return(invisible(s))
+}
+
+
+to_string.PitchChord <- function(pitch_chord) {
+  ss <- sapply(pitch_chord, to_string.Pitch)
+  paste0("(", paste(ss, collapse = ", "), ")")
+}
+
+
+to_string.PitchLine <- function(pitch_line) {
+  l <- length(pitch_line)
+  if (l == 0) {
+    s <- ""
+  } else {
+    for (i in 1:l) {
+      p <- pitch_line[[i]]
+      c_ <- class(p)
+      if (c_ == "Pitch") {
+        pitch_line[[i]] <- to_string.Pitch(p)
+      } else if (c_ == "PitchChord") {
+        pitch_line[[i]] <- to_string.PitchChord(p)
+      } else {
+        pitch_line[[i]] <- "NA"
+      }
+    }
+    s <- paste(pitch_line, collapse = ", ")
+  }
+  s
+}
+
+
+#' @export
+print.PitchLine <- function(x, ...) {
+  s <- to_string.PitchLine(x)
+  cat(s, "\n")
+  return(invisible(s))
+}
+
+
+
 
 #' @title Normalize Various Data Structures to Pitch Structures
 #' @description Valid data structures are handled as follows:
