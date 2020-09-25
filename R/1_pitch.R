@@ -420,7 +420,7 @@ find_fifths <- function(fifths_list, i) {
 
 
 #' @details Lists and long atomic vectors are passed to \code{PitchChord}.
-PitchChord <- function(pitches, fifths, next_) {
+PitchChord <- function(pitches, fifths = 0, next_ = NULL) {
   if (identical(pitches, list())) {
     return(NA)
   }
