@@ -419,38 +419,68 @@ find_fifths <- function(fifths_list, i) {
 }
 
 
+#' @details Lists and long atomic vectors are passed to \code{PitchChord}.
 PitchChord <- function(pitches, fifths, next_) {
-  ps <- list()
-  for (p in pitches) {
-    if (class(p) == "Pitch") {
-      ps[[length(ps) + 1]] <- p
-    } else if (length(p) == 1) {
-      if (validate.pitch_notation(p)) {
-        ps[[length(ps) + 1]] <- to_Pitch.pitch_notation(p)
-      } else if (validate.midi(p)) {
-        ps[[length(ps) + 1]] <- to_Pitch.midi(p, fifths, next_)
-      } else {
-        warning()
-      }
-    } else {
-      warning()
-    }
+  if (identical(pitches, list())) {
+    return(NA)
   }
 
-  l <- length(ps)
-  if (l == 0) {
-    warning()
-    return(NULL)
-  } else if (l == 1) {
-    warning()
-    p <- ps[[1]]
-    class(p) <- "Pitch"
-    return(p)
-  } else {
-    ps <- sort.Pitches(ps)
-    class(ps) <- "PitchChord"
-    ps
+  # add vectors to lists to make it easy for the below recursive function
+  if (class(pitches) != "list") {
+    pitches <- list(pitches)
   }
+
+  core <- function(pitches) {
+    if (identical(pitches, list())) {
+      stop()
+    }
+    p <- pitches[[1]]
+    c_ <- class(p)
+    ps <- list()
+    if (c_ == "character") {
+      for (p_i in p) {
+        if (validate.pitch_notation(p_i)) {
+          ps[[length(ps) + 1]] <- to_Pitch.pitch_notation(p_i)
+        } else {
+          p_i <- suppressWarnings(as.double(p_i))
+          if (validate.midi(p_i)) {
+            ps[[length(ps) + 1]] <- to_Pitch.midi(p_i, fifths, next_)
+          } else {
+            stop()
+          }
+        }
+      }
+    } else if (c_ %in% c("numeric", "integer")) {
+      for (p_i in p) {
+        if (validate.midi(p_i)) {
+          ps[[length(ps) + 1]] <- to_Pitch.midi(p_i, fifths, next_)
+        } else {
+          stop()
+        }
+      }
+    } else if (c_ == "Pitch") {
+      ps[[length(ps) + 1]] <- p
+    } else if (c_ == "PitchChord") {
+      ps <- append(ps, unclass(p))
+    } else if (c_ == "list") {
+      ps <- core(p)
+    } else {
+      stop()
+    }
+
+    pitches <- pitches[-1]
+    if (identical(pitches, list())) {
+      return(ps)
+    }
+    append(ps, core(pitches))
+  }
+
+  ps <- core(pitches)
+  if (length(ps) == 1) {
+    return(ps[[1]])
+  }
+  class(ps) <- "PitchChord"
+  ps
 }
 
 
