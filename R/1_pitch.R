@@ -366,7 +366,7 @@ PitchLine <- function(pitches, fifths_list = list(c(1, 0))) {
     if (c_ == "list" || (l_ > 1 && is.atomic(p))) {
       tryCatch(
         {pitches[[i]] <- PitchChord(p, fifths, next_)},
-        error = function(e) {is_ <- c(is_, i)}
+        error = function(e) {is_ <<- c(is_, i)}
       )
     # convert NAs, NaNs, NULLs and 0-length atomics to default NAs
     } else if (is.atomic(p) && (is.na(p) || l_ == 0)) {
