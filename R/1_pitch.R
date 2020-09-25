@@ -281,6 +281,14 @@ to_string.PitchChord <- function(pitch_chord) {
 }
 
 
+#' @export
+print.PitchChord <- function(pitch_chord) {
+  s <- to_string.PitchChord(pitch_chord)
+  cat(s, "\n")
+  return(invisible(s))
+}
+
+
 to_string.PitchLine <- function(pitch_line) {
   l <- length(pitch_line)
   if (l == 0) {
