@@ -4,8 +4,8 @@ library(mr)
 test_that("midi -> Pitch", {
   # C#/D-
   midi <- 61
-  c_ <- to_Pitch.pitch_notation("C#4")
-  d <- to_Pitch.pitch_notation("D-4")
+  c_ <- to_Pitch.notation("C#4")
+  d <- to_Pitch.notation("D-4")
   # C#4 is the default in C major and sharp keys
   expect_equal(to_Pitch.midi(midi, 0), c_)
   # D-4 is the default in flat keys
@@ -13,7 +13,7 @@ test_that("midi -> Pitch", {
   # D-4 is in key A- major
   expect_equal(to_Pitch.midi(midi, -4), d)
   # D-4 descends to C4
-  expect_equal(to_Pitch.midi(midi, 0, to_Pitch.pitch_notation("C4")), d)
+  expect_equal(to_Pitch.midi(midi, 0, to_Pitch.notation("C4")), d)
   # C#4 is the sharp 5th of key F
   expect_equal(to_Pitch.midi(midi, -1), c_)
 })
@@ -36,8 +36,8 @@ test_that("PitchChord", {
   out <- PitchChord(ps, 0, NULL)
   expected <- list(
     to_Pitch.midi(60), to_Pitch.midi(60), to_Pitch.midi(61),
-    to_Pitch.pitch_notation("C4"), to_Pitch.pitch_notation("C4"),
-    to_Pitch.pitch_notation("C5"), to_Pitch.midi(60),
+    to_Pitch.notation("C4"), to_Pitch.notation("C4"),
+    to_Pitch.notation("C5"), to_Pitch.midi(60),
     to_Pitch.midi(61), to_Pitch.midi(60), to_Pitch.midi(60),
     to_Pitch.midi(61)
   )
@@ -64,7 +64,7 @@ test_that("PitchLine", {
   expected <- list(
     NA, NA, NA, NA, NA,
     to_Pitch.midi(60), to_Pitch.midi(61), PitchChord(62:63, 0, NULL),
-    to_Pitch.pitch_notation("C4"), PitchChord(c("C5", "C6"), 0, NULL),
+    to_Pitch.notation("C4"), PitchChord(c("C5", "C6"), 0, NULL),
     to_Pitch.midi(70), PitchChord(71:72, 0, NULL),
     PitchChord(90:96, 0, NULL),
     to_Pitch.midi(97)

@@ -49,8 +49,8 @@ to_alter.accidental <- function(accidental) {
 }
 
 
-to_Pitch.pitch_notation <- function(pitch_notation) {
-  pn <- split.pitch_notation(pitch_notation)
+to_Pitch.notation <- function(notation) {
+  pn <- split.pitch_notation(notation)
   p <- list(
     note_name = toupper(pn[[1]]),
     alter = to_alter.accidental(pn[[2]]),
@@ -72,8 +72,8 @@ to_value.note_name <- function(note_name) {
 }
 
 
-to_midi.pitch_notation <- function(pitch_notation) {
-  pn <- split.pitch_notation(pitch_notation)
+to_midi.notation <- function(notation) {
+  pn <- split.pitch_notation(notation)
   to_value.note_name(toupper(pn[[1]])) + to_alter.accidental(pn[[2]]) +
     (as.double(pn[[3]]) + 1) * 12
 }
@@ -374,7 +374,7 @@ PitchLine <- function(pitches, fifths_list = list(c(1, 0))) {
     # convert pitch notations and midis as characters
     } else if (c_ == "character") {
       if (validate.pitch_notation(p)) {
-        pitches[[i]] <- to_Pitch.pitch_notation(p)
+        pitches[[i]] <- to_Pitch.notation(p)
       } else {
         p <- suppressWarnings(as.double(p))
         if (validate.midi(p)) {
@@ -440,7 +440,7 @@ PitchChord <- function(pitches, fifths = 0, next_ = NULL) {
     if (c_ == "character") {
       for (p_i in p) {
         if (validate.pitch_notation(p_i)) {
-          ps[[length(ps) + 1]] <- to_Pitch.pitch_notation(p_i)
+          ps[[length(ps) + 1]] <- to_Pitch.notation(p_i)
         } else {
           p_i <- suppressWarnings(as.double(p_i))
           if (validate.midi(p_i)) {
