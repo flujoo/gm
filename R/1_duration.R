@@ -187,8 +187,11 @@ to_dotted_types <- function(types, dots) {
 }
 
 
-to_named_values.dotted_types <- function(dotted_types) {
-  sapply(dotted_types, function(dt) {
+to_axis <- function(types, dots) {
+  types <- sort.types(types)
+  dots <- sort(dots, TRUE)
+  dts <- to_dotted_types(types, dots)
+  sapply(dts, function(dt) {
     to_value.Duration(to_Duration.notation(dt))
   })
 }
