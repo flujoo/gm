@@ -252,12 +252,6 @@ to_Duration.value <- function(value, axis_ = to_axis(duration_types, 4:0)) {
 
 # print -------------------------------------------------------------
 
-to_abbr.type <- function(type) {
-  i <- which(duration_types == type)
-  duration_type_abbrs[i]
-}
-
-
 to_tupler_notation.ns <- function(ns) {
   tns <- sapply(ns, function(n) {
     paste0("/", n)
@@ -267,34 +261,7 @@ to_tupler_notation.ns <- function(ns) {
 
 
 to_string.Duration <- function(duration) {
-  ts_ <- duration$tuplers
-  l <- length(ts_)
-  con <- TRUE
-  ns <- c()
-  for (t_ in ts_) {
-    unit <- t_$unit
-    take <- t_$take
-    n <- t_$n
-    if (identical(unit, take)) {
-      con <- all(con, TRUE)
-      ns <- c(ns, n)
-    } else {
-      con <- FALSE
-      break
-    }
-  }
-
-  if (con) {
-    type <- to_abbr.type(duration$type)
-    dot <- duration$dot
-    dotted <- dot_type(type, dot)
-    tn <- to_tupler_notation.ns(ns)
-    s <- paste0(dotted, tn)
-  } else {
-    s <- attr(MASS::fracs(to_value.Duration(duration)), "fracs")
-  }
-
-  s
+  attr(MASS::fractions(to_value.Duration(duration)), "fracs")
 }
 
 
