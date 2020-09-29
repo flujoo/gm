@@ -22,7 +22,7 @@ duration_type_abbrs <- c(
 )
 
 
-validate.duration_notation <- function(notation) {
+validate.duration_notation <- function(notation, tupler = TRUE) {
   reg <- paste0(
     "^",
     # a valid duration notation always starts with a duration type
@@ -35,7 +35,7 @@ validate.duration_notation <- function(notation) {
     # maybe followed by a dot notation
     "(\\.{1,4})?",
     # maybe followed by some tupler notations
-    "(/([2-9]|[1-9][0-9]+))*",
+    ifelse(tupler, "(/([2-9]|[1-9][0-9]+))*", ""),
     "$"
   )
   grepl(reg, notation)
