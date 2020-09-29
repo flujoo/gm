@@ -259,14 +259,6 @@ to_Duration.value <- function(value, axis_ = to_axis(duration_types, 4:0)) {
 
 # print -------------------------------------------------------------
 
-to_tupler_notation.ns <- function(ns) {
-  tns <- sapply(ns, function(n) {
-    paste0("/", n)
-  })
-  paste(tns, collapse = "")
-}
-
-
 to_string.Duration <- function(duration) {
   attr(MASS::fractions(to_value.Duration(duration)), "fracs")
 }
