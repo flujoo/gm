@@ -166,10 +166,9 @@ to_value.Duration <- function(duration) {
 
 # value -> Duration -------------------------------------------------
 
-dot_type <- function(type, dots) {
-  sapply(dots, function(dot) {
-    paste0(type, strrep(".", dot))
-  })
+dot_type <- function(type, dot) {
+  paste0(type, strrep(".", dot))
+}
 }
 
 
