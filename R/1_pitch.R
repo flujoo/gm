@@ -268,10 +268,9 @@ to_string.Pitch <- function(pitch) {
 
 
 #' @export
-print.Pitch <- function(x, ...) {
-  s <- to_string.Pitch(x)
+print.Pitch <- function(pitch) {
+  s <- to_string.Pitch(pitch)
   cat(s, "\n")
-  return(invisible(s))
 }
 
 
@@ -285,7 +284,6 @@ to_string.PitchChord <- function(pitch_chord) {
 print.PitchChord <- function(pitch_chord) {
   s <- to_string.PitchChord(pitch_chord)
   cat(s, "\n")
-  return(invisible(s))
 }
 
 
@@ -312,10 +310,9 @@ to_string.PitchLine <- function(pitch_line) {
 
 
 #' @export
-print.PitchLine <- function(x, ...) {
-  s <- to_string.PitchLine(x)
+print.PitchLine <- function(pitch_line) {
+  s <- to_string.PitchLine(pitch_line)
   cat(s, "\n")
-  return(invisible(s))
 }
 
 
