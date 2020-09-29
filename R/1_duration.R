@@ -229,16 +229,13 @@ split.value <- function(value, axis_, decreasing = TRUE, error = FALSE) {
 }
 
 
-to_Duration.value <- function(value) {
-  values <- to_named_values.dotted_types(
-    to_dotted_types(duration_types, 4:0))
-
-  vs <- split.value(value, values, TRUE, TRUE)
+to_Duration.value <- function(value, axis_ = to_axis(duration_types, 4:0)) {
+  vs <- split.value(value, axis_, TRUE, TRUE)
 
   ds <- list()
   for (v in vs) {
-    i <- which(values == v)
-    n <- names(values[i])
+    i <- which(axis_ == v)
+    n <- names(axis_[i])
     d <- to_Duration.notation(n)
     ds[[length(ds) + 1]] <- d
   }
