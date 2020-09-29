@@ -188,11 +188,13 @@ to_dotted_types <- function(types, dots) {
 
 
 to_axis <- function(types, dots) {
-  types <- unname(sapply(types, function(type) {
+  l <- length(types)
+  for (i in 1:l) {
+    type <- types[i]
     if (type %in% duration_type_abbrs) {
-      to_type.abbr(type)
+      types[i] <- to_type.abbr(type)
     }
-  }))
+  }
   types <- sort.types(types)
   dots <- sort(dots, TRUE)
   dts <- to_dotted_types(types, dots)
