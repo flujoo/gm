@@ -169,6 +169,11 @@ to_value.Duration <- function(duration) {
 dot_type <- function(type, dot) {
   paste0(type, strrep(".", dot))
 }
+
+
+sort.types <- function(types) {
+  is_ <- sapply(types, function(type) which(duration_types == type))
+  names(sort(is_, FALSE))
 }
 
 
