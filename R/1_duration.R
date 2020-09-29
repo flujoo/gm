@@ -197,26 +197,26 @@ to_axis <- function(types, dots) {
 }
 
 
-#' @param values A numeric vector in descending order.
-split.value <- function(value, values, decreasing = TRUE, error = FALSE) {
+#' @param axis_ A numeric vector in descending order.
+split.value <- function(value, axis_, decreasing = TRUE, error = FALSE) {
   # recursively
   core <- function(value) {
-    if (value %in% values) {
+    if (value %in% axis_) {
       return(value)
-    } else if (value < values[length(values)]) {
+    } else if (value < axis_[length(axis_)]) {
       if (error) {
         stop()
       } else {
         return(value)
       }
     } else {
-      if (value > values[1]) {
+      if (value > axis_[1]) {
         k <- 1
       } else {
-        ks <- which(values > value)
+        ks <- which(axis_ > value)
         k <- ks[length(ks)] + 1
       }
-      v <- values[k]
+      v <- axis_[k]
       if (decreasing) {
         return(c(v, core(value - v)))
       } else {
