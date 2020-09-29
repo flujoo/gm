@@ -178,7 +178,12 @@ sort.types <- function(types) {
 
 
 to_dotted_types <- function(types, dots) {
-  unlist(lapply(types, dot_type, dots = dots))
+  dts <- list()
+  for (type in types) {
+    dts_ <- sapply(dots, dot_type, type = type)
+    dts <- append(dts, dts_)
+  }
+  unlist(dts)
 }
 
 
