@@ -311,7 +311,7 @@ Tupler <- function(n, unit = "auto", take = unit) {
   # validate unit
   if (!identical(unit, "auto")) {
     v_unit <- is.character(unit) && length(unit) == 1 &&
-      validate.duration_notation(unit)
+      validate.duration_notation(unit, tupler = FALSE)
     if (!v_unit) {
       m <- paste(
         'argument "unit" should be a character starting with',
@@ -324,7 +324,7 @@ Tupler <- function(n, unit = "auto", take = unit) {
   # validate take
   if (!identical(take, "auto")) {
     v_take <- is.character(take) && length(take) == 1 &&
-      validate.duration_notation(take)
+      validate.duration_notation(take, tupler = FALSE)
     if (!v_take) {
       m <- paste(
         'argument "take" should be a character starting with',
