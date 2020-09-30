@@ -282,3 +282,81 @@ print.TiedDurations <- function(durations) {
   s <- to_string.TiedDurations(durations)
   cat(s, "\n")
 }
+
+
+
+# Tupler ------------------------------------------------------------
+
+validate.n <- function(n) {
+  v <- class(n) %in% c("integer", "numeric") && length(n) == 1 &&
+    n > 1 && as.integer(n) == n
+  ifelse(is.na(v), FALSE, v)
+}
+
+
+validate.take_duration <- function(n, unit, take) {
+  v_unit <- to_value.type(unit$type) * to_value.dot(unit$dot)
+  v_take <- to_value.type(take$type) * to_value.dot(take$dot)
+  v_unit * n >= v_take
+}
+
+
+#' @export
+Tupler <- function(n, unit = "auto", take = unit) {
+  # validate n
+  if (!validate.n(n)) {
+    stop('argument "n" should be a whole number larger than 1')
+  }
+
+  # validate unit
+  if (!identical(unit, "auto")) {
+    v_unit <- is.character(unit) && length(unit) == 1 &&
+      validate.duration_notation(unit)
+    if (!v_unit) {
+      m <- paste(
+        'argument "unit" should be a character starting with',
+        "a duration type followed by 0-4 dots"
+      )
+      stop(m)
+    }
+  }
+
+  # validate take
+  if (!identical(take, "auto")) {
+    v_take <- is.character(take) && length(take) == 1 &&
+      validate.duration_notation(take)
+    if (!v_take) {
+      m <- paste(
+        'argument "take" should be a character starting with',
+        "a duration type followed by 0-4 dots"
+      )
+      stop(m)
+    }
+  }
+
+  # normalize unit
+  if (!identical(unit, "auto")) {
+    d_unit <- to_Duration.notation(unit)
+    unit <- list(type = d_unit$type, dot = d_unit$dot)
+  }
+
+  # normalize take
+  if (!identical(take, "auto")) {
+    d_take <- to_Duration.notation(take)
+    take <- list(type = d_take$type, dot = d_take$dot)
+  }
+
+  # validate the duration of take
+  if (!identical(unit, "auto") && !identical(take, "auto")) {
+    if (!(validate.take_duration(n, unit, take))) {
+      stop('the duration of "take" is too long')
+    }
+  }
+
+  # convert take when it is "auto"
+  if (!identical(unit, "auto") && identical(take, "auto")) {
+    take <- unit
+  }
+
+  list(n, unit, take)
+}
