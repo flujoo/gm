@@ -358,5 +358,7 @@ Tupler <- function(n, unit = "auto", take = unit) {
     take <- unit
   }
 
-  list(n = n, unit = unit, take = take)
+  t_ <- list(n = n, unit = unit, take = take)
+  class(t_) <- "Tupler"
+  t_
 }
