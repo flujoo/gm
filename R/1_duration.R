@@ -362,3 +362,110 @@ Tupler <- function(n, unit = "auto", take = unit) {
   class(t_) <- "Tupler"
   t_
 }
+
+
+
+# tuplet ------------------------------------------------------------
+
+validate.unit_ratio <- function(type, dot, unit) {
+  unit_type <- unit$type
+  unit_dot <- unit$dot
+  i_type <- which(duration_types == type)
+  i_unit_type <- which(duration_types == unit_type)
+
+  con <- unit_dot == dot && i_unit_type >= i_type
+  if (dot == 1) {
+    # 3 * 2^i
+    con <- con ||
+      unit_dot == 0 && i_unit_type > i_type
+  } else if (dot == 2) {
+    # 7 * 2^i
+    con <- con ||
+      unit_dot == 0 && i_unit_type > (i_type + 1)
+  } else if (dot == 3) {
+    # 15 * 2^i
+    con <- con ||
+      unit_dot == 1 && i_unit_type > (i_type + 1)
+  } else if (dot == 4) {
+    # 31 * 2^i
+    con <- con ||
+      unit_dot == 0 && i_unit_type > (i_type + 3)
+  }
+
+  con
+}
+
+
+Duration <- function(notation, ...) {
+  # validate notation
+  v_n <- is.character(notation) && length(notation) == 1 &&
+    validate.duration_notation(notation)
+  if (!v_n) {
+    stop("invalid duration notation")
+  }
+
+  # notation -> Duration
+  d <- to_Duration.notation(notation)
+
+  ts_ <- list(...)
+  l <- length(ts_)
+
+  # early return if ts_ is empty
+  if (l == 0) {
+    return(d)
+  }
+
+  tuplers <- d$tuplers
+
+  # get initial type and dot
+  m <- length(tuplers)
+  if (m == 0) {
+    type <- d$type
+    dot <- d$dot
+  } else {
+    take <- tuplers[[m]]$take
+    type <- take$type
+    dot <- take$dot
+  }
+
+  # process Tuplers from ...
+  for (i in 1:l) {
+    t_ <- ts_[[i]]
+
+    # not accept non-Tuplers now
+    if (class(t_) != "Tupler") {
+      stop("non-Tupler at position ", i)
+    }
+
+    n <- t_$n
+    unit <- t_$unit
+    take <- t_$take
+
+    # convert "auto"
+    if (identical(unit, "auto")) {
+      t_$unit <- list(type = divide_type(type, n), dot = dot)
+      # remember to re-assign unit
+      unit <- t_$unit
+      if (identical(take, "auto")) {
+        t_$take <- unit
+        # remember to re-assign take
+        take <- t_$take
+      } else if (!validate.take_duration(n, unit, take)) {
+        stop('too long duration of "take" of Tupler at position ', i)
+      }
+    # validate unit
+    } else if (!validate.unit_ratio(type, dot, unit)) {
+      stop('invalid ratio of "unit" of Tupler at position ', i)
+    }
+
+    # reset type and dot
+    type <- take$type
+    dot <- take$dot
+
+    tuplers[[m + 1]] <- unclass(t_)
+    m <- m + 1
+  }
+
+  d$tuplers <- tuplers
+  d
+}
