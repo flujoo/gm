@@ -391,7 +391,7 @@ PitchLine <- function(pitches, fifths_list = list(c(1, 0))) {
 
   l_is <- length(is_)
   if (l_is > 0) {
-    if (l_is == i) {
+    if (l_is == 1) {
       m <- paste('invalid item of argument "pitches" at position', is_)
     } else {
       is_ <- rev(is_)
