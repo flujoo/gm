@@ -641,8 +641,16 @@ validate.similar_tuplets <- function(tuplet_1, tuplet_2) {
 #' @title Check If Tuplets in a DurationLine Can Form Groups
 #' @details Used in \code{DurationLine}.
 validate.tuplets <- function(duration_line) {
-  # make a copy since some items may be removed during the process
-  dl <- duration_line
+  # untie TiedDurations
+  dl <- list()
+  for (d in duration_line) {
+    if (class(d) == "Duration") {
+      dl[[length(dl) + 1]] <- d
+    } else {
+      dl <- append(dl, unclass(d))
+    }
+  }
+
   # depth is the length of a tuplet's tuplers
   depths <- sapply(dl, function(d) length(d$tuplers))
 
