@@ -50,3 +50,26 @@ test_that("validate tuplets", {
   expected <- list(Duration("w"), Duration("w"))
   expect_equal(out, expected)
 })
+
+
+test_that("DurationLine", {
+  ds <- list(
+    1, "q", 4.5, 1:5, c("q", "h..", "w/3", "w/3", "w/3"),
+    list(Duration("w"), list("q"), 1)
+  )
+  out <- DurationLine(ds)
+  expected <- list(
+    to_Duration.value(1), Duration("q"), to_Duration.value(4.5),
+    TiedDurations(list(
+      to_Duration.value(1), to_Duration.value(2), to_Duration.value(3),
+      to_Duration.value(4), to_Duration.value(4), to_Duration.value(1)
+    )),
+    TiedDurations(list(
+      Duration("q"), Duration("h.."), Duration("w/3"), Duration("w/3"),
+      Duration("w/3")
+    )),
+    TiedDurations(list("w", 1, 1))
+  )
+  class(expected) <- "DurationLine"
+  expect_equal(out, expected)
+})
