@@ -284,6 +284,32 @@ print.TiedDurations <- function(durations) {
 }
 
 
+to_string.DurationLine <- function(duration_line) {
+  l <- length(duration_line)
+  if (l == 0) {
+    s <- ""
+  } else {
+    for (i in 1:l) {
+      d <- duration_line[[i]]
+      if (class(d) == "Duration") {
+        duration_line[[i]] <- to_string.Duration(d)
+      } else {
+        duration_line[[i]] <- to_string.TiedDurations(d)
+      }
+    }
+    s <- paste(duration_line, collapse = ", ")
+  }
+  s
+}
+
+
+#' @export
+print.DurationLine <- function(duration_line) {
+  s <- to_string.DurationLine(duration_line)
+  cat(s, "\n")
+}
+
+
 
 # Tupler ------------------------------------------------------------
 
@@ -468,4 +494,237 @@ Duration <- function(notation, ...) {
 
   d$tuplers <- tuplers
   d
+}
+
+
+
+# DurationLine ------------------------------------------------------
+
+#' @param durations A list of duration notations, values, Durations,
+#' TiedDurations and lists of these data structures.
+#' @return A list of Durations and TiedDurations.
+DurationLine <- function(durations) {
+  l <- length(durations)
+
+  # empty list
+  if (l == 0) {
+    class(durations) <- "DurationLine"
+    return(durations)
+  }
+
+  # error item positions
+  is_ <- c()
+
+  for (i in 1:l) {
+    d <- durations[[i]]
+    c_ <- class(d)
+    l_ <- length(d)
+
+    # pass lists and long vectors to TiedDurations
+    if (c_ == "list" || (l_ > 1 && is.atomic(d))) {
+      tryCatch(
+        {durations[[i]] <- TiedDurations(d)},
+        error = function(e) {is_ <<- c(is_, i)}
+      )
+    # convert duration notations
+    } else if (c_ == "character" && validate.duration_notation(d)) {
+      durations[[i]] <- to_Duration.notation(d)
+    # convert values
+    } else if (c_ %in% c("integer", "numeric") && l_ == 1) {
+      tryCatch(
+        {durations[[i]] <- to_Duration.value(d)},
+        error = function(e) {is_ <<- c(is_, i)}
+      )
+    # keep Durations and TiedDurations untouched and deal with invalid items
+    } else if (!(c_ %in% c("Duration", "TiedDurations"))) {
+      is_ <- c(is_, i)
+    }
+  }
+
+  # report invalid item positions
+  l_is <- length(is_)
+  if (l_is > 0) {
+    if (l_is == 1) {
+      m <- paste('invalid item of argument "durations" at position', is_)
+    } else {
+      m <- paste(
+        'invalid items of argument "durations" at positions',
+        paste(paste(is_[-l_is], collapse = ", "), "and", is_[l_is])
+      )
+    }
+    stop(m)
+  }
+
+  # validate tuplet groups
+  validate.tuplets(durations)
+
+  class(durations) <- "DurationLine"
+  durations
+}
+
+
+TiedDurations <- function(durations) {
+  # add vectors to lists to make it easy for the below recursive function
+  if (class(durations) != "list") {
+    durations <- list(durations)
+  }
+
+  core <- function(durations) {
+    if (identical(durations, list())) {
+      stop()
+    }
+
+    d <- durations[[1]]
+    c_ <- class(d)
+
+    # notations
+    if (c_ == "character" && all(validate.duration_notation(d))) {
+      ds <- lapply(d, to_Duration.notation)
+    # values
+    } else if (c_ %in% c("numeric", "integer")) {
+      ds <- list()
+      for (d_ in d) {
+        d_ <- to_Duration.value(d_)
+        if (class(d_) == "TiedDurations") {
+          ds <- append(ds, unclass(d_))
+        } else {
+          ds[[length(ds) + 1]] <- d_
+        }
+      }
+    # Durations
+    } else if (c_ == "Duration") {
+      ds <- list(d)
+    # TiedDurations
+    } else if (c_ == "TiedDurations") {
+      ds <- unclass(d)
+    } else if (c_ == "list") {
+      ds <- core(d)
+    } else {
+      stop()
+    }
+
+    durations <- durations[-1]
+    if (identical(durations, list())) {
+      return(ds)
+    }
+    append(ds, core(durations))
+  }
+
+  ds <- core(durations)
+  if (length(ds) == 1) {
+    return(ds[[1]])
+  }
+  class(ds) <- "TiedDurations"
+  ds
+}
+
+
+
+# validate tuplets --------------------------------------------------
+
+validate.similar_tuplets <- function(tuplet_1, tuplet_2) {
+  # change "take" of the last tupler to "unit" at the same level,
+  # then compare these two tuplets
+  ds <- list(tuplet_1, tuplet_2)
+  for (i in 1:2) {
+    d <- ds[[i]]
+    ts_ <- d$tuplers
+    l <- length(ts_)
+    t_ <- ts_[[l]]
+    unit <- t_$unit
+    ds[[i]]$tuplers[[l]]$take <- unit
+  }
+  identical(ds[[1]], ds[[2]])
+}
+
+
+#' @title Check If Tuplets in a DurationLine Can Form Groups
+#' @details Used in \code{DurationLine}.
+validate.tuplets <- function(duration_line) {
+  # make a copy since some items may be removed during the process
+  dl <- duration_line
+  # depth is the length of a tuplet's tuplers
+  depths <- sapply(dl, function(d) length(d$tuplers))
+
+  # reduce tuplets' depth if they form a group,
+  # repeat this process until all depths are equal to 0,
+  # otherwise trigger an error
+  while (any(depths) > 0) {
+    # start from the deepest level
+    js <- which(depths == max(depths))
+    l <- length(js)
+    # store temporarily ungrouped tuplets,
+    ds <- list()
+    # and their positions in dl
+    ks <- c()
+    # positions of items which will be set to NULL later
+    rs <- c()
+
+    # do not mix i, j and k
+    for (i in 1:l) {
+      j <- js[i]
+      d <- dl[[j]]
+      ts_ <- d$tuplers
+      # do not mix l and l_
+      l_ <- length(ts_)
+      t_ <- ts_[[l_]]
+      # the value of the last tupler
+      v <- to_value.tupler(t_)
+
+      # remove the last level if it is complete
+      if (v == 1) {
+        dl[[j]]$tuplers[[l_]] <- NULL
+
+      # if ds is empty, put d into it,
+      # unless d is the last tuplet at current level,
+      # since now it is not enough to form a group
+      } else if (length(ks) == 0) {
+        if (i == l) {
+          stop()
+        } else {
+          ds[[length(ds) + 1]] <- d
+          ks <- c(ks, j)
+        }
+
+      # d and items in ds should be of the same structure
+      } else if (!validate.similar_tuplets(d, ds[[length(ds)]])) {
+        stop()
+
+      # check if d and ds form a group
+      } else {
+        ds[[length(ds) + 1]] <- d
+        ks <- c(ks, j)
+        # total value of the last tuplers of ds
+        vs <- sum(sapply(ds, function(d) {
+          to_value.tupler(d$tuplers[[l_]])
+        }))
+
+        if (vs > 1) {
+          stop()
+
+        # if d and ds form a group,
+        # remove the last level of the first tuplet,
+        # and set the rest to NULL
+        } else if (vs == 1) {
+          dl[[ks[1]]]$tuplers[[l_]] <- NULL
+          # add to rs first, set them to NULL later,
+          # or there would be "subscript out of bounds" error
+          rs <- c(rs, ks[-1])
+          # reset ds and ks
+          ds <- list()
+          ks <- c()
+
+        } else if (vs < 1 && i == l) {
+          stop()
+        }
+      }
+    }
+
+    dl[rs] <- NULL
+    # re-measure depths
+    depths <- sapply(dl, function(d) length(d$tuplers))
+  }
+
+  # for test
+  dl
 }

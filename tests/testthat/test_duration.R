@@ -32,3 +32,21 @@ test_that("Duration", {
   # invalid unit
   expect_error(Duration("h.", Tupler(3, "q..")))
 })
+
+
+test_that("validate tuplets", {
+  dl <- list(
+    Duration("w"),
+    Duration("w/4"),
+    Duration("w/4/3"), Duration("w/4/3"), # add a deeper level in between later
+    Duration("w/4/3"), Duration("w/4", Tupler(3, "8", "q")),
+    Duration("w/4")
+  )
+  expect_error(validate.tuplets(dl))
+
+  # make dl valid
+  dl <- append(dl, rep(list(Duration("w/4/3/5")), 5), 3)
+  out <- validate.tuplets(dl)
+  expected <- list(Duration("w"), Duration("w"))
+  expect_equal(out, expected)
+})
