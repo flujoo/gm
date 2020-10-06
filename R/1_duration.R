@@ -651,6 +651,11 @@ validate.tuplets <- function(duration_line) {
     }
   }
 
+  m <- paste(
+    'argument "durations" contains tuplets',
+    "which can not form valid groups"
+  )
+
   # depth is the length of a tuplet's tuplers
   depths <- sapply(dl, function(d) length(d$tuplers))
 
@@ -688,7 +693,7 @@ validate.tuplets <- function(duration_line) {
       # since now it is not enough to form a group
       } else if (length(ks) == 0) {
         if (i == l) {
-          stop()
+          stop(m)
         } else {
           ds[[length(ds) + 1]] <- d
           ks <- c(ks, j)
@@ -696,7 +701,7 @@ validate.tuplets <- function(duration_line) {
 
       # d and items in ds should be of the same structure
       } else if (!validate.similar_tuplets(d, ds[[length(ds)]])) {
-        stop()
+        stop(m)
 
       # check if d and ds form a group
       } else {
@@ -708,7 +713,7 @@ validate.tuplets <- function(duration_line) {
         }))
 
         if (vs > 1) {
-          stop()
+          stop(m)
 
         # if d and ds form a group,
         # remove the last level of the first tuplet,
@@ -723,7 +728,7 @@ validate.tuplets <- function(duration_line) {
           ks <- c()
 
         } else if (vs < 1 && i == l) {
-          stop()
+          stop(m)
         }
       }
     }
