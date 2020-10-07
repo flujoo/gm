@@ -652,8 +652,8 @@ validate.tuplets <- function(duration_line) {
   }
 
   m <- paste(
-    'argument "durations" contains tuplets',
-    "which can not form valid groups"
+    'argument "durations" contains some',
+    "incomplete tuplet group(s)"
   )
 
   # depth is the length of a tuplet's tuplers
