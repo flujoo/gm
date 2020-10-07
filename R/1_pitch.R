@@ -485,3 +485,50 @@ sort.Pitches <- function(pitches) {
   midis <- sapply(pitches, to_midi.Pitch)
   pitches[order(midis)]
 }
+
+
+
+# -> Element --------------------------------------------------------
+
+#' @details MusicXML element "pitch", "step", "alter" and "octave" have no
+#' attributes. See \url{https://usermanuals.musicxml.com/MusicXML/
+#' Content/EL-MusicXML-pitch.htm}.
+to_Element.Pitch <- function(pitch) {
+  nn <- Element("step", pitch$note_name)
+  o <- Element("octave", pitch$octave)
+
+  a <- pitch$alter
+  if (a == 0) {
+    content <- list(nn, o)
+  } else {
+    content <- list(nn, Element("alter", a), o)
+  }
+
+  Element("pitch", content)
+}
+
+
+to_Element.PitchChord <- function(pitch_chord) {
+  ps <- lapply(pitch_chord, to_Element.Pitch)
+  for (i in 2:length(ps)) {
+    ps[[i]] <- list(Element("chord"), ps[[i]])
+  }
+  ps
+}
+
+
+to_Element.PitchLine <- function(pitch_line) {
+  pl <- unclass(pitch_line)
+  for (i in 1:length(pl)) {
+    p <- pitch_line[[i]]
+    c_ <- class(p)
+    if (c_ == "Pitch") {
+      pl[[i]] <- to_Element.Pitch(p)
+    } else if (c_ == "PitchChord") {
+      pl[[i]] <- to_Element.PitchChord(p)
+    } else if (c_ == "logical") {
+      pl[[i]] <- Element("rest")
+    }
+  }
+  pl
+}
