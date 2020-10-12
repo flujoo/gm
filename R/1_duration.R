@@ -791,6 +791,7 @@ get_divisions.DurationLine <- function(duration_line) {
 }
 
 
+
 # -> Element --------------------------------------------------------
 
 to_Element.dot <- function(dot, tag = "dot") {
