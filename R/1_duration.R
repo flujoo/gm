@@ -782,3 +782,134 @@ get_divisions <- function(values) {
 
   Reduce(get_lcm, ds)
 }
+
+
+get_divisions.DurationLine <- function(duration_line) {
+  ds <- get_Durations(duration_line)
+  vs <- sapply(ds, to_value.Duration)
+  get_divisions(vs)
+}
+
+
+# -> Element --------------------------------------------------------
+
+to_Element.dot <- function(dot, tag = "dot") {
+  rep(list(Element(tag)), dot)
+}
+
+
+to_Element_duration <- function(duration, divisions) {
+  d <- to_value.Duration(duration) * divisions / to_value.type("quarter")
+  Element("duration", d)
+}
+
+
+to_Element_type <- function(duration) {
+  ts_ <- duration$tuplers
+  l <- length(ts_)
+  if (l == 0) {
+    type <- duration$type
+  } else {
+    type <- ts_[[l]]$take$type
+  }
+  Element("type", type)
+}
+
+
+to_Element_dot <- function(duration) {
+  ts_ <- duration$tuplers
+  l <- length(ts_)
+  if (l == 0) {
+    dot <- duration$dot
+  } else {
+    dot <- ts_[[l]]$take$dot
+  }
+  if (dot == 0) {
+    return(NULL)
+  } else {
+    return(to_Element.dot(dot))
+  }
+}
+
+
+get_ratios <- function(duration) {
+  rs <- list()
+  type <- duration$type
+  dot <- duration$dot
+  ts_ <- duration$tuplers
+  for (t_ in ts_) {
+    unit <- t_$unit
+    unit_type <- unit$type
+    unit_dot <- unit$dot
+    n <- t_$n
+    d <- to_value.type(type) * to_value.dot(dot) /
+      (to_value.type(unit_type) * to_value.dot(unit_dot))
+    rs[[length(rs) + 1]] <- c(n, d)
+    # re-assignment
+    take <- t_$take
+    type <- take$type
+    dot <- take$dot
+  }
+  rs
+}
+
+
+to_Element_time_modification <- function(duration) {
+  ts_ <- duration$tuplers
+  l <- length(ts_)
+  if (l == 0) {
+    return(NULL)
+  }
+
+  rs <- get_ratios(duration)
+
+  # get contents of "actual-notes" and "normal-notes"
+  an <- prod(sapply(rs, function(r) r[1]))
+  nn <- prod(sapply(rs, function(r) r[2]))
+  # get "actual-notes" and "normal-notes" Elements
+  e_an <- Element("actual-notes", an)
+  e_nn <- Element("normal-notes", nn)
+
+  # deal with "normal-type" and "normal-dot"
+  # last tupler
+  t_ <- ts_[[l]]
+  unit <- t_$unit
+  take <- t_$take
+  # get "normal-type"
+  nt <- Element("normal-type", unit$type)
+  # get "normal-dot"
+  nd <- to_Element.dot(unit$dot, "normal-dot")
+
+  # get "time-modification"
+  Element("time-modification", append(list(e_an, e_nn, nt), nd))
+}
+
+
+to_Element.Duration <- function(duration, divisions) {
+  es <- list(
+    to_Element_duration(duration, divisions),
+    to_Element_type(duration)
+  )
+  es <- append(es, to_Element_dot(duration))
+  tm <- to_Element_time_modification(duration)
+  if (!is.null(tm)) {
+    es <- append(es, list(tm))
+  }
+  es
+}
+
+
+to_Element.DurationLine <- function(duration_line) {
+  divisions <- get_divisions.DurationLine(duration_line)
+  es <- list()
+  for (d in duration_line) {
+    c_ <- class(d)
+    if (c_ == "Duration") {
+      es[[length(es) + 1]] <- to_Element.Duration(d, divisions)
+    } else {
+      es[[length(es) + 1]] <- lapply(
+        d, to_Element.Duration, divisions = divisions)
+    }
+  }
+  es
+}
