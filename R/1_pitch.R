@@ -306,8 +306,6 @@ to_string.PitchLine <- function(pitch_line) {
         pitch_line[[i]] <- to_string.Pitch(p)
       } else if (c_ == "PitchChord") {
         pitch_line[[i]] <- to_string.PitchChord(p)
-      } else {
-        pitch_line[[i]] <- "NA"
       }
     }
     s <- paste(pitch_line, collapse = ", ")
