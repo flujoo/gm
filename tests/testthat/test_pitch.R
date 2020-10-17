@@ -21,9 +21,11 @@ test_that("midi -> Pitch", {
 
 test_that("PitchChord", {
   # empty list is valid as input and will be converted to NA
-  expect_equal(PitchChord(list(), 0, NULL), NA)
+  expect_equal(PitchChord(list()), NA)
+
   # but empty lists as items are invalid
-  expect_error(PitchChord(list(list()), 0, NULL))
+  expect_error(PitchChord(list(list())))
+
   # valid items:
   pc <- list(to_Pitch.midi(60), to_Pitch.midi(61))
   class(pc) <- "PitchChord"
@@ -33,13 +35,11 @@ test_that("PitchChord", {
     # lists as items, Pitches,
     list(60, 61, to_Pitch.midi(60), pc)
   )
-  out <- PitchChord(ps, 0, NULL)
+  out <- PitchChord(ps)
   expected <- list(
-    to_Pitch.midi(60), to_Pitch.midi(60), to_Pitch.midi(61),
-    to_Pitch.notation("C4"), to_Pitch.notation("C4"),
-    to_Pitch.notation("C5"), to_Pitch.midi(60),
-    to_Pitch.midi(61), to_Pitch.midi(60), to_Pitch.midi(60),
-    to_Pitch.midi(61)
+    60L, 60L, 61L,
+    to_Pitch.notation("C4"), to_Pitch.notation("C4"), to_Pitch.notation("C5"),
+    60L, 61L, to_Pitch.midi(60), to_Pitch.midi(60), to_Pitch.midi(61)
   )
   class(expected) <- "PitchChord"
   expect_equal(out, expected)
@@ -47,7 +47,7 @@ test_that("PitchChord", {
 
 
 test_that("PitchLine", {
-  ps <- list(
+  pl_1 <- to_Pitch.PitchLine(PitchLine(list(
     # NAs
     NULL, NaN, list(), NA_character_, NA,
     # midis
@@ -55,20 +55,20 @@ test_that("PitchLine", {
     # pitch notations
     "C4", c("C5", "C6"),
     # Pitches and PitchChords
-    to_Pitch.midi(70), PitchChord(71:72, 0, NULL),
+    to_Pitch.midi(70), PitchChord(71:72),
     # lists
     list(90, 91, 92:93, list(94, list(95, 96))),
     list(97)
-  )
-  out <- PitchLine(ps)
-  expected <- list(
+  )))
+
+  pl_2 <- to_Pitch.PitchLine(PitchLine(list(
     NA, NA, NA, NA, NA,
-    to_Pitch.midi(60), to_Pitch.midi(61), PitchChord(62:63, 0, NULL),
-    to_Pitch.notation("C4"), PitchChord(c("C5", "C6"), 0, NULL),
-    to_Pitch.midi(70), PitchChord(71:72, 0, NULL),
-    PitchChord(90:96, 0, NULL),
+    to_Pitch.midi(60), to_Pitch.midi(61), PitchChord(62:63),
+    to_Pitch.notation("C4"), PitchChord(c("C5", "C6")),
+    to_Pitch.midi(70), PitchChord(71:72),
+    PitchChord(90:96),
     to_Pitch.midi(97)
-  )
-  class(expected) <- "PitchLine"
-  expect_equal(out, expected)
+  )))
+
+  expect_equal(pl_1, pl_2)
 })

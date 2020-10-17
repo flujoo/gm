@@ -275,7 +275,14 @@ print.Pitch <- function(pitch) {
 
 
 to_string.PitchChord <- function(pitch_chord) {
-  ss <- sapply(pitch_chord, to_string.Pitch)
+  ss <- c()
+  for (p in pitch_chord) {
+    if (class(p) == "integer") {
+      ss <- c(ss, p)
+    } else {
+      ss <- c(ss, to_string.Pitch(p))
+    }
+  }
   paste0("(", paste(ss, collapse = ", "), ")")
 }
 
@@ -320,104 +327,87 @@ print.PitchLine <- function(pitch_line) {
 # PitchLine ---------------------------------------------------------
 
 #' @title Normalize Various Data Structures to Pitch Structures
+#'
 #' @description Valid data structures are handled as follows:
 #' \itemize{
-#'  \item MIDI note numbers (maybe as characters) and pitch notations will be
-#'  converted to Pitches if of length 1, and to PitchChords if longer.
+#'  \item Pitch notations are converted to Pitches if of length 1,
+#'  and to PitchChords if longer.
+#'  \item MIDI note numbers (maybe as characters) are normalized to integers.
 #'  \item \code{NULL}s, \code{NaN}s, \code{NA}s and 0-length atomic vectors
-#'  will be converted to default \code{NA}s.
+#'  are converted to default \code{NA}s.
 #'  \item Pitches and PitchChords are untouched.
 #'  \item Lists of these just mentioned data structures are handled by
 #'  function \code{PitchChord}.
 #' }
+#'
 #' @details Used in function \code{Voice}.
-#' @param pitches A list of MIDI note numbers (maybe as characters), pitch
+#'
+#' @param pitch A list of MIDI note numbers (maybe as characters), pitch
 #' notations, \code{NA}s, \code{NaN}s, Pitches, PitchChords, \code{NULL}s and
 #' lists of these just mentioned data structures.
-#' @param fifths_list A list of duplets of position and fifths, in an
-#' ascending order by position.
-#' @return A list of Pitches, PitchChords, and \code{NA}s.
-PitchLine <- function(pitches, fifths_list = list(c(1, 0))) {
-  l <- length(pitches)
-  if (l == 0) {
-    class(pitches) <- "PitchLine"
-    return(pitches)
-  }
-  is_ <- c()
+#'
+#' @return A list of Pitches, PitchChords, integers and \code{NA}s.
+PitchLine <- function(pitch) {
+  l <- length(pitch)
 
-  for (i in l:1) {
-    p <- pitches[[i]]
+  if (l == 0) {
+    stop('argument "pitch" should not be empty')
+  }
+
+  m <- 'invalid item of argument "pitch" at position '
+
+  for (i in 1:l) {
+    p <- pitch[[i]]
     c_ <- class(p)
     l_ <- length(p)
-    if (i == l) {
-      next_ <- NULL
-    } else {
-      next_ <- pitches[[i + 1]]
-      if (class(next_) != "Pitch") {
-        next_ <- NULL
-      }
-    }
-    fifths <- find_fifths(fifths_list, i)
 
     # let PitchChord handle lists and long atomic vectors
     if (c_ == "list" || (l_ > 1 && is.atomic(p))) {
       tryCatch(
-        {pitches[[i]] <- PitchChord(p, fifths, next_)},
-        error = function(e) {is_ <<- c(is_, i)}
+        {pitch[[i]] <- PitchChord(p)},
+        error = function(e) {stop(m, i)}
       )
+
     # convert NAs, NaNs, NULLs and 0-length atomics to default NAs
     } else if (is.atomic(p) && (is.na(p) || l_ == 0)) {
-      pitches[[i]] <- NA
-    # convert pitch notations and midis as characters
+      pitch[[i]] <- NA
+
+    # convert pitch notations
     } else if (c_ == "character") {
       if (validate.pitch_notation(p)) {
-        pitches[[i]] <- to_Pitch.notation(p)
+        pitch[[i]] <- to_Pitch.notation(p)
+      # convert character midis to integers
       } else {
-        p <- suppressWarnings(as.double(p))
+        p <- suppressWarnings(as.integer(p))
         if (validate.midi(p)) {
-          pitches[[i]] <- to_Pitch.midi(p, fifths, next_)
+          pitch[[i]] <- p
         } else {
-          is_ <- c(is_, i)
+          stop(m, i)
         }
       }
-    # convert midis
-    } else if (c_ %in% c("numeric", "integer") && validate.midi(p)) {
-      pitches[[i]] <- to_Pitch.midi(p, fifths, next_)
-    # keep Pitches and PitchChords untouched and deal with invalid items
-    } else if (!(c_ %in% c("Pitch", "PitchChord"))) {
-      is_ <- c(is_, i)
-    }
-  }
 
-  l_is <- length(is_)
-  if (l_is > 0) {
-    if (l_is == 1) {
-      m <- paste('invalid item of argument "pitches" at position', is_)
+    # keep integer midis untouched
+    } else if (c_ == "integer" && validate.midi(p)) {
+
+    # convert double midis to integers
+    } else if (c_ == "numeric" && validate.midi(p)) {
+      pitch[[i]] <- as.integer(p)
+
+    # keep Pitches and PitchChords untouched
+    } else if (c_ %in% c("Pitch", "PitchChord")) {
+
+    # invalid items
     } else {
-      is_ <- rev(is_)
-      m <- paste(
-        'invalid items of argument "pitches" at positions',
-        paste(paste(is_[-l_is], collapse = ", "), "and", is_[l_is])
-      )
+      stop(m, i)
     }
-    stop(m)
-  } else {
-    class(pitches) <- "PitchLine"
-    return(pitches)
   }
+
+  class(pitch) <- "PitchLine"
+  return(pitch)
 }
 
 
-find_fifths <- function(fifths_list, i) {
-  is_ <- sapply(fifths_list, function(x) x[1])
-  fs <- sapply(fifths_list, function(x) x[2])
-  f <- fs[is_ <= i]
-  f[length(f)]
-}
-
-
-#' @details Lists and long atomic vectors are passed to \code{PitchChord}.
-PitchChord <- function(pitches, fifths = 0, next_ = NULL) {
+PitchChord <- function(pitches) {
   if (identical(pitches, list())) {
     return(NA)
   }
@@ -431,26 +421,36 @@ PitchChord <- function(pitches, fifths = 0, next_ = NULL) {
     if (identical(pitches, list())) {
       stop()
     }
+
     p <- pitches[[1]]
     c_ <- class(p)
     ps <- list()
+
     if (c_ == "character") {
       for (p_i in p) {
         if (validate.pitch_notation(p_i)) {
           ps[[length(ps) + 1]] <- to_Pitch.notation(p_i)
         } else {
-          p_i <- suppressWarnings(as.double(p_i))
+          p_i <- suppressWarnings(as.integer(p_i))
           if (validate.midi(p_i)) {
-            ps[[length(ps) + 1]] <- to_Pitch.midi(p_i, fifths, next_)
+            ps[[length(ps) + 1]] <- p_i
           } else {
             stop()
           }
         }
       }
-    } else if (c_ %in% c("numeric", "integer")) {
+    } else if (c_ == "numeric") {
       for (p_i in p) {
         if (validate.midi(p_i)) {
-          ps[[length(ps) + 1]] <- to_Pitch.midi(p_i, fifths, next_)
+          ps[[length(ps) + 1]] <- as.integer(p_i)
+        } else {
+          stop()
+        }
+      }
+    } else if (c_ == "integer") {
+      for (p_i in p) {
+        if (validate.midi(p_i)) {
+          ps[[length(ps) + 1]] <- p_i
         } else {
           stop()
         }
@@ -469,6 +469,7 @@ PitchChord <- function(pitches, fifths = 0, next_ = NULL) {
     if (identical(pitches, list())) {
       return(ps)
     }
+
     append(ps, core(pitches))
   }
 
@@ -478,6 +479,53 @@ PitchChord <- function(pitches, fifths = 0, next_ = NULL) {
   }
   class(ps) <- "PitchChord"
   ps
+}
+
+
+find_fifths <- function(fifths_list, i) {
+  is_ <- sapply(fifths_list, function(x) x[1])
+  fs <- sapply(fifths_list, function(x) x[2])
+  f <- fs[is_ <= i]
+  f[length(f)]
+}
+
+
+#' @title Convert MIDIs in a Pitch Line to Pitches
+#' @details MIDI notations are converted to MIDIs already. MIDIs are
+#' normalized to integers already.
+to_Pitch.PitchLine <- function(pitch_line, fifths_list = list(c(1, 0))) {
+  l <- length(pitch_line)
+
+  for (i in l:1) {
+    p <- pitch_line[[i]]
+    c_ <- class(p)
+
+    if (c_ %in% c("integer", "PitchChord")) {
+      if (i == l) {
+        next_ <- NULL
+      } else {
+        next_ <- pitch_line[[i + 1]]
+        if (class(next_) != "Pitch") {
+          next_ <- NULL
+        }
+      }
+
+      fifths <- find_fifths(fifths_list, i)
+
+      if (c_ == "integer") {
+        pitch_line[[i]] <- to_Pitch.midi(p, fifths, next_)
+      } else if (c_ == "PitchChord") {
+        for (j in 1:length(p)) {
+          p_ <- p[[j]]
+          if (class(p_) == "integer") {
+            pitch_line[[i]][[j]] <- to_Pitch.midi(p_, fifths, next_)
+          }
+        }
+      }
+    }
+  }
+
+  pitch_line
 }
 
 
