@@ -508,12 +508,10 @@ DurationLine <- function(durations) {
 
   # empty list
   if (l == 0) {
-    class(durations) <- "DurationLine"
-    return(durations)
+    stop('argument "duration" should not be empty')
   }
 
-  # error item positions
-  is_ <- c()
+  m <- 'invalid item of argument "duration" at position '
 
   for (i in 1:l) {
     d <- durations[[i]]
@@ -524,35 +522,27 @@ DurationLine <- function(durations) {
     if (c_ == "list" || (l_ > 1 && is.atomic(d))) {
       tryCatch(
         {durations[[i]] <- TiedDurations(d)},
-        error = function(e) {is_ <<- c(is_, i)}
+        error = function(e) {stop(m, i)}
       )
+
     # convert duration notations
     } else if (c_ == "character" && validate.duration_notation(d)) {
       durations[[i]] <- to_Duration.notation(d)
+
     # convert values
     } else if (c_ %in% c("integer", "numeric") && l_ == 1) {
       tryCatch(
         {durations[[i]] <- to_Duration.value(d)},
-        error = function(e) {is_ <<- c(is_, i)}
+        error = function(e) {stop(m, i)}
       )
-    # keep Durations and TiedDurations untouched and deal with invalid items
-    } else if (!(c_ %in% c("Duration", "TiedDurations"))) {
-      is_ <- c(is_, i)
-    }
-  }
 
-  # report invalid item positions
-  l_is <- length(is_)
-  if (l_is > 0) {
-    if (l_is == 1) {
-      m <- paste('invalid item of argument "durations" at position', is_)
+    # keep Durations and TiedDurations untouched and
+    } else if (c_ %in% c("Duration", "TiedDurations")) {
+
+    # invalid items
     } else {
-      m <- paste(
-        'invalid items of argument "durations" at positions',
-        paste(paste(is_[-l_is], collapse = ", "), "and", is_[l_is])
-      )
+      stop(m, i)
     }
-    stop(m)
   }
 
   # validate tuplet groups
