@@ -1,18 +1,16 @@
-# create Key object -------------------------------------------------
-
 validate.fifths <- function(fifths) {
   fifths >= -7 && fifths <= 7 && as.integer(fifths) == fifths
 }
 
 
-Key <- function(fifths, positions = NULL) {
+Key <- function(fifths, position = 1) {
   if (!validate.fifths(fifths)) {
     stop('argument "fifths" is invalid')
   }
 
-  # validate and normalize argument "positions" ...
+  position <- PositionLine(position, "note")
 
-  k <- list(fifths = fifths, positions = positions)
-  class(k) <- "Key"
+  k <- list(fifths = fifths, position = position)
+  class(k) <- c("Key", "Voice_")
   k
 }
