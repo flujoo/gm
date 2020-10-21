@@ -51,5 +51,27 @@ PositionLine <- function(position, type) {
 
   # sort position
   ks <- sapply(position, function(x) x[1])
-  position[order(ks)]
+  ps <- position[order(ks)]
+
+  class(ps) <- "PositionLine"
+  ps
+}
+
+
+to_string.PositionLine <- function(position_line) {
+  for (i in 1:length(position_line)) {
+    p <- position_line[[i]]
+    l <- length(p)
+    if (l == 2) {
+      position_line[[i]] <- paste0("(", paste(p, collapse = ", "), ")")
+    }
+  }
+  paste(position_line, collapse = ", ")
+}
+
+
+#' @export
+print.PositionLine <- function(position_line) {
+  s <- to_string.PositionLine(position_line)
+  cat(s, "\n")
 }
