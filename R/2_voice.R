@@ -34,7 +34,7 @@ add <- function(add_on, voice) {
     stop('left side of "+" should be a Voice object')
   }
 
-  cs <- c("Key")
+  cs <- c("Key", "TimeSignature")
   if (!(class(add_on) %in% cs)) {
     stop('right side of "+" is of invalid class')
   }
