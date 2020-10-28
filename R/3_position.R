@@ -45,8 +45,10 @@ PositionLine <- function(position, type) {
       stop(m)
     }
 
-    # sort items
-    position[[i]] <- sort(p)
+    # sort items only for type "line"
+    if (type == "line") {
+      position[[i]] <- sort(p)
+    }
   }
 
   # sort position
