@@ -1,5 +1,15 @@
 #' @title Validate and Normalize Position
+#'
+#' @param position A numeric vector, which will be converted to list,
+#' or a list of numerics, items of which are of length 1 or 2.
 #' @param type \code{"note"}, \code{"chord"} or \code{"line"}.
+#'
+#' @return A list of sorted whole numbers or pairs of ones, which is of class
+#' "PositionLine". The pairs are sorted only for type "line".
+#'
+#' @details Items in PositionLine of type "chord" may contain a second
+#' element, which indicates which component of a PitchChord or a TiedDurations
+#' is targeted. Items of type "line" indicate starting and ending positions.
 PositionLine <- function(position, type) {
   m <- 'argument "position" is invalid'
 
