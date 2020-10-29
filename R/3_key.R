@@ -17,27 +17,20 @@ Key <- function(fifths, position = 1) {
 }
 
 
+#' @return A list of pairs of a position and a fifths,
+#' which is of class "KeyLine".
 KeyLine <- function(key, voice_length) {
   k <- key$fifths
   ps <- unclass(key$position)
 
-  for (i in 1:length(ps)) {
-    p <- ps[[i]]
-    # drop those beyond voice length
-    if (p <= voice_length) {
-      ps[[i]] <- c(p, k)
-    } else {
-      if (i == 1) {
-        ps <- list()
-      } else {
-        ps <- ps[1:(i - 1)]
-      }
-      break
-    }
-  }
+  # drop positions beyond voice length
+  ps <- ps[ps <= voice_length]
 
-  class(ps) <- "KeyLine"
-  ps
+  # combine to pairs
+  kl <- lapply(ps, function(i) c(i, k))
+
+  class(kl) <- "KeyLine"
+  kl
 }
 
 
