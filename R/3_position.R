@@ -4,8 +4,9 @@
 #' or a list of numerics, items of which are of length 1 or 2.
 #' @param type \code{"note"}, \code{"chord"} or \code{"line"}.
 #'
-#' @return A list of sorted whole numbers or pairs of ones, which is of class
-#' "PositionLine". The pairs are sorted only for type "line".
+#' @return A list of sorted integers or pairs of ones, which is of class
+#' "PositionLine". The pairs are sorted only for type "line". Duplicates are
+#' removed.
 #'
 #' @details Items in PositionLine of type "chord" may contain a second
 #' element, which indicates which component of a PitchChord or a TiedDurations
@@ -27,7 +28,7 @@ PositionLine <- function(position, type) {
     stop(m)
   }
 
-  # further check
+  # one-by-one check
   for (i in 1:length(position)) {
     p <- position[[i]]
 
@@ -36,9 +37,15 @@ PositionLine <- function(position, type) {
       stop(m)
     }
 
-    # have to be whole numbers
-    if (class(p) == "numeric" && any(as.integer(p) != p)) {
-      stop(m)
+    if (class(p) == "numeric") {
+      p_int <- as.integer(p)
+      # have to be whole numbers
+      if (any(p_int != p)) {
+        stop(m)
+      } else {
+        # normalize to integers (make it easy for unique)
+        p <- p_int
+      }
     }
 
     # have to be larger than 0
@@ -58,15 +65,52 @@ PositionLine <- function(position, type) {
     # sort items only for type "line"
     if (type == "line") {
       position[[i]] <- sort(p)
+    } else {
+      # has to re-assign p since it has been converted to integer
+      position[[i]] <- p
     }
   }
 
-  # sort position
-  ks <- sapply(position, function(x) x[1])
-  ps <- position[order(ks)]
+  # remove duplicates
+  position <- unique(position)
 
-  class(ps) <- "PositionLine"
-  ps
+  # add 1L as the 2nd element to singlets,
+  # if items of same first elements exist
+  # for example, convert 1 to c(1, 1), if there exists c(1, 2)
+  if (type == "chord") {
+    ks <- sapply(position, function(x) x[1])
+    for (i in 1:length(position)) {
+      p <- position[[i]]
+      if (length(p) == 1 && p %in% ks[-i]) {
+        position[[i]] <- c(p, 1L)
+      }
+    }
+
+    # remove duplicates again in case for example,
+    # c(1, 1) already exists and 1 is converted to c(1, 1)
+    position <- unique(position)
+  }
+
+  # sort by first element
+  ks <- sapply(position, function(x) x[1])
+  position <- position[order(ks)]
+
+  # sort by second element
+  if (type != "note") {
+    # have to re-assign ks
+    ks <- sapply(position, function(x) x[1])
+    for (k in unique(ks)) {
+      is_ <- which(ks == k)
+      if (length(is_) > 1) {
+        ps <- position[is_]
+        js <- sapply(ps, function(x) x[2])
+        position[is_] <- ps[order(js)]
+      }
+    }
+  }
+
+  class(position) <- "PositionLine"
+  position
 }
 
 
