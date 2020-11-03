@@ -366,7 +366,7 @@ validate.time_signature <- function(time_signature, abstracts, last = FALSE) {
     k <- a$k
 
     if (v == 0 && k == 2) {
-      stop("tuplets can not cross barlines")
+      stop("tuplet groups can not cross barlines")
     }
 
     v <- v + a$v
