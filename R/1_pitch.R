@@ -527,12 +527,6 @@ to_Pitch.PitchLine <- function(pitch_line, fifths_list = list(c(1, 0))) {
 }
 
 
-sort.Pitches <- function(pitches) {
-  midis <- sapply(pitches, to_midi.Pitch)
-  pitches[order(midis)]
-}
-
-
 
 # -> Element --------------------------------------------------------
 
