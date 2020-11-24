@@ -65,10 +65,10 @@ check_pitch_line <- function(pitches) {
       next
     }
 
-    # check pitch notation and MIDI note number
+    # check pitch notation and pitch value
     core <- function(p, i, j = NULL) {
       con <- is_pitch_notation(p) ||
-        is_midi(p) ||
+        is_pitch_value(p) ||
         (l == 1 && is.na(p) && is.logical(p))
 
       if (!con) {
@@ -138,26 +138,26 @@ is_pitch_notation <- function(notation) {
 }
 
 
-is_midi <- function(midi) {
-  core <- function(midi) {
-    !is.na(midi) &
-      midi >= 12 &
-      midi <= 127 &
-      midi == as.integer(midi)
+is_pitch_value <- function(value) {
+  core <- function(value) {
+    !is.na(value) &
+      value >= 12 &
+      value <= 127 &
+      value == as.integer(value)
   }
 
-  if (is.character(midi)) {
+  if (is.character(value)) {
     tryCatch(
       {
-        midi %>%
+        value %>%
           as.double() %>%
           core()
       },
       warning = function(w) FALSE
     )
 
-  } else if (is.numeric(midi)) {
-    core(midi)
+  } else if (is.numeric(value)) {
+    core(value)
 
   } else {
     FALSE
