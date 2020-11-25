@@ -4,3 +4,10 @@ NULL
 
 globals <- new.env()
 globals$error_messages <- character(0)
+
+
+#' @keywords internal
+#' @export
+to_value <- function(x, ...) {
+  UseMethod("to_value")
+}
