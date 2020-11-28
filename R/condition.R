@@ -29,7 +29,7 @@ abort_type <- function(what, valid, invalid) {
   valid <- join_words(valid, "or")
 
   m <- glue::glue(
-    "`{what}` must be {article_valid} {valid}.\n",
+    "`{what}` must be {article_valid} {valid}.\n\n",
     "* You've supplied {article_invalid} {invalid}."
   )
 
