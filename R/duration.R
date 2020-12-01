@@ -79,7 +79,7 @@ DurationNote.character <- function(duration) {
     to_Tuplers.ns(type, dot)
 
   list(type = type, dot = dot, tuplers = tuplers) %>%
-    `class<-`("Duration")
+    `class<-`(c("Duration", "Printable"))
 }
 
 
@@ -155,7 +155,7 @@ to_Tuplers.ns <- function(ns, type, dot) {
     ts[[length(ts) + 1]] <- type %>%
       {list(type = ., dot = dot)} %>%
       {list(n = n, unit = ., take = .)} %>%
-      `class<-`("Tupler")
+      `class<-`(c("Tupler", "Printable"))
   }
 
   ts
@@ -212,7 +212,7 @@ DurationNote.numeric <- function(duration) {
   dot <- ((5 - (i %% 5)) %% 5) %>% as.integer()
 
   list(type = type, dot = dot, tuplers = list()) %>%
-    `class<-`("Duration")
+    `class<-`(c("Duration", "Printable"))
 }
 
 
@@ -764,10 +764,6 @@ to_string.Tupler <- function(x, type = NULL, dot = NULL, ...) {
 }
 
 
-#' @export
-print.Tupler <- print._
-
-
 to_string.tuplers <- function(tuplers, type, dot) {
   ss <- c()
 
@@ -804,20 +800,6 @@ to_string.Duration <- function(x, ...) {
       paste(s, .)
   }
 }
-
-
-#' @export
-print.Duration <- print._
-
-
-#' @keywords internal
-#' @export
-to_string.DurationLine <- to_string.line
-
-
-#' @keywords internal
-#' @export
-print.DurationLine <- print._
 
 
 
@@ -907,7 +889,7 @@ check_duration_line <- function(durations) {
 DurationLine <- function(durations) {
   durations %>%
     lapply(DurationNote) %>%
-    `class<-`("DurationLine")
+    `class<-`(c("DurationLine", "HalfPart", "Line", "Printable"))
 }
 
 

@@ -171,7 +171,7 @@ is_pitch_value <- function(value) {
 PitchLine <- function(pitch_line) {
   pitch_line %>%
     lapply(PitchPoint) %>%
-    `class<-`("PitchLine")
+    `class<-`(c("PitchLine", "HalfPart", "Line", "Printable"))
 }
 
 
@@ -242,22 +242,26 @@ PitchPoint.logical <- function(pitch_point) {
 
 
 PitchValue <- function(value) {
-  `class<-`(value, "PitchValue")
+  c("PitchValue", "Printable") %>%
+    `class<-`(value, .)
 }
 
 
 PitchNotation <- function(notation) {
-  `class<-`(notation, "PitchNotation")
+  c("PitchNotation", "Printable") %>%
+    `class<-`(notation, .)
 }
 
 
 PitchRest <- function() {
-  `class<-`(NA, "PitchRest")
+  c("PitchRest", "Printable") %>%
+    `class<-`(NA, .)
 }
 
 
 PitchChord <- function(pitches) {
-  `class<-`(pitches, "PitchChord")
+  c("PitchChord", "Tuple", "Printable") %>%
+    `class<-`(pitches, .)
 }
 
 
@@ -266,57 +270,6 @@ PitchChord <- function(pitches) {
 
 #' @keywords internal
 #' @export
-to_string.PitchNotation <- function(x, ...) {
-  unclass(x)
-}
-
-
-#' @keywords internal
-#' @export
-print.PitchNotation <- print._
-
-
-#' @keywords internal
-#' @export
-to_string.PitchValue <- function(x, ...) {
-  x %>%
-    unclass() %>%
-    as.character()
-}
-
-
-#' @keywords internal
-#' @export
-print.PitchValue <- print._
-
-
-#' @keywords internal
-#' @export
 to_string.PitchRest <- function(x, ...) {
   "_"
 }
-
-
-#' @keywords internal
-#' @export
-print.PitchRest <- print._
-
-
-#' @keywords internal
-#' @export
-to_string.PitchChord <- to_string.chord
-
-
-#' @keywords internal
-#' @export
-print.PitchChord <- print._
-
-
-#' @keywords internal
-#' @export
-to_string.PitchLine <- to_string.line
-
-
-#' @keywords internal
-#' @export
-print.PitchLine <- print._

@@ -5,7 +5,16 @@ to_string <- function(x, ...) {
 }
 
 
-to_string.chord <- function(x, ...) {
+#' @keywords internal
+#' @export
+to_string.default <- function(x, ...) {
+  x
+}
+
+
+#' @keywords internal
+#' @export
+to_string.Tuple <- function(x, ...) {
   x %>%
     sapply(to_string) %>%
     paste(collapse = ", ") %>%
@@ -13,14 +22,18 @@ to_string.chord <- function(x, ...) {
 }
 
 
-to_string.line <- function(x, ...) {
+#' @keywords internal
+#' @export
+to_string.Line <- function(x, ...) {
   x %>%
     sapply(to_string) %>%
     paste(collapse = ", ")
 }
 
 
-print._ <- function(x, ...) {
+#' @keywords internal
+#' @export
+print.Printable <- function(x, ...) {
   x %>%
     to_string(...) %>%
     cat("\n")
