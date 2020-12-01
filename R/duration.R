@@ -969,7 +969,7 @@ check_tuplet_groups <- function(duration_line) {
         ks <- c(ks, j)
         # total value of the last tuplers of ds
         vs <- sum(sapply(ds, function(d) {
-          to_value.tupler(d$tuplers[[l_]])
+          to_value.Tupler(d$tuplers[[l_]])
         }))
 
         if (vs > 1) {
