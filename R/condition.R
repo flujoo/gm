@@ -22,21 +22,6 @@ join_words <- function(items, conjunction = NULL) {
 }
 
 
-abort_type <- function(what, valid, invalid) {
-  article_valid <- ifelse(valid[[1]] %in% vowel_types, "an", "a")
-  article_invalid <- ifelse(invalid %in% vowel_types, "an", "a")
-
-  valid <- join_words(valid, "or")
-
-  m <- glue::glue(
-    "`{what}` must be {article_valid} {valid}.\n\n",
-    "* You've supplied {article_invalid} {invalid}."
-  )
-
-  rlang::abort(m)
-}
-
-
 show_errors <- function(messages, general) {
   l <- length(messages)
 
