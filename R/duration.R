@@ -392,12 +392,11 @@ check_tupler_n <- function(n) {
   check_length(supplied = n, valid = 1, type = "numeric", name = "n")
 
   # check if is an integer
-  if (as.integer(n) != n || n <= 0) {
-    glue::glue(
-      "`n` must be a positive integer.\n",
-      "* You've supplied {n}."
-    ) %>% rlang::abort()
-  }
+  check_content(
+    supplied = n,
+    valid = expression(as.integer(supplied) == supplied && supplied > 0),
+    general = "`n` must be a positive whole number."
+  )
 }
 
 
@@ -414,28 +413,22 @@ check_tupler_unit <- function(unit, argument = "unit") {
 
   check_length(supplied = unit, valid = 1, name = argument)
 
-  # check if is a duration notation or a duration value
-  gm <- paste(
-    "`{argument}` must be a duration type followed by 0 to 4 dots,",
-    "or a duration value.\n\n"
+  check_content(
+    supplied = unit,
+
+    valid = expression(
+      (is.character(supplied) &&
+         is_duration_notation(supplied, tupler = FALSE)) ||
+        (is.numeric(supplied) && supplied %in% duration_values)
+    ),
+
+    general = paste(
+      "`{name}` must be a duration type followed by 0 to 4 dots,",
+      "or a duration value."
+    ),
+
+    name = argument
   )
-
-  con <-
-    (is.character(unit) && is_duration_notation(unit, tupler = FALSE)) ||
-    (is.numeric(unit) && unit %in% duration_values)
-
-  if (!con) {
-    if (is.character(unit)) {
-      m <- '* You\'ve supplied "{unit}".'
-    } else {
-      m <- "* You've supplied {unit}."
-    }
-
-    gm %>%
-      paste0(m) %>%
-      glue::glue() %>%
-      rlang::abort()
-  }
 
   # check if has proper length
   check_duration_length(unit, paste0("`", argument, "`"))

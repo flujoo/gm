@@ -150,3 +150,39 @@ check_length <- function(l = NULL, supplied, valid, specific = NULL,
     ) %>% rlang::abort()
   }
 }
+
+
+check_content <- function(supplied, valid, specific = NULL, general = NULL,
+                          name, ...) {
+  if (is.function(valid)) {
+    con <- valid(supplied)
+  } else if (is.expression(valid)) {
+    con <- eval(valid)
+  } else {
+    con <- supplied %in% valid
+  }
+
+  if (!con) {
+    if (is.character(supplied)) {
+      supplied <- paste0('"', supplied, '"')
+    }
+
+    if (is.character(valid)) {
+      valid <- sapply(valid, function(x) paste0('"', x, '"'))
+    }
+    valid <- join_words(valid, "or")
+
+    if (is.null(specific)) {
+      specific <- "* You've supplied {supplied}."
+    }
+
+    if (is.null(general)) {
+      general <- "`{name}` must be {valid}."
+    }
+
+    glue::glue(
+      general, "\n\n", specific,
+      .envir = list2env(list(...))
+    ) %>% rlang::abort()
+  }
+}
