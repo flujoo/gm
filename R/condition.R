@@ -78,3 +78,90 @@ inspect_errors <- function() {
     paste(collapse = "\n") %>%
     cat("\n")
 }
+
+
+get_article <- function(type) {
+  ifelse(type[1] %in% vowel_types, "an", "a")
+}
+
+
+check_type <- function(type = NULL, method = typeof, supplied, valid,
+                       specific = NULL, general = NULL, name, ...) {
+  # how to memorize these parameters:
+  # check `type`, if not supplied, apply `method` to `supplied` to get it,
+  # then check if it is `valid`, report with `specific` and `general` messages,
+  # if not supplied, generate them with `name` and `...`
+
+  if (is.null(type)) {
+    type <- method(supplied)
+  }
+
+  if (!(type %in% valid)) {
+    # article before type
+    a_t <- get_article(type)
+    # article before valid
+    a_v <- get_article(valid)
+
+    # even if `specific` and `general` are supplied, `glue()` may need
+    # `a_t` and `a_v` to complete them, so these two variables are outside
+    # of the following statements
+
+    if (is.null(specific)) {
+      specific <- "* You've supplied {a_t} {type}."
+    }
+
+    if (is.null(general)) {
+      valid <- join_words(valid, "or")
+      general <- "`{name}` must be {a_v} {valid}."
+    }
+
+    glue::glue(
+      general, "\n\n", specific,
+      .envir = list2env(list(...))
+    ) %>% rlang::abort()
+  }
+}
+
+
+check_length <- function(l = NULL, supplied, valid, specific = NULL,
+                         general = NULL, type = NULL, name,
+                         valid_phrase = NULL, ...) {
+  if (is.null(l)) {
+    l <- length(supplied)
+  }
+
+  if (is.character(valid)) {
+    # e.g. "l > 2"
+    con <- parse(text = valid) %>% eval()
+  } else if (is.function(valid)) {
+    con <- valid(l)
+  } else {
+    con <- l %in% valid
+  }
+
+  if (!con) {
+    if (is.null(type)) {
+      article <- "an"
+      type <- "object"
+    } else {
+      article <- get_article(type)
+    }
+
+    if (is.null(valid_phrase)) {
+      valid_phrase <- join_words(valid, "or")
+    }
+
+    if (is.null(specific)) {
+      specific <- "* You've supplied {article} {type} of length {l}."
+    }
+
+    if (is.null(general)) {
+      general <- "`{name}` must be of length {valid_phrase}."
+    }
+
+    glue::glue(
+      general, "\n\n", specific,
+      .envir = list2env(list(...))
+    ) %>% rlang::abort()
+  }
+}

@@ -12,18 +12,15 @@ Pitch <- function(pitches) {
 check_pitch_line <- function(pitches) {
   l <- length(pitches)
 
-  # check type
-  if (!is.list(pitches)) {
-    abort_type("pitches", "list", typeof(pitches))
-  }
+  check_type(supplied = pitches, valid = "list", name = "pitches")
 
-  # check length
-  if (l == 0) {
-    paste0(
-      "`pitches` must not be empty.\n",
-      "* You've supplied an empty list."
-    ) %>% rlang::abort()
-  }
+  check_length(
+    l = l,
+    valid = "l > 0",
+    valid_phrase = "larger than 0",
+    name = "pitches",
+    type = "list"
+  )
 
   m <- paste(
     "`pitches` must contain only pitch notations, MIDI note numbers and",

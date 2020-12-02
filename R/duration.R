@@ -388,20 +388,8 @@ Tupler <- function(n, unit = "auto", take = unit) {
 # validators and normalizer
 
 check_tupler_n <- function(n) {
-  # check type
-  if (!is.numeric(n)) {
-    abort_type("n", "numeric", typeof(n))
-  }
-
-  # check length
-  l <- length(n)
-
-  if (l != 1) {
-    glue::glue(
-      "`n` must be a numeric of length 1.\n",
-      "* You've supplied one of length {l}."
-    ) %>% rlang::abort()
-  }
+  check_type(supplied = n, valid = c("double", "integer"), name = "n")
+  check_length(supplied = n, valid = 1, type = "numeric", name = "n")
 
   # check if is an integer
   if (as.integer(n) != n || n <= 0) {
@@ -418,23 +406,13 @@ check_tupler_unit <- function(unit, argument = "unit") {
     return(invisible(NULL))
   }
 
-  # check type
-  t <- typeof(unit)
-  ts <- c("character", "double", "integer")
+  check_type(
+    supplied = unit,
+    valid = c("character", "double", "integer"),
+    name = argument
+  )
 
-  if (!(t %in% ts)) {
-    abort_type(argument, ts, t)
-  }
-
-  # check length
-  l <- length(unit)
-
-  if (l != 1) {
-    glue::glue(
-      "`{argument}` must be of length 1.\n",
-      "* You've supplied a vector of length {l}."
-    ) %>% rlang::abort()
-  }
+  check_length(supplied = unit, valid = 1, name = argument)
 
   # check if is a duration notation or a duration value
   gm <- paste(
@@ -627,13 +605,12 @@ Tuplet <- function(duration, ...) {
 
 
 check_tuplet_duration <- function(duration) {
-  # check class
-  c_ <- class(duration)
-  cs <- c("character", "numeric", "integer", "Duration")
-
-  if (!(c_ %in% cs)) {
-    abort_type("duration", cs, c_)
-  }
+  check_type(
+    supplied = duration,
+    method = class,
+    valid = c("character", "numeric", "integer", "Duration"),
+    name = "duration"
+  )
 
   l <- length(duration)
 
@@ -815,20 +792,17 @@ Duration <- function(durations) {
 
 
 check_duration_line <- function(durations) {
-  # check type of `durations`
-  if (!is.list(durations)) {
-    abort_type("durations", "list", typeof(durations))
-  }
+  check_type(supplied = durations, valid = "list", name = "durations")
 
   l <- length(durations)
 
-  # check length of `durations`
-  if (l == 0) {
-    paste0(
-      "`durations` must not be empty.\n\n",
-      "* You've supplied an empty list."
-    ) %>% rlang::abort()
-  }
+  check_length(
+    l = l,
+    valid = "l > 0",
+    valid_phrase = "larger than 0",
+    name = "durations",
+    type = "list"
+  )
 
   # check each item
   m <- paste(
