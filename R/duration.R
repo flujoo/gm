@@ -801,7 +801,7 @@ check_duration_line <- function(durations) {
 
   for (i in 1:l) {
     d <- durations[[i]]
-    c_ <- class(d)
+    c_ <- class(d)[1]
     l_ <- length(d)
     article <- ifelse(c_ %in% vowel_types, "an", "a")
 
