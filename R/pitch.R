@@ -238,6 +238,34 @@ PitchPoint.logical <- function(pitch_point) {
 }
 
 
+#' @keywords internal
+#' @export
+PitchPoint.PitchValue <- function(pitch_point) {
+  pitch_point
+}
+
+
+#' @keywords internal
+#' @export
+PitchPoint.PitchNotation <- function(pitch_point) {
+  pitch_point
+}
+
+
+#' @keywords internal
+#' @export
+PitchPoint.PitchRest <- function(pitch_point) {
+  pitch_point
+}
+
+
+#' @keywords internal
+#' @export
+PitchPoint.PitchChord <- function(pitch_point) {
+  pitch_point
+}
+
+
 PitchValue <- function(value) {
   c("PitchValue", "Printable") %>%
     `class<-`(value, .)
