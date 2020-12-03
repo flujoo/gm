@@ -14,20 +14,20 @@ to_string.default <- function(x, ...) {
 
 #' @keywords internal
 #' @export
-to_string.Tuple <- function(x, ...) {
+to_string.Tuple <- function(x, left = "(", right = ")", ...) {
   x %>%
     sapply(to_string) %>%
     paste(collapse = ", ") %>%
-    paste0("(", ., ")")
+    paste0(left, ., right)
 }
 
 
 #' @keywords internal
 #' @export
-to_string.Line <- function(x, ...) {
+to_string.Line <- function(x, collapse = ", ", ...) {
   x %>%
     sapply(to_string) %>%
-    paste(collapse = ", ")
+    paste(collapse = collapse)
 }
 
 
