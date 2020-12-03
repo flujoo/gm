@@ -469,7 +469,7 @@ Tuplet <- function(duration, ...) {
 
     for (i in 1:l) {
       t <- ts[[i]]
-      c_ <- class(t)
+      c_ <- class(t)[1]
 
       if (c_ != "Tupler") {
         article <- ifelse(c_ %in% vowel_types, "an", "a")
