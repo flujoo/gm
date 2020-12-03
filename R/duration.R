@@ -199,6 +199,41 @@ to_values.duration_types <- function(dot = 0:4) {
 duration_values <- to_values.duration_types()
 
 
+untie_value <- function(value, values = to_values.duration_types(0),
+                        decreasing = TRUE, abort = FALSE) {
+  core <- function(value) {
+    if (value %in% values) {
+      return(value)
+
+    } else if (value < values[length(values)]) {
+      if (abort) {
+        stop()
+      } else {
+        return(value)
+      }
+
+    } else {
+      if (value > values[1]) {
+        k <- 1
+      } else {
+        ks <- which(values > value)
+        k <- ks[length(ks)] + 1
+      }
+
+      v <- values[k]
+
+      if (decreasing) {
+        return(c(v, core(value - v)))
+      } else {
+        return(c(core(value - v), v))
+      }
+    }
+  }
+
+  core(value)
+}
+
+
 
 # duration value -> Duration
 
