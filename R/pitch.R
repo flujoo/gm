@@ -27,11 +27,17 @@ check_pitch_line <- function(pitches) {
     "single logical NAs. See `?Pitch` for details.\n"
   )
   ms <- c()
-  ts <- c("character", "integer", "double", "logical")
+  ts <- c("character", "integer", "numeric", "logical")
+  cs <- c("Pitch", "PitchValue", "PitchNotation", "PitchRest", "PitchChord")
 
   for (i in 1:l) {
     p <- pitches[[i]]
-    t <- typeof(p)
+    t <- class(p)[1]
+
+    if (t %in% cs) {
+      next
+    }
+
     l <- length(p)
     article <- ifelse(t %in% vowel_types, "an", "a")
 
