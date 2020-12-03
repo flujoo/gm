@@ -163,7 +163,7 @@ check_content <- function(supplied, valid, specific = NULL, general = NULL,
   }
 
   if (!con) {
-    if (is.character(supplied)) {
+    if (is.character(supplied) && !is.na(supplied)) {
       supplied <- paste0('"', supplied, '"')
     }
 
@@ -190,12 +190,28 @@ check_content <- function(supplied, valid, specific = NULL, general = NULL,
 
 check_positive_integer <- function(supplied, name, general = NULL) {
   valid <- expression(
-    as.integer(supplied) == supplied && supplied > 0
+    !is.na(supplied) &&
+      as.integer(supplied) == supplied &&
+      supplied > 0
   )
 
   if (is.null(general)) {
     general <- name %>%
       paste0("`", ., "` must be a positive integer.")
+  }
+
+  check_content(supplied = supplied, valid = valid, general = general)
+}
+
+
+check_na <- function(supplied, name, general = NULL) {
+  valid <- expression(
+    !is.na(supplied)
+  )
+
+  if (is.null(general)) {
+    general <- name %>%
+      paste0("`", ., "` must not be NA.")
   }
 
   check_content(supplied = supplied, valid = valid, general = general)

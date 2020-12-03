@@ -83,9 +83,10 @@ check_part_as <- function(as) {
 }
 
 
-check_part_name <- function(name, argument) {
+check_part_name <- function(name) {
   check_type(supplied = name, valid = "character", name = "name")
   check_length(supplied = name, valid = 1, name = "name", type = "character")
+  check_na(supplied = name, name = "name")
 }
 
 
@@ -102,6 +103,10 @@ check_part_to <- function(to) {
   )
 
   check_length(supplied = to, valid = 1, name = "to", type = typeof(to))
+
+  if (is.character(to)) {
+    check_na(supplied = to, name = "to")
+  }
 
   if (is.numeric(to)) {
     check_positive_integer(
