@@ -390,13 +390,7 @@ Tupler <- function(n, unit = "auto", take = unit) {
 check_tupler_n <- function(n) {
   check_type(supplied = n, valid = c("double", "integer"), name = "n")
   check_length(supplied = n, valid = 1, type = "numeric", name = "n")
-
-  # check if is an integer
-  check_content(
-    supplied = n,
-    valid = expression(as.integer(supplied) == supplied && supplied > 0),
-    general = "`n` must be a positive whole number."
-  )
+  check_positive_integer(supplied = n, name = "n")
 }
 
 

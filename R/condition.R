@@ -186,3 +186,15 @@ check_content <- function(supplied, valid, specific = NULL, general = NULL,
     ) %>% rlang::abort()
   }
 }
+
+
+check_positive_integer <- function(supplied, name) {
+  valid <- expression(
+    as.integer(supplied) == supplied && supplied > 0
+  )
+
+  general <- name %>%
+    paste0("`", ., "` must be a positive integer.")
+
+  check_content(supplied = supplied, valid = valid, general = general)
+}
