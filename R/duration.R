@@ -380,7 +380,7 @@ Tupler <- function(n, unit = "auto", take = unit) {
   }
 
   list(n = n, unit = unit, take = take) %>%
-    `class<-`("Tupler")
+    `class<-`(c("Tupler", "Printable"))
 }
 
 
