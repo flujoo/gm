@@ -234,6 +234,17 @@ untie_value <- function(value, values = to_values.duration_types(0),
 }
 
 
+is_tied_value <- function(value) {
+  tryCatch(
+    {
+      untie_value(value)
+      TRUE
+    },
+    error = function(e) FALSE
+  )
+}
+
+
 
 # duration value -> Duration
 
