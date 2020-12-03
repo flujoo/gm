@@ -200,7 +200,7 @@ duration_values <- to_values.duration_types()
 
 
 untie_value <- function(value, values = to_values.duration_types(0),
-                        decreasing = TRUE, abort = FALSE) {
+                        decreasing = TRUE, abort = TRUE) {
   core <- function(value) {
     if (value %in% values) {
       return(value)
