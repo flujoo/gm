@@ -216,3 +216,10 @@ check_na <- function(supplied, name, general = NULL) {
 
   check_content(supplied = supplied, valid = valid, general = general)
 }
+
+
+check_n <- function(n, name) {
+  check_type(supplied = n, valid = c("double", "integer"), name = name)
+  check_length(supplied = n, valid = 1, name = name, type = "numeric")
+  check_positive_integer(supplied = n, name = name)
+}

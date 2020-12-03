@@ -45,7 +45,7 @@ Part <- function(pitches, durations, ...) {
 
   if ("bar" %in% ns) {
     part$bar <- args$bar %T>%
-      check_part_bar()
+      check_n()
   } else {
     part$bar <- 1
   }
@@ -87,13 +87,6 @@ check_part_name <- function(name) {
   check_type(supplied = name, valid = "character", name = "name")
   check_length(supplied = name, valid = 1, name = "name", type = "character")
   check_na(supplied = name, name = "name")
-}
-
-
-check_part_bar <- function(bar) {
-  check_type(supplied = bar, valid = c("double", "integer"), name = "bar")
-  check_length(supplied = bar, valid = 1, name = "bar", type = "numeric")
-  check_positive_integer(supplied = bar, name = "bar")
 }
 
 
