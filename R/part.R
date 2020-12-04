@@ -137,7 +137,10 @@ check_part_offset <- function(offset) {
   c_p <- class(pitches)[1]
   c_d <- class(durations)[1]
 
-  check_part_classes(c_p, c_d)
+  check_op_classes(
+    class_left = c_p, class_right = c_d,
+    valid_left = "PitchLine", valid_right = "DurationLine"
+  )
   check_part_length(pitches, durations)
 
   # normalize argument order
@@ -148,27 +151,6 @@ check_part_offset <- function(offset) {
   }
 
   Part(pitches, durations)
-}
-
-
-check_part_classes <- function(class_left, class_right) {
-  con <-
-    class_left == "PitchLine" && class_right == "DurationLine" ||
-    class_right == "PitchLine" && class_left == "DurationLine"
-
-  if (!con) {
-    a_left <- ifelse(class_left %in% vowel_types, "an", "a")
-    a_right <- ifelse(class_right %in% vowel_types, "an", "a")
-
-    glue::glue(
-      "One side of `+` must be a PitchLine object ",
-      "(the output of `Pitch()`), ",
-      "the other side must be a DurationLine object ",
-      "(the output of `Duration()`).\n\n",
-      "* The left side is {a_left} {class_left}, ",
-      "the right side is {a_right} {class_right}."
-    ) %>% rlang::abort()
-  }
 }
 
 

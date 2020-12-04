@@ -223,3 +223,50 @@ check_n <- function(n, name) {
   check_length(supplied = n, valid = 1, name = name, type = "numeric")
   check_positive_integer(supplied = n, name = name)
 }
+
+
+check_op_classes <- function(class_left = NULL, class_right = NULL,
+                             method = class, left, right,
+                             valid_left, valid_right,
+                             general = NULL, specific = NULL, ...) {
+  if (is.null(class_left)) {
+    class_left <- method(left)[1]
+  }
+
+  if (is.null(class_right)) {
+    class_right <- method(right)[1]
+  }
+
+  con <-
+    class_left %in% valid_left && class_right %in% valid_right ||
+    class_left %in% valid_right && class_right %in% valid_left
+
+  if (!con) {
+    a_valid_left <- get_article(valid_left)
+    a_valid_right <- get_article(valid_right)
+
+    a_left <- get_article(class_left)
+    a_right <- get_article(class_right)
+
+    if (is.null(general)) {
+      general <- paste(
+        "One side of `+` must be {a_valid_left}",
+        "{join_words(valid_left, 'or')},",
+        "the other side must be {a_valid_right}",
+        "{join_words(valid_right, 'or')}."
+      )
+    }
+
+    if (is.null(specific)) {
+      specific <- paste(
+        "* The left side is {a_left} {class_left},",
+        "the right side is {a_right} {class_right}."
+      )
+    }
+
+    glue::glue(
+      general, "\n\n", specific,
+      .envir = list2env(list(...))
+    ) %>% rlang::abort()
+  }
+}
