@@ -51,3 +51,61 @@ to_string.Meter <- function(x, ...) {
 
   s
 }
+
+
+
+# MeterLine ---------------------------------------------------------
+
+MeterLine <- function(meter_line) {
+  c("MeterLine", "Printable") %>%
+    `class<-`(meter_line, .)
+}
+
+
+`+.MeterLine` <- function(meter_line, meter) {
+  l <- length(meter_line)
+
+  if (l == 0) {
+    meter_line[[1]] <- meter
+    meter_line
+
+  } else {
+    b <- meter$bar
+
+    for (i in 1:l) {
+      m <- meter_line[[i]]
+      b_i <- m$bar
+
+      if (b_i > b) {
+        meter_line <- meter_line %>%
+          append(list(meter), i - 1) %>%
+          MeterLine()
+        return(meter_line)
+
+      } else if (b_i == b) {
+        meter_line[[i]] <- meter
+        return(meter_line)
+
+      } else if (b_i < b) {
+        if (i == l) {
+          meter_line <- meter_line %>%
+            append(list(meter)) %>%
+            MeterLine()
+          return(meter_line)
+
+        } else {
+          next
+        }
+      }
+    }
+  }
+}
+
+
+#' @keywords internal
+#' @export
+to_string.MeterLine <- function(x, ...) {
+  x %>%
+    sapply(function(m) paste0("(", m$bar, ", ", to_string(m), ")")) %>%
+    paste(collapse = ", ")
+}
