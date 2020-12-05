@@ -174,7 +174,7 @@ is_pitch_value <- function(value) {
 PitchLine <- function(pitch_line) {
   pitch_line %>%
     lapply(PitchPoint) %>%
-    `class<-`(c("PitchLine", "HalfPart", "Line", "Printable"))
+    `class<-`(c("PitchLine", "HalfLine", "List", "Printable"))
 }
 
 

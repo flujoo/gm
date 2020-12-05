@@ -24,7 +24,7 @@ to_string.Tuple <- function(x, left = "(", right = ")", ...) {
 
 #' @keywords internal
 #' @export
-to_string.Line <- function(x, collapse = ", ", ...) {
+to_string.List <- function(x, collapse = ", ", ...) {
   x %>%
     sapply(to_string) %>%
     paste(collapse = collapse)

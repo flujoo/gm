@@ -896,7 +896,7 @@ check_duration_line <- function(durations) {
 DurationLine <- function(durations) {
   durations %>%
     lapply(DurationNote) %>%
-    `class<-`(c("DurationLine", "HalfPart", "Line", "Printable"))
+    `class<-`(c("DurationLine", "HalfLine", "List", "Printable"))
 }
 
 

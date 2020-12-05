@@ -1,5 +1,5 @@
 #' @export
-Part <- function(pitches, durations, ...) {
+Line <- function(pitches, durations, ...) {
   # normalize `pitches` and `durations`
   c_p <- class(pitches)[1]
   c_d <- class(durations)[1]
@@ -23,53 +23,53 @@ Part <- function(pitches, durations, ...) {
     ) %>% rlang::abort()
   }
 
-  # create Part
-  part <- list(pitches = pitches, durations = durations)
-  class(part) <- "Part"
+  # create Line
+  line <- list(pitches = pitches, durations = durations)
+  class(line) <- "Line"
 
   # check `...`
   args <- list(...)
   ns <- names(args)
 
   if ("as" %in% ns) {
-    part$as <- args$as %T>%
-      check_part_as()
+    line$as <- args$as %T>%
+      check_line_as()
   } else {
-    part$as <- "part"
+    line$as <- "part"
   }
 
   if ("to" %in% ns) {
-    part$to <- args$to %T>%
-      check_part_to()
+    line$to <- args$to %T>%
+      check_line_to()
   }
 
   if ("bar" %in% ns) {
-    part$bar <- args$bar %T>%
+    line$bar <- args$bar %T>%
       check_n()
   } else {
-    part$bar <- 1
+    line$bar <- 1
   }
 
   if ("offset" %in% ns) {
-    part$offset <- args$offset %T>%
-      check_part_offset()
+    line$offset <- args$offset %T>%
+      check_line_offset()
   } else {
-    part$offset <- 0
+    line$offset <- 0
   }
 
   if ("name" %in% ns) {
-    part$name <- args$name %T>%
-      check_part_name()
+    line$name <- args$name %T>%
+      check_line_name()
   }
 
-  part
+  line
 }
 
 
 
 # validators --------------------------------------------------------
 
-check_part_as <- function(as) {
+check_line_as <- function(as) {
   ass <- c("part", "staff", "voice")
 
   m <- ass %>%
@@ -83,14 +83,14 @@ check_part_as <- function(as) {
 }
 
 
-check_part_name <- function(name) {
+check_line_name <- function(name) {
   check_type(supplied = name, valid = "character", name = "name")
   check_length(supplied = name, valid = 1, name = "name", type = "character")
   check_na(supplied = name, name = "name")
 }
 
 
-check_part_to <- function(to) {
+check_line_to <- function(to) {
   check_type(
     supplied = to, valid = c("character", "double", "integer"), name = "to"
   )
@@ -111,7 +111,7 @@ check_part_to <- function(to) {
 }
 
 
-check_part_offset <- function(offset) {
+check_line_offset <- function(offset) {
   check_type(
     supplied = offset, valid = c("double", "integer"), name = "offset"
   )
@@ -133,7 +133,7 @@ check_part_offset <- function(offset) {
 # Pitch + Duration --------------------------------------------------
 
 #' @export
-`+.HalfPart` <- function(pitches, durations) {
+`+.HalfLine` <- function(pitches, durations) {
   c_p <- class(pitches)[1]
   c_d <- class(durations)[1]
 
@@ -141,7 +141,7 @@ check_part_offset <- function(offset) {
     class_left = c_p, class_right = c_d,
     valid_left = "PitchLine", valid_right = "DurationLine"
   )
-  check_part_length(pitches, durations)
+  check_line_length(pitches, durations)
 
   # normalize argument order
   if (c_p == "DurationLine" && c_d == "PitchLine") {
@@ -150,11 +150,11 @@ check_part_offset <- function(offset) {
     durations <- .
   }
 
-  Part(pitches, durations)
+  Line(pitches, durations)
 }
 
 
-check_part_length <- function(left, right) {
+check_line_length <- function(left, right) {
   l_left <- length(left)
   l_right <- length(right)
 
