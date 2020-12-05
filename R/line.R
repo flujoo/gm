@@ -91,23 +91,9 @@ check_line_name <- function(name) {
 
 
 check_line_to <- function(to) {
-  check_type(
-    supplied = to, valid = c("character", "double", "integer"), name = "to"
-  )
-
-  check_length(supplied = to, valid = 1, name = "to", type = typeof(to))
-
-  if (is.character(to)) {
-    check_na(supplied = to, name = "to")
-  }
-
-  if (is.numeric(to)) {
-    check_positive_integer(
-      supplied = to,
-      name = "to",
-      general = "When `to` is a numeric, it must be a positive integer."
-    )
-  }
+  check_type(supplied = to, valid = "character", name = "to")
+  check_length(supplied = to, valid = 1, name = "to", type = "character")
+  check_na(supplied = to, name = "to")
 }
 
 
