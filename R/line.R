@@ -45,7 +45,7 @@ Line <- function(pitches, durations, ...) {
 
   if ("bar" %in% ns) {
     line$bar <- args$bar %T>%
-      check_n()
+      check_n(name = "bar")
   } else {
     line$bar <- 1
   }
