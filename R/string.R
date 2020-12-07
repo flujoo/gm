@@ -38,3 +38,16 @@ print.Printable <- function(x, ...) {
     to_string(...) %>%
     cat("\n")
 }
+
+
+shorten_string <- function(string, width) {
+  l <- nchar(string)
+
+  if (l > width) {
+    string <- string %>%
+      substr(1, width) %>%
+      paste("...")
+  }
+
+  string
+}
