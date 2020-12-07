@@ -6,7 +6,7 @@ Key <- function(accidental_number, bar = 1) {
   list(
     accidental_number = accidental_number,
     bar = bar
-  ) %>% `class<-`(c("Key", "Printable"))
+  ) %>% `class<-`(c("Key", "BarAddOn", "Printable"))
 }
 
 

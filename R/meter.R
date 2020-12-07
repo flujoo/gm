@@ -23,7 +23,7 @@ Meter <- function(number, unit, bar = 1,
     bar = bar,
     actual_number = actual_number,
     actual_unit = actual_unit
-  ) %>% `class<-`(c("Meter", "Printable"))
+  ) %>% `class<-`(c("Meter", "BarAddOn", "Printable"))
 }
 
 
