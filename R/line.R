@@ -1,5 +1,6 @@
 #' @export
-Line <- function(pitches, durations, ...) {
+Line <- function(pitches, durations, name, as = "part", to = NULL,
+                 bar = 1, offset = 0) {
   # normalize `pitches` and `durations`
   c_p <- class(pitches)[1]
   c_d <- class(durations)[1]
@@ -23,46 +24,27 @@ Line <- function(pitches, durations, ...) {
     ) %>% rlang::abort()
   }
 
+  # check other arguments
+  check_line_name(name)
+  check_line_as(as)
+
+  if (!is.null(to)) {
+    check_line_to(to)
+  }
+
+  check_n(bar, name = "bar")
+  check_line_offset(offset)
+
   # create Line
-  line <- list(pitches = pitches, durations = durations)
-  class(line) <- "Line"
-
-  # check `...`
-  args <- list(...)
-  ns <- names(args)
-
-  if ("as" %in% ns) {
-    line$as <- args$as %T>%
-      check_line_as()
-  } else {
-    line$as <- "part"
-  }
-
-  if ("to" %in% ns) {
-    line$to <- args$to %T>%
-      check_line_to()
-  }
-
-  if ("bar" %in% ns) {
-    line$bar <- args$bar %T>%
-      check_n(name = "bar")
-  } else {
-    line$bar <- 1
-  }
-
-  if ("offset" %in% ns) {
-    line$offset <- args$offset %T>%
-      check_line_offset()
-  } else {
-    line$offset <- 0
-  }
-
-  if ("name" %in% ns) {
-    line$name <- args$name %T>%
-      check_line_name()
-  }
-
-  line
+  list(
+    pitches = pitches,
+    durations = durations,
+    name = name,
+    as = as,
+    to = to,
+    bar = bar,
+    offset = offset
+  ) %>% `class<-`(c("Line"))
 }
 
 
@@ -107,11 +89,13 @@ check_line_offset <- function(offset) {
     valid_phrase = "larger than 0"
   )
 
-  check_content(
-    supplied = offset,
-    valid = is_tied_value,
-    general = "`offset` must be a duration value or sum of ones."
-  )
+  if (offset != 0) {
+    check_content(
+      supplied = offset,
+      valid = is_tied_value,
+      general = "`offset` must be 0, a duration value or sum of ones."
+    )
+  }
 }
 
 
