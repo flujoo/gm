@@ -6,11 +6,11 @@ Line <- function(pitches, durations, name, as = "part", to = NULL,
   c_d <- class(durations)[1]
 
   if (c_p != "PitchLine") {
-    pitches <- Pitch(pitches)
+    pitches <- PitchLine(pitches)
   }
 
   if (c_d != "DurationLine") {
-    durations <- Duration(durations)
+    durations <- DurationLine(durations)
   }
 
   # check length

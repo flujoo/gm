@@ -1,8 +1,7 @@
-#' @export
-Pitch <- function(pitches) {
+PitchLine <- function(pitches) {
   pitches %T>%
     check_pitch_line() %>%
-    PitchLine()
+    normalize_pitch_line()
 }
 
 
@@ -171,7 +170,7 @@ is_pitch_value <- function(value) {
 
 # constructors ------------------------------------------------------
 
-PitchLine <- function(pitch_line) {
+normalize_pitch_line <- function(pitch_line) {
   pitch_line %>%
     lapply(PitchPoint) %>%
     `class<-`(c("PitchLine", "List", "Printable"))

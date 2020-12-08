@@ -815,11 +815,10 @@ to_string.Duration <- function(x, ...) {
 
 # DurationLine ------------------------------------------------------
 
-#' @export
-Duration <- function(durations) {
+DurationLine <- function(durations) {
   durations %T>%
     check_duration_line() %>%
-    DurationLine() %T>%
+    normalize_duration_line() %T>%
     check_tuplet_groups()
 }
 
@@ -893,7 +892,7 @@ check_duration_line <- function(durations) {
 }
 
 
-DurationLine <- function(durations) {
+normalize_duration_line <- function(durations) {
   durations %>%
     lapply(DurationNote) %>%
     `class<-`(c("DurationLine", "List", "Printable"))
