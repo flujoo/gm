@@ -1,6 +1,6 @@
 #' @export
 Line <- function(pitches, durations, name, as = "part", to = NULL,
-                 bar = 1, offset = 0) {
+                 after = TRUE, bar = 1, offset = 0) {
   # normalize `pitches` and `durations`
   c_p <- class(pitches)[1]
   c_d <- class(durations)[1]
@@ -27,11 +27,8 @@ Line <- function(pitches, durations, name, as = "part", to = NULL,
   # check other arguments
   check_line_name(name)
   check_line_as(as)
-
-  if (!is.null(to)) {
-    check_line_to(to)
-  }
-
+  check_line_to(to)
+  check_line_after(after)
   check_n(bar, name = "bar")
   check_line_offset(offset)
 
@@ -42,14 +39,22 @@ Line <- function(pitches, durations, name, as = "part", to = NULL,
     name = name,
     as = as,
     to = to,
+    after = after,
     bar = bar,
     offset = offset
-  ) %>% `class<-`(c("Line"))
+  ) %>% `class<-`("Line")
 }
 
 
 
 # validators --------------------------------------------------------
+
+check_line_name <- function(name) {
+  check_type(supplied = name, valid = "character", name = "name")
+  check_length(supplied = name, valid = 1, name = "name", type = "character")
+  check_na(supplied = name, name = "name")
+}
+
 
 check_line_as <- function(as) {
   ass <- c("part", "staff", "voice")
@@ -65,17 +70,31 @@ check_line_as <- function(as) {
 }
 
 
-check_line_name <- function(name) {
-  check_type(supplied = name, valid = "character", name = "name")
-  check_length(supplied = name, valid = 1, name = "name", type = "character")
-  check_na(supplied = name, name = "name")
-}
-
-
 check_line_to <- function(to) {
+  if (is.null(to)) {
+    return(invisible(to))
+  }
+
   check_type(supplied = to, valid = "character", name = "to")
   check_length(supplied = to, valid = 1, name = "to", type = "character")
   check_na(supplied = to, name = "to")
+}
+
+
+check_line_after <- function(after) {
+  general <- "`after` must be TRUE or FALSE."
+
+  check_type(supplied = after, valid = "logical", general = general)
+
+  check_length(
+    supplied = after, valid = 1, type = "logical", general = general
+  )
+
+  check_content(
+    supplied = after,
+    valid = expression(!is.na(supplied)),
+    general = general
+  )
 }
 
 
@@ -89,11 +108,9 @@ check_line_offset <- function(offset) {
     valid_phrase = "larger than 0"
   )
 
-  if (offset != 0) {
-    check_content(
-      supplied = offset,
-      valid = is_tied_value,
-      general = "`offset` must be 0, a duration value or sum of ones."
-    )
-  }
+  check_content(
+    supplied = offset,
+    valid = expression(supplied == 0 || is_tied_value(supplied)),
+    general = "`offset` must be 0, a duration value or sum of ones."
+  )
 }
