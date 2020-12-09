@@ -216,7 +216,7 @@ check_add_line_name <- function(name, line_names) {
 
   if (con) {
     glue::glue(
-      "Each Line in a Music object must have a unique name, or no name.",
+      "Each Line in a Music object must have a unique name.",
       "\n\n",
       '* Name "{name}" has been used.'
     ) %>% rlang::abort()
