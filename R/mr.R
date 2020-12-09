@@ -11,3 +11,9 @@ globals$error_messages <- character(0)
 to_value <- function(x, ...) {
   UseMethod("to_value")
 }
+
+
+#' @export
+show <- function(x, ...) {
+  UseMethod("show")
+}
