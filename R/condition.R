@@ -159,7 +159,7 @@ check_content <- function(supplied, valid, specific = NULL, general = NULL,
   } else if (is.expression(valid)) {
     con <- eval(valid)
   } else {
-    con <- supplied %in% valid
+    con <- all(supplied %in% valid)
   }
 
   if (!con) {
