@@ -81,3 +81,30 @@ add.BarAddOn <- function(term, music) {
   music[[name]] <- music[[name]] + term
   music
 }
+
+
+
+# find Meter/Key ----------------------------------------------------
+
+find_BarAddOn <- function(bar, add_on_line) {
+  l <- length(add_on_line)
+
+  for (i in 1:l) {
+    ao <- add_on_line[[i]]
+    b <- ao$bar
+
+    if (bar > b) {
+      if (i == l) {
+        return(ao)
+      } else {
+        next
+      }
+
+    } else if (bar == b) {
+      return(ao)
+
+    } else if (bar < b) {
+      return(add_on_line[[i - 1]])
+    }
+  }
+}
