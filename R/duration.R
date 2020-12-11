@@ -722,6 +722,14 @@ is_indivisible <- function(type, dot, unit) {
 }
 
 
+is_tuplet <- function(duration) {
+  duration %>%
+    .$tuplers %>%
+    length() %>%
+    as.logical()
+}
+
+
 
 # -> string ---------------------------------------------------------
 
