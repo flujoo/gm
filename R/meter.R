@@ -51,3 +51,10 @@ to_string.Meter <- function(x, ...) {
 
   s
 }
+
+
+#' @keywords internal
+#' @export
+to_value.Meter <- function(meter) {
+  (4 / meter$actual_unit) * meter$actual_number
+}
