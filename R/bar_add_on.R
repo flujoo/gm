@@ -108,3 +108,29 @@ find_BarAddOn <- function(bar, add_on_line) {
     }
   }
 }
+
+
+# based on the given bar number, find the desired BarAddOn,
+# and get its index in the BarAddOnLine
+find_BarAddOn_i <- function(bar, add_on_line) {
+  l <- length(add_on_line)
+
+  for (i in 1:l) {
+    ao <- add_on_line[[i]]
+    b <- ao$bar
+
+    if (bar > b) {
+      if (i == l) {
+        return(i)
+      } else {
+        next
+      }
+
+    } else if (bar == b) {
+      return(i)
+
+    } else if (bar < b) {
+      return(i - 1)
+    }
+  }
+}
