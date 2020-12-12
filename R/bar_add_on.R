@@ -72,7 +72,7 @@ add.BarAddOn <- function(term, music) {
     class() %>%
     .[1] %>%
     tolower() %>%
-    paste0("s")
+    paste0("_line")
 
   if (is.null(music[[name]])) {
     music[[name]] <- BarAddOnLine(list(), class(term)[1])

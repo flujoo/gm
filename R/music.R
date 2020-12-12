@@ -70,20 +70,20 @@ to_string.Music <- function(x, ...) {
     }
   }
 
-  # `x$meters` -> strings
-  meters <- x$meters
-  if (!is.null(meters)) {
-    ss <- meters %>%
+  # `x$meter_line` -> strings
+  meter_line <- x$meter_line
+  if (!is.null(meter_line)) {
+    ss <- meter_line %>%
       to_string() %>%
       shorten_string(width) %>%
       paste0("\n", "Time Signatures: ", .) %>%
       c(ss, .)
   }
 
-  # `x$keys` -> strings
-  keys <- x$keys
-  if (!is.null(keys)) {
-    ss <- keys %>%
+  # `x$key_line` -> strings
+  key_line <- x$key_line
+  if (!is.null(key_line)) {
+    ss <- key_line %>%
       to_string() %>%
       shorten_string(width + 1) %>%
       paste0("\n", "Key Signatures: ", .) %>%
