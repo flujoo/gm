@@ -305,3 +305,46 @@ PitchChord <- function(pitches) {
 to_string.PitchRest <- function(x, ...) {
   "_"
 }
+
+
+
+# notation -> Pitch -------------------------------------------------
+
+#' @keywords internal
+#' @export
+to_Pitch <- function(x, ...) {
+  UseMethod("to_Pitch")
+}
+
+
+#' @keywords internal
+#' @export
+to_Pitch.PitchNotation <- function(x, ...) {
+  l <- nchar(x)
+
+  step <- x %>%
+    unclass() %>%
+    substr(1, 1)
+
+  alter <- x %>%
+    substr(2, l - 1) %>%
+    {which(. == c("--", "-", "", "#", "##"))} %>%
+    (-2:2)[.]
+
+  octave <- x %>%
+    substr(l, l) %>%
+    as.integer()
+
+  list(step = step, alter = alter, octave = octave) %>%
+    `class<-`(c("Pitch", "Printable"))
+}
+
+
+#' @keywords internal
+#' @export
+to_string.Pitch <- function(x, ...) {
+  x$alter %>%
+    {which(. == -2:2)} %>%
+    c("--", "-", "", "#", "##")[.] %>%
+    {paste0(x$step, ., x$octave)}
+}
