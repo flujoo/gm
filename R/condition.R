@@ -29,6 +29,8 @@ show_errors <- function(messages, general) {
     return(invisible(NULL))
   }
 
+  general <- paste0(general, "\n")
+
   if (l <= 5) {
     more <- NULL
     i <- l

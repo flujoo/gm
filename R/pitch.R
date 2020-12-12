@@ -23,7 +23,7 @@ check_pitch_line <- function(pitches) {
 
   m <- paste(
     "`pitches` must contain only pitch notations, MIDI note numbers and",
-    "single logical NAs. See `?Pitch` for details.\n"
+    "single logical NAs. See `?Pitch` for details."
   )
   ms <- c()
   ts <- c("character", "integer", "numeric", "logical")

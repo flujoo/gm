@@ -510,7 +510,7 @@ Tuplet <- function(duration, ...) {
   # check if is Tupler
   if (l > 0) {
     gm <- "When `list(...)` is not empty," %>%
-      paste("each item of it must be a Tupler object.\n")
+      paste("each item of it must be a Tupler object.")
     ms <- c()
 
     for (i in 1:l) {
@@ -847,7 +847,7 @@ check_duration_line <- function(durations) {
   # check each item
   m <- paste(
     "Each item of `durations` must be a duration notation,",
-    "duration value or Duration object, and of valid length.\n"
+    "duration value or Duration object, and of valid length."
   )
   ms <- c()
   cs <- c("character", "integer", "numeric", "Duration")
