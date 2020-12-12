@@ -214,7 +214,9 @@ PitchPoint.numeric <- function(pitch_point) {
 PitchPoint.character <- function(pitch_point) {
   core <- function(pitch) {
     if (is_pitch_notation(pitch)) {
-      PitchNotation(pitch)
+      pitch %>%
+        toupper() %>%
+        PitchNotation()
 
     } else {
       pitch %>%
