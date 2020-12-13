@@ -346,5 +346,5 @@ to_string.Pitch <- function(x, ...) {
   x$alter %>%
     {which(. == -2:2)} %>%
     c("--", "-", "", "#", "##")[.] %>%
-    {paste0(x$step, ., x$octave)}
+    paste0(x$step, ., x$octave)
 }
