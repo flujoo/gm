@@ -125,36 +125,50 @@ add.Line <- function(term, music) {
   as <- term$as
   after <- term$after
   lns <- music$line_names
-  parts <- music$parts
-  l <- length(parts)
 
   check_add_line_name(name, lns)
   check_add_line_to(to, lns)
 
   music$line_names <- c(lns, name)
 
+  parts <- music$parts
+  l <- length(parts)
+
   # initialize `music$parts`
   if (l == 0) {
-    music$parts <- list(list(list(term)))
+    music$parts <- term %>% # voice
+      list() %>% # voices
+      list(voices = .) %>% # staff
+      list() %>% # staffs
+      list(staffs = .) %>% # part
+      list() # parts
+
     return(music)
   }
 
   # add to the end of `music`, if `to` is not specified
   if (is.null(to)) {
     if (as == "part") {
-      music$parts[[l + 1]] <- list(list(term))
+      music$parts[[l + 1]] <- term %>% # voice
+        list() %>% # voices
+        list(voices = .) %>% # staff
+        list() %>% # staffs
+        list(staffs = .) # part
 
     } else {
       part <- music$parts[[l]]
-      m <- length(part)
+      m <- length(part$staffs)
 
       if (as == "staff") {
-        music$parts[[l]][[m + 1]] <- list(term)
+        music$parts[[l]]$staffs[[m + 1]] <- term %>% # voice
+          list() %>% # voices
+          list(voices = .) # staff
 
       } else if (as == "voice") {
-        staff <- part[[m]]
-        n <- length(staff)
-        music$parts[[l]][[m]][[n + 1]] <- term
+        staff <- part$staffs[[m]]
+        n <- length(staff$voices)
+
+        music$parts[[l]]$staffs[[m]]$voices[[n + 1]] <- term
       }
     }
 
@@ -164,40 +178,41 @@ add.Line <- function(term, music) {
   # add to specified `to`
   for (i in 1:l) {
     part <- parts[[i]]
-    m <- length(part)
+    staffs <- part$staffs
+    m <- length(staffs)
 
     for (j in 1:m) {
-      staff <- part[[j]]
-      n <- length(staff)
+      staff <- staffs[[j]]
+      voices <- staff$voices
+      n <- length(voices)
 
       for (k in 1:n) {
-        voice <- staff[[k]]
+        voice <- voices[[k]]
         voice_name <- voice$name
 
         if (to == voice_name) {
-
           if (as == "part") {
-            music$parts <- append(
-              parts,
-              list(list(list(term))),
-              ifelse(after, i, i - 1)
-            )
+            music$parts <- term %>% # voice
+              list() %>% # voices
+              list(voices = .) %>% # staff
+              list() %>% # staffs
+              list(staffs = .) %>% # part
+              list() %>% # parts
+              append(parts, ., ifelse(after, i, i - 1))
 
           } else if (as == "staff") {
-            music$parts[[i]] <- append(
-              part,
-              list(list(term)),
-              ifelse(after, j, j - 1)
-            )
+            music$parts[[i]]$staffs <- term %>% # voice
+              list() %>% # voices
+              list(voices = .) %>% # staff
+              list() %>% # staffs
+              append(staffs, ., ifelse(after, j, j - 1))
 
           } else if (as == "voice") {
             check_voice_number(n, voice_name)
 
-            music$parts[[i]][[j]] <- append(
-              staff,
-              list(term),
-              ifelse(after, k, k - 1)
-            )
+            music$parts[[i]]$staffs[[j]]$voices <- term %>% # voice
+              list() %>% # voices
+              append(voices, ., ifelse(after, k, k - 1))
           }
 
           return(music)
