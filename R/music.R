@@ -33,61 +33,76 @@ add <- function(term, music) {
 
 
 
-# -> string ---------------------------------------------------------
+# Music -> string ---------------------------------------------------------
 
 #' @keywords internal
 #' @export
 to_string.Music <- function(x, ...) {
   tab <- "  "
-  width <- 60
+  width <- 75
   ss <- character(0)
 
-  # `x$parts` -> strings
+  # generate a string and shorten it to proper length
+  core <- function(x, n, start, end = NULL) {
+    pre <- paste0(strrep(tab, n), start)
+    w <- width - nchar(pre)
+    x %>%
+      to_string() %>%
+      shorten_string(w) %>%
+      paste0(pre, ., end)
+  }
+
+  # convert `x$parts`
   parts <- x$parts
   if (!is.null(parts)) {
-    ss <- c("Parts:")
-    for (part in parts) {
-      ss <- c(ss, paste0(strrep(tab, 1), "Part:"))
-      for (staff in part) {
-        ss <- c(ss, paste0(strrep(tab, 2), "Staff:"))
-        for (voice in staff) {
-          s_v <- paste0("Voice ", '"', voice$name, '":')
-          ss <- c(ss, paste0(strrep(tab, 3), s_v))
+    l <- length(parts)
 
-          s_ps <- voice$pitches %>%
-            to_string() %>%
-            shorten_string(width) %>%
-            paste0(strrep(tab, 4), "Pitches: ", .)
+    for (i in 1:l) {
+      part <- parts[[i]]
+      ss[length(ss) + 1] <- core(i, 0, "Part ", ":")
 
-          s_ds <- voice$durations %>%
-            to_string() %>%
-            shorten_string(width - 2) %>%
-            paste0(strrep(tab, 4), "Durations: ", .)
+      # convert key line for `part`
+      kl <- part$key_line
+      if (!is.null(kl)) {
+        ss[length(ss) + 1] <- core(kl, 1, "Key Signatures: ")
+      }
 
-          ss <- c(ss, s_ps, s_ds)
+      staffs <- part$staffs
+      for (staff in staffs) {
+        ss[length(ss) + 1] <- core("", 1, "Staff:")
+
+        # convert key line for `staff`
+        kl <- staff$key_line
+        if (!is.null(kl)) {
+          ss[length(ss) + 1] <- core(kl, 2, "Key Signatures: ")
+        }
+
+        voices <- staff$voices
+        for (voice in voices) {
+          ss[length(ss) + 1] <- core(voice$name, 2, 'Voice "', '":')
+          ss[length(ss) + 1] <- core(voice$pitches, 3, "Pitches: ")
+          ss[length(ss) + 1] <- core(voice$durations, 3, "Durations: ")
         }
       }
+
+      # add an enter at the end of the string of `part`
+      ss <- ss %>%
+        paste(collapse = "\n") %>%
+        paste0("\n")
     }
   }
 
-  # `x$meter_line` -> strings
+  # convert `x$meter_line`
   meter_line <- x$meter_line
   if (!is.null(meter_line)) {
-    ss <- meter_line %>%
-      to_string() %>%
-      shorten_string(width) %>%
-      paste0("\n", "Time Signatures: ", .) %>%
-      c(ss, .)
+    ss[length(ss) + 1] <- core(meter_line, 0, "Time Signatures: ", "\n")
+
   }
 
-  # `x$key_line` -> strings
+  # convert `x$key_line`
   key_line <- x$key_line
   if (!is.null(key_line)) {
-    ss <- key_line %>%
-      to_string() %>%
-      shorten_string(width + 1) %>%
-      paste0("\n", "Key Signatures: ", .) %>%
-      c(ss, .)
+    ss[length(ss) + 1] <- core(key_line, 0, "Key Signatures: ")
   }
 
   ss %>%
