@@ -232,7 +232,7 @@ check_add_line_to <- function(to, line_names) {
 
   if (con) {
     glue::glue(
-      "If `to` is specified in the Line object,", " ",
+      "If `to` is specified,", " ",
       "it must refer to the name of a Line in the Music object.",
       "\n\n",
       '* Can\'t find Line with name "{to}".'
