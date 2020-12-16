@@ -53,7 +53,7 @@ check_pitch_line <- function(pitches) {
 
     # check each item's type
     if (!(t %in% ts)) {
-      ms <- "* `pitches[[{i}]]` is {article} {t}." %>%
+      ms <- "`pitches[[{i}]]` is {article} {t}." %>%
         glue::glue() %>%
         unclass() %>%
         c(ms, .)
@@ -62,7 +62,7 @@ check_pitch_line <- function(pitches) {
 
     # check each item's length
     if (l == 0 || (is.logical(p) && l > 1)) {
-      ms <- "* `pitches[[{i}]]` is {article} {t} vector of length {l}." %>%
+      ms <- "`pitches[[{i}]]` is {article} {t} vector of length {l}." %>%
         glue::glue() %>%
         unclass() %>%
         c(ms, .)
@@ -71,7 +71,7 @@ check_pitch_line <- function(pitches) {
 
     # check NA
     if (is.logical(p) && !is.na(p)) {
-      ms <- "* `pitches[[{i}]]` is {p}." %>%
+      ms <- "`pitches[[{i}]]` is {p}." %>%
         glue::glue() %>%
         unclass() %>%
         c(ms, .)
@@ -104,9 +104,9 @@ check_pitch_line <- function(pitches) {
 
         # add correct index
         if (is.null(j)) {
-          m <- "* `pitches[[{i}]]` is {p}."
+          m <- "`pitches[[{i}]]` is {p}."
         } else {
-          m <- "* `pitches[[{i}]][{j}]` is {p}."
+          m <- "`pitches[[{i}]][{j}]` is {p}."
         }
 
         m %>%
@@ -126,7 +126,7 @@ check_pitch_line <- function(pitches) {
     }
   }
 
-  show_errors(ms, m)
+  show_errors(m, ms)
 }
 
 

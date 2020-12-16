@@ -22,18 +22,19 @@ join_words <- function(items, conjunction = NULL) {
 }
 
 
-show_errors <- function(messages, general) {
-  l <- length(messages)
+show_errors <- function(general, specific, supplement = NULL) {
+  l <- length(specific)
 
+  # return if `specific` is empty
   if (l == 0) {
     return(invisible(NULL))
   }
 
-  general <- paste0(general, "\n")
-
+  # display at most 5 specific error messages
   if (l <= 5) {
     more <- NULL
     i <- l
+
   } else {
     i <- 5
 
@@ -47,13 +48,23 @@ show_errors <- function(messages, general) {
       paste0("\n", ., " See full report with `mr::inspect_errors()`.")
   }
 
-  messages %>%
-    # add all error messages to `globals`
-    c(general, .) %T>%
-    assign("error_messages", ., globals) %>%
-    # show no more than 5 (excluding the general message)
-    .[1:(i + 1)] %>%
-    c(more) %>%
+  # add a enter between blocks
+  general <- paste0(general, "\n")
+
+  if (!is.null(supplement)) {
+    supplement <- paste0("\n", supplement)
+  }
+
+  # add "*" to each specific error messages
+  specific <- specific %>%
+    sapply(function(m) paste("*", m))
+
+  # add all error messages to `globals$error_messages`
+  c(general, specific, supplement) %>%
+    assign("error_messages", ., globals)
+
+  # display at most 5 specific error messages
+  c(general, specific[1:i], more, supplement) %>%
     paste(collapse = "\n") %>%
     rlang::abort()
 }

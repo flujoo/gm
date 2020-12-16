@@ -519,14 +519,14 @@ Tuplet <- function(duration, ...) {
 
       if (c_ != "Tupler") {
         article <- ifelse(c_ %in% vowel_types, "an", "a")
-        ms <- "* `list(...)[[{i}]]` is {article} {c_}." %>%
+        ms <- "`list(...)[[{i}]]` is {article} {c_}." %>%
           glue::glue() %>%
           unclass() %>%
           c(ms, .)
       }
     }
 
-    show_errors(ms, gm)
+    show_errors(gm, ms)
   }
 
   ts0 <- d$tuplers
@@ -860,7 +860,7 @@ check_duration_line <- function(durations) {
 
     # check each item's class
     if (!(c_ %in% cs)) {
-      ms <- "* `durations[[{i}]]` is {article} {c_}." %>%
+      ms <- "`durations[[{i}]]` is {article} {c_}." %>%
         glue::glue() %>%
         unclass() %>%
         c(ms, .)
@@ -869,7 +869,7 @@ check_duration_line <- function(durations) {
 
     # check each item's length
     if (c_ != "Duration" && l_ != 1) {
-      ms <- "* `durations[[{i}]]` is {article} {c_} of length {l_}." %>%
+      ms <- "`durations[[{i}]]` is {article} {c_} of length {l_}." %>%
         glue::glue() %>%
         unclass() %>%
         c(ms, .)
@@ -888,7 +888,7 @@ check_duration_line <- function(durations) {
           paste0('"', ., '"')
       }
 
-      ms <- "* `durations[[{i}]]` is {d}." %>%
+      ms <- "`durations[[{i}]]` is {d}." %>%
         glue::glue() %>%
         unclass() %>%
         c(ms, .)
@@ -896,7 +896,7 @@ check_duration_line <- function(durations) {
     }
   }
 
-  show_errors(ms, m)
+  show_errors(m, ms)
 }
 
 
