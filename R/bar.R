@@ -20,6 +20,8 @@ to_string.BarAddOnLine <- function(x, ...) {
 
 # + Meter/Key -------------------------------------------------------
 
+#' @keywords internal
+#' @export
 `+.BarAddOnLine` <- function(add_on_line, add_on) {
   constructor <- function(add_on_line) {
     add_on %>%
