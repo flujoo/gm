@@ -1013,3 +1013,130 @@ is_similar_tuplet <- function(tuplet, tuplet_0) {
 
   identical(ds[[1]], ds[[2]])
 }
+
+
+
+# check if there is any over-bar tuplet in a Music ------------------------
+
+check_tuplet_over_bar <- function(parts, meter_line) {
+  # add `$value` to each Meter in `meter_line`
+  for (i in 1:length(meter_line)) {
+    meter_line[[i]]$value <- meter_line[[i]] %>% to_value()
+  }
+
+  # specific error messages
+  ms <- character(0)
+
+  # specific error message templates
+  t_pre <- 'In Line "{name}",'
+
+  t_tuplet <- t_pre %>%
+    paste("the {ith} Duration is a cross-barline tuplet.")
+
+  t_group <- t_pre %>%
+    paste("the tuplet group containing the {ith} Duration crosses barline.")
+
+  # general error message
+  g <-paste(
+    "Each tuplet and tuplet group in any Line of the Music object",
+    "must not cross barline."
+  )
+
+  # supplement error message
+  s <- paste(
+    "Once a cross-barline tuplet or group is found in a Line,",
+    "subsequent Durations will not be checked."
+  )
+
+  # check voices
+  for (part in parts) {
+    for (staff in part$staffs) {
+      for (voice in staff$voices) {
+        e <- locate_tuplet_over_bar(voice$durations, meter_line)
+
+        if (!is.null(e)) {
+          name <- voice$name
+          type <- e$type
+          ith <- e$i %>% toOrdinal::toOrdinal()
+          t <- ifelse(type == "tuplet", t_tuplet, t_group)
+
+          ms <- t %>%
+            glue::glue() %>%
+            unclass() %>%
+            c(ms, .)
+        }
+      }
+    }
+  }
+
+  show_errors(g, ms, s)
+}
+
+
+# note that in each Meter of `meter_line`, `$value` is defined
+locate_tuplet_over_bar <- function(duration_line, meter_line) {
+  # current bar number
+  bar <- 1
+  # value of current Meter
+  v_meter <- find_BarAddOn(bar, meter_line)$value
+  # accumulated duration value in current Meter
+  v_accum <- 0
+
+  # total value of current tuplet group
+  v_tuplet_group <- 0
+  # accumulated duration value in current group
+  v_tuplet_accum <- 0
+
+  l <- length(duration_line)
+
+  for (i in 1:l) {
+    d <- duration_line[[i]]
+    v <- to_value(d)
+    v_accum <- v_accum + v
+
+    if (!is_tuplet(d)) {
+      # update `v_accum`, `bar` and `v_meter`
+      # may need to update more than once, since it is possible that
+      # the duration is long (e.g. 4), but the Meter is short (e.g. 1/4)
+      while (v_accum >= v_meter) {
+        v_accum <- v_accum - v_meter
+        bar <- bar + 1
+        v_meter <- find_BarAddOn(bar, meter_line)$value
+      }
+
+    } else {
+      # when `d` is the first of a tuplet group
+      if (v_tuplet_group == 0) {
+        # initialize `v_tuplet_group`
+        v_tuplet_group <- to_value.duration_type(d$type) * to_value.dot(d$dot)
+      }
+
+      v_tuplet_accum <- v_tuplet_accum + v
+
+      # tuplet across bar
+      if (v_accum > v_meter) {
+        return(list(i = i, type = "tuplet"))
+      }
+
+      # update `v_tuplet_accum` and `v_tuplet_group`
+      if (v_tuplet_accum == v_tuplet_group) {
+        v_tuplet_group <- 0
+        v_tuplet_accum <- 0
+      }
+
+      if (v_accum == v_meter) {
+
+        # tuplet group across bar
+        if (v_tuplet_group != 0) {
+          return(list(i = i, type = "group"))
+
+          # update `v_accum`, `bar` and `v_meter`
+        } else {
+          v_accum <- 0
+          bar <- bar + 1
+          v_meter <- find_BarAddOn(bar, meter_line)$value
+        }
+      }
+    }
+  }
+}
