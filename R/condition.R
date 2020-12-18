@@ -3,21 +3,17 @@ vowel_types <- c(
 )
 
 
-join_words <- function(items, conjunction = NULL) {
-  l <- length(items)
+coordinate <- function(nouns, conjunction = "or") {
+  l <- length(nouns)
 
-  if (l <= 1) {
-    return(items)
-  }
-
-  if (is.null(conjunction)) {
-    return(paste(items, collapse = ", "))
+  if (l == 1) {
+    return(nouns)
   }
 
   paste(
-    paste(items[-l], collapse = ", "),
+    paste(nouns[-l], collapse = ", "),
     conjunction,
-    items[l]
+    nouns[l]
   )
 }
 
@@ -109,7 +105,7 @@ check_type <- function(type = NULL, method = typeof, supplied, valid,
     }
 
     if (is.null(general)) {
-      valid <- join_words(valid, "or")
+      valid <- coordinate(valid, "or")
       general <- "`{name}` must be {a_v} {valid}."
     }
 
@@ -146,7 +142,7 @@ check_length <- function(l = NULL, supplied, valid, specific = NULL,
     }
 
     if (is.null(valid_phrase)) {
-      valid_phrase <- join_words(valid, "or")
+      valid_phrase <- coordinate(valid, "or")
     }
 
     if (is.null(specific)) {
@@ -183,7 +179,7 @@ check_content <- function(supplied, valid, specific = NULL, general = NULL,
     if (is.character(valid)) {
       valid <- sapply(valid, function(x) paste0('"', x, '"'))
     }
-    valid <- join_words(valid, "or")
+    valid <- coordinate(valid, "or")
 
     if (is.null(specific)) {
       specific <- "* You've supplied {supplied}."
@@ -264,9 +260,9 @@ check_op_classes <- function(class_left = NULL, class_right = NULL,
     if (is.null(general)) {
       general <- paste(
         "One side of `+` must be {a_valid_left}",
-        "{join_words(valid_left, 'or')},",
+        "{coordinate(valid_left, 'or')},",
         "the other side must be {a_valid_right}",
-        "{join_words(valid_right, 'or')}."
+        "{coordinate(valid_right, 'or')}."
       )
     }
 

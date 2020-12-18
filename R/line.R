@@ -61,7 +61,7 @@ check_line_as <- function(as) {
 
   m <- ass %>%
     sapply(function(s) paste0('"', s, '"')) %>%
-    join_words("or") %>%
+    coordinate("or") %>%
     paste0("`as` must be ", ., ".")
 
   check_type(supplied = as, valid = "character", general = m)
