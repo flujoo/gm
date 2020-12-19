@@ -11,10 +11,7 @@ Music <- function() {
   valid_left <- "Music"
   valid_right <- c("Line", "Meter", "Key")
 
-  check_op_classes(
-    class_left = c_m, class_right = c_t,
-    valid_left = valid_left, valid_right = valid_right,
-  )
+  check_binary_classes(c_m, c_t, valid_left, valid_right)
 
   # normalize argument order
   if (c_m %in% valid_right && c_t %in% valid_left) {

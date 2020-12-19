@@ -74,56 +74,7 @@ inspect_errors <- function() {
 }
 
 
-get_article <- function(type) {
-  ifelse(type[1] %in% vowel_types, "an", "a")
-}
 
-
-check_op_classes <- function(class_left = NULL, class_right = NULL,
-                             method = class, left, right,
-                             valid_left, valid_right,
-                             general = NULL, specific = NULL, ...) {
-  if (is.null(class_left)) {
-    class_left <- method(left)[1]
-  }
-
-  if (is.null(class_right)) {
-    class_right <- method(right)[1]
-  }
-
-  con <-
-    class_left %in% valid_left && class_right %in% valid_right ||
-    class_left %in% valid_right && class_right %in% valid_left
-
-  if (!con) {
-    a_valid_left <- get_article(valid_left)
-    a_valid_right <- get_article(valid_right)
-
-    a_left <- get_article(class_left)
-    a_right <- get_article(class_right)
-
-    if (is.null(general)) {
-      general <- paste(
-        "One side of `+` must be {a_valid_left}",
-        "{coordinate(valid_left, 'or')},",
-        "the other side must be {a_valid_right}",
-        "{coordinate(valid_right, 'or')}."
-      )
-    }
-
-    if (is.null(specific)) {
-      specific <- paste(
-        "* The left side is {a_left} {class_left},",
-        "the right side is {a_right} {class_right}."
-      )
-    }
-
-    glue::glue(
-      general, "\n\n", specific,
-      .envir = list2env(list(...))
-    ) %>% rlang::abort()
-  }
-}
 
 
 
@@ -286,4 +237,39 @@ check_name <- function(x, name = NULL) {
 
   general <- "`{name}` must not be NA."
   check_content(x, expression(!is.na(x)), name, general)
+}
+
+
+# check left and right classes for a binary operator
+# usually, these classes are already given
+check_binary_classes <- function(x, y, valid_x, valid_y, general = NULL,
+                                 specific = NULL, operator = "+") {
+  # left and right arguments may be not in the default order
+  con <- `||`(
+    (x %in% valid_x) && (y %in% valid_y),
+    (y %in% valid_x) && (x %in% valid_y)
+  )
+
+  if (!con) {
+    valid_x <- coordinate(valid_x)
+    valid_y <- coordinate(valid_y)
+
+    if (is.null(general)) {
+      general <- paste(
+        "One side of `{operator}` must be of class {valid_x},",
+        "the other side {valid_y}."
+      )
+    }
+
+    if (is.null(specific)) {
+      specific <- paste(
+        "Left side is of class {x},",
+        "right side {y}."
+      )
+    }
+
+    specific <- paste("*", specific)
+
+    glue::glue(general, "\n\n", specific) %>% rlang::abort()
+  }
 }
