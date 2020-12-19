@@ -16,7 +16,7 @@ Key <- function(key, bar = 1, to = NULL, to_part = NULL) {
 
 check_key <- function(key) {
   check_type(key, c("double", "integer"))
-  check_length(supplied = key, valid = 1, name = "key", type = "numeric")
+  check_length(key, 1)
 
   check_content(
     supplied = key,

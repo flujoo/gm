@@ -435,7 +435,7 @@ Tupler <- function(n, unit = "auto", take = unit) {
 
 check_tupler_n <- function(n) {
   check_type(n, c("double", "integer"))
-  check_length(supplied = n, valid = 1, type = "numeric", name = "n")
+  check_length(n, 1)
   check_positive_integer(supplied = n, name = "n")
 }
 
@@ -447,7 +447,7 @@ check_tupler_unit <- function(unit, argument = "unit") {
 
   check_type(unit, c("character", "double", "integer"), argument)
 
-  check_length(supplied = unit, valid = 1, name = argument)
+  check_length(unit, 1, argument)
 
   check_content(
     supplied = unit,
@@ -829,13 +829,7 @@ check_duration_line <- function(durations) {
 
   l <- length(durations)
 
-  check_length(
-    l = l,
-    valid = "l > 0",
-    valid_phrase = "larger than 0",
-    name = "durations",
-    type = "list"
-  )
+  check_length(durations, Inf)
 
   # check each item
   m <- paste(

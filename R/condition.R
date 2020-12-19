@@ -79,50 +79,6 @@ get_article <- function(type) {
 }
 
 
-check_length <- function(l = NULL, supplied, valid, specific = NULL,
-                         general = NULL, type = NULL, name,
-                         valid_phrase = NULL, ...) {
-  if (is.null(l)) {
-    l <- length(supplied)
-  }
-
-  if (is.character(valid)) {
-    # e.g. "l > 2"
-    con <- parse(text = valid) %>% eval()
-  } else if (is.function(valid)) {
-    con <- valid(l)
-  } else {
-    con <- l %in% valid
-  }
-
-  if (!con) {
-    if (is.null(type)) {
-      article <- "an"
-      type <- "object"
-    } else {
-      article <- get_article(type)
-    }
-
-    if (is.null(valid_phrase)) {
-      valid_phrase <- coordinate(valid, "or")
-    }
-
-    if (is.null(specific)) {
-      specific <- "* You've supplied {article} {type} of length {l}."
-    }
-
-    if (is.null(general)) {
-      general <- "`{name}` must be of length {valid_phrase}."
-    }
-
-    glue::glue(
-      general, "\n\n", specific,
-      .envir = list2env(list(...))
-    ) %>% rlang::abort()
-  }
-}
-
-
 check_content <- function(supplied, valid, specific = NULL, general = NULL,
                           name, ...) {
   if (is.function(valid)) {
@@ -281,6 +237,47 @@ check_type <- function(x, valid, name = NULL, general = NULL,
     glue::glue(
       general, "\n\n", specific,
       # you can pass variables in `...`
+      .envir = list2env(list(...))
+    ) %>% rlang::abort()
+  }
+}
+
+
+check_length <- function(x, valid, name = NULL, general = NULL,
+                         specific = NULL, l = NULL, ...) {
+  if (is.null(name)) {
+    # can't use %>% here
+    name <- deparse(substitute(x))
+  }
+
+  if (is.null(l)) {
+    l <- length(x)
+  }
+
+  # analyze `valid`
+  # when `valid` is `Inf`
+  if (length(valid) == 1 && is.infinite(valid)) {
+    con <- l > 0
+    phrase <- "larger than 0"
+  # when treat `valid` as set
+  } else if (is.numeric(valid)) {
+    con <- l %in% valid
+    phrase <- "{coordinate(valid)}"
+  }
+
+  if (!con) {
+    if (is.null(general)) {
+      general <- paste0("`{name}` must be of length ", phrase, ".")
+    }
+
+    if (is.null(specific)) {
+      specific <- "What you've supplied is of length {l}."
+    }
+
+    specific <- paste("*", specific)
+
+    glue::glue(
+      general, "\n\n", specific,
       .envir = list2env(list(...))
     ) %>% rlang::abort()
   }

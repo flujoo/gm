@@ -20,17 +20,8 @@ PitchLine <- function(pitches) {
 # PitchLine validators ----------------------------------------------------
 
 check_pitch_line <- function(pitches) {
-  l <- length(pitches)
-
   check_type(pitches, "list")
-
-  check_length(
-    l = l,
-    valid = "l > 0",
-    valid_phrase = "larger than 0",
-    name = "pitches",
-    type = "list"
-  )
+  check_length(pitches, Inf)
 
   m <- paste(
     "`pitches` must contain only pitch notations, MIDI note numbers and",
@@ -39,6 +30,8 @@ check_pitch_line <- function(pitches) {
   ms <- c()
   ts <- c("character", "integer", "numeric", "logical")
   cs <- c("Pitch", "PitchValue", "PitchNotation", "PitchRest", "PitchChord")
+
+  l <- length(pitches)
 
   for (i in 1:l) {
     p <- pitches[[i]]
