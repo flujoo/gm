@@ -28,7 +28,7 @@ check_type <- function(x, valid, name = NULL, general = NULL,
     }
 
     if (is.null(specific)) {
-      specific <- "What you've supplied is of {method} {type}."
+      specific <- "`{name}` is of {method} {type}."
     }
 
     specific <- paste("*", specific)
@@ -70,7 +70,7 @@ check_length <- function(x, valid, name = NULL, general = NULL,
     }
 
     if (is.null(specific)) {
-      specific <- "What you've supplied is of length {l}."
+      specific <- "`{name}` is of length {l}."
     }
 
     specific <- paste("*", specific)
@@ -116,7 +116,7 @@ check_content <- function(x, valid, name = NULL, general = NULL,
     }
 
     if (is.null(specific)) {
-      specific <- "You've supplied {x}."
+      specific <- "`{name}` is {x}."
     }
 
     specific <- paste("*", specific)
