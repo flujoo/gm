@@ -434,7 +434,7 @@ Tupler <- function(n, unit = "auto", take = unit) {
 # validators and normalizer
 
 check_tupler_n <- function(n) {
-  check_type(supplied = n, valid = c("double", "integer"), name = "n")
+  check_type(n, c("double", "integer"))
   check_length(supplied = n, valid = 1, type = "numeric", name = "n")
   check_positive_integer(supplied = n, name = "n")
 }
@@ -445,11 +445,7 @@ check_tupler_unit <- function(unit, argument = "unit") {
     return(invisible(NULL))
   }
 
-  check_type(
-    supplied = unit,
-    valid = c("character", "double", "integer"),
-    name = argument
-  )
+  check_type(unit, c("character", "double", "integer"), argument)
 
   check_length(supplied = unit, valid = 1, name = argument)
 
@@ -638,12 +634,9 @@ Tuplet <- function(duration, ...) {
 
 
 check_tuplet_duration <- function(duration) {
-  check_type(
-    supplied = duration,
-    method = class,
-    valid = c("character", "numeric", "integer", "Duration"),
-    name = "duration"
-  )
+  cs <- c("character", "numeric", "integer", "Duration")
+
+  check_type(duration, cs, method = "class")
 
   l <- length(duration)
 
@@ -832,7 +825,7 @@ DurationLine <- function(durations) {
 
 
 check_duration_line <- function(durations) {
-  check_type(supplied = durations, valid = "list", name = "durations")
+  check_type(durations, "list")
 
   l <- length(durations)
 

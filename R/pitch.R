@@ -22,7 +22,7 @@ PitchLine <- function(pitches) {
 check_pitch_line <- function(pitches) {
   l <- length(pitches)
 
-  check_type(supplied = pitches, valid = "list", name = "pitches")
+  check_type(pitches, "list")
 
   check_length(
     l = l,

@@ -50,7 +50,7 @@ Line <- function(pitches, durations, name, as = "part", to = NULL,
 # validators in `Line` ----------------------------------------------
 
 check_line_name <- function(name) {
-  check_type(supplied = name, valid = "character", name = "name")
+  check_type(name, "character")
   check_length(supplied = name, valid = 1, name = "name", type = "character")
   check_na(supplied = name, name = "name")
 }
@@ -64,7 +64,7 @@ check_line_as <- function(as) {
     coordinate("or") %>%
     paste0("`as` must be ", ., ".")
 
-  check_type(supplied = as, valid = "character", general = m)
+  check_type(as, "character", general = m)
   check_length(supplied = as, valid = 1, general = m, type = "character")
   check_content(supplied = as, valid = ass, general = m)
 }
@@ -75,7 +75,7 @@ check_line_to <- function(to) {
     return(invisible(to))
   }
 
-  check_type(supplied = to, valid = "character", name = "to")
+  check_type(to, "character")
   check_length(supplied = to, valid = 1, name = "to", type = "character")
   check_na(supplied = to, name = "to")
 }
@@ -84,7 +84,7 @@ check_line_to <- function(to) {
 check_line_after <- function(after) {
   general <- "`after` must be TRUE or FALSE."
 
-  check_type(supplied = after, valid = "logical", general = general)
+  check_type(after, "logical", general = general)
 
   check_length(
     supplied = after, valid = 1, type = "logical", general = general
@@ -99,9 +99,7 @@ check_line_after <- function(after) {
 
 
 check_line_offset <- function(offset) {
-  check_type(
-    supplied = offset, valid = c("double", "integer"), name = "offset"
-  )
+  check_type(offset, c("double", "integer"))
 
   check_length(
     supplied = offset, valid = "l > 0", name = "offset",

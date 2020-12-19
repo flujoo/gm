@@ -15,7 +15,7 @@ Key <- function(key, bar = 1, to = NULL, to_part = NULL) {
 
 
 check_key <- function(key) {
-  check_type(supplied = key, valid = c("double", "integer"), name = "key")
+  check_type(key, c("double", "integer"))
   check_length(supplied = key, valid = 1, name = "key", type = "numeric")
 
   check_content(
@@ -26,6 +26,7 @@ check_key <- function(key) {
 }
 
 
+# will be deprecated
 check_key_to_part <- function(to_part, to) {
   if (is.null(to) || is.null(to_part)) {
     return(invisible(NULL))

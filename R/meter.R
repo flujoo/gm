@@ -28,7 +28,7 @@ Meter <- function(number, unit, bar = 1,
 
 
 check_meter_unit <- function(unit, name = "unit") {
-  check_type(supplied = unit, valid = c("double", "integer"), name = name)
+  check_type(unit, c("double", "integer"), name)
   check_length(supplied = unit, valid = 1, name = name, type = "numeric")
   check_content(supplied = unit, valid = 2^(0:6), name = name)
 }

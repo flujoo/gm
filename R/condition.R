@@ -79,44 +79,6 @@ get_article <- function(type) {
 }
 
 
-check_type <- function(type = NULL, method = typeof, supplied, valid,
-                       specific = NULL, general = NULL, name, ...) {
-  # how to memorize these parameters:
-  # check `type`, if not supplied, apply `method` to `supplied` to get it,
-  # then check if it is `valid`, report with `specific` and `general` messages,
-  # if not supplied, generate them with `name` and `...`
-
-  if (is.null(type)) {
-    type <- method(supplied)
-  }
-
-  if (!(type %in% valid)) {
-    # article before type
-    a_t <- get_article(type)
-    # article before valid
-    a_v <- get_article(valid)
-
-    # even if `specific` and `general` are supplied, `glue()` may need
-    # `a_t` and `a_v` to complete them, so these two variables are outside
-    # of the following statements
-
-    if (is.null(specific)) {
-      specific <- "* You've supplied {a_t} {type}."
-    }
-
-    if (is.null(general)) {
-      valid <- coordinate(valid, "or")
-      general <- "`{name}` must be {a_v} {valid}."
-    }
-
-    glue::glue(
-      general, "\n\n", specific,
-      .envir = list2env(list(...))
-    ) %>% rlang::abort()
-  }
-}
-
-
 check_length <- function(l = NULL, supplied, valid, specific = NULL,
                          general = NULL, type = NULL, name,
                          valid_phrase = NULL, ...) {
@@ -227,6 +189,7 @@ check_na <- function(supplied, name, general = NULL) {
 }
 
 
+# will be deprecated
 check_n <- function(n, name) {
   check_type(supplied = n, valid = c("double", "integer"), name = name)
   check_length(supplied = n, valid = 1, name = name, type = "numeric")
@@ -275,6 +238,49 @@ check_op_classes <- function(class_left = NULL, class_right = NULL,
 
     glue::glue(
       general, "\n\n", specific,
+      .envir = list2env(list(...))
+    ) %>% rlang::abort()
+  }
+}
+
+
+
+# basic validators --------------------------------------------------------
+
+# usually used to check an argument's type or class
+check_type <- function(x, valid, name = NULL, general = NULL,
+                       specific = NULL, method = "type", type = NULL, ...) {
+  # get the argument's name if not supplied directly
+  if (is.null(name)) {
+    # can't use %>% here
+    name <- deparse(substitute(x))
+  }
+
+  # get `type` if not supplied directly
+  if (is.null(type)) {
+    if (method == "type") {
+      type <- typeof(x)
+    } else if (method == "class") {
+      # remember that object can have more than one class
+      type <- class(x)[1]
+    }
+  }
+
+  # abort if `type` is not in `valid`
+  if (!(type %in% valid)) {
+    if (is.null(general)) {
+      general <- "`{name}` must be of {method} {coordinate(valid)}."
+    }
+
+    if (is.null(specific)) {
+      specific <- "What you've supplied is of {method} {type}."
+    }
+
+    specific <- paste("*", specific)
+
+    glue::glue(
+      general, "\n\n", specific,
+      # you can pass variables in `...`
       .envir = list2env(list(...))
     ) %>% rlang::abort()
   }
