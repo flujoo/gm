@@ -392,7 +392,7 @@ check_duration_length <- function(duration, what) {
 
 #' @export
 Tupler <- function(n, unit = "auto", take = unit) {
-  check_tupler_n(n)
+  check_positive_integer(n)
   check_tupler_unit(unit, "unit")
   check_tupler_unit(take, "take")
 
@@ -433,38 +433,27 @@ Tupler <- function(n, unit = "auto", take = unit) {
 
 # validators and normalizer
 
-check_tupler_n <- function(n) {
-  check_type(n, c("double", "integer"))
-  check_length(n, 1)
-  check_positive_integer(supplied = n, name = "n")
-}
-
-
 check_tupler_unit <- function(unit, argument = "unit") {
   if (identical(unit, "auto")) {
     return(invisible(NULL))
   }
 
   check_type(unit, c("character", "double", "integer"), argument)
-
   check_length(unit, 1, argument)
 
-  check_content(
-    supplied = unit,
-
-    valid = expression(
-      (is.character(supplied) &&
-         is_duration_notation(supplied, tupler = FALSE)) ||
-        (is.numeric(supplied) && supplied %in% duration_values)
-    ),
-
-    general = paste(
-      "`{name}` must be a duration type followed by 0 to 4 dots,",
-      "or a duration value."
-    ),
-
-    name = argument
+  valid <- expression(
+    `||`(
+      is.character(x) && is_duration_notation(x, tupler = FALSE),
+      is.numeric(x) && x %in% duration_values
+    )
   )
+
+  general <- paste(
+    "`{name}` must be a duration type followed by 0 to 4 dots,",
+    "or a duration value."
+  )
+
+  check_content(unit, valid, argument, general)
 
   # check if has proper length
   check_duration_length(unit, paste0("`", argument, "`"))

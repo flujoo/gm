@@ -25,11 +25,11 @@ Line <- function(pitches, durations, name, as = "part", to = NULL,
   }
 
   # check other arguments
-  check_line_name(name)
+  check_name(name)
   check_line_as(as)
   check_line_to(to)
   check_line_after(after)
-  check_n(bar, name = "bar")
+  check_positive_integer(bar)
   check_line_offset(offset)
 
   # create Line
@@ -49,13 +49,6 @@ Line <- function(pitches, durations, name, as = "part", to = NULL,
 
 # validators in `Line` ----------------------------------------------
 
-check_line_name <- function(name) {
-  check_type(name, "character")
-  check_length(name, 1)
-  check_na(supplied = name, name = "name")
-}
-
-
 check_line_as <- function(as) {
   ass <- c("part", "staff", "voice")
 
@@ -66,7 +59,7 @@ check_line_as <- function(as) {
 
   check_type(as, "character", general = m)
   check_length(as, 1, general = m)
-  check_content(supplied = as, valid = ass, general = m)
+  check_content(as, ass, general = m)
 }
 
 
@@ -75,9 +68,7 @@ check_line_to <- function(to) {
     return(invisible(to))
   }
 
-  check_type(to, "character")
-  check_length(to, 1)
-  check_na(supplied = to, name = "to")
+  check_name(to)
 }
 
 
@@ -86,24 +77,18 @@ check_line_after <- function(after) {
 
   check_type(after, "logical", general = general)
   check_length(after, 1, general = general)
-  check_content(
-    supplied = after,
-    valid = expression(!is.na(supplied)),
-    general = general
-  )
+  check_content(after, expression(!is.na(x)), general = general)
 }
 
 
 check_line_offset <- function(offset) {
   check_type(offset, c("double", "integer"))
+  check_length(offset, 1)
 
-  check_length(offset, Inf)
+  valid <- expression(x == 0 || is_tied_value(x))
+  general <- "`offset` must be 0, a duration value or sum of ones."
 
-  check_content(
-    supplied = offset,
-    valid = expression(supplied == 0 || is_tied_value(supplied)),
-    general = "`offset` must be 0, a duration value or sum of ones."
-  )
+  check_content(offset, valid, general = general)
 }
 
 

@@ -3,7 +3,7 @@
 #' @export
 Key <- function(key, bar = 1, to = NULL, to_part = NULL) {
   check_key(key)
-  check_n(bar, "bar")
+  check_positive_integer(bar)
   check_line_to(to)
   check_key_to_part(to_part, to)
 
@@ -18,11 +18,8 @@ check_key <- function(key) {
   check_type(key, c("double", "integer"))
   check_length(key, 1)
 
-  check_content(
-    supplied = key,
-    valid = -7:7,
-    general = "`key` must be any integer between -7 and 7."
-  )
+  general <- "`key` must be any integer between -7 and 7."
+  check_content(key, -7:7, general = general)
 }
 
 

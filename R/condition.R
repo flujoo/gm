@@ -79,80 +79,6 @@ get_article <- function(type) {
 }
 
 
-check_content <- function(supplied, valid, specific = NULL, general = NULL,
-                          name, ...) {
-  if (is.function(valid)) {
-    con <- valid(supplied)
-  } else if (is.expression(valid)) {
-    con <- eval(valid)
-  } else {
-    con <- all(supplied %in% valid)
-  }
-
-  if (!con) {
-    if (is.character(supplied) && !is.na(supplied)) {
-      supplied <- paste0('"', supplied, '"')
-    }
-
-    if (is.character(valid)) {
-      valid <- sapply(valid, function(x) paste0('"', x, '"'))
-    }
-    valid <- coordinate(valid, "or")
-
-    if (is.null(specific)) {
-      specific <- "* You've supplied {supplied}."
-    }
-
-    if (is.null(general)) {
-      general <- "`{name}` must be {valid}."
-    }
-
-    glue::glue(
-      general, "\n\n", specific,
-      .envir = list2env(list(...))
-    ) %>% rlang::abort()
-  }
-}
-
-
-check_positive_integer <- function(supplied, name, general = NULL) {
-  valid <- expression(
-    !is.na(supplied) &&
-      as.integer(supplied) == supplied &&
-      supplied > 0
-  )
-
-  if (is.null(general)) {
-    general <- name %>%
-      paste0("`", ., "` must be a positive integer.")
-  }
-
-  check_content(supplied = supplied, valid = valid, general = general)
-}
-
-
-check_na <- function(supplied, name, general = NULL) {
-  valid <- expression(
-    !is.na(supplied)
-  )
-
-  if (is.null(general)) {
-    general <- name %>%
-      paste0("`", ., "` must not be NA.")
-  }
-
-  check_content(supplied = supplied, valid = valid, general = general)
-}
-
-
-# will be deprecated
-check_n <- function(n, name) {
-  check_type(supplied = n, valid = c("double", "integer"), name = name)
-  check_length(supplied = n, valid = 1, name = name, type = "numeric")
-  check_positive_integer(supplied = n, name = name)
-}
-
-
 check_op_classes <- function(class_left = NULL, class_right = NULL,
                              method = class, left, right,
                              valid_left, valid_right,
@@ -283,4 +209,81 @@ check_length <- function(x, valid, name = NULL, general = NULL,
       .envir = list2env(list(...))
     ) %>% rlang::abort()
   }
+}
+
+
+check_content <- function(x, valid, name = NULL, general = NULL,
+                          specific = NULL, ...) {
+  if (is.null(name)) {
+    # can't use %>% here
+    name <- deparse(substitute(x))
+  }
+
+  # analyze `valid`
+  if (is.function(valid)) {
+    con <- valid(x)
+  } else if (is.expression(valid)) {
+    con <- eval(valid)
+  } else {
+    con <- all(x %in% valid)
+  }
+
+  if (!con) {
+    # quote characters
+    if (is.character(x) && !is.na(x)) {
+      x <- paste0('"', x, '"')
+    }
+
+    if (is.character(valid)) {
+      valid <- sapply(valid, function(v) paste0('"', v, '"'))
+    }
+
+    valid <- coordinate(valid)
+
+    if (is.null(general)) {
+      general <- "`{name}` must be {valid}."
+    }
+
+    if (is.null(specific)) {
+      specific <- "You've supplied {x}."
+    }
+
+    specific <- paste("*", specific)
+
+    glue::glue(
+      general, "\n\n", specific,
+      .envir = list2env(list(...))
+    ) %>% rlang::abort()
+  }
+}
+
+
+
+# shortcut validators -----------------------------------------------------
+
+check_positive_integer <- function(x, name = NULL) {
+  if (is.null(name)) {
+    name <- deparse(substitute(x))
+  }
+
+  check_type(x, c("double", "integer"), name)
+  check_length(x, 1, name)
+
+  valid <- expression(!is.na(x) & as.integer(x) == x & x > 0)
+  general <- "`{name}` must be a positive integer."
+
+  check_content(x, valid, name, general)
+}
+
+
+check_name <- function(x, name = NULL) {
+  if (is.null(name)) {
+    name <- deparse(substitute(x))
+  }
+
+  check_type(x, "character", name)
+  check_length(x, 1, name)
+
+  general <- "`{name}` must not be NA."
+  check_content(x, expression(!is.na(x)), name, general)
 }

@@ -1,14 +1,14 @@
 #' @export
 Meter <- function(number, unit, bar = 1,
                   actual_number = NULL, actual_unit = NULL) {
-  check_n(number, "number")
+  check_positive_integer(number)
   check_meter_unit(unit)
-  check_n(bar, "bar")
+  check_positive_integer(bar)
 
   if (is.null(actual_number)) {
     actual_number <- number
   } else {
-    check_n(actual_number, "actual_number")
+    check_positive_integer(actual_number)
   }
 
   if (is.null(actual_unit)) {
@@ -30,7 +30,7 @@ Meter <- function(number, unit, bar = 1,
 check_meter_unit <- function(unit, name = "unit") {
   check_type(unit, c("double", "integer"), name)
   check_length(unit, 1, name)
-  check_content(supplied = unit, valid = 2^(0:6), name = name)
+  check_content(unit, 2^(0:6), name)
 }
 
 
