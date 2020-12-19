@@ -224,8 +224,10 @@ check_type <- function(x, valid, name = NULL, general = NULL,
 
   # abort if `type` is not in `valid`
   if (!(type %in% valid)) {
+    valid <- coordinate(valid)
+
     if (is.null(general)) {
-      general <- "`{name}` must be of {method} {coordinate(valid)}."
+      general <- "`{name}` must be of {method} {valid}."
     }
 
     if (is.null(specific)) {
