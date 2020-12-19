@@ -1,83 +1,3 @@
-vowel_types <- c(
-  "integer", "environment", "S4", "any", "expression", "externalptr"
-)
-
-
-coordinate <- function(nouns, conjunction = "or") {
-  l <- length(nouns)
-
-  if (l == 1) {
-    return(nouns)
-  }
-
-  paste(
-    paste(nouns[-l], collapse = ", "),
-    conjunction,
-    nouns[l]
-  )
-}
-
-
-show_errors <- function(general, specific, supplement = NULL) {
-  l <- length(specific)
-
-  # return if `specific` is empty
-  if (l == 0) {
-    return(invisible(NULL))
-  }
-
-  # display at most 5 specific error messages
-  if (l <= 5) {
-    more <- NULL
-    i <- l
-
-  } else {
-    i <- 5
-
-    if (l == 6) {
-      more <- "... and 1 more problem."
-    } else {
-      more <- paste("... and", l - 5, "more problems.")
-    }
-
-    more <- more %>%
-      paste0("\n", ., " See full report with `mr::inspect_errors()`.")
-  }
-
-  # add a enter between blocks
-  general <- paste0(general, "\n")
-
-  if (!is.null(supplement)) {
-    supplement <- paste0("\n", supplement)
-  }
-
-  # add "*" to each specific error messages
-  specific <- specific %>%
-    sapply(function(m) paste("*", m))
-
-  # add all error messages to `globals$error_messages`
-  c(general, specific, supplement) %>%
-    assign("error_messages", ., globals)
-
-  # display at most 5 specific error messages
-  c(general, specific[1:i], more, supplement) %>%
-    paste(collapse = "\n") %>%
-    rlang::abort()
-}
-
-
-#' @export
-inspect_errors <- function() {
-  globals$error_messages %>%
-    paste(collapse = "\n") %>%
-    cat("\n")
-}
-
-
-
-
-
-
 # basic validators --------------------------------------------------------
 
 # usually used to check an argument's type or class
@@ -272,4 +192,81 @@ check_binary_classes <- function(x, y, valid_x, valid_y, general = NULL,
 
     glue::glue(general, "\n\n", specific) %>% rlang::abort()
   }
+}
+
+
+
+# show many error messages ------------------------------------------------
+
+show_errors <- function(general, specific, supplement = NULL) {
+  l <- length(specific)
+
+  # return if `specific` is empty
+  if (l == 0) {
+    return(invisible(NULL))
+  }
+
+  # display at most 5 specific error messages
+  if (l <= 5) {
+    more <- NULL
+    i <- l
+
+  } else {
+    i <- 5
+
+    if (l == 6) {
+      more <- "... and 1 more problem."
+    } else {
+      more <- paste("... and", l - 5, "more problems.")
+    }
+
+    more <- more %>%
+      paste0("\n", ., " See full report with `mr::inspect_errors()`.")
+  }
+
+  # add a enter between blocks
+  general <- paste0(general, "\n")
+
+  if (!is.null(supplement)) {
+    supplement <- paste0("\n", supplement)
+  }
+
+  # add "*" to each specific error messages
+  specific <- specific %>%
+    sapply(function(m) paste("*", m))
+
+  # add all error messages to `globals$error_messages`
+  c(general, specific, supplement) %>%
+    assign("error_messages", ., globals)
+
+  # display at most 5 specific error messages
+  c(general, specific[1:i], more, supplement) %>%
+    paste(collapse = "\n") %>%
+    rlang::abort()
+}
+
+
+#' @export
+inspect_errors <- function() {
+  globals$error_messages %>%
+    paste(collapse = "\n") %>%
+    cat("\n")
+}
+
+
+
+# utils -------------------------------------------------------------------
+
+coordinate <- function(nouns, conjunction = "or") {
+  l <- length(nouns)
+
+  if (l == 1) {
+    return(nouns)
+  }
+
+  paste(
+    paste(nouns[-l], collapse = ", "),
+    conjunction,
+    nouns[l]
+  )
 }

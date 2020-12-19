@@ -42,11 +42,10 @@ check_pitch_line <- function(pitches) {
     }
 
     l <- length(p)
-    article <- ifelse(t %in% vowel_types, "an", "a")
 
     # check each item's type
     if (!(t %in% ts)) {
-      ms <- "`pitches[[{i}]]` is {article} {t}." %>%
+      ms <- "`pitches[[{i}]]` is of type {t}." %>%
         glue::glue() %>%
         unclass() %>%
         c(ms, .)
@@ -55,7 +54,7 @@ check_pitch_line <- function(pitches) {
 
     # check each item's length
     if (l == 0 || (is.logical(p) && l > 1)) {
-      ms <- "`pitches[[{i}]]` is {article} {t} vector of length {l}." %>%
+      ms <- "`pitches[[{i}]]` is of length {l}." %>%
         glue::glue() %>%
         unclass() %>%
         c(ms, .)
