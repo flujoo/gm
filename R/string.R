@@ -51,3 +51,12 @@ shorten_string <- function(string, width) {
 
   string
 }
+
+
+generate_long_form <- function(general, specifics, env) {
+  specifics %>%
+    sapply(function(s) paste("*", s)) %>%
+    paste(collapse = "\n") %>%
+    {ifelse(. == "", "", paste0("\n\n", .))} %>%
+    glue::glue(general, ., .envir = env)
+}
