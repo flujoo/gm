@@ -15,13 +15,7 @@ Key <- function(key, bar = NULL, to = NULL, scope = NULL) {
 
   check_key_scope(scope, to)
 
-  # normalize arguments
-  key <- as.integer(key)
-
-  if (!is.null(bar)) {
-    bar <- as.integer(bar)
-  }
-
+  # normalize `scope`
   scope <- normalize_key_scope(scope, to)
 
   list(key = key, bar = bar, to = to, scope = scope) %>%
