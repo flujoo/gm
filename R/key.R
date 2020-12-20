@@ -148,6 +148,7 @@ to_string.KeyLine <- function(x, ...) {
 #' @keywords internal
 #' @export
 `+.KeyLine` <- function(key_line, key) {
+  # normalize `key$bar`
   if (is.null(key$bar)) {
     key$bar <- 1L
   }
