@@ -127,3 +127,19 @@ MeterLine <- function(meter_line = list()) {
   c("MeterLine", "BarAddOnLine", "Printable") %>%
     `class<-`(meter_line, .)
 }
+
+
+
+# Music + Meter -----------------------------------------------------------
+
+add.Meter <- function(term, music) {
+
+  ml <- music$meter_line
+
+  if (is.null(ml)) {
+    ml <- MeterLine()
+  }
+
+  music$meter_line <- ml + term
+  music
+}
