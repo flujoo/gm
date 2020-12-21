@@ -194,3 +194,26 @@ to_string.BarAddOnLine <- function(x, ...) {
   class(add_on_line) <- cs
   return(add_on_line)
 }
+
+
+
+# BarAddOnLine util -------------------------------------------------------
+
+find_bar_add_on <- function(bar, add_on_line) {
+  l <- length(add_on_line)
+
+  for (i in 1:l) {
+    add_on <- add_on_line[[i]]
+    bar_i <- add_on$bar
+
+    if (bar > bar_i && i == l) {
+      return(add_on)
+
+    } else if (bar == bar_i) {
+      return(add_on)
+
+    } else if (bar < bar_i) {
+      return(add_on_line[[i - 1]])
+    }
+  }
+}
