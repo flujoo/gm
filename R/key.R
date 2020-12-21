@@ -113,25 +113,32 @@ to_string.Key <- function(x, form = 1, ...) {
 # KeyLine -----------------------------------------------------------------
 
 KeyLine <- function(key_line = list()) {
-  key_line %>% `class<-`(c("KeyLine", "Printable"))
+  c("KeyLine", "BarAddOnLine", "Printable") %>%
+    `class<-`(key_line, .)
 }
 
 
 
-# KeyLine -> string -------------------------------------------------------
+# BarAddOnLine -> string --------------------------------------------------
 
 #' @keywords internal
 #' @export
-to_string.KeyLine <- function(x, ...) {
+to_string.BarAddOnLine <- function(x, ...) {
+  # simplify the output, if `x` only has one add on, and
+  # its `$bar` is NULL or 1
   if (length(x) == 1) {
-    s <- x[[1]] %>% to_string(form = 0)
-    return(s)
+    bar <- x[[1]]$bar
+
+    if (is.null(bar) || bar == 1) {
+      s <- x[[1]] %>% to_string(form = 0)
+      return(s)
+    }
   }
 
-  f <- function(key) {
-    key %>%
+  f <- function(add_on) {
+    add_on %>%
       to_string(form = 0) %>%
-      paste("at bar {key$bar}") %>%
+      paste("at bar {add_on$bar}") %>%
       glue::glue() %>%
       unclass()
   }
@@ -143,23 +150,19 @@ to_string.KeyLine <- function(x, ...) {
 
 
 
-# KeyLine + Key -----------------------------------------------------------
+# BarAddOnLine + BarAddOn -------------------------------------------------
 
 #' @keywords internal
 #' @export
-`+.KeyLine` <- function(key_line, key) {
-  # normalize `key$bar`
-  if (is.null(key$bar)) {
-    key$bar <- 1L
+`+.BarAddOnLine` <- function(add_on_line, add_on) {
+  # store classes of `add_on_line`
+  cs <- class(add_on_line)
+
+  # normalize `add_on$bar`
+  if (is.null(add_on$bar)) {
+    add_on$bar <- 1L
   }
 
-  merge_bar_add_on(key_line, key) %>%
-    KeyLine()
-}
-
-
-# also used in `+.MeterLine`
-merge_bar_add_on <- function(add_on_line, add_on) {
   l <- length(add_on_line)
 
   if (l == 0) {
@@ -171,13 +174,16 @@ merge_bar_add_on <- function(add_on_line, add_on) {
     for (i in 1:l) {
       b_i <- add_on_line[[i]]$bar
 
+      # insert `add_on`
       if (b_i > b) {
         add_on_line <- add_on_line %>%
           append(list(add_on), i - 1)
 
+      # replace the add on in `add_on_line`
       } else if (b_i == b) {
         add_on_line[[i]] <- add_on
 
+      # append `add_on`
       } else if (b_i < b && i == l) {
         add_on_line <- add_on_line %>%
           append(list(add_on))
@@ -185,5 +191,6 @@ merge_bar_add_on <- function(add_on_line, add_on) {
     }
   }
 
+  class(add_on_line) <- cs
   return(add_on_line)
 }
