@@ -76,27 +76,30 @@ normalize_meter_actual <- function(number, unit, actual_number, actual_unit) {
 #' @keywords internal
 #' @export
 to_string.Meter <- function(x, form = 1, ...) {
-  number <- x$number
-  unit <- x$unit
+  # nominal meter
+  nominal <- paste0(x$number, "/", x$unit)
 
-  general <- paste0(number, "/", unit)
-
+  # actual meter
   actual_number <- x$actual_number
-  actual_unit <- x$actual_unit
 
-  if (!is.null(actual_number)) {
-    general <- paste0(actual_number, "/", actual_unit) %>%
-      paste0("(", ., ")") %>%
-      paste(general, .)
+  if (is.null(actual_number)) {
+    actual <- NULL
+  } else {
+    actual <- paste0(" (", actual_number, "/", x$actual_unit, ")")
   }
 
+  general <- paste0(nominal, actual)
+  specifics <- character(0)
+
+  # short form, used in MeterLine
   if (form == 0) {
-    return(general)
+    s <- generate_string(general, specifics, environment())
+    return(s)
   }
 
   general <- paste("Meter", general)
-  specifics <- character(0)
 
+  # bar
   bar <- x$bar
   if (!is.null(bar)) {
     specifics[[length(specifics) + 1]] <- "to be added at bar {bar}"
@@ -104,7 +107,8 @@ to_string.Meter <- function(x, form = 1, ...) {
 
   # long form
   if (form == 1) {
-    generate_string(general, specifics, environment())
+    s <- generate_string(general, specifics, environment())
+    return(s)
   }
 }
 
@@ -123,9 +127,14 @@ to_value.Meter <- function(x, ...) {
 
 # MeterLine ---------------------------------------------------------------
 
-MeterLine <- function(meter_line = list()) {
-  c("MeterLine", "BarAddOnLine", "Printable") %>%
-    `class<-`(meter_line, .)
+MeterLine <- function() {
+  ml <- list(
+    add_ons = list()
+  )
+
+  cs <- c("MeterLine", "BarAddOnLine", "Printable")
+
+  `class<-`(ml, cs)
 }
 
 

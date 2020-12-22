@@ -91,11 +91,13 @@ to_string.Key <- function(x, form = 1, ...) {
 
   general <- paste("Key", general)
 
+  # bar
   bar <- x$bar
   if (!is.null(bar)) {
     specifics[[length(specifics) + 1]] <- "to be added at bar {bar}"
   }
 
+  # to
   to <- x$to
   if (!is.null(to)) {
     s_to <- "to be added only to the {x$scope} containing"
@@ -121,9 +123,15 @@ to_string.Key <- function(x, form = 1, ...) {
 
 # KeyLine -----------------------------------------------------------------
 
-KeyLine <- function(key_line = list()) {
-  c("KeyLine", "BarAddOnLine", "Printable") %>%
-    `class<-`(key_line, .)
+KeyLine <- function() {
+  kl <- list(
+    number = NULL,
+    add_ons = list()
+  )
+
+  cs <- c("KeyLine", "BarAddOnLine", "Printable")
+
+  `class<-`(kl, cs)
 }
 
 
@@ -133,16 +141,50 @@ KeyLine <- function(key_line = list()) {
 #' @keywords internal
 #' @export
 to_string.BarAddOnLine <- function(x, ...) {
-  # simplify the output, if `x` only has one add on, and
-  # its `$bar` is NULL or 1
-  if (length(x) == 1) {
-    bar <- x[[1]]$bar
+  # extract add on class
+  c_ <- class(x)[1] %>%
+    strsplit("Line") %>%
+    .[[1]]
 
-    if (is.null(bar) || bar == 1) {
-      s <- x[[1]] %>% to_string(form = 0)
-      return(s)
+  # number -> string
+  number <- x$number
+
+  if (is.null(number)) {
+    s_number <- NULL
+  } else {
+    l_number <- length(number)
+    s_number <- " for part {number[1]}"
+
+    if (l_number == 2) {
+      s_number <- paste(s_number, "staff {number[2]}")
     }
   }
+
+  # add ons -> string
+  add_ons <- x$add_ons
+  l <- length(add_ons)
+
+  # short form
+  if (l == 1) {
+    add_on <- add_ons[[1]]
+    bar <- add_on$bar
+
+    if (bar == 1) {
+      s_bar <- NULL
+    } else {
+      s_bar <- " at bar {bar}"
+    }
+
+    s <- add_ons[[1]] %>%
+      to_string(form = 0) %>%
+      paste0(c_, " ", ., s_bar, s_number) %>%
+      glue::glue()
+
+    return(s)
+  }
+
+  # long form
+  general <- paste0(c_, "s", s_number)
 
   f <- function(add_on) {
     add_on %>%
@@ -152,9 +194,9 @@ to_string.BarAddOnLine <- function(x, ...) {
       unclass()
   }
 
-  x %>%
-    sapply(f) %>%
-    paste(collapse = ", ")
+  specifics <- sapply(add_ons, f)
+
+  generate_string(general, specifics, environment())
 }
 
 
@@ -172,34 +214,36 @@ to_string.BarAddOnLine <- function(x, ...) {
     add_on$bar <- 1L
   }
 
-  l <- length(add_on_line)
+  add_ons <- add_on_line$add_ons
+  l <- length(add_ons)
 
   if (l == 0) {
-    add_on_line[[1]] <- add_on
+    add_ons[[1]] <- add_on
 
   } else {
     b <- add_on$bar
 
     for (i in 1:l) {
-      b_i <- add_on_line[[i]]$bar
+      b_i <- add_ons[[i]]$bar
 
       # insert `add_on`
       if (b_i > b) {
-        add_on_line <- add_on_line %>%
+        add_ons <- add_ons %>%
           append(list(add_on), i - 1)
 
-      # replace the add on in `add_on_line`
+      # replace the add on in `add_ons`
       } else if (b_i == b) {
-        add_on_line[[i]] <- add_on
+        add_ons[[i]] <- add_on
 
       # append `add_on`
       } else if (b_i < b && i == l) {
-        add_on_line <- add_on_line %>%
+        add_ons <- add_ons %>%
           append(list(add_on))
       }
     }
   }
 
+  add_on_line$add_ons <- add_ons
   class(add_on_line) <- cs
   return(add_on_line)
 }
@@ -209,10 +253,11 @@ to_string.BarAddOnLine <- function(x, ...) {
 # BarAddOnLine util -------------------------------------------------------
 
 find_bar_add_on <- function(bar, add_on_line) {
-  l <- length(add_on_line)
+  add_ons <- add_on_line$add_ons
+  l <- length(add_ons)
 
   for (i in 1:l) {
-    add_on <- add_on_line[[i]]
+    add_on <- add_ons[[i]]
     bar_i <- add_on$bar
 
     if (bar > bar_i && i == l) {
@@ -222,7 +267,7 @@ find_bar_add_on <- function(bar, add_on_line) {
       return(add_on)
 
     } else if (bar < bar_i) {
-      return(add_on_line[[i - 1]])
+      return(add_ons[[i - 1]])
     }
   }
 }
