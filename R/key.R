@@ -9,10 +9,7 @@ Key <- function(key, bar = NULL, to = NULL, scope = NULL) {
     check_positive_integer(bar)
   }
 
-  if (!is.null(to)) {
-    check_name(to)
-  }
-
+  check_line_to(to)
   check_key_scope(scope, to)
 
   # normalize `scope`
@@ -98,8 +95,16 @@ to_string.Key <- function(x, form = 1, ...) {
 
   to <- x$to
   if (!is.null(to)) {
-    specifics[[length(specifics) + 1]] <-
-      'to be added only to the {x$scope} containing Line "{to}"'
+    s_to <- "to be added only to the {x$scope} containing"
+
+    if (is.character(to)) {
+      s_to <- paste(s_to, 'Line with name "{to}"')
+    } else if (is.numeric(to)) {
+      to <- toOrdinal::toOrdinal(to)
+      s_to <- paste(s_to, "the {to} Line")
+    }
+
+    specifics[[length(specifics) + 1]] <- s_to
   }
 
   # long form
