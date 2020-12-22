@@ -141,12 +141,19 @@ KeyLine <- function() {
 #' @keywords internal
 #' @export
 to_string.BarAddOnLine <- function(x, ...) {
+  add_ons <- x$add_ons
+  l <- length(add_ons)
+
+  if (l == 0) {
+    return("")
+  }
+
   # extract add on class
   c_ <- class(x)[1] %>%
     strsplit("Line") %>%
     .[[1]]
 
-  # number -> string
+  # number
   number <- x$number
 
   if (is.null(number)) {
@@ -159,10 +166,6 @@ to_string.BarAddOnLine <- function(x, ...) {
       s_number <- paste(s_number, "staff {number[2]}")
     }
   }
-
-  # add ons -> string
-  add_ons <- x$add_ons
-  l <- length(add_ons)
 
   # short form
   if (l == 1) {
