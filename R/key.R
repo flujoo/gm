@@ -74,19 +74,22 @@ to_string.Key <- function(x, form = 1, ...) {
     i %/% 7 - 1
   ) %>% to_string()
 
-  # short form
-  if (form == 0) {
-    return(major)
-  }
-
   # minor key
   minor <- Pitch(
     steps[(i + 3) %% 7 + 1],
     (i - 4) %/% 7
   ) %>% to_string()
 
-  general <- "Key {major} major ({minor} minor)"
+  general <- "{major} major ({minor} minor)"
   specifics <- character(0)
+
+  # short form
+  if (form == 0) {
+    s <- generate_string(general, specifics, environment())
+    return(s)
+  }
+
+  general <- paste("Key", general)
 
   bar <- x$bar
   if (!is.null(bar)) {
@@ -109,7 +112,8 @@ to_string.Key <- function(x, form = 1, ...) {
 
   # long form
   if (form == 1) {
-    generate_string(general, specifics, environment())
+    s <- generate_string(general, specifics, environment())
+    return(s)
   }
 }
 
