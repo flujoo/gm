@@ -53,7 +53,7 @@ shorten_string <- function(string, width) {
 }
 
 
-generate_long_form <- function(general, specifics, env) {
+generate_string <- function(general, specifics, env) {
   specifics %>%
     sapply(function(s) paste("*", s)) %>%
     paste(collapse = "\n") %>%

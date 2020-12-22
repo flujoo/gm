@@ -104,7 +104,7 @@ to_string.Meter <- function(x, form = 1, ...) {
 
   # long form
   if (form == 1) {
-    generate_long_form(general, specifics, environment())
+    generate_string(general, specifics, environment())
   }
 }
 
