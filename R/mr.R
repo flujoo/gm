@@ -4,6 +4,7 @@ NULL
 
 globals <- new.env()
 globals$error_messages <- character(0)
+globals$env <- NULL
 globals$width <- 75
 
 

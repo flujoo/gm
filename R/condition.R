@@ -214,10 +214,10 @@ check_same_length <- function(x, y) {
 
 # show many error messages ------------------------------------------------
 
-show_errors <- function(general, specific, supplement = NULL) {
-  l <- length(specific)
+show_errors <- function(general, specifics, supplement = NULL, env = NULL) {
+  l <- length(specifics)
 
-  # return if `specific` is empty
+  # return if `specifics` is empty
   if (l == 0) {
     return(invisible(NULL))
   }
@@ -248,16 +248,18 @@ show_errors <- function(general, specific, supplement = NULL) {
   }
 
   # add "*" to each specific error messages
-  specific <- specific %>%
+  specifics <- specifics %>%
     sapply(function(m) paste("*", m))
 
   # add all error messages to `globals$error_messages`
-  c(general, specific, supplement) %>%
+  c(general, specifics, supplement) %>%
     assign("error_messages", ., globals)
+  assign("env", env, globals)
 
   # display at most 5 specific error messages
-  c(general, specific[1:i], more, supplement) %>%
+  c(general, specifics[1:i], more, supplement) %>%
     paste(collapse = "\n") %>%
+    glue::glue(.envir = env) %>%
     rlang::abort()
 }
 
@@ -266,7 +268,7 @@ show_errors <- function(general, specific, supplement = NULL) {
 inspect_errors <- function() {
   globals$error_messages %>%
     paste(collapse = "\n") %>%
-    cat("\n")
+    glue::glue(.envir = globals$env)
 }
 
 
