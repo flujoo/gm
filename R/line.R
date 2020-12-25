@@ -1,35 +1,34 @@
-#' @export
-Line <- function(pitches, durations, name, as = "part", to = NULL,
-                 after = TRUE, bar = 1, offset = 0) {
-  # normalize `pitches` and `durations`
-  c_p <- class(pitches)[1]
-  c_d <- class(durations)[1]
+# Line --------------------------------------------------------------------
 
-  if (c_p != "PitchLine") {
+#' @export
+Line <- function(pitches, durations, name = NULL, as = NULL, to = NULL,
+                 after = NULL, bar = NULL, offset = NULL) {
+  # normalize `pitches`
+  if (class(pitches)[1] != "PitchLine") {
     pitches <- PitchLine(pitches)
   }
 
-  if (c_d != "DurationLine") {
+  # normalize `durations`
+  if (class(durations)[1] != "DurationLine") {
     durations <- DurationLine(durations)
   }
 
-  # check length
-  l_p <- length(pitches)
-  l_d <- length(durations)
-
-  if (l_p != l_d) {
-    glue::glue(
-      "`pitches` and `durations` must have the same length.\n\n",
-      "* `pitches` is of length {l_p}, `durations` {l_d}."
-    ) %>% rlang::abort()
-  }
+  # check if `pitches` and `durations` have same length
+  check_same_length(pitches, durations)
 
   # check other arguments
-  check_name(name)
+  if (!is.null(name)) {
+    check_name(name)
+  }
+
   check_line_as(as)
   check_line_to(to)
   check_line_after(after)
-  check_positive_integer(bar)
+
+  if (!is.null(bar)) {
+    check_positive_integer(bar)
+  }
+
   check_line_offset(offset)
 
   # create Line
@@ -42,173 +41,248 @@ Line <- function(pitches, durations, name, as = "part", to = NULL,
     after = after,
     bar = bar,
     offset = offset
-  ) %>% `class<-`("Line")
+  ) %>% `class<-`(c("Line", "Printable"))
 }
 
 
 
-# validators in `Line` ----------------------------------------------
+# Line validators ---------------------------------------------------------
 
 check_line_as <- function(as) {
-  ass <- c("part", "staff", "voice")
-
-  m <- ass %>%
-    sapply(function(s) paste0('"', s, '"')) %>%
-    coordinate("or") %>%
-    paste0("`as` must be ", ., ".")
-
-  check_type(as, "character", general = m)
-  check_length(as, 1, general = m)
-  check_content(as, ass, general = m)
+  if (!is.null(as)) {
+    check_type(as, "character")
+    check_length(as, 1)
+    check_content(as, c("part", "staff", "voice"))
+  }
 }
 
 
 check_line_to <- function(to) {
-  if (is.null(to)) {
-    return(invisible(to))
-  }
+  if (!is.null(to)) {
+    check_type(to, c("character", "double", "integer"))
+    check_length(to, 1)
 
-  check_name(to)
+    if (is.character(to)) {
+      valid <- expression(!is.na(x))
+      general <- "If `to` is a character, it must not be NA."
+      check_content(to, valid, general = general)
+
+    } else if (is.numeric(to)) {
+      valid <- expression(!is.na(x) & as.integer(x) == x & x > 0)
+      general <- "If `to` is a numeric, it must be a positive integer."
+      check_content(to, valid, general = general)
+    }
+  }
 }
 
 
 check_line_after <- function(after) {
-  general <- "`after` must be TRUE or FALSE."
-
-  check_type(after, "logical", general = general)
-  check_length(after, 1, general = general)
-  check_content(after, expression(!is.na(x)), general = general)
+  if (!is.null(after)) {
+    check_type(after, "logical")
+    check_length(after, 1)
+    check_content(after, c(TRUE, FALSE))
+  }
 }
 
 
 check_line_offset <- function(offset) {
-  check_type(offset, c("double", "integer"))
-  check_length(offset, 1)
+  if (!is.null(offset)) {
+    check_type(offset, c("double", "integer"))
+    check_length(offset, 1)
 
-  valid <- expression(x == 0 || is_tied_value(x))
-  general <- "`offset` must be 0, a duration value or sum of ones."
-
-  check_content(offset, valid, general = general)
+    valid <- expression(x == 0 || is_tied_value(x))
+    general <- "`offset` must be 0, a duration value or sum of ones."
+    check_content(offset, valid, general = general)
+  }
 }
 
 
 
-# + Line ------------------------------------------------------------
+# Line -> string ----------------------------------------------------------
+
+#' @keywords internal
+#' @export
+to_string.Line <- function(x, form = 1, i, ...) {
+  # a principle is that if an element is NULL, do not print it,
+  # to make the output string as simple as possible
+  # the same goes for Key, Meter, Music
+
+  general <- "Line"
+  specifics <- character(0)
+
+  # pitches
+  ps <- x$pitches
+  s_ps <- ps %>%
+    to_string() %>%
+    paste("of pitches:", .) %>%
+    shorten_string(globals$width)
+
+  # durations
+  ds <- x$durations
+  s_ds <- ds %>%
+    to_string() %>%
+    paste("of durations:", .) %>%
+    shorten_string(globals$width)
+
+  # length
+  l <- length(ps)
+  s_l <- "of length {l}"
+
+  # name
+  name <- x$name
+  if (is.null(name)) {
+    s_name <- NULL
+  } else {
+    s_name <- 'of name "{name}"'
+  }
+
+  # bar and offset
+  bar <- x$bar
+  offset <- x$offset
+  s_bar <- "to be inserted in bar {bar}"
+  s_offset <- "with offset {offset}"
+
+  if (!is.null(bar)) {
+    if (is.null(offset)) {
+      s_bar_offset <- s_bar
+    } else {
+      s_bar_offset <- paste(s_bar, s_offset)
+    }
+  } else {
+    if (!is.null(offset)) {
+      bar <- 1
+      s_bar_offset <- paste(s_bar, s_offset)
+    } else {
+      s_bar_offset <- NULL
+    }
+  }
+
+  # short form, used in Music
+  if (form == 0) {
+    # number
+    number <- x$number
+    if (is.null(number)) {
+      s_number <- NULL
+    } else {
+      s_number <- "as part {number[1]} staff {number[2]} voice {number[3]}"
+    }
+
+    general <- paste(general, i)
+    specifics <- c(s_number, s_l, s_ps, s_ds, s_name, s_bar_offset)
+
+    s <- generate_string(general, specifics, environment())
+    return(s)
+  }
+
+  # as
+  as <- x$as
+  if (is.null(as)) {
+    s_as <- NULL
+  } else {
+    s_as <- "as a {as}"
+  }
+
+  # to and after
+  to <- x$to
+  after <- x$after
+  s_after <- ifelse(is.null(after) || after == TRUE, "after", "before")
+
+  if (!is.null(to)) {
+    if (is.character(to)) {
+      s_after_to <- 'to be inserted {s_after} Line "{to}"'
+    } else if (is.numeric(to)) {
+      to <- toOrdinal::toOrdinal(to)
+      s_after_to <- "to be inserted {s_after} the {to} Line"
+    }
+  } else {
+    if (!is.null(after)) {
+      # if `to` is not specified, always insert the Line AFTER the last Line,
+      # no matter how `after` is specified
+      s_after_to <- "to be inserted after the last Line"
+    } else {
+      s_after_to <- NULL
+    }
+  }
+
+  # long form
+  if (form == 1) {
+    specifics <- c(s_l, s_ps, s_ds, s_name, s_bar_offset, s_as, s_after_to)
+
+    s <- generate_string(general, specifics, environment())
+    return(s)
+  }
+}
+
+
+
+# Music + Line ------------------------------------------------------------
 
 add.Line <- function(term, music) {
+  # unpack `music`
+  lines <- music$lines
+  names <- lines %>%
+    sapply(function(line) line$name) %>%
+    unlist()
+  l <- length(lines)
+
+  # unpack `term`
   name <- term$name
   to <- term$to
+
+  # check `term$name`, `term$to`
+  check_line_name_unique(name, names)
+  check_line_to_exist(to, names, l)
+
+  # initialize `music$lines`
+  if (l == 0) {
+    term$number <- c(1, 1, 1)
+    music$lines <- list(term)
+    return(music)
+  }
+
+  # unpack `term` again
   as <- term$as
   after <- term$after
-  lns <- music$line_names
 
-  check_add_line_name(name, lns)
-  check_add_line_to(to, lns)
-
-  music$line_names <- c(lns, name)
-
-  parts <- music$parts
-  l <- length(parts)
-
-  # initialize `music$parts`
-  if (l == 0) {
-    music$parts <- term %>% # voice
-      list() %>% # voices
-      list(voices = .) %>% # staff
-      list() %>% # staffs
-      list(staffs = .) %>% # part
-      list() # parts
-
-    return(music)
-  }
-
-  # add to the end of `music`, if `to` is not specified
+  # add the Line to the end if `to` is not specified
+  # `after` is ignored, or it would be very confusing
   if (is.null(to)) {
-    if (as == "part") {
-      music$parts[[l + 1]] <- term %>% # voice
-        list() %>% # voices
-        list(voices = .) %>% # staff
-        list() %>% # staffs
-        list(staffs = .) # part
-
-    } else {
-      part <- music$parts[[l]]
-      m <- length(part$staffs)
-
-      if (as == "staff") {
-        music$parts[[l]]$staffs[[m + 1]] <- term %>% # voice
-          list() %>% # voices
-          list(voices = .) # staff
-
-      } else if (as == "voice") {
-        staff <- part$staffs[[m]]
-        n <- length(staff$voices)
-
-        music$parts[[l]]$staffs[[m]]$voices[[n + 1]] <- term
-      }
-    }
-
+    term$number <- generate_line_number(lines[[l]]$number, as, TRUE, to)
+    music$lines <- c(lines, list(term))
     return(music)
   }
 
-  # add to specified `to`
-  for (i in 1:l) {
-    part <- parts[[i]]
-    staffs <- part$staffs
-    m <- length(staffs)
-
-    for (j in 1:m) {
-      staff <- staffs[[j]]
-      voices <- staff$voices
-      n <- length(voices)
-
-      for (k in 1:n) {
-        voice <- voices[[k]]
-        voice_name <- voice$name
-
-        if (to == voice_name) {
-          if (as == "part") {
-            music$parts <- term %>% # voice
-              list() %>% # voices
-              list(voices = .) %>% # staff
-              list() %>% # staffs
-              list(staffs = .) %>% # part
-              list() %>% # parts
-              append(parts, ., ifelse(after, i, i - 1))
-
-          } else if (as == "staff") {
-            music$parts[[i]]$staffs <- term %>% # voice
-              list() %>% # voices
-              list(voices = .) %>% # staff
-              list() %>% # staffs
-              append(staffs, ., ifelse(after, j, j - 1))
-
-          } else if (as == "voice") {
-            check_voice_number(n, voice_name)
-
-            music$parts[[i]]$staffs[[j]]$voices <- term %>% # voice
-              list() %>% # voices
-              append(voices, ., ifelse(after, k, k - 1))
-          }
-
-          return(music)
-        }
-      }
-    }
+  # add the Line to a specified `to`
+  # get `number` of the Line `to` refers to
+  number <- get_to_number(lines, to, l)
+  # generate `number` in `term`
+  term$number <- generate_line_number(number, as, after, to)
+  # find where to insert `term`
+  # can't insert `term` directly,
+  # because numbers must be updated before insertion
+  k <- locate_line_insertion(lines, number, as, after, l)
+  # update `lines` and insert `term`
+  music$lines <- lines %>%
+    update_line_numbers(number, as, after, l) %>%
+    append(list(term), k)
+  # update `music$key_lines`
+  key_lines <- music$key_lines
+  if (!is.null(key_lines)) {
+    music$key_lines <-
+      update_key_line_numbers(key_lines, number, as, after)
   }
+
+  music
 }
 
 
 
-# validators in `add.Line` ------------------------------------------
+# Music + Line validators -------------------------------------------------
 
-check_add_line_name <- function(name, line_names) {
-  con <-
-    name %in% line_names
-
-  if (con) {
+check_line_name_unique <- function(name, names) {
+  if (!is.null(name) && name %in% names) {
     glue::glue(
-      "Each Line in a Music object must have a unique name.",
+      "Each Line in a Music must have a unique name or no name.",
       "\n\n",
       '* Name "{name}" has been used.'
     ) %>% rlang::abort()
@@ -216,28 +290,213 @@ check_add_line_name <- function(name, line_names) {
 }
 
 
-check_add_line_to <- function(to, line_names) {
-  con <-
-    !is.null(to) &&
-    !(to %in% line_names)
+check_line_to_exist <- function(to, names, l) {
+  if (!is.null(to)) {
+    general <- "`to` must refer to a Line in the Music, if specified."
 
-  if (con) {
+    if (is.character(to) && !(to %in% names)) {
+      '* Can\'t find Line of name "{to}".' %>%
+        glue::glue(general, "\n\n", .) %>%
+        rlang::abort()
+
+    } else if (is.numeric(to) && to > l) {
+      if (l == 0) {
+        s_l <- "no Line"
+      } else if (l == 1) {
+        s_l <- "only 1 Line"
+      } else {
+        s_l <- "only {l} Lines"
+      }
+
+      '* Can\'t find Line {to}, the Music contains ' %>%
+        paste0(s_l, ".") %>%
+        glue::glue(general, "\n\n", .) %>%
+        rlang::abort()
+    }
+  }
+}
+
+
+check_voice_number <- function(number, to) {
+  if (number >= 4) {
+    if (is.null(to)) {
+      s_to <- "the last Line"
+    } else if (is.character(to)) {
+      s_to <- 'Line "{to}"'
+    } else if (is.numeric(to)) {
+      to <- toOrdinal::toOrdinal(to)
+      s_to <- "the {to} Line"
+    }
+
     glue::glue(
-      "If `to` is specified,", " ",
-      "it must refer to the name of a Line in the Music object.",
+      "Each staff in a Music can have at most 4 voices.",
       "\n\n",
-      '* Can\'t find Line with name "{to}".'
+      paste("* Staff containing", s_to, "already has 4 voices.")
     ) %>% rlang::abort()
   }
 }
 
 
-check_voice_number <- function(voice_number, voice_name) {
-  if (voice_number == 4) {
-    glue::glue(
-      "Each staff in a Music can have 4 voices at most.",
-      "\n\n",
-      '* Staff containing voice "{voice_name}" already has 4 voices.'
-    ) %>% rlang::abort()
+
+# Music + Line utils ------------------------------------------------------
+
+# get `number` of the Line `to` refers to
+get_to_number <- function(lines, to, l) {
+  for (i in 1:l) {
+    line <- lines[[i]]
+
+    con <- `||`(
+      is.numeric(to) && i == to,
+      is.character(to) && line$name == to
+    )
+
+    if (con) {
+      return(line$number)
+    }
   }
+}
+
+
+# generate `number` for the Line to be inserted
+generate_line_number <- function(number, as, after, to) {
+  d <- ifelse(isFALSE(after), 0, 1)
+
+  if (is.null(as) || as == "part") {
+    number[1] <- number[1] + d
+    number[2] <- 1
+    number[3] <- 1
+
+  } else if (as == "staff") {
+    number[2] <- number[2] + d
+    number[3] <- 1
+
+  } else if (as == "voice") {
+    check_voice_number(number[3], to)
+    number[3] <- number[3] + d
+  }
+
+  number
+}
+
+
+# get the index at which to insert the Line
+locate_line_insertion <- function(lines, number, as, after, l) {
+  # unpack `number`
+  p <- number[1]
+  s <- number[2]
+  v <- number[3]
+
+  ks <- numeric(0)
+
+  for (i in 1:l) {
+    line <- lines[[i]]
+    number_i <- line$number
+    p_i <- number_i[1]
+    s_i <- number_i[2]
+    v_i <- number_i[3]
+
+    if (is.null(as) || as == "part") {
+      if (p_i == p) {
+        ks <- c(ks, i)
+      } else if (p_i > p) {
+        break
+      }
+
+    } else if (as == "staff") {
+      if (p_i == p) {
+        if (s_i == s) {
+          ks <- c(ks, i)
+        } else if (s_i > s) {
+          break
+        }
+      }
+
+    } else if (as == "voice") {
+      if (p_i == p && s_i == s) {
+        if (v_i == v) {
+          ks <- c(ks, i)
+        } else if (v_i > v) {
+          break
+        }
+      }
+    }
+  }
+
+  if (isFALSE(after)) {
+    ks[1] - 1
+  } else {
+    ks[length(ks)]
+  }
+}
+
+
+# update the numbers of affected Lines
+update_line_numbers <- function(lines, number, as, after, l) {
+  # unpack `number`
+  p <- number[1]
+  s <- number[2]
+  v <- number[3]
+
+  d <- ifelse(isFALSE(after), 0, 1)
+
+  for (i in 1:l) {
+    # unpack `number`
+    line <- lines[[i]]
+    number_i <- line$number
+    p_i <- number_i[1]
+    s_i <- number_i[2]
+    v_i <- number_i[3]
+
+    # update `number`
+    if (is.null(as) || as == "part") {
+      if (p_i >= p + d) {
+        lines[[i]]$number[1] <- p_i + 1
+      }
+
+    } else if (as == "staff") {
+      if (p_i == p && s_i >= s + d) {
+        lines[[i]]$number[2] <- s_i + 1
+      }
+
+    } else if (as == "voice") {
+      if (p_i == p && s_i == s && v_i >= v + d) {
+        lines[[i]]$number[3] <- v_i + 1
+      }
+    }
+  }
+
+  lines
+}
+
+
+update_key_line_numbers <- function(key_lines, number, as, after) {
+  if (identical(as, "voice")) {
+    return(key_lines)
+  }
+
+  p <- number[1]
+  s <- number[2]
+
+  d <- ifelse(isFALSE(after), 0, 1)
+  l <- length(key_lines)
+
+  for (i in 1:l) {
+    key_line <- key_lines[[i]]
+    number_i <- key_line$number
+    p_i <- number_i[1]
+    s_i <- number_i[2]
+
+    if (is.null(as) || as == "part") {
+      if (p_i >= p + d) {
+        key_lines[[i]]$number[1] <- p_i + 1
+      }
+
+    } else if (as == "staff") {
+      if (p_i == p && s_i >= s + d) {
+        key_lines[[i]]$number[2] <- s_i + 1
+      }
+    }
+  }
+
+  key_lines
 }
