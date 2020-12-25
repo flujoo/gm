@@ -288,3 +288,52 @@ coordinate <- function(nouns, conjunction = "or") {
     nouns[l]
   )
 }
+
+
+
+# item validators ---------------------------------------------------------
+
+check_types <- function(x, valid, name = NULL, general = NULL,
+                        specific = NULL, method = "type", l = NULL, ...) {
+  if (is.null(name)) {
+    name <- deparse(substitute(x))
+  }
+
+  if (is.null(l)) {
+    l <- length(x)
+  }
+
+  if (l == 0) {
+    return(invisible(NULL))
+  }
+
+  s_valid <- coordinate(valid)
+
+  if (is.null(general)) {
+    general <- "Each item of `{name}` must be of {method} {s_valid}."
+  }
+
+  if (is.null(specific)) {
+    specific <- "`{name}[[{i}]]` is of {method} {t}."
+  }
+
+  ms <- character(0)
+
+  for (i in 1:l) {
+    x_i <- x[[i]]
+
+    if (method == "type") {
+      t <- typeof(x_i)
+    } else if (method == "class") {
+      t <- class(x_i)[1]
+    }
+
+    if (!(t %in% valid)) {
+      ms[[length(ms) + 1]] <- specific %>%
+        glue::glue() %>%
+        unclass()
+    }
+  }
+
+  show_errors(general, ms, env = environment())
+}
