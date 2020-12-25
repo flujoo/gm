@@ -155,15 +155,16 @@ to_string.BarAddOnLine <- function(x, ...) {
 
   # number
   number <- x$number
+  number_1 <- number[1]
+  number_2 <- number[2]
 
-  if (is.null(number)) {
+  if (is.null(number) || number_1 == 0) {
     s_number <- NULL
   } else {
-    l_number <- length(number)
-    s_number <- " for part {number[1]}"
+    s_number <- " for part {number_1}"
 
-    if (l_number == 2) {
-      s_number <- paste(s_number, "staff {number[2]}")
+    if (number_2 != 0) {
+      s_number <- paste(s_number, "staff {number_2}")
     }
   }
 
@@ -233,10 +234,12 @@ to_string.BarAddOnLine <- function(x, ...) {
       if (b_i > b) {
         add_ons <- add_ons %>%
           append(list(add_on), i - 1)
+        break
 
       # replace the add on in `add_ons`
       } else if (b_i == b) {
         add_ons[[i]] <- add_on
+        break
 
       # append `add_on`
       } else if (b_i < b && i == l) {
@@ -273,4 +276,86 @@ find_bar_add_on <- function(bar, add_on_line) {
       return(add_ons[[i - 1]])
     }
   }
+}
+
+
+
+# Music + Key -------------------------------------------------------------
+
+add.Key <- function(term, music) {
+  lines <- music$lines
+  l <- length(lines)
+
+  # check `term$to`
+  names <- lines %>%
+    sapply(function(line) line$name) %>%
+    unlist()
+  to <- term$to
+  check_line_to_exist(to, names, l)
+
+  # get `number` of the targeted KeyLine
+  number <- generate_key_line_number(lines, to, l, term$scope)
+
+  # add `term`
+  key_lines <- music$key_lines
+  k <- locate_key_line(key_lines, number)
+
+  if (is.na(k)) {
+    key_line <- KeyLine() + term
+    key_line$number <- number
+    key_lines <- insert_key_line(key_lines, key_line, number)
+  } else {
+    key_lines[[k]] <- key_lines[[k]] + term
+  }
+
+  music$key_lines <- key_lines
+  music
+}
+
+
+generate_key_line_number <- function(lines, to, l, scope) {
+  if (is.null(to)) {
+    c(0, 0)
+
+  } else {
+    number <- get_to_number(lines, to, l)
+
+    if (scope == "part") {
+      c(number[1], 0)
+    } else if (scope == "staff") {
+      number[1:2]
+    }
+  }
+}
+
+
+# get the index of the KeyLine with `number`,
+# return NA if find no
+locate_key_line <- function(key_lines, number) {
+  Position(
+    function(key_line) all(key_line$number == number),
+    key_lines
+  )
+}
+
+
+# used when `number` is not in the numbers of `key_lines`
+insert_key_line <- function(key_lines, key_line, number) {
+  if (is.null(key_lines)) {
+    return(list(key_line))
+  }
+
+  p <- number[1]
+  s <- number[2]
+
+  f <- function(key_line) {
+    number_i <- key_line$number
+    p_i <- number_i[1]
+    s_i <- number_i[2]
+
+    (p_i == p && s_i < s) || p_i < p
+  }
+
+  k <- Position(f, key_lines, right = TRUE, nomatch = 0)
+  append(key_lines, list(key_line), k)
 }
