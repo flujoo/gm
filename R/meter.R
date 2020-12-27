@@ -119,8 +119,13 @@ to_string.Meter <- function(x, form = 1, ...) {
 #' @keywords internal
 #' @export
 to_value.Meter <- function(x, ...) {
-  # convert actual meter
-  (4 / x$actual_unit) * x$actual_number
+  actual_unit <- x$actual_unit
+
+  if (is.null(actual_unit)) {
+    (4 / x$unit) * x$number
+  } else {
+    (4 / actual_unit) * x$actual_number
+  }
 }
 
 
