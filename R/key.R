@@ -256,30 +256,6 @@ to_string.BarAddOnLine <- function(x, ...) {
 
 
 
-# BarAddOnLine util -------------------------------------------------------
-
-find_bar_add_on <- function(bar, add_on_line) {
-  add_ons <- add_on_line$add_ons
-  l <- length(add_ons)
-
-  for (i in 1:l) {
-    add_on <- add_ons[[i]]
-    bar_i <- add_on$bar
-
-    if (bar > bar_i && i == l) {
-      return(add_on)
-
-    } else if (bar == bar_i) {
-      return(add_on)
-
-    } else if (bar < bar_i) {
-      return(add_ons[[i - 1]])
-    }
-  }
-}
-
-
-
 # Music + Key -------------------------------------------------------------
 
 add.Key <- function(term, music) {
