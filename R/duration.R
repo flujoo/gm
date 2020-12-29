@@ -992,17 +992,12 @@ is_similar_tuplet <- function(tuplet, tuplet_0) {
 
 # check if there is any over-bar tuplet in a Music ------------------------
 
-check_tuplet_over_bar <- function(parts, meter_line) {
-  # add `$value` to each Meter in `meter_line`
-  for (i in 1:length(meter_line)) {
-    meter_line[[i]]$value <- meter_line[[i]] %>% to_value()
-  }
-
+check_over_bar_tuplet <- function(lines, meters, l) {
   # specific error messages
   ms <- character(0)
 
   # specific error message templates
-  t_pre <- 'In Line "{name}",'
+  t_pre <- 'In Line {name},'
 
   t_tuplet <- t_pre %>%
     paste("the {ith} Duration is a cross-barline tuplet.")
@@ -1023,23 +1018,27 @@ check_tuplet_over_bar <- function(parts, meter_line) {
   )
 
   # check voices
-  for (part in parts) {
-    for (staff in part$staffs) {
-      for (voice in staff$voices) {
-        e <- locate_tuplet_over_bar(voice$durations, meter_line)
+  for (i in 1:l) {
+    line <- lines[[i]]
+    e <- locate_over_bar_tuplet(line$durations, meters, line$bar, line$offset)
 
-        if (!is.null(e)) {
-          name <- voice$name
-          type <- e$type
-          ith <- e$i %>% toOrdinal::toOrdinal()
-          t <- ifelse(type == "tuplet", t_tuplet, t_group)
+    if (!is.null(e)) {
+      name <- line$name
 
-          ms <- t %>%
-            glue::glue() %>%
-            unclass() %>%
-            c(ms, .)
-        }
+      if (is.null(name)) {
+        name <- i
+      } else {
+        name <- paste0('"', name, '"')
       }
+
+      type <- e$type
+      ith <- e$i %>% toOrdinal::toOrdinal()
+      t <- ifelse(type == "tuplet", t_tuplet, t_group)
+
+      ms <- t %>%
+        glue::glue() %>%
+        unclass() %>%
+        c(ms, .)
     }
   }
 
@@ -1047,14 +1046,11 @@ check_tuplet_over_bar <- function(parts, meter_line) {
 }
 
 
-# note that in each Meter of `meter_line`, `$value` is defined
-locate_tuplet_over_bar <- function(duration_line, meter_line) {
-  # current bar number
-  bar <- 1
+locate_over_bar_tuplet <- function(duration_line, meters, bar, offset) {
   # value of current Meter
-  v_meter <- find_BarAddOn(bar, meter_line)$value
+  v_meter <- find_bar_add_on(bar, meters)$value
   # accumulated duration value in current Meter
-  v_accum <- 0
+  v_accum <- offset
 
   # total value of current tuplet group
   v_tuplet_group <- 0
@@ -1075,7 +1071,7 @@ locate_tuplet_over_bar <- function(duration_line, meter_line) {
       while (v_accum >= v_meter) {
         v_accum <- v_accum - v_meter
         bar <- bar + 1
-        v_meter <- find_BarAddOn(bar, meter_line)$value
+        v_meter <- find_bar_add_on(bar, meters)$value
       }
 
     } else {
@@ -1108,7 +1104,7 @@ locate_tuplet_over_bar <- function(duration_line, meter_line) {
         } else {
           v_accum <- 0
           bar <- bar + 1
-          v_meter <- find_BarAddOn(bar, meter_line)$value
+          v_meter <- find_bar_add_on(bar, meters)$value
         }
       }
     }
