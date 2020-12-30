@@ -1,4 +1,4 @@
-#' @importFrom magrittr %>% %T>%
+#' @importFrom magrittr %>% %T>% %<>%
 NULL
 
 
