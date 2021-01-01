@@ -212,8 +212,12 @@ print.KeyLine <- function(x, silent = FALSE, ...) {
   keys <- x$keys
   l <- length(keys)
 
+  # empty form
+  if (l == 0) {
+    s <- ""
+
   # short form
-  if (l == 1) {
+  } else if (l == 1) {
     key <- keys[[1]]
     bar <- key$bar
 
