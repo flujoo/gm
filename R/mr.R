@@ -27,3 +27,43 @@ to_value <- function(x, ...) {
 show <- function(x, ...) {
   UseMethod("show")
 }
+
+
+
+# utils -------------------------------------------------------------------
+
+coordinate <- function(nouns, conjunction = "or") {
+  l <- length(nouns)
+
+  if (l == 1) {
+    return(nouns)
+  }
+
+  paste(
+    paste(nouns[-l], collapse = ", "),
+    conjunction,
+    nouns[l]
+  )
+}
+
+
+shorten_string <- function(string, width) {
+  l <- nchar(string)
+
+  if (l > width) {
+    string <- string %>%
+      substr(1, width) %>%
+      paste("...")
+  }
+
+  string
+}
+
+
+generate_string <- function(general, specifics, env) {
+  specifics %>%
+    sapply(function(s) paste("*", s)) %>%
+    paste(collapse = "\n") %>%
+    {ifelse(. == "", "", paste0("\n\n", .))} %>%
+    glue::glue(general, ., .envir = env)
+}

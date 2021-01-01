@@ -273,24 +273,6 @@ inspect_errors <- function() {
 
 
 
-# utils -------------------------------------------------------------------
-
-coordinate <- function(nouns, conjunction = "or") {
-  l <- length(nouns)
-
-  if (l == 1) {
-    return(nouns)
-  }
-
-  paste(
-    paste(nouns[-l], collapse = ", "),
-    conjunction,
-    nouns[l]
-  )
-}
-
-
-
 # item validators ---------------------------------------------------------
 
 check_types <- function(x, valid, name = NULL, general = NULL,
