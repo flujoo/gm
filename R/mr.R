@@ -32,17 +32,18 @@ show <- function(x, ...) {
 
 # utils -------------------------------------------------------------------
 
-coordinate <- function(nouns, conjunction = "or") {
-  l <- length(nouns)
+# connect `words` with `conjunction`
+coordinate <- function(words, conjunction = "or") {
+  l <- length(words)
 
   if (l == 1) {
-    return(nouns)
+    return(words)
   }
 
   paste(
-    paste(nouns[-l], collapse = ", "),
+    paste(words[-l], collapse = ", "),
     conjunction,
-    nouns[l]
+    words[l]
   )
 }
 
