@@ -275,8 +275,8 @@ inspect_errors <- function() {
 
 # item validators ---------------------------------------------------------
 
-check_types <- function(x, valid, name = NULL, general = NULL,
-                        specific = NULL, method = "type", l = NULL, ...) {
+check_item_type <- function(x, valid, name = NULL, general = NULL,
+                            specific = NULL, method = "type", l = NULL, ...) {
   if (is.null(name)) {
     name <- deparse(substitute(x))
   }
