@@ -1,12 +1,17 @@
+# create Element ----------------------------------------------------------
+
 Element <- function(tag, contents = NULL, attributes = NULL) {
   list(tag = tag, contents = contents, attributes = attributes) %>%
-    `class<-`(c("Element", "Printable"))
+    `class<-`("Element")
 }
 
 
+
+# print Element -----------------------------------------------------------
+
 #' @keywords internal
 #' @export
-to_string.Element <- function(x, ...) {
+print.Element <- function(x, silent = FALSE, ...) {
   tab <- "  "
 
   # add `tab` recursively
@@ -36,10 +41,16 @@ to_string.Element <- function(x, ...) {
     }
   }
 
-  x %>%
+  x %<>%
     to_semi_musicxml() %>%
     core() %>%
     paste(collapse = "\n")
+
+  if (silent) {
+    x
+  } else {
+    cat(x, "\n")
+  }
 }
 
 
