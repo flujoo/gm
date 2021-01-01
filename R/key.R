@@ -68,7 +68,7 @@ normalize_key_scope <- function(scope, to) {
 # print Key ---------------------------------------------------------------
 
 #' @export
-print.Key <- function(x, silent = FALSE, context = "console", ...) {
+print.Key <- function(x, context = "console", silent = FALSE, ...) {
   # convert `x$key` to string ---------------------------------------------
   steps <- c("F", "C", "G", "D", "A", "E", "B")
   i <- which(x$key == -7:7)
@@ -223,7 +223,7 @@ print.KeyLine <- function(x, silent = FALSE, ...) {
       s_bar <- " at bar {bar}"
     }
 
-    s_key <- print(key, TRUE, "inside")
+    s_key <- print(key, context = "inside", silent = TRUE)
     s <- paste0("Key ", s_key, s_bar, s_number) %>% glue::glue()
 
   # long form
@@ -232,7 +232,7 @@ print.KeyLine <- function(x, silent = FALSE, ...) {
 
     specifics <- sapply(keys, function(key) {
       key %>%
-        print(TRUE, "inside") %>%
+        print(context = "inside", silent = TRUE) %>%
         paste("at bar {key$bar}") %>%
         glue::glue() %>%
         unclass()
