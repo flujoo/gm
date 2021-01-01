@@ -1,9 +1,10 @@
-# Line --------------------------------------------------------------------
+# create Line -------------------------------------------------------------
 
 #' @export
 Line <- function(pitches, durations, name = NULL, as = NULL, to = NULL,
                  after = NULL, bar = NULL, offset = NULL) {
-  # normalize `pitches`
+  # normalize and check `pitches` and `durations` -------------------------
+  # # normalize `pitches`
   if (class(pitches)[1] != "PitchLine") {
     pitches <- PitchLine(pitches)
   }
@@ -16,7 +17,8 @@ Line <- function(pitches, durations, name = NULL, as = NULL, to = NULL,
   # check if `pitches` and `durations` have same length
   check_same_length(pitches, durations)
 
-  # check other arguments
+
+  # check other arguments -------------------------------------------------
   if (!is.null(name)) {
     check_name(name)
   }
@@ -31,7 +33,8 @@ Line <- function(pitches, durations, name = NULL, as = NULL, to = NULL,
 
   check_line_offset(offset)
 
-  # create Line
+
+  # create Line -----------------------------------------------------------
   list(
     pitches = pitches,
     durations = durations,
@@ -41,12 +44,12 @@ Line <- function(pitches, durations, name = NULL, as = NULL, to = NULL,
     after = after,
     bar = bar,
     offset = offset
-  ) %>% `class<-`(c("Line", "Printable"))
+  ) %>% `class<-`("Line")
 }
 
 
 
-# Line validators ---------------------------------------------------------
+# check arguments in `Line` -----------------------------------------------
 
 check_line_as <- function(as) {
   if (!is.null(as)) {
@@ -98,37 +101,41 @@ check_line_offset <- function(offset) {
 
 
 
-# Line -> string ----------------------------------------------------------
+# print Line --------------------------------------------------------------
 
-#' @keywords internal
 #' @export
-to_string.Line <- function(x, form = 1, i, ...) {
-  # a principle is that if an element is NULL, do not print it,
-  # to make the output string as simple as possible
-  # the same goes for Key, Meter, Music
+print.Line <- function(x, context = "console", silent = FALSE, i, ...) {
+  # rationale behind string generation ------------------------------------
+  # to make the output as concise as possible,
+  # do not print a component, if it is `NULL`
+  # the same goes for Key, Meter and Music
 
+
+  # initialize `general` and `specifics` ----------------------------------
   general <- "Line"
   specifics <- character(0)
 
-  # pitches
+
+  # convert `x$pitches` and `x$durations` to string -----------------------
   ps <- x$pitches
   s_ps <- ps %>%
     to_string() %>%
     paste("of pitches:", .) %>%
     shorten_string(globals$width)
 
-  # durations
   ds <- x$durations
   s_ds <- ds %>%
     to_string() %>%
     paste("of durations:", .) %>%
     shorten_string(globals$width)
 
-  # length
+
+  # generate string about Line length -------------------------------------
   l <- length(ps)
   s_l <- "of length {l}"
 
-  # name
+
+  # convert `x$name` to string --------------------------------------------
   name <- x$name
   if (is.null(name)) {
     s_name <- NULL
@@ -136,7 +143,8 @@ to_string.Line <- function(x, form = 1, i, ...) {
     s_name <- 'of name "{name}"'
   }
 
-  # bar and offset
+
+  # convert `x$bar` and `x$offset` to string ------------------------------
   bar <- x$bar
   offset <- x$offset
   s_bar <- "to be inserted in bar {bar}"
@@ -157,9 +165,10 @@ to_string.Line <- function(x, form = 1, i, ...) {
     }
   }
 
-  # short form, used in Music
-  if (form == 0) {
-    # number
+
+  # convert `x` to string -------------------------------------------------
+  if (context == "inside") {
+    # convert `x$number` to string
     number <- x$number
     if (is.null(number)) {
       s_number <- NULL
@@ -167,49 +176,53 @@ to_string.Line <- function(x, form = 1, i, ...) {
       s_number <- "as part {number[1]} staff {number[2]} voice {number[3]}"
     }
 
+    # adjust `general` and `specifics`
     general <- paste(general, i)
     specifics <- c(s_number, s_l, s_ps, s_ds, s_name, s_bar_offset)
 
-    s <- generate_string(general, specifics, environment())
-    return(s)
-  }
-
-  # as
-  as <- x$as
-  if (is.null(as)) {
-    s_as <- NULL
-  } else {
-    s_as <- "as a {as}"
-  }
-
-  # to and after
-  to <- x$to
-  after <- x$after
-  s_after <- ifelse(is.null(after) || after == TRUE, "after", "before")
-
-  if (!is.null(to)) {
-    if (is.character(to)) {
-      s_after_to <- 'to be inserted {s_after} Line "{to}"'
-    } else if (is.numeric(to)) {
-      to <- toOrdinal::toOrdinal(to)
-      s_after_to <- "to be inserted {s_after} the {to} Line"
-    }
-  } else {
-    if (!is.null(after)) {
-      # if `to` is not specified, always insert the Line AFTER the last Line,
-      # no matter how `after` is specified
-      s_after_to <- "to be inserted after the last Line"
+  } else if (context == "console") {
+    # convert `x$as` to string
+    as <- x$as
+    if (is.null(as)) {
+      s_as <- NULL
     } else {
-      s_after_to <- NULL
+      s_as <- "as a {as}"
     }
+
+    # convert `x$to` and `x$after` to string
+    to <- x$to
+    after <- x$after
+    s_after <- ifelse(is.null(after) || after == TRUE, "after", "before")
+
+    if (!is.null(to)) {
+      if (is.character(to)) {
+        s_after_to <- 'to be inserted {s_after} Line "{to}"'
+      } else if (is.numeric(to)) {
+        to <- toOrdinal::toOrdinal(to)
+        s_after_to <- "to be inserted {s_after} the {to} Line"
+      }
+    } else {
+      if (!is.null(after)) {
+        # if `to` is not specified, always insert the Line AFTER the last Line,
+        # no matter how `after` is specified
+        s_after_to <- "to be inserted after the last Line"
+      } else {
+        s_after_to <- NULL
+      }
+    }
+
+    # adjust `specifics`
+    specifics <- c(s_l, s_ps, s_ds, s_name, s_bar_offset, s_as, s_after_to)
   }
 
-  # long form
-  if (form == 1) {
-    specifics <- c(s_l, s_ps, s_ds, s_name, s_bar_offset, s_as, s_after_to)
 
-    s <- generate_string(general, specifics, environment())
-    return(s)
+  # print or return string ------------------------------------------------
+  s <- generate_string(general, specifics, environment())
+
+  if (silent) {
+    s
+  } else {
+    cat(s, "\n")
   }
 }
 
