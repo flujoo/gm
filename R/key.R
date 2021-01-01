@@ -1,29 +1,33 @@
-# Key ---------------------------------------------------------------------
+# create Key --------------------------------------------------------------
 
 #' @export
 Key <- function(key, bar = NULL, to = NULL, scope = NULL) {
-  # check arguments
-  check_key_key(key)
+  # check arguments -------------------------------------------------------
+  check_key(key)
 
   if (!is.null(bar)) {
     check_positive_integer(bar)
   }
 
   check_line_to(to)
+  # borrowed from line.R
+
   check_key_scope(scope, to)
 
-  # normalize `scope`
+
+  # normalize `scope` -----------------------------------------------------
   scope <- normalize_key_scope(scope, to)
 
-  list(key = key, bar = bar, to = to, scope = scope) %>%
-    `class<-`(c("Key", "Printable"))
+
+  # create Key ------------------------------------------------------------
+  list(key = key, bar = bar, to = to, scope = scope) %>% `class<-`("Key")
 }
 
 
 
-# Key validators ----------------------------------------------------------
+# check argument `key` and `scope` in `Key` -------------------------------
 
-check_key_key <- function(key) {
+check_key <- function(key) {
   check_type(key, c("double", "integer"))
   check_length(key, 1)
   check_content(key, -7:7, NULL, "`key` must be any integer between -7 and 7.")
@@ -31,6 +35,7 @@ check_key_key <- function(key) {
 
 
 check_key_scope <- function(scope, to) {
+  # ignore `scope`, if it or `to` is `NULL`
   if (is.null(to) || is.null(scope)) {
     return(invisible(NULL))
   }
@@ -42,16 +47,16 @@ check_key_scope <- function(scope, to) {
 
 
 
-# Key normalizer ----------------------------------------------------------
+# normalize argument `scope` in `Key` -------------------------------------
 
 normalize_key_scope <- function(scope, to) {
-  # if `to` is not specified, ignore `scope`
+  # always assign `NULL` to `scope`, if `to` is `NULL`
   if (is.null(to)) {
     NULL
 
-  # default value
   } else if (is.null(scope)) {
     "part"
+    # default value
 
   } else {
     scope
@@ -60,100 +65,134 @@ normalize_key_scope <- function(scope, to) {
 
 
 
-# Key -> string -----------------------------------------------------------
+# print Key ---------------------------------------------------------------
 
-#' @keywords internal
 #' @export
-to_string.Key <- function(x, form = 1, ...) {
+print.Key <- function(x, silent = FALSE, context = "console", ...) {
+  # convert `x$key` to string ---------------------------------------------
   steps <- c("F", "C", "G", "D", "A", "E", "B")
   i <- which(x$key == -7:7)
 
   # major key
-  major <- Pitch(
-    steps[i %% 7 + 1],
-    i %/% 7 - 1
-  ) %>% to_string()
+  major <- Pitch(steps[i %% 7 + 1], i %/% 7 - 1) %>% to_string()
 
   # minor key
-  minor <- Pitch(
-    steps[(i + 3) %% 7 + 1],
-    (i - 4) %/% 7
-  ) %>% to_string()
+  minor <- Pitch(steps[(i + 3) %% 7 + 1], (i - 4) %/% 7) %>% to_string()
 
+
+  # initialize `general` and `specifics` ----------------------------------
   general <- "{major} major ({minor} minor)"
   specifics <- character(0)
 
-  # short form
-  if (form == 0) {
-    s <- generate_string(general, specifics, environment())
-    return(s)
-  }
 
-  general <- paste("Key", general)
+  # convert `x` to string based on `context` ------------------------------
+  if (context == "inside") {
 
-  # bar
-  bar <- x$bar
-  if (!is.null(bar)) {
-    specifics[[length(specifics) + 1]] <- "to be added at bar {bar}"
-  }
+  } else if (context == "console") {
+    general <- paste("Key", general)
 
-  # to
-  to <- x$to
-  if (!is.null(to)) {
-    s_to <- "to be added only to the {x$scope} containing"
-
-    if (is.character(to)) {
-      s_to <- paste(s_to, 'Line with name "{to}"')
-    } else if (is.numeric(to)) {
-      to <- toOrdinal::toOrdinal(to)
-      s_to <- paste(s_to, "the {to} Line")
+    # convert `x$bar` to string
+    bar <- x$bar
+    if (!is.null(bar)) {
+      specifics[[length(specifics) + 1]] <- "to be added at bar {bar}"
     }
 
-    specifics[[length(specifics) + 1]] <- s_to
+    # convert `x$to` to string
+    to <- x$to
+    if (!is.null(to)) {
+      s_to <- "to be added only to the {x$scope} containing"
+
+      if (is.character(to)) {
+        s_to <- paste(s_to, 'Line with name "{to}"')
+      } else if (is.numeric(to)) {
+        to <- toOrdinal::toOrdinal(to)
+        s_to <- paste(s_to, "the {to} Line")
+      }
+
+      specifics[[length(specifics) + 1]] <- s_to
+    }
   }
 
-  # long form
-  if (form == 1) {
-    s <- generate_string(general, specifics, environment())
-    return(s)
+
+  # print or return string ------------------------------------------------
+  s <- generate_string(general, specifics, environment())
+
+  if (silent) {
+    s
+  } else {
+    cat(s, "\n")
   }
 }
 
 
 
-# KeyLine -----------------------------------------------------------------
+# initialize KeyLine ------------------------------------------------------
 
 KeyLine <- function() {
-  kl <- list(
-    number = NULL,
-    add_ons = list()
-  )
-
-  cs <- c("KeyLine", "BarAddOnLine", "Printable")
-
-  `class<-`(kl, cs)
+  list(keys = list(), number = NULL) %>% `class<-`("KeyLine")
 }
 
 
 
-# BarAddOnLine -> string --------------------------------------------------
+# KeyLine + Key -----------------------------------------------------------
 
 #' @keywords internal
 #' @export
-to_string.BarAddOnLine <- function(x, ...) {
-  add_ons <- x$add_ons
-  l <- length(add_ons)
+`+.KeyLine` <- function(key_line, key) {
+  key %<>% normalize_key_bar()
+  key_line$keys %<>% merge_key(key)
+  key_line
+}
 
-  if (l == 0) {
-    return("")
+
+normalize_key_bar <- function(key) {
+  if (is.null(key$bar)) {
+    key$bar <- 1L
   }
 
-  # extract add on class
-  c_ <- class(x)[1] %>%
-    strsplit("Line") %>%
-    .[[1]]
+  key
+}
 
-  # number
+
+merge_key <- function(keys, key) {
+  l <- length(keys)
+
+  if (l == 0) {
+    keys[[1]] <- key
+    return(keys)
+  }
+
+  bar <- key$bar
+
+  for (i in 1:l) {
+    bar_i <- keys[[i]]$bar
+
+    # insert `key`
+    if (bar_i > bar) {
+      keys %<>% append(list(key), i - 1)
+      return(keys)
+
+    # replace the Key in `keys`
+    } else if (bar_i == bar) {
+      keys[[i]] <- key
+      return(keys)
+
+    # append `key`
+    } else if (bar_i < bar && i == l) {
+      keys %<>% append(list(key))
+      return(keys)
+    }
+  }
+}
+
+
+
+# print KeyLine -----------------------------------------------------------
+
+#' @keywords internal
+#' @export
+print.KeyLine <- function(x, silent = FALSE, ...) {
+  # convert `x$number` to string ------------------------------------------
   number <- x$number
   number_1 <- number[1]
   number_2 <- number[2]
@@ -168,10 +207,15 @@ to_string.BarAddOnLine <- function(x, ...) {
     }
   }
 
+
+  # convert `x` to string -------------------------------------------------
+  keys <- x$keys
+  l <- length(keys)
+
   # short form
   if (l == 1) {
-    add_on <- add_ons[[1]]
-    bar <- add_on$bar
+    key <- keys[[1]]
+    bar <- key$bar
 
     if (bar == 1) {
       s_bar <- NULL
@@ -179,79 +223,31 @@ to_string.BarAddOnLine <- function(x, ...) {
       s_bar <- " at bar {bar}"
     }
 
-    s <- add_ons[[1]] %>%
-      to_string(form = 0) %>%
-      paste0(c_, " ", ., s_bar, s_number) %>%
-      glue::glue()
-
-    return(s)
-  }
+    s_key <- print(key, TRUE, "inside")
+    s <- paste0("Key ", s_key, s_bar, s_number) %>% glue::glue()
 
   # long form
-  general <- paste0(c_, "s", s_number)
-
-  f <- function(add_on) {
-    add_on %>%
-      to_string(form = 0) %>%
-      paste("at bar {add_on$bar}") %>%
-      glue::glue() %>%
-      unclass()
-  }
-
-  specifics <- sapply(add_ons, f)
-
-  generate_string(general, specifics, environment())
-}
-
-
-
-# BarAddOnLine + BarAddOn -------------------------------------------------
-
-#' @keywords internal
-#' @export
-`+.BarAddOnLine` <- function(add_on_line, add_on) {
-  # store classes of `add_on_line`
-  cs <- class(add_on_line)
-
-  # normalize `add_on$bar`
-  if (is.null(add_on$bar)) {
-    add_on$bar <- 1L
-  }
-
-  add_ons <- add_on_line$add_ons
-  l <- length(add_ons)
-
-  if (l == 0) {
-    add_ons[[1]] <- add_on
-
   } else {
-    b <- add_on$bar
+    general <- paste0("Keys", s_number)
 
-    for (i in 1:l) {
-      b_i <- add_ons[[i]]$bar
+    specifics <- sapply(keys, function(key) {
+      key %>%
+        print(TRUE, "inside") %>%
+        paste("at bar {key$bar}") %>%
+        glue::glue() %>%
+        unclass()
+    })
 
-      # insert `add_on`
-      if (b_i > b) {
-        add_ons <- add_ons %>%
-          append(list(add_on), i - 1)
-        break
-
-      # replace the add on in `add_ons`
-      } else if (b_i == b) {
-        add_ons[[i]] <- add_on
-        break
-
-      # append `add_on`
-      } else if (b_i < b && i == l) {
-        add_ons <- add_ons %>%
-          append(list(add_on))
-      }
-    }
+    s <- generate_string(general, specifics, environment())
   }
 
-  add_on_line$add_ons <- add_ons
-  class(add_on_line) <- cs
-  return(add_on_line)
+
+  # print or return string ------------------------------------------------
+  if (silent) {
+    s
+  } else {
+    cat(s, "\n")
+  }
 }
 
 
