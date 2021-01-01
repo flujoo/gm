@@ -1,10 +1,8 @@
-# Music -------------------------------------------------------------------
+# initialize Music --------------------------------------------------------
 
 #' @export
 Music <- function() {
-  m <- list()
-  cs <- c("Music", "Printable")
-  `class<-`(m, cs)
+  list() %>% `class<-`("Music")
 }
 
 
@@ -37,33 +35,32 @@ add <- function(term, music) {
 
 
 
-# Music -> string ---------------------------------------------------------
+# print Music -------------------------------------------------------------
 
-#' @keywords internal
 #' @export
-to_string.Music <- function(x, ...) {
+print.Music <- function(x, ...) {
   ss <- "Music"
 
   lines <- x$lines
   if (!is.null(lines)) {
-    # can't use `sapply`, since `i` is needed
     for (i in 1:length(lines)) {
-      ss[[length(ss) + 1]] <- lines[[i]] %>%
-        to_string(form = 0, i = i)
+      ss[[length(ss) + 1]] <- lines[[i]] %>% print("inside", TRUE, i)
     }
   }
 
   meter_line <- x$meter_line
   if (!is.null(meter_line)) {
-    ss[[length(ss) + 1]] <- meter_line %>% to_string()
+    ss[[length(ss) + 1]] <- meter_line %>% print(silent = TRUE)
   }
 
   key_lines <- x$key_lines
   if (!is.null(key_lines)) {
     ss <- key_lines %>%
-      sapply(to_string) %>%
+      sapply(print, silent = TRUE) %>%
       c(ss, .)
   }
 
-  ss %>% paste(collapse = "\n\n")
+  ss %>%
+    paste(collapse = "\n\n") %>%
+    cat("\n")
 }
