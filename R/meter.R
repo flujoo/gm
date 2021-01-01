@@ -1,9 +1,9 @@
-# Meter -------------------------------------------------------------------
+# create Meter ------------------------------------------------------------
 
 #' @export
 Meter <- function(number, unit, bar = NULL, actual_number = NULL,
                   actual_unit = NULL) {
-  # check arguments
+  # check arguments -------------------------------------------------------
   check_positive_integer(number)
   check_meter_unit(unit)
 
@@ -19,23 +19,26 @@ Meter <- function(number, unit, bar = NULL, actual_number = NULL,
     check_meter_unit(actual_unit)
   }
 
-  # normalize `actual_number` and `actual_unit`
+
+  # normalize `actual_number` and `actual_unit` ---------------------------
   actual <- normalize_meter_actual(number, unit, actual_number, actual_unit)
   actual_number <- actual$actual_number
   actual_unit <- actual$actual_unit
 
+
+  # create Meter ----------------------------------------------------------
   list(
     number = number,
     unit = unit,
     bar = bar,
     actual_number = actual_number,
     actual_unit = actual_unit
-  ) %>% `class<-`(c("Meter", "Printable"))
+  ) %>% `class<-`("Meter")
 }
 
 
 
-# Meter validator ---------------------------------------------------------
+# check argument `unit` and `actual_unit` in `Meter` ----------------------
 
 check_meter_unit <- function(unit) {
   name <- deparse(substitute(unit))
@@ -47,7 +50,7 @@ check_meter_unit <- function(unit) {
 
 
 
-# Meter normalizer --------------------------------------------------------
+# normalize argument `actual_*` in `Meter` --------------------------------
 
 normalize_meter_actual <- function(number, unit, actual_number, actual_unit) {
   # if only one actual is NULL, assign the corresponding nominal to it
@@ -66,16 +69,17 @@ normalize_meter_actual <- function(number, unit, actual_number, actual_unit) {
   }
 
   # two actuals must both be NULL or not
+
   list(actual_number = actual_number, actual_unit = actual_unit)
 }
 
 
 
-# Meter -> string ---------------------------------------------------------
+# print Meter -------------------------------------------------------------
 
-#' @keywords internal
 #' @export
-to_string.Meter <- function(x, form = 1, ...) {
+print.Meter <- function(x, context = "console", silent = FALSE, ...) {
+  # generate main string --------------------------------------------------
   # nominal meter
   nominal <- paste0(x$number, "/", x$unit)
 
@@ -88,27 +92,33 @@ to_string.Meter <- function(x, form = 1, ...) {
     actual <- paste0(" (", actual_number, "/", x$actual_unit, ")")
   }
 
+
+  # initialize `general` and `specifics` ----------------------------------
   general <- paste0(nominal, actual)
   specifics <- character(0)
 
-  # short form, used in MeterLine
-  if (form == 0) {
-    s <- generate_string(general, specifics, environment())
-    return(s)
+
+  # convert `x` to string -------------------------------------------------
+  if (context == "inside") {
+
+  } else if (context == "console") {
+    general <- paste("Meter", general)
+
+    # convert `x$bar` to string
+    bar <- x$bar
+    if (!is.null(bar)) {
+      specifics[[length(specifics) + 1]] <- "to be added at bar {bar}"
+    }
   }
 
-  general <- paste("Meter", general)
 
-  # bar
-  bar <- x$bar
-  if (!is.null(bar)) {
-    specifics[[length(specifics) + 1]] <- "to be added at bar {bar}"
-  }
+  # print or return string ------------------------------------------------
+  s <- generate_string(general, specifics, environment())
 
-  # long form
-  if (form == 1) {
-    s <- generate_string(general, specifics, environment())
-    return(s)
+  if (silent) {
+    s
+  } else {
+    cat(s, "\n")
   }
 }
 
@@ -123,6 +133,7 @@ to_value.Meter <- function(x, ...) {
 
   if (is.null(actual_unit)) {
     (4 / x$unit) * x$number
+
   } else {
     (4 / actual_unit) * x$actual_number
   }
@@ -130,16 +141,77 @@ to_value.Meter <- function(x, ...) {
 
 
 
-# MeterLine ---------------------------------------------------------------
+# initialize MeterLine ----------------------------------------------------
 
 MeterLine <- function() {
-  ml <- list(
-    add_ons = list()
-  )
+  list(meters = list()) %>% `class<-`("MeterLine")
+}
 
-  cs <- c("MeterLine", "BarAddOnLine", "Printable")
 
-  `class<-`(ml, cs)
+
+# MeterLine + Meter -------------------------------------------------------
+
+#' @keywords internal
+#' @export
+`+.MeterLine` <- function(meter_line, meter) {
+  meter %<>% normalize_key_bar()
+  meter_line$meters %<>% merge_key(meter)
+  # the above two utils are borrowed from key.R
+
+  meter_line
+}
+
+
+
+# print MeterLine ---------------------------------------------------------
+
+#' @keywords internal
+#' @export
+print.MeterLine <- function(x, silent = FALSE, ...) {
+  # convert `x` to string -------------------------------------------------
+  meters <- x$meters
+  l <- length(meters)
+
+  # empty form
+  if (l == 0) {
+    s <- ""
+
+  # short form
+  } else if (l == 1) {
+    meter <- meters[[1]]
+    bar <- meter$bar
+
+    if (bar == 1) {
+      s_bar <- NULL
+    } else {
+      s_bar <- " at bar {bar}"
+    }
+
+    s_meter <- print(meter, context = "inside", silent = TRUE)
+    s <- paste0("Meter ", s_meter, s_bar) %>% glue::glue()
+
+  # long form
+  } else {
+    general <- "Meters"
+
+    specifics <- sapply(meters, function(meter) {
+      meter %>%
+        print(context = "inside", silent = TRUE) %>%
+        paste("at bar {meter$bar}") %>%
+        glue::glue() %>%
+        unclass()
+    })
+
+    s <- generate_string(general, specifics, environment())
+  }
+
+
+  # print or return string ------------------------------------------------
+  if (silent) {
+    s
+  } else {
+    cat(s, "\n")
+  }
 }
 
 
@@ -147,7 +219,6 @@ MeterLine <- function() {
 # Music + Meter -----------------------------------------------------------
 
 add.Meter <- function(term, music) {
-
   ml <- music$meter_line
 
   if (is.null(ml)) {
