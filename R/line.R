@@ -119,7 +119,7 @@ print.Line <- function(x, context = "console", silent = FALSE, i, ...) {
   # convert `x$pitches` and `x$durations` to string -----------------------
   ps <- x$pitches
   s_ps <- ps %>%
-    to_string() %>%
+    print(silent = TRUE) %>%
     paste("of pitches:", .) %>%
     shorten_string(globals$width)
 

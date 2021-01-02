@@ -74,10 +74,11 @@ print.Key <- function(x, context = "console", silent = FALSE, ...) {
   i <- which(x$key == -7:7)
 
   # major key
-  major <- Pitch(steps[i %% 7 + 1], i %/% 7 - 1) %>% to_string()
+  major <- Pitch(steps[i %% 7 + 1], i %/% 7 - 1) %>% print(silent = TRUE)
 
   # minor key
-  minor <- Pitch(steps[(i + 3) %% 7 + 1], (i - 4) %/% 7) %>% to_string()
+  minor <- Pitch(steps[(i + 3) %% 7 + 1], (i - 4) %/% 7) %>%
+    print(silent = TRUE)
 
 
   # initialize `general` and `specifics` ----------------------------------
