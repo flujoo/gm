@@ -78,7 +78,7 @@ check_pitch <- function(pitches) {
       next
     }
 
-    # check pitch notations and values
+    # check if is a pitch notation or value
     for (j in 1:l) {
       p_j <- p[j]
 
