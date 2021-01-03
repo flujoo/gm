@@ -68,3 +68,23 @@ generate_string <- function(general, specifics, env) {
     {ifelse(. == "", "", paste0("\n\n", .))} %>%
     glue::glue(general, ., .envir = env)
 }
+
+
+quote_string <- function(x) {
+  if (is.character(x)) {
+    if (is.na(x)) {
+      "NA_character_"
+    } else {
+      paste0('"', x, '"')
+    }
+
+  } else if (is.integer(x) && is.na(x)) {
+    "NA_integer_"
+
+  } else if (is.double(x) && is.na(x)) {
+    "NA_real_"
+
+  } else {
+    x
+  }
+}

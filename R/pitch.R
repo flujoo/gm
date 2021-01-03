@@ -84,19 +84,7 @@ check_pitch <- function(pitches) {
 
       if (!is_pitch_notation(p_j) && !is_pitch_value(p_j)) {
         # convert `p_j` to correct string
-        if (is.character(p_j)) {
-          if (is.na(p_j)) {
-            p_j <- "NA_character_"
-          } else {
-            p_j <- paste0('"', p_j, '"')
-          }
-
-        } else if (is.integer(p_j) && is.na(p_j)) {
-          p_j <- "NA_integer_"
-
-        } else if (is.double(p_j) && is.na(p_j)) {
-          p_j <- "NA_real_"
-        }
+        p_j %<>% quote_string()
 
         specifics[[length(specifics) + 1]] <-
           "`pitches[[{i}]][{j}]` is {p_j}." %>%
