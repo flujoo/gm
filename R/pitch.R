@@ -4,7 +4,7 @@ PitchLine <- function(pitches) {
   # check `pitches`
   check_type(pitches, "list")
   check_length(pitches, Inf)
-  check_pitch(pitches)
+  check_pitches(pitches)
 
   # normalize `pitches`
   pitches %<>% lapply(normalize_pitch)
@@ -17,7 +17,7 @@ PitchLine <- function(pitches) {
 
 # check `pitches` in `PitchLine` ------------------------------------------
 
-check_pitch <- function(pitches) {
+check_pitches <- function(pitches) {
   general <- paste(
     "Each item of `pitches` must be a single logical NA,",
     "or be a character or numeric vector",
