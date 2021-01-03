@@ -15,7 +15,7 @@ PitchLine <- function(pitches) {
 
 
 
-# check each item of argument `pitches` in `PitchLine` --------------------
+# check `pitches` in `PitchLine` ------------------------------------------
 
 check_pitch <- function(pitches) {
   general <- paste(
@@ -111,7 +111,7 @@ check_pitch <- function(pitches) {
 
 
 
-# two `is_pitch_*` predicate functions ------------------------------------
+# two predicates ----------------------------------------------------------
 
 is_pitch_notation <- function(x) {
   if (!is.character(x)) {
@@ -162,7 +162,7 @@ is_pitch_value <- function(x) {
 
 
 
-# normalize each item of argument `pitches` in `PitchLine` ----------------
+# normalize `pitches` in `PitchLine` --------------------------------------
 
 #' @keywords internal
 #' @export
