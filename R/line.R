@@ -93,7 +93,7 @@ check_line_offset <- function(offset) {
     check_type(offset, c("double", "integer"))
     check_length(offset, 1)
 
-    valid <- expression(x == 0 || is_tied_value(x))
+    valid <- expression(x == 0 || is_tied_duration_value(x))
     general <- "`offset` must be 0, a duration value or sum of ones."
     check_content(offset, valid, general = general)
   }
