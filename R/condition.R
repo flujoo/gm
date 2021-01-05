@@ -195,13 +195,18 @@ check_binary_classes <- function(x, y, valid_x, valid_y, general = NULL,
 }
 
 
-check_same_length <- function(x, y) {
+check_same_length <- function(x, y, name_x = NULL, name_y = NULL) {
   l_x <- length(x)
   l_y <- length(y)
 
   if (l_x != l_y) {
-    name_x <- deparse(substitute(x))
-    name_y <- deparse(substitute(y))
+    if (is.null(name_x)) {
+      name_x <- deparse(substitute(x))
+    }
+
+    if (is.null(name_y)) {
+      name_y <- deparse(substitute(y))
+    }
 
     general <- "`{name_x}` and `{name_y}` must have same length."
     specific <- "* `{name_x}` is of length {l_x}, `{name_y}` {l_y}."

@@ -15,7 +15,9 @@ Line <- function(pitches, durations, name = NULL, as = NULL, to = NULL,
   }
 
   # check if `pitches` and `durations` have same length
-  check_same_length(pitches, durations)
+  check_same_length(
+    pitches$pitches, durations$durations, "pitches", "durations"
+  )
 
 
   # check other arguments -------------------------------------------------
@@ -125,7 +127,7 @@ print.Line <- function(x, context = "console", silent = FALSE, i, ...) {
 
   ds <- x$durations
   s_ds <- ds %>%
-    to_string() %>%
+    print(context = "inside", silent = TRUE) %>%
     paste("of durations:", .) %>%
     shorten_string(globals$width)
 
