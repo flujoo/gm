@@ -885,6 +885,9 @@ DurationLine <- function(durations) {
 }
 
 
+
+# check `durations` in `DurationLine` -------------------------------------
+
 check_durations <- function(durations) {
   general <- paste(
     "Each item of `durations` must be a duration notation,",
