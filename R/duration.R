@@ -855,7 +855,7 @@ check_tuplet_out <- function(duration) {
     general <- paste(
       "The duration of the output Duration of `tuplet()`",
       "must not be shorter than 1024th note,",
-      "which is the shortest not supported."
+      "which is the shortest note supported."
     )
 
     specific <- paste(
