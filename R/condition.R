@@ -24,11 +24,11 @@ check_type <- function(x, valid, name = NULL, general = NULL,
     valid <- coordinate(valid)
 
     if (is.null(general)) {
-      general <- "`{name}` must be of {method} {valid}."
+      general <- "`{name}` must have {method} {valid}."
     }
 
     if (is.null(specific)) {
-      specific <- "`{name}` is of {method} {type}."
+      specific <- "`{name}` has {method} {type}."
     }
 
     specific <- paste("*", specific)
@@ -66,11 +66,11 @@ check_length <- function(x, valid, name = NULL, general = NULL,
 
   if (!con) {
     if (is.null(general)) {
-      general <- paste0("`{name}` must be of length ", phrase, ".")
+      general <- paste0("`{name}` must have length ", phrase, ".")
     }
 
     if (is.null(specific)) {
-      specific <- "`{name}` is of length {l}."
+      specific <- "`{name}` has length {l}."
     }
 
     specific <- paste("*", specific)
