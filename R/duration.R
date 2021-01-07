@@ -880,6 +880,9 @@ DurationLine <- function(durations) {
   # normalize `durations`
   durations %<>% lapply(to_Duration)
 
+  # check if tuplets in `durations` form groups
+  check_tuplet_group(durations)
+
   # create DurationLine
   list(durations = durations) %>% `class<-`("DurationLine")
 }
@@ -961,6 +964,259 @@ check_durations <- function(durations) {
   }
 
   show_errors(general, specifics, env = environment())
+}
+
+
+
+# check tuplet group ------------------------------------------------------
+
+check_tuplet_group <- function(durations) {
+  # rationale -------------------------------------------------------------
+  # iterate over `durations`,
+  # use "working memory" `wm` to store temporarily undecided tuplets
+
+  # if `wm` is empty and current duration `d` is not a tuplet, skip it
+  # if `d` is a tuplet, add it to `wm`, unless the loop has reached the end,
+  # which means the group containing `d` is incomplete, trigger an error if so
+
+  # if `wm` is not empty and `d` is not a tuplet, or `d` is a tuplet,
+  # but incompatible with the last tuplet in `wm`,
+  # then the group containing the last tuplet is incomplete
+  # otherwise, add `d` to `wm`
+
+  # check `wm`, if it forms a group, re-set it and continue
+  # if not yet, just continue, unless the loop has reached the end
+  # if "over-complete",
+  # then the group containing the last tuplet is incomplete
+
+  # note that the depths of the tuplets in `wm` should be the same,
+  # or increasing, or `wm` would be re-set,
+  # or an error would be triggered earlier
+
+  # four types of errors:
+  # 1. die young
+  # 2. incompatible
+  # 3. die anyway
+  # 4. over-complete
+
+
+  # globals ---------------------------------------------------------------
+  general <- "Tuplets in `durations` must form complete groups."
+  specific <-
+    "The tuplet group containing `durations[[{i}]]` is incomplete."
+  supplement <- "Subsequent tuplet groups, if any, are not checked."
+
+  # "working memory" to store undecided tuplets
+  wm <- list()
+
+  l <- length(durations)
+
+
+  # main ------------------------------------------------------------------
+  for (i in 1:l) {
+    # locals --------------------------------------------------------------
+    # add `i` to current duration for generating error message,
+    durations[[i]]$i <- i
+    # then assign it to `d`, the order can't be reversed
+    d <- durations[[i]]
+    # simplify current tuplet, if it is a 1-tuplet at the last few levels
+    d %<>% simplify_tuplet()
+    # simplify error message
+    if (i == l) {
+      supplement <- NULL
+    }
+    # check `wm` length
+    l_wm <- length(wm)
+
+
+    # if `wm` is empty ----------------------------------------------------
+    if (l_wm == 0) {
+      if (is_tuplet(d)) {
+        # if the loop has reached the end,
+        # then the group containing current tuplet is incomplete
+        if (i == l) {
+          show_errors(
+            general, specific, env = environment(), class = "die young"
+          )
+        }
+        # otherwise, add `d` to `wm`
+        wm %<>% c(list(d))
+      }
+      # skip non-tuplet
+      next
+    }
+
+
+    # if `wm` is not empty ------------------------------------------------
+
+    # get the last tuplet in `wm`
+    last <- wm[[l_wm]]
+
+
+    # if `d` can't get into `wm` ------------------------------------------
+
+    # if `d` is not a tuplet or incompatible with `last`,
+    # then the group containing the last tuplet in `wm` is incomplete
+    if (!is_tuplet(d) || (is_tuplet(d) && !is_compatible(d, last))) {
+      # get `$i` from the last tuplet
+      i <- last$i
+      show_errors(
+        general, specific, supplement, env = environment(),
+        class = "incompatible"
+      )
+    }
+
+
+    # add `d` to `wm` -----------------------------------------------------
+    wm %<>% c(list(d))
+
+
+    # reduce `wm` ---------------------------------------------------------
+    # pass all variables to `reduce_wm`
+    environment(reduce_wm) <- environment()
+    # check and reduce tuplets in `wm`
+    wm %<>% reduce_wm()
+  }
+}
+
+
+is_tuplet <- function(duration) {
+  duration %>%
+    .$tuplers %>%
+    length() %>%
+    as.logical()
+}
+
+
+# remove the last Tupler, if its value is 1,
+# i.e. the tuplet is a 1-tuplet at the deepest level
+simplify_tuplet <- function(tuplet) {
+  repeat {
+    # Tuplers of `tuplet`
+    ts <- tuplet$tuplers
+    # depth of `tuplet`
+    l <- length(ts)
+
+    # return non-tuplet
+    if (l == 0) {
+      return(tuplet)
+    }
+
+    # the value of the last Tupler
+    v <- to_value(ts[[l]])
+
+    # simplify or return
+    if (v == 1) {
+      tuplet$tuplers[[l]] <- NULL
+    } else {
+      return(tuplet)
+    }
+  }
+}
+
+
+# extra items may be added to Duration for convenience, remove them
+clear_duration <- function(duration) {
+  original <- names(tuplet(1))
+
+  for (name in names(duration)) {
+    if (!(name %in% original)) {
+      duration[[name]] <- NULL
+    }
+  }
+
+  duration
+}
+
+
+# being compatible means two tuplet share a common ancestor, meanwhile,
+# the depth of `tuplet` is the same with or larger than `tuplet_0`'s
+is_compatible <- function(tuplet, tuplet_0) {
+  tuplet %<>% clear_duration()
+  tuplet_0 %<>% clear_duration()
+
+  # get depths of these two tuplets
+  depth <- tuplet$tuplers %>% length()
+  depth_0 <- tuplet_0$tuplers %>% length()
+
+  # the depth of `tuplet` must not be less than `tuplet_0`'s
+  if (depth < depth_0) {
+    return(FALSE)
+  }
+
+  # remove the Tuplers beyond `depth_0` in `tuplet`
+  if (depth > depth_0) {
+    tuplet$tuplers[(depth_0 + 1):depth] <- NULL
+  }
+
+  # set `take` to `NULL` at the last level in both tuplets
+  tuplet$tuplers[[depth_0]]$take <- NULL
+  tuplet_0$tuplers[[depth_0]]$take <- NULL
+
+  # now compare these two tuplets
+  identical(tuplet, tuplet_0)
+}
+
+
+reduce_wm <- function(wm) {
+  repeat {
+    # get depths of tuplets in `wm`
+    depths <- sapply(wm, function(d) length(d$tuplers))
+
+    # get the depth of the deepest level
+    depth_max <- max(depths)
+
+    # if no tuplet left, then it means the group is complete,
+    # re-set `wm`
+    if (depth_max == 0) {
+      return(list())
+    }
+
+    # get the indices of tuplets at the deepest level
+    ks <- which(depths == depth_max)
+    # and get those tuplets
+    ts <- wm[ks]
+
+    # sum up the last Tuplers of these tuplets
+    total <- ts %>%
+      sapply(function(d) to_value(d$tuplers[[depth_max]])) %>%
+      sum()
+
+    # if the outcome is equal to 1,
+    # then it means the group is complete at that level
+    if (total == 1) {
+      # reduce the deepest level
+      # only keep the first tuple at this level, reduce its level
+      wm[[ks[1]]]$tuplers[[depth_max]] <- NULL
+      # remove other tuplets
+      wm[ks[-1]] <- NULL
+      # go to next loop
+      next
+    }
+
+    # if the outcome is less than 1,
+    # then it means the group is waiting for new tuplets to come
+    if (total < 1) {
+      if (i == l) {
+        show_errors(
+          general, specific, env = environment(), class = "die anyway"
+        )
+      }
+      # return current `wm`
+      return(wm)
+    }
+
+    # if "over-complete",
+    # then it means the group containing the last tuplet is incomplete
+    if (total > 1) {
+      # get `$i` from the last tuplet
+      i <- last$i
+      show_errors(
+        general, specific, supplement, env = environment(),
+        class = "over-complete"
+      )
+    }
+  }
 }
 
 
