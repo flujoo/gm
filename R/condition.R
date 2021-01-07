@@ -219,7 +219,8 @@ check_same_length <- function(x, y, name_x = NULL, name_y = NULL) {
 
 # show many error messages ------------------------------------------------
 
-show_errors <- function(general, specifics, supplement = NULL, env = NULL) {
+show_errors <- function(general, specifics, supplement = NULL,
+                        env = NULL, class = NULL) {
   l <- length(specifics)
 
   # return if `specifics` is empty
@@ -265,7 +266,7 @@ show_errors <- function(general, specifics, supplement = NULL, env = NULL) {
   c(general, specifics[1:i], more, supplement) %>%
     paste(collapse = "\n") %>%
     glue::glue(.envir = env) %>%
-    rlang::abort()
+    rlang::abort(class = class)
 }
 
 
