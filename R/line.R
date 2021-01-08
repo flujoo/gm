@@ -133,7 +133,7 @@ print.Line <- function(x, context = "console", silent = FALSE, i, ...) {
 
 
   # generate string about Line length -------------------------------------
-  l <- length(ps)
+  l <- length(ps$pitches)
   s_l <- "of length {l}"
 
 
