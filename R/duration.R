@@ -1158,63 +1158,54 @@ is_compatible <- function(tuplet, tuplet_0) {
 }
 
 
-reduce_wm <- function(wm) {
+# if the tuplets at the deepest level form a group at that level,
+# reduce that level, repeat this process until no tuplet is left in `tuplets`
+reduce_tuplets <- function(tuplets) {
   repeat {
-    # get depths of tuplets in `wm`
-    depths <- sapply(wm, function(d) length(d$tuplers))
+    # get depths of `tuplets`
+    depths <- sapply(tuplets, function(tuplet) length(tuplet$tuplers))
 
-    # get the depth of the deepest level
+    # get the largest depth
     depth_max <- max(depths)
 
-    # if no tuplet left, then it means the group is complete,
-    # re-set `wm`
+    # reset `tuplets` if no tuplet left in `tuplets`,
     if (depth_max == 0) {
       return(list())
     }
+    # which means `tuplet` forms a tuplet group,
+    # and is reduced to a non-tuplet
 
-    # get the indices of tuplets at the deepest level
+    # get the indices of the tuplets of `depth_max`
     ks <- which(depths == depth_max)
-    # and get those tuplets
-    ts <- wm[ks]
 
     # sum up the last Tuplers of these tuplets
-    total <- ts %>%
-      sapply(function(d) to_value(d$tuplers[[depth_max]])) %>%
+    total <-
+      tuplets[ks] %>%
+      sapply(function(tuplet) to_value(tuplet$tuplers[[depth_max]])) %>%
       sum()
 
-    # if the outcome is equal to 1,
-    # then it means the group is complete at that level
+    # if `total` is 1, then the group is complete at level `depth_max`,
+    # reduce that level:
     if (total == 1) {
-      # reduce the deepest level
-      # only keep the first tuple at this level, reduce its level
-      wm[[ks[1]]]$tuplers[[depth_max]] <- NULL
+      # keep the first tuple at that level, remove its last Tupler,
+      tuplets[[ks[1]]]$tuplers[[depth_max]] <- NULL
       # remove other tuplets
-      wm[ks[-1]] <- NULL
+      tuplets[ks[-1]] <- NULL
       # go to next loop
       next
     }
 
-    # if the outcome is less than 1,
-    # then it means the group is waiting for new tuplets to come
+    # if `total` is less than 1, the reducing process will stop
     if (total < 1) {
-      if (i == l) {
-        show_errors(
-          general, specific, env = environment(), class = "die anyway"
-        )
-      }
-      # return current `wm`
-      return(wm)
+      return(tuplets)
     }
 
-    # if "over-complete",
-    # then it means the group containing the last tuplet is incomplete
+    # if `total` is larger than 1,
+    # it means the group at current level has not been complete yet,
+    # but the next tuplet is already in `tuplets`,
+    # then the group containing the last tuplet is incomplete
     if (total > 1) {
-      # get `$i` from the last tuplet
-      i <- last$i
-      show_errors(
-        general, specific, supplement, env = environment(),
-        class = "over-complete"
-      )
+      stop()
     }
   }
 }
