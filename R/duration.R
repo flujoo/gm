@@ -1088,8 +1088,9 @@ is_tuplet <- function(duration) {
 }
 
 
-# remove the last Tupler, if its value is 1,
+# remove the last Tupler of `tuplet`, if its value is 1,
 # i.e. the tuplet is a 1-tuplet at the deepest level
+# this process may be repeated many times
 simplify_tuplet <- function(tuplet) {
   repeat {
     # Tuplers of `tuplet`
