@@ -970,112 +970,67 @@ check_durations <- function(durations) {
 
 # check tuplet group ------------------------------------------------------
 
+# check if there is any incomplete tuplet group in `durations`
+# see also `reduce_tuplets`
 check_tuplet_group <- function(durations) {
-  # rationale -------------------------------------------------------------
-  # iterate over `durations`,
-  # use "working memory" `wm` to store temporarily undecided tuplets
+  # shortcut abort function
+  abort <- function(i, class) {
+    general <- "Tuplets in `durations` must form complete groups."
 
-  # if `wm` is empty and current duration `d` is not a tuplet, skip it
-  # if `d` is a tuplet, add it to `wm`, unless the loop has reached the end,
-  # which means the group containing `d` is incomplete, trigger an error if so
+    specific <-
+      "The tuplet group containing `durations[[{i}]]` is incomplete." %>%
+      glue::glue() %>%
+      unclass()
 
-  # if `wm` is not empty and `d` is not a tuplet, or `d` is a tuplet,
-  # but incompatible with the last tuplet in `wm`,
-  # then the group containing the last tuplet is incomplete
-  # otherwise, add `d` to `wm`
-
-  # check `wm`, if it forms a group, re-set it and continue
-  # if not yet, just continue, unless the loop has reached the end
-  # if "over-complete",
-  # then the group containing the last tuplet is incomplete
-
-  # note that the depths of the tuplets in `wm` should be the same,
-  # or increasing, or `wm` would be re-set,
-  # or an error would be triggered earlier
-
-  # four types of errors:
-  # 1. die young
-  # 2. incompatible
-  # 3. die anyway
-  # 4. over-complete
-
-
-  # globals ---------------------------------------------------------------
-  general <- "Tuplets in `durations` must form complete groups."
-  specific <-
-    "The tuplet group containing `durations[[{i}]]` is incomplete."
-  supplement <- "Subsequent tuplet groups, if any, are not checked."
-
-  # "working memory" to store undecided tuplets
-  wm <- list()
-
-  l <- length(durations)
-
-
-  # main ------------------------------------------------------------------
-  for (i in 1:l) {
-    # locals --------------------------------------------------------------
-    # add `i` to current duration for generating error message,
-    durations[[i]]$i <- i
-    # then assign it to `d`, the order can't be reversed
-    d <- durations[[i]]
-    # simplify current tuplet, if it is a 1-tuplet at the last few levels
-    d %<>% simplify_tuplet()
-    # simplify error message
     if (i == l) {
       supplement <- NULL
+    } else {
+      supplement <- "Subsequent tuplet groups, if any, are not checked."
     }
-    # check `wm` length
+
+    show_errors(general, specific, supplement, class = class)
+  }
+
+  # "working memory" to store temporarily undecided tuplets
+  wm <- list()
+  l <- length(durations)
+
+  for (i in 1:l) {
+    d <- durations[[i]]
     l_wm <- length(wm)
 
-
-    # if `wm` is empty ----------------------------------------------------
-    if (l_wm == 0) {
-      if (is_tuplet(d)) {
-        # if the loop has reached the end,
-        # then the group containing current tuplet is incomplete
-        if (i == l) {
-          show_errors(
-            general, specific, env = environment(), class = "die young"
-          )
-        }
-        # otherwise, add `d` to `wm`
-        wm %<>% c(list(d))
-      }
-      # skip non-tuplet
+    # skip non-tuplet `d` if `wm` is empty
+    if (l_wm == 0 && !is_tuplet(d)) {
       next
     }
 
+    # if `wm` is not empty,
+    # and `d` is non-tuplet or incompatible with the last tuplet in `wm`,
+    # then the group containing the last tuplet is incomplete,
+    # trigger "incompatible" error
+    if (l_wm != 0) {
+      last <- wm[[l_wm]]
 
-    # if `wm` is not empty ------------------------------------------------
-
-    # get the last tuplet in `wm`
-    last <- wm[[l_wm]]
-
-
-    # if `d` can't get into `wm` ------------------------------------------
-
-    # if `d` is not a tuplet or incompatible with `last`,
-    # then the group containing the last tuplet in `wm` is incomplete
-    if (!is_tuplet(d) || (is_tuplet(d) && !is_compatible(d, last))) {
-      # get `$i` from the last tuplet
-      i <- last$i
-      show_errors(
-        general, specific, supplement, env = environment(),
-        class = "incompatible"
-      )
+      if (!is_tuplet(d) || (is_tuplet(d) && !is_compatible(d, last))) {
+        abort(i - 1, "incompatible")
+      }
     }
 
-
-    # add `d` to `wm` -----------------------------------------------------
+    # store `d` in `wm`
     wm %<>% c(list(d))
 
+    # try to reduce `wm`
+    tryCatch(
+      {wm %<>% reduce_tuplets()},
+      # trigger "over-complete" error
+      error = function(e) abort(i - 1, "over-complete")
+    )
 
-    # reduce `wm` ---------------------------------------------------------
-    # pass all variables to `reduce_wm`
-    environment(reduce_wm) <- environment()
-    # check and reduce tuplets in `wm`
-    wm %<>% reduce_wm()
+    # if `wm` is not totally reduced,
+    # but the loop has already reached the end, trigger "incomplete" error,
+    if (length(wm) != 0 && i == l) {
+      abort(i, "incomplete")
+    }
   }
 }
 

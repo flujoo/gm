@@ -4,12 +4,12 @@ library(mr)
 test_that("tuplet group", {
   # a single tuplet
   e <- expect_error(DurationLine(list("q/3")))
-  expect_equal(class(e)[1], "die young")
+  expect_equal(class(e)[1], "incomplete")
   expect_match(e$message, "1")
 
   # a non-tuplet and a tuplet
   e <- expect_error(DurationLine(list(1, "q/3")))
-  expect_equal(class(e)[1], "die young")
+  expect_equal(class(e)[1], "incomplete")
   expect_match(e$message, "2")
 
   # incompatible
@@ -17,9 +17,9 @@ test_that("tuplet group", {
   expect_equal(class(e)[1], "incompatible")
   expect_match(e$message, "2")
 
-  # die anyway
+  # incomplete
   e <- expect_error(DurationLine(list(1, "q/3", "q/3")))
-  expect_equal(class(e)[1], "die anyway")
+  expect_equal(class(e)[1], "incomplete")
   expect_match(e$message, "3")
 
   # over-complete
