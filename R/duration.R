@@ -1168,6 +1168,64 @@ reduce_tuplets <- function(tuplets) {
 
 
 
+# mark tuplet -------------------------------------------------------------
+
+# leave marks in each tuplet in `durations`,
+# to tell if it is the first or last tuplet of a group,
+# and of which level
+mark_tuplet <- function(durations) {
+  wm <- list()
+
+  for (i in 1:length(durations)) {
+    d <- durations[[i]]
+
+    # skip non-tuplets
+    if (!is_tuplet(d)) {
+      next
+    }
+
+    # get the depth of `d`
+    depth <- length(d$tuplers)
+
+    l <- length(wm)
+
+    # add `$start` to current tuplet
+    if (l == 0) {
+      durations[[i]]$start <- 1:depth
+    } else {
+      last <- wm[[l]]
+      depth_last <- length(last$tuplers)
+      if (depth_last < depth) {
+        durations[[i]]$start <- (depth_last + 1):depth
+      }
+    }
+
+    # add `d` to `wm`
+    wm %<>% c(list(d))
+
+    # reduce tuplets in `wm`
+    wm %<>% reduce_tuplets()
+
+    # get the length of `wm` again
+    l <- length(wm)
+
+    # add `$end` to current tuplet
+    if (l == 0) {
+      durations[[i]]$end <- 1:depth
+    } else {
+      last <- wm[[l]]
+      depth_last <- length(last$tuplers)
+      if (depth_last < depth) {
+        durations[[i]]$end <- (depth_last + 1):depth
+      }
+    }
+  }
+
+  durations
+}
+
+
+
 # print DurationLine ------------------------------------------------------
 
 #' @keywords internal
