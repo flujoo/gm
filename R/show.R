@@ -33,21 +33,20 @@ check_show_to <- function(to) {
   # the wording is more nuanced, don't merge this clause
   if (l == 1) {
     check_content(to, valid, general = general)
-    return()
-  }
 
-  # if `l` is 2
-  for (i in 1:length(to)) {
-    to_i <- to[[i]]
-    if (!(to_i %in% valid)) {
-      specifics[length(specifics) + 1] <-
-        '`to[{i}]` is "{to_i}."' %>%
-        glue::glue() %>%
-        unclass()
+  } else {
+    for (i in 1:l) {
+      to_i <- to[[i]]
+      if (!(to_i %in% valid)) {
+        specifics[length(specifics) + 1] <-
+          '`to[{i}]` is "{to_i}."' %>%
+          glue::glue() %>%
+          unclass()
+      }
     }
-  }
 
-  show_errors(general, specifics)
+    show_errors(general, specifics)
+  }
 }
 
 
