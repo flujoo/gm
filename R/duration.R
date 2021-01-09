@@ -1043,34 +1043,6 @@ is_tuplet <- function(duration) {
 }
 
 
-# remove the last Tupler of `tuplet`, if its value is 1,
-# i.e. the tuplet is a 1-tuplet at the deepest level
-# this process may be repeated many times
-simplify_tuplet <- function(tuplet) {
-  repeat {
-    # Tuplers of `tuplet`
-    ts <- tuplet$tuplers
-    # depth of `tuplet`
-    l <- length(ts)
-
-    # return non-tuplet
-    if (l == 0) {
-      return(tuplet)
-    }
-
-    # the value of the last Tupler
-    v <- to_value(ts[[l]])
-
-    # simplify or return
-    if (v == 1) {
-      tuplet$tuplers[[l]] <- NULL
-    } else {
-      return(tuplet)
-    }
-  }
-}
-
-
 # extra items may be added to Duration for convenience, remove them
 clear_duration <- function(duration) {
   original <- names(tuplet(1))
