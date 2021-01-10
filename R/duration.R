@@ -883,6 +883,9 @@ DurationLine <- function(durations) {
   # check if tuplets in `durations` form groups
   check_tuplet_group(durations)
 
+  # mark the first and last tuplet at each level of each group
+  durations %<>% mark_tuplet()
+
   # add `$.value` to each item in `durations` for further use
   durations %<>% add_value()
 
