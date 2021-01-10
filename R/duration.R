@@ -1166,14 +1166,14 @@ mark_tuplet <- function(durations) {
 
     l <- length(wm)
 
-    # add `$start` to current tuplet
+    # add `$.start` to current tuplet
     if (l == 0) {
-      durations[[i]]$start <- 1:depth
+      durations[[i]]$.start <- 1:depth
     } else {
       last <- wm[[l]]
       depth_last <- length(last$tuplers)
       if (depth_last < depth) {
-        durations[[i]]$start <- (depth_last + 1):depth
+        durations[[i]]$.start <- (depth_last + 1):depth
       }
     }
 
@@ -1186,14 +1186,14 @@ mark_tuplet <- function(durations) {
     # get the length of `wm` again
     l <- length(wm)
 
-    # add `$end` to current tuplet
+    # add `$.end` to current tuplet
     if (l == 0) {
-      durations[[i]]$end <- 1:depth
+      durations[[i]]$.end <- 1:depth
     } else {
       last <- wm[[l]]
       depth_last <- length(last$tuplers)
       if (depth_last < depth) {
-        durations[[i]]$end <- (depth_last + 1):depth
+        durations[[i]]$.end <- (depth_last + 1):depth
       }
     }
   }
