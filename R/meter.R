@@ -228,3 +228,29 @@ add.Meter <- function(term, music) {
   music$meter_line <- ml + term
   music
 }
+
+
+
+# find Meter --------------------------------------------------------------
+
+# get the Meter for `bar`
+# can be used as "find_key"
+find_meter <- function(bar, meters) {
+  l <- length(meters)
+
+  for (i in 1:l) {
+    meter <- meters[[i]]
+    bar_i <- meter$bar
+
+    if (bar > bar_i && i == l) {
+      return(meter)
+
+    } else if (bar == bar_i) {
+      return(meter)
+
+    } else if (bar < bar_i) {
+      # there must be a Meter whose `$bar` is less than `bar`
+      return(meters[[i - 1]])
+    }
+  }
+}
