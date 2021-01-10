@@ -1269,3 +1269,115 @@ is_tied_duration_value <- function(value) {
     error = function(e) FALSE
   )
 }
+
+
+
+# check tuplet group over bar ---------------------------------------------
+
+# get the start and end indices of each tuplet group
+locate_tuplet_groups <- function(durations) {
+  ks <- list()
+
+  for (i in 1:length(durations)) {
+    d <- durations[[i]]
+
+    if (1 %in% d$.start) {
+      ks[[length(ks) + 1]] <- i
+    }
+
+    if (1 %in% d$.end) {
+      ks[[length(ks)]][2] <- i
+    }
+  }
+
+  ks
+}
+
+
+# get the start indices of tuplet groups that cross barline
+locate_tuplet_groups_over_bar <- function(durations, meters, bar, offset) {
+  # get the indices of tuplet groups in `durations`
+  ks <- locate_tuplet_groups(durations)
+
+  # the start indices of the goups that cross barline
+  js <- integer(0)
+
+  # return if no tuplet in `durations`
+  if (length(ks) == 0) {
+    return(js)
+  }
+
+  # get values from `durations`
+  vs <- sapply(durations, function(d) d$.value)
+
+  for (k in ks) {
+    # start and end indices
+    s <- k[1]
+    e <- k[2]
+
+    # start bar
+    bar_s <-
+      c(0, vs)[1:s] %>%
+      sum() %>%
+      {normalize_bar_offset(bar, offset + ., meters)} %>%
+      .$bar
+
+    # end bar
+    bar_e <-
+      vs[1:e] %>%
+      sum() %>%
+      {normalize_bar_offset(bar, offset + ., meters, up = FALSE)} %>%
+      .$bar
+
+    if (bar_s != bar_e) {
+      js %<>% c(s)
+    }
+  }
+
+  js
+}
+
+
+check_tuplet_group_over_bar <- function(lines, meters) {
+  general <- paste(
+    "Any tuplet group in any Line of the Music",
+    "must not cross barline."
+  )
+
+  specifics <- character(0)
+
+  # template for generating `specific`
+  specific <- paste(
+    "In Line {name},",
+    "the tuplet group starting from the {ith} duration crosses barline."
+  )
+
+  for (i in 1:length(lines)) {
+    # unpack
+    line <- lines[[i]]
+    durations <- line$durations$durations
+    bar <- line$bar
+    offset <- line$offset
+    name <- line$name
+
+    # use `name` or `i` in generating `specific`
+    if (is.null(name)) {
+      name <- i
+    } else {
+      name %<>% quote_string()
+    }
+
+    # get the start indices of tuplet groups that cross barline in `line`
+    ks <- locate_tuplet_groups_over_bar(durations, meters, bar, offset)
+
+    # generate `specific`
+    for (k in ks) {
+      ith <- toOrdinal::toOrdinal(k)
+      specifics[[length(specifics) + 1]] <- specific %>%
+        glue::glue() %>%
+        unclass()
+    }
+  }
+
+  show_errors(general, specifics)
+}
