@@ -883,10 +883,8 @@ DurationLine <- function(durations) {
   # check if tuplets in `durations` form groups
   check_tuplet_group(durations)
 
-  # add `$value` to each item in `durations` for further use
-  for (i in 1:length(durations)) {
-    durations[[i]]$value <- to_value(durations[[i]])
-  }
+  # add `$.value` to each item in `durations` for further use
+  durations %<>% add_value()
 
   # create DurationLine
   list(durations = durations) %>% `class<-`("DurationLine")
