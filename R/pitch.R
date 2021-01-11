@@ -567,7 +567,7 @@ find_Pitch <- function(candidates, domain) {
 
 
 
-# * -> Pitch in Music -----------------------------------------------------
+# PitchNotation/Value -> Pitch in Music -----------------------------------
 
 #' @keywords internal
 #' @export
