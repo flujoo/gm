@@ -16,6 +16,9 @@ show.Music <- function(x, to = NULL, width = NULL, ...) {
   check_tuplet_group_over_bar(x$lines, x$meter_line$meters)
 
   x$key_lines %<>% normalize_key_lines()
+
+  # convert each PitchNotation/Value to Pitch
+  x %<>% to_Pitch()
 }
 
 
