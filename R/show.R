@@ -8,6 +8,14 @@ show.Music <- function(x, to = NULL, width = NULL, ...) {
   check_show_lines(x$lines)
   # `x$meter_line` must have a Meter at bar 1
   check_show_meter_line(x$meter_line)
+
+  # normalize `bar` and `offset` in each Line
+  x$lines %<>% normalize_lines_bar_offset(x$meter_line$meters)
+
+  # check if there is any tuplet group which crosses barline
+  check_tuplet_group_over_bar(x$lines, x$meter_line$meters)
+
+  x$key_lines %<>% normalize_key_lines()
 }
 
 
@@ -89,4 +97,87 @@ check_show_meter_line <- function(meter_line) {
     specifics %<>% c("Use `+ Meter()` to add a Meter.")
     show_errors(general, specifics)
   }
+}
+
+
+
+# normalize arguments in `show.Music` -------------------------------------
+
+# `offset` may be larger than the value of the Meter for `bar`,
+# i.e. `offset` may be beyond the scope of `bar`
+# normalize them to make the offset be within the scope of the bar
+# `up` decide if round up offset when it has the length of the current Meter
+normalize_bar_offset <- function(bar, offset, meters, up = TRUE) {
+  repeat {
+    v <- find_meter(bar, meters) %>% to_value()
+
+    # e.g., bar = 2, offset = 0 vs bar = 1, offset = 4
+    if (up && offset < v) {
+      break
+    } else if (!up && offset <= v) {
+      break
+    }
+
+    bar <- bar + 1L
+    offset <- offset - v
+  }
+
+  list(bar = bar, offset = offset)
+}
+
+
+# normalize `bar` and `offset` in each Line
+normalize_lines_bar_offset <- function(lines, meters) {
+  for (i in 1:length(lines)) {
+    line <- lines[[i]]
+
+    if (is.null(line$bar)) {
+      lines[[i]]$bar <- 1L
+    }
+
+    offset <- line$offset
+
+    if (is.null(offset)) {
+      lines[[i]]$offset <- 0
+
+    } else {
+      . <- normalize_bar_offset(lines[[i]]$bar, offset, meters)
+      lines[[i]]$bar <- .$bar
+      lines[[i]]$offset <- .$offset
+    }
+  }
+
+  lines
+}
+
+
+normalize_key_lines <- function(key_lines) {
+  # add a global KeyLine to `key_lines`,
+  con <- any(
+    # when `key_lines` is empty,
+    is.null(key_lines),
+    length(key_lines) == 0,
+    # or the first KeyLine is not global KeyLine
+    any(key_lines[[1]]$number != c(0, 0))
+  )
+
+  if (con) {
+    # create a global KeyLine
+    key_line <- KeyLine() + Key(0)
+    key_line$number <- c(0L, 0L)
+
+    # insert it into `key_lines`
+    key_lines %<>% append(list(key_line), 0)
+  }
+
+  # add `Key(0)` to any KeyLine that has no Key at bar 1
+  for (i in 1:length(key_lines)) {
+    key_line <- key_lines[[i]]
+
+    if (key_line$keys[[1]]$bar != 1) {
+      key_lines[[i]] <- key_line + Key(0)
+    }
+  }
+
+  key_lines
 }
