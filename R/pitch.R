@@ -564,3 +564,106 @@ find_Pitch <- function(candidates, domain) {
     }
   }
 }
+
+
+
+# * -> Pitch in Music -----------------------------------------------------
+
+#' @keywords internal
+#' @export
+to_Pitch.PitchChord <- function(x, key = 0, after = NULL, ...) {
+  x %>%
+    lapply(to_Pitch, key = key, after = after) %>%
+    `class<-`("PitchChord")
+}
+
+
+#' @keywords internal
+#' @export
+to_Pitch.Line <- function(x, meters, key_lines, ...) {
+  # unpack
+  pitches <- x$pitches$pitches
+  durations <- x$durations$durations
+  bar <- x$bar
+  offset <- x$offset
+
+  # get values from `durations` and sum it accumulatively
+  vs <- sapply(durations, function(d) d$.value) %>%
+    Reduce(sum, ., accumulate = TRUE)
+
+  l <- length(pitches)
+
+  # main
+  for (i in l:1) {
+    p <- pitches[[i]]
+    c_ <- class(p)[1]
+
+    # skip PitchRests
+    if (c_ == "PitchRest") {
+
+    } else if (c_ == "PitchNotation") {
+      x$pitches$pitches[[i]] <- to_Pitch(p)
+
+    } else {
+      # get the KeyLine for current Line
+      kl <- find_key_line(x$number, key_lines)
+      # find out which bar the current note is in
+      bar <- normalize_bar_offset(bar, offset + c(0, vs)[i], meters)$bar
+      # get the Key for current note
+      key <- find_meter(bar, kl$keys)$key
+      # get `after`
+      if (i == l) {
+        after <- NULL
+      } else {
+        after <- pitches[[i + 1]]
+        if (class(after)[1] == "PitchChord") {
+          after <- NULL
+        }
+      }
+
+      x$pitches$pitches[[i]] <- to_Pitch(p, key, after)
+    }
+  }
+
+  x
+}
+
+
+#' @keywords internal
+#' @export
+to_Pitch.Music <- function(x, ...) {
+  lines <- x$lines
+  meters <- x$meter_line$meters
+  key_lines <- x$key_lines
+
+  for (i in 1:length(lines)) {
+    x$lines[[i]] <- to_Pitch(lines[[i]], meters, key_lines)
+  }
+
+  x
+}
+
+
+# get the corresponding KeyLine for a given number
+find_key_line <- function(number, key_lines) {
+  # if `number` is Line number, use only the first two digits
+  number %<>% .[1:2]
+
+  # find the KeyLine with `number`
+  kl <- Find(function(kl) all(kl$number == number), key_lines)
+
+  # if no specific KeyLine with `number`,
+  # find the KeyLine for the corresponding part
+  if (is.null(kl)) {
+    number[2] <- 0
+    kl <- Find(function(kl) all(kl$number == number), key_lines)
+  }
+
+  # if still no KeyLine is found,
+  # get the global KeyLine
+  if (is.null(kl)) {
+    kl <- key_lines[[1]]
+  }
+
+  kl
+}
