@@ -254,8 +254,14 @@ print.PitchLine <- function(x, silent = FALSE, ...) {
 
 #' @keywords internal
 #' @export
-print.PitchNotation <- function(x, ...) {
-  unclass(x)
+print.PitchNotation <- function(x, silent = FALSE, ...) {
+  s <- unclass(x)
+
+  if (silent) {
+    s
+  } else {
+    cat(s, "\n")
+  }
 }
 
 
@@ -266,18 +272,30 @@ print.PitchValue <- print.PitchNotation
 
 #' @keywords internal
 #' @export
-print.PitchRest <- function(x, ...) {
-  "_"
+print.PitchRest <- function(x, silent = FALSE, ...) {
+  s <- "_"
+
+  if (silent) {
+    s
+  } else {
+    cat(s, "\n")
+  }
 }
 
 
 #' @keywords internal
 #' @export
-print.PitchChord <- function(x, ...) {
-  x %>%
+print.PitchChord <- function(x, silent = FALSE, ...) {
+  x %<>%
     sapply(print, silent = TRUE) %>%
     paste(collapse = ", ") %>%
     paste0("(", ., ")")
+
+  if (silent) {
+    x
+  } else {
+    cat(x, "\n")
+  }
 }
 
 
