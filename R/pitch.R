@@ -608,9 +608,10 @@ to_Pitch.Line <- function(x, meters, key_lines, ...) {
       # get the KeyLine for current Line
       kl <- find_key_line(x$number, key_lines)
       # find out which bar the current note is in
-      bar <- normalize_bar_offset(bar, offset + c(0, vs)[i], meters)$bar
+      bar_i <- normalize_bar_offset(bar, offset + c(0, vs)[i], meters)$bar
       # get the Key for current note
-      key <- find_meter(bar, kl$keys)$key
+      key <- find_meter(bar_i, kl$keys)$key
+
       # get `after`
       if (i == l) {
         after <- NULL
