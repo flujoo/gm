@@ -298,11 +298,11 @@ check_item_type <- function(x, valid, name = NULL, general = NULL,
   s_valid <- coordinate(valid)
 
   if (is.null(general)) {
-    general <- "Each item of `{name}` must be of {method} {s_valid}."
+    general <- "Each item of `{name}` must have {method} {s_valid}."
   }
 
   if (is.null(specific)) {
-    specific <- "`{name}[[{i}]]` is of {method} {t}."
+    specific <- "`{name}[[{i}]]` has {method} {t}."
   }
 
   ms <- character(0)
