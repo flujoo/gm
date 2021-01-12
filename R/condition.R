@@ -325,3 +325,59 @@ check_item_type <- function(x, valid, name = NULL, general = NULL,
 
   show_errors(general, ms, env = environment())
 }
+
+
+check_item_length <- function(x, valid, name = NULL, phrase = NULL,
+                              general = NULL, specific = NULL, ...) {
+  l <- length(x)
+
+  # return if `x` is empty
+  if (l == 0) {
+    return()
+  }
+
+  # analyze `valid`
+  # if `valid` is `Inf`, it means the length must be larger than 0
+  if (length(valid) == 1 && is.infinite(valid)) {
+    con <- expression(l_i > 0)
+
+    if (is.null(phrase)) {
+      phrase <- "larger than 0"
+    }
+  # else treat `valid` as set
+  } else if (is.numeric(valid)) {
+    con <- expression(l_i %in% valid)
+
+    if (is.null(phrase)) {
+      phrase <- coordinate(valid)
+    }
+  }
+
+  if (is.null(name)) {
+    name <- deparse(substitute(x))
+  }
+
+  if (is.null(general)) {
+    general <- "Each item of `{name}` must have length {phrase}."
+  }
+
+  if (is.null(specific)) {
+    specific <- "`{name}[[{i}]]` has length {l_i}."
+  }
+
+  specifics <- character(0)
+
+  for (i in 1:l) {
+    x_i <- x[[i]]
+    l_i <- length(x_i)
+
+    if (!eval(con)) {
+      specifics[[length(specifics) + 1]] <-
+        specific %>%
+        glue::glue() %>%
+        unclass()
+    }
+  }
+
+  show_errors(general, specifics, env = environment())
+}
