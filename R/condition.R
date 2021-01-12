@@ -132,6 +132,12 @@ check_content <- function(x, valid, name = NULL, general = NULL,
 
 # shortcut validators -----------------------------------------------------
 
+is_positive_integer <- function(x) {
+  # `x` is checked to be a single numeric
+  !is.na(x) & as.integer(x) == x & x > 0
+}
+
+
 check_positive_integer <- function(x, name = NULL) {
   if (is.null(name)) {
     name <- deparse(substitute(x))
@@ -140,9 +146,8 @@ check_positive_integer <- function(x, name = NULL) {
   check_type(x, c("double", "integer"), name)
   check_length(x, 1, name)
 
-  valid <- expression(!is.na(x) & as.integer(x) == x & x > 0)
+  valid <- is_positive_integer
   general <- "`{name}` must be a positive integer."
-
   check_content(x, valid, name, general)
 }
 
