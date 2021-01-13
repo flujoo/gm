@@ -181,14 +181,14 @@ check_binary_classes <- function(x, y, valid_x, valid_y, general = NULL,
 
     if (is.null(general)) {
       general <- paste(
-        "One side of `{operator}` must be of class {valid_x},",
+        "One side of `{operator}` must have class {valid_x},",
         "the other side {valid_y}."
       )
     }
 
     if (is.null(specific)) {
       specific <- paste(
-        "Left side is of class {x},",
+        "Left side has class {x},",
         "right side {y}."
       )
     }
