@@ -120,20 +120,29 @@ print.Line <- function(x, context = "console", silent = FALSE, i, ...) {
 
   # convert `x$pitches` and `x$durations` to string -----------------------
   ps <- x$pitches
+  ds <- x$durations
+
+  # get length
+  . <- ps$pitches
+  l <- length(.)
+  # check whether the first pitch has length 1
+  .. <- .[[1]]
+  l_1 <- length(..)
+
+  s_ps_pre <- ifelse(l == 1 && l_1 == 1, "pitch", "pitches")
   s_ps <- ps %>%
     print(silent = TRUE) %>%
-    paste("of pitches:", .) %>%
+    paste0("of ", s_ps_pre, ": ", .) %>%
     shorten_string(globals$width)
 
-  ds <- x$durations
+  s_ds_pre <- ifelse(l == 1, "duration", "durations")
   s_ds <- ds %>%
     print(context = "inside", silent = TRUE) %>%
-    paste("of durations:", .) %>%
+    paste0("of ", s_ds_pre, ": ", .) %>%
     shorten_string(globals$width)
 
 
   # generate string about Line length -------------------------------------
-  l <- length(ps$pitches)
   s_l <- "of length {l}"
 
 
