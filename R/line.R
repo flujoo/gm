@@ -146,6 +146,18 @@ print.Line <- function(x, context = "console", silent = FALSE, i, ...) {
   s_l <- "of length {l}"
 
 
+  # convert `x$tie` to string ---------------------------------------------
+  tie <- x$tie
+  if (is.null(tie)) {
+    s_tie <- NULL
+  } else {
+    s_tie <- tie %>%
+      print(silent = TRUE) %>%
+      paste("tied at", .) %>%
+      shorten_string(globals$width)
+  }
+
+
   # convert `x$name` to string --------------------------------------------
   name <- x$name
   if (is.null(name)) {
@@ -189,7 +201,7 @@ print.Line <- function(x, context = "console", silent = FALSE, i, ...) {
 
     # adjust `general` and `specifics`
     general <- paste(general, i)
-    specifics <- c(s_number, s_l, s_ps, s_ds, s_name, s_bar_offset)
+    specifics <- c(s_number, s_l, s_ps, s_ds, s_tie, s_name, s_bar_offset)
 
   } else if (context == "console") {
     # convert `x$as` to string
@@ -223,7 +235,9 @@ print.Line <- function(x, context = "console", silent = FALSE, i, ...) {
     }
 
     # adjust `specifics`
-    specifics <- c(s_l, s_ps, s_ds, s_name, s_bar_offset, s_as, s_after_to)
+    specifics <- c(
+      s_l, s_ps, s_ds, s_tie, s_name, s_bar_offset, s_as, s_after_to
+    )
   }
 
 
