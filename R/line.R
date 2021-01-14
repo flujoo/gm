@@ -132,13 +132,13 @@ print.Line <- function(x, context = "console", silent = FALSE, i, ...) {
   s_ps_pre <- ifelse(l == 1 && l_1 == 1, "pitch", "pitches")
   s_ps <- ps %>%
     print(silent = TRUE) %>%
-    paste0("of ", s_ps_pre, ": ", .) %>%
+    paste("of", s_ps_pre, .) %>%
     shorten_string(globals$width)
 
   s_ds_pre <- ifelse(l == 1, "duration", "durations")
   s_ds <- ds %>%
     print(context = "inside", silent = TRUE) %>%
-    paste0("of ", s_ds_pre, ": ", .) %>%
+    paste("of", s_ds_pre, .) %>%
     shorten_string(globals$width)
 
 
