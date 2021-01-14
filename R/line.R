@@ -331,7 +331,7 @@ check_line_name_unique <- function(name, names) {
 
 check_line_to_exist <- function(to, names, l) {
   if (!is.null(to)) {
-    general <- "`to` must refer to a Line in the Music, if specified."
+    general <- "`to` must refer to a Line in the Music."
 
     if (is.character(to) && !(to %in% names)) {
       '* Can\'t find Line of name "{to}".' %>%
