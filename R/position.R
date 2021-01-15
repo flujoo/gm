@@ -1,32 +1,154 @@
-PositionLine <- function(positions, type) {
-  name <- deparse(substitute(positions))
+# introduction ------------------------------------------------------------
 
-  # check `positions`
-  check_type(positions, "list", name)
-  check_length(positions, Inf, name)
-  check_positions(positions, type, name)
+# when a Key is added at a bar, when a Tie is added at an index,
+# they are added at a "position"
+# so position is an abstraction of bar, index, etc.
 
-  # normalize `positions`
-  positions %<>% normalize_positions(type)
 
-  # create PositionLine
-  list(positions = positions) %>% `class<-`("PositionLine")
+# there are three types of positions: note, chord, segment
+
+# type "note" is a single positive integer structurally
+# bar and one-level index are two examples
+
+# type "chord" contains one or two positive integers,
+# of which the second one refers to a sub-position
+# for example, `c(10, 2)` can refer to the 2nd pitch of the 10th chord
+# this type is related to tie
+
+# type "segment" contains two positive integers,
+# which refer to the start and end positions of a segment
+# this type is related to pedal, slur, etc.
+
+
+# for convenience, argument `positions` can be a single position,
+# which will be normalized to list
+
+
+
+# check `positions` length ------------------------------------------------
+
+#' @keywords internal
+#' @export
+check_positions_length <- function(positions, type, name = NULL) {
+  UseMethod("check_positions_length")
 }
 
 
-check_positions <- function(positions, type, name = NULL) {
+#' @keywords internal
+#' @export
+check_positions_length.numeric <- function(positions, type, name = NULL) {
   if (is.null(name)) {
     name <- deparse(substitute(positions))
   }
 
-  phrase <- switch(type,
+  valid <- switch(type, "note" = 1, "chord" = c(1, 2), "segment" = 2)
+  phrase <- coordinate(valid)
+  general <- "If `{name}` is a numeric, it must have length {phrase}."
+  check_length(positions, valid, name, general, phrase = phrase)
+}
+
+
+#' @keywords internal
+#' @export
+check_positions_length.list <- function(positions, type, name = NULL) {
+  if (is.null(name)) {
+    name <- deparse(substitute(positions))
+  }
+
+  valid <- Inf
+  general <- "If `{name}` is a list, it must have length larger than 0."
+  check_length(positions, valid, name, general)
+}
+
+
+
+# check `positions` content -----------------------------------------------
+
+#' @keywords internal
+#' @export
+check_positions_content <- function(positions, type, name = NULL) {
+  UseMethod("check_positions_content")
+}
+
+
+#' @keywords internal
+#' @export
+check_positions_content.numeric <- function(positions, type, name = NULL) {
+  if (is.null(name)) {
+    name <- deparse(substitute(positions))
+  }
+
+  phrase <- switch(
+    type,
     "note" = "be a positive integer",
     "chord" = "contain one or two positive integers",
     "segment" = "contain two different positive integers"
   )
 
-  general <- "Each item of `{name}` must {phrase}."
+  general <- "If `{name}` is a numeric, it must {phrase}."
+
+  l <- length(positions)
+
+  # single positive integer
+  if (l == 1) {
+    if (!is_positive_integer(positions)) {
+      specifics <- "`{name}` is {positions}."
+      show_errors(general, specifics, env = environment())
+    }
+  }
+
+  # two positive integers
+  if (l > 1) {
+    specifics <- character(0)
+    specific <- "`{name}[{i}]` is {p}."
+
+    for (i in 1:l) {
+      p <- positions[i]
+
+      if (!is_positive_integer(p)) {
+        specifics[length(specifics) + 1] <-
+          specific %>%
+          glue::glue() %>%
+          unclass()
+      }
+    }
+
+    show_errors(general, specifics, env = environment())
+
+    # type "segment" must contain two different integers
+    if (type == "segment") {
+      p1 <- positions[1]
+      p2 <- positions[2]
+
+      if (p1 == p2) {
+        specifics[length(specifics) + 1] <-
+          "`{name}` contains two {p1}'s." %>%
+          glue::glue() %>%
+          unclass()
+      }
+    }
+
+    show_errors(general, specifics, env = environment())
+  }
+}
+
+
+#' @keywords internal
+#' @export
+check_positions_content.list <- function(positions, type, name = NULL) {
+  if (is.null(name)) {
+    name <- deparse(substitute(positions))
+  }
+
+  phrase <- switch(
+    type,
+    "note" = "be a positive integer",
+    "chord" = "contain one or two positive integers",
+    "segment" = "contain two different positive integers"
+  )
+
   specifics <- character(0)
+  general <- "If `{name}` is a list, each item of it must {phrase}."
 
   for (i in 1:length(positions)) {
     p <- positions[[i]]
@@ -35,7 +157,7 @@ check_positions <- function(positions, type, name = NULL) {
 
     # check type
     if (!is.numeric(p)) {
-      specifics[[length(specifics) + 1]] <-
+      specifics[length(specifics) + 1] <-
         "`{name}[[{i}]]` has type {t}." %>%
         glue::glue() %>%
         unclass()
@@ -51,7 +173,7 @@ check_positions <- function(positions, type, name = NULL) {
     )
 
     if (con) {
-      specifics[[length(specifics) + 1]] <-
+      specifics[length(specifics) + 1] <-
         "`{name}[[{i}]]` has length {l}." %>%
         glue::glue() %>%
         unclass()
@@ -71,7 +193,7 @@ check_positions <- function(positions, type, name = NULL) {
             specific <- "`{name}[[{i}]][{j}]` is {p_j}."
           }
 
-          specifics[[length(specifics) + 1]] <-
+          specifics[length(specifics) + 1] <-
             specific %>%
             glue::glue() %>%
             unclass()
@@ -87,7 +209,7 @@ check_positions <- function(positions, type, name = NULL) {
       p2 <- p[2]
 
       if (p1 == p2) {
-        specifics[[length(specifics) + 1]] <-
+        specifics[length(specifics) + 1] <-
           "`{name}[[{i}]]` contains two {p1}'s." %>%
           glue::glue() %>%
           unclass()
@@ -99,8 +221,64 @@ check_positions <- function(positions, type, name = NULL) {
 }
 
 
+
+# check `positions` -------------------------------------------------------
+
+# all in one validator
+check_positions <- function(positions, type, name = NULL) {
+  if (is.null(name)) {
+    name <- deparse(substitute(positions))
+  }
+
+  check_type(positions, c("double", "integer", "list"), name)
+  check_positions_length(positions, type, name)
+  check_positions_content(positions, type, name)
+}
+
+
+
+# PositionLine ------------------------------------------------------------
+
+# just a constructor
+# validator, normalizer and constructor are separated
+PositionLine <- function(positions) {
+  list(positions = positions) %>% `class<-`("PositionLine")
+}
+
+
+
+# print PositionLine ------------------------------------------------------
+
+#' @keywords internal
+#' @export
+print.PositionLine <- function(x, silent = FALSE, ...) {
+  ss <- character(0)
+
+  for (p in x$positions) {
+    if (length(p) == 2) {
+      p %<>%
+        paste(collapse = ", ") %>%
+        paste0("(", ., ")")
+    }
+
+    ss %<>% c(p)
+  }
+
+  s <- paste(ss, collapse = ", ")
+
+  if (silent) {
+    s
+  } else {
+    cat(s, "\n")
+  }
+}
+
+
+
+# normalize `positions` ---------------------------------------------------
+
 normalize_positions <- function(positions, type) {
-  # sort each item of `positions` if `type` is "segment"
+  # sort "segment" --------------------------------------------------------
   if (type == "segment") {
     positions %<>% lapply(sort)
   }
@@ -140,29 +318,4 @@ normalize_positions <- function(positions, type) {
 
 
   positions
-}
-
-
-#' @keywords internal
-#' @export
-print.PositionLine <- function(x, silent = FALSE, ...) {
-  ss <- character(0)
-
-  for (p in x$positions) {
-    if (length(p) == 2) {
-      p %<>%
-        paste(collapse = ", ") %>%
-        paste0("(", ., ")")
-    }
-
-    ss %<>% c(p)
-  }
-
-  s <- paste(ss, collapse = ", ")
-
-  if (silent) {
-    s
-  } else {
-    cat(s, "\n")
-  }
 }
