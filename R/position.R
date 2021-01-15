@@ -1,8 +1,10 @@
 PositionLine <- function(positions, type) {
+  name <- deparse(substitute(positions))
+
   # check `positions`
-  check_type(positions, "list")
-  check_length(positions, Inf)
-  check_positions(positions, type)
+  check_type(positions, "list", name)
+  check_length(positions, Inf, name)
+  check_positions(positions, type, name)
 
   # normalize `positions`
   positions %<>% normalize_positions(type)
@@ -12,14 +14,18 @@ PositionLine <- function(positions, type) {
 }
 
 
-check_positions <- function(positions, type) {
+check_positions <- function(positions, type, name = NULL) {
+  if (is.null(name)) {
+    name <- deparse(substitute(positions))
+  }
+
   phrase <- switch(type,
     "note" = "be a positive integer",
     "chord" = "contain one or two positive integers",
     "segment" = "contain two different positive integers"
   )
 
-  general <- "Each item of `positions` must {phrase}."
+  general <- "Each item of `{name}` must {phrase}."
   specifics <- character(0)
 
   for (i in 1:length(positions)) {
@@ -30,7 +36,7 @@ check_positions <- function(positions, type) {
     # check type
     if (!is.numeric(p)) {
       specifics[[length(specifics) + 1]] <-
-        "`positions[[{i}]]` has type {t}." %>%
+        "`{name}[[{i}]]` has type {t}." %>%
         glue::glue() %>%
         unclass()
 
@@ -46,7 +52,7 @@ check_positions <- function(positions, type) {
 
     if (con) {
       specifics[[length(specifics) + 1]] <-
-        "`positions[[{i}]]` has length {l}." %>%
+        "`{name}[[{i}]]` has length {l}." %>%
         glue::glue() %>%
         unclass()
 
@@ -60,9 +66,9 @@ check_positions <- function(positions, type) {
 
         if (!is_positive_integer(p_j)) {
           if (l == 1) {
-            specific <- "`positions[[{i}]]` is {p_j}."
+            specific <- "`{name}[[{i}]]` is {p_j}."
           } else {
-            specific <- "`positions[[{i}]][{j}]` is {p_j}."
+            specific <- "`{name}[[{i}]][{j}]` is {p_j}."
           }
 
           specifics[[length(specifics) + 1]] <-
@@ -82,7 +88,7 @@ check_positions <- function(positions, type) {
 
       if (p1 == p2) {
         specifics[[length(specifics) + 1]] <-
-          "`positions[[{i}]]` contains two {p1}'s." %>%
+          "`{name}[[{i}]]` contains two {p1}'s." %>%
           glue::glue() %>%
           unclass()
       }
