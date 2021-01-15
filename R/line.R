@@ -151,7 +151,7 @@ print.Line <- function(x, context = "console", silent = FALSE, i, ...) {
   if (is.null(tie)) {
     s_tie <- NULL
   } else {
-    s_i <- ifelse(length(tie$positions) == 1, "index", "indices")
+    s_i <- ifelse(length(tie$positions) == 1, "position", "positions")
     s_tie <- tie %>%
       print(silent = TRUE) %>%
       paste("tied at", s_i, .) %>%
