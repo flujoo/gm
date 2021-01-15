@@ -1167,14 +1167,14 @@ mark_tuplet <- function(durations) {
 
     l <- length(wm)
 
-    # add `$.start` to current tuplet
+    # add `$.tuplet_start` to current tuplet
     if (l == 0) {
-      durations[[i]]$.start <- 1:depth
+      durations[[i]]$.tuplet_start <- 1:depth
     } else {
       last <- wm[[l]]
       depth_last <- length(last$tuplers)
       if (depth_last < depth) {
-        durations[[i]]$.start <- (depth_last + 1):depth
+        durations[[i]]$.tuplet_start <- (depth_last + 1):depth
       }
     }
 
@@ -1187,14 +1187,14 @@ mark_tuplet <- function(durations) {
     # get the length of `wm` again
     l <- length(wm)
 
-    # add `$.end` to current tuplet
+    # add `$.tuplet_stop` to current tuplet
     if (l == 0) {
-      durations[[i]]$.end <- 1:depth
+      durations[[i]]$.tuplet_stop <- 1:depth
     } else {
       last <- wm[[l]]
       depth_last <- length(last$tuplers)
       if (depth_last < depth) {
-        durations[[i]]$.end <- (depth_last + 1):depth
+        durations[[i]]$.tuplet_stop <- (depth_last + 1):depth
       }
     }
   }
@@ -1281,11 +1281,11 @@ locate_tuplet_groups <- function(durations) {
   for (i in 1:length(durations)) {
     d <- durations[[i]]
 
-    if (1 %in% d$.start) {
+    if (1 %in% d$.tuplet_start) {
       ks[[length(ks) + 1]] <- i
     }
 
-    if (1 %in% d$.end) {
+    if (1 %in% d$.tuplet_stop) {
       ks[[length(ks)]][2] <- i
     }
   }
