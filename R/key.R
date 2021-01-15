@@ -9,7 +9,9 @@ Key <- function(key, bar = NULL, to = NULL, scope = NULL) {
     check_positive_integer(bar)
   }
 
-  check_line_to(to)
+  if (!is.null(to)) {
+    check_line_to(to)
+  }
   # borrowed from line.R
 
   check_key_scope(scope, to)

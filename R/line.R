@@ -26,7 +26,11 @@ Line <- function(pitches, durations, name = NULL, as = NULL, to = NULL,
   }
 
   check_line_as(as)
-  check_line_to(to)
+
+  if (!is.null(to)) {
+    check_line_to(to)
+  }
+
   check_line_after(after)
 
   if (!is.null(bar)) {
@@ -63,20 +67,18 @@ check_line_as <- function(as) {
 
 
 check_line_to <- function(to) {
-  if (!is.null(to)) {
-    check_type(to, c("character", "double", "integer"))
-    check_length(to, 1)
+  check_type(to, c("character", "double", "integer"))
+  check_length(to, 1)
 
-    if (is.character(to)) {
-      valid <- expression(!is.na(x))
-      general <- "If `to` is a character, it must not be NA."
-      check_content(to, valid, general = general)
+  if (is.character(to)) {
+    valid <- expression(!is.na(x))
+    general <- "If `to` is a character, it must not be NA."
+    check_content(to, valid, general = general)
 
-    } else if (is.numeric(to)) {
-      valid <- expression(!is.na(x) & as.integer(x) == x & x > 0)
-      general <- "If `to` is a numeric, it must be a positive integer."
-      check_content(to, valid, general = general)
-    }
+  } else if (is.numeric(to)) {
+    valid <- expression(!is.na(x) & as.integer(x) == x & x > 0)
+    general <- "If `to` is a numeric, it must be a positive integer."
+    check_content(to, valid, general = general)
   }
 }
 
