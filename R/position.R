@@ -241,8 +241,8 @@ check_positions <- function(positions, type, name = NULL) {
 
 # just a constructor
 # validator, normalizer and constructor are separated
-PositionLine <- function(positions) {
-  list(positions = positions) %>% `class<-`("PositionLine")
+PositionLine <- function(positions, type) {
+  list(positions = positions, type = type) %>% `class<-`("PositionLine")
 }
 
 
