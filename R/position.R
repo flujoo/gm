@@ -300,6 +300,31 @@ remove_duplicate <- function(positions, warn = TRUE) {
 }
 
 
+# only apply to list `positions`
+sort_positions <- function(positions) {
+  # get all first elements
+  p1s <- sapply(positions, function(position) position[1])
+  # sort `positions` by first element
+  positions <- positions[order(p1s)]
+
+  # re-assign `p1s`
+  p1s <- sapply(positions, function(position) position[1])
+  # sort `positions` by second element
+  for (p1 in unique(p1s)) {
+    is <- which(p1s == p1)
+
+    if (length(is) > 1) {
+      ps <- positions[is]
+      p2s <- sapply(ps, function(position) position[2])
+      positions[is] <- ps[order(p2s)]
+    }
+  }
+
+  positions
+}
+
+
+
 normalize_positions <- function(positions, type) {
   # sort "segment" --------------------------------------------------------
   if (type == "segment") {
