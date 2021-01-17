@@ -284,12 +284,8 @@ print.PositionLine <- function(x, silent = FALSE, ...) {
 
 # normalize `positions` ---------------------------------------------------
 
+# only apply to list `positions`
 remove_duplicate <- function(positions, warn = TRUE) {
-  # only apply to list `positions`
-  if (is.numeric(positions)) {
-    return(positions)
-  }
-
   positions %<>% lapply(as.integer)
   # `unique` differentiates between double and integer
 
