@@ -142,13 +142,13 @@ check_positions_content.list <- function(positions, type, name = NULL) {
 
   phrase <- switch(
     type,
-    "note" = "be a positive integer",
-    "chord" = "contain one or two positive integers",
-    "segment" = "contain two different positive integers"
+    "note" = "a single positive integer",
+    "chord" = "a numeric vector of one or two positive integers",
+    "segment" = "a numeric vector of two different positive integers"
   )
 
   specifics <- character(0)
-  general <- "If `{name}` is a list, each item of it must {phrase}."
+  general <- "If `{name}` is a list, each item of it must be {phrase}."
 
   for (i in 1:length(positions)) {
     p <- positions[[i]]
