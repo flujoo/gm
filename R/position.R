@@ -252,9 +252,16 @@ PositionLine <- function(positions, type) {
 #' @keywords internal
 #' @export
 print.PositionLine <- function(x, silent = FALSE, ...) {
+  positions <- x$positions
+
+  # normalize numeric `x$positions` to list
+  if (is.numeric(positions)) {
+    positions %<>% list()
+  }
+
   ss <- character(0)
 
-  for (p in x$positions) {
+  for (p in positions) {
     if (length(p) == 2) {
       p %<>%
         paste(collapse = ", ") %>%
