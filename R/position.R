@@ -284,6 +284,26 @@ print.PositionLine <- function(x, silent = FALSE, ...) {
 
 # normalize `positions` ---------------------------------------------------
 
+remove_duplicate <- function(positions, warn = TRUE) {
+  # only apply to list `positions`
+  if (is.numeric(positions)) {
+    return(positions)
+  }
+
+  positions %<>% lapply(as.integer)
+  # `unique` differentiates between double and integer
+
+  . <- unique(positions)
+
+  # warn if there is any change
+  if (warn && !identical(., positions)) {
+    "Any duplicate in `positions` is removed." %>% rlang::warn()
+  }
+
+  .
+}
+
+
 normalize_positions <- function(positions, type) {
   # sort "segment" --------------------------------------------------------
   if (type == "segment") {
