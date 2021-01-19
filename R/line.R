@@ -19,7 +19,7 @@ Line <- function(pitches, durations, tie = NULL, name = NULL, as = NULL,
   # check if `ps` and `ds` have same length
   check_same_length(ps, ds, "pitches", "durations")
 
-  tie %<>% normalize_tie(ps)
+  tie %<>% normalize_line_tie(ps)
 
 
   # check other arguments -------------------------------------------------
