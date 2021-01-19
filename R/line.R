@@ -1,9 +1,9 @@
 # create Line -------------------------------------------------------------
 
 #' @export
-Line <- function(pitches, durations, name = NULL, as = NULL, to = NULL,
-                 after = NULL, bar = NULL, offset = NULL) {
-  # normalize and check `pitches` and `durations` -------------------------
+Line <- function(pitches, durations, tie = NULL, name = NULL, as = NULL,
+                 to = NULL, after = NULL, bar = NULL, offset = NULL) {
+  # check and normalize `pitches`, `durations` and `tie` ------------------
   # normalize `pitches`
   if (class(pitches)[1] != "PitchLine") {
     pitches <- PitchLine(pitches)
@@ -20,6 +20,8 @@ Line <- function(pitches, durations, name = NULL, as = NULL, to = NULL,
 
   # check if `ps` and `ds` have same length
   check_same_length(ps, ds, "pitches", "durations")
+
+  tie %<>% normalize_tie(ps)
 
 
   # check other arguments -------------------------------------------------
@@ -46,6 +48,7 @@ Line <- function(pitches, durations, name = NULL, as = NULL, to = NULL,
   list(
     pitches = pitches,
     durations = durations,
+    tie = tie,
     name = name,
     as = as,
     to = to,
@@ -155,10 +158,12 @@ print.Line <- function(x, context = "console", silent = FALSE, i, ...) {
   if (is.null(tie)) {
     s_tie <- NULL
   } else {
-    s_i <- ifelse(length(tie$positions) == 1, "position", "positions")
-    s_tie <- tie %>%
-      print(silent = TRUE) %>%
-      paste("tied at", s_i, .) %>%
+    s_tie <-
+      paste(
+        "tied at",
+        ifelse(length(tie$positions) == 1, "position", "positions"),
+        print(tie, silent = TRUE)
+      ) %>%
       shorten_string(globals$width)
   }
 
