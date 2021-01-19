@@ -1,5 +1,3 @@
-# create Line -------------------------------------------------------------
-
 #' @export
 Line <- function(pitches, durations, tie = NULL, name = NULL, as = NULL,
                  to = NULL, after = NULL, bar = NULL, offset = NULL) {
@@ -58,59 +56,6 @@ Line <- function(pitches, durations, tie = NULL, name = NULL, as = NULL,
   ) %>% `class<-`("Line")
 }
 
-
-
-# check arguments in `Line` -----------------------------------------------
-
-check_line_as <- function(as) {
-  if (!is.null(as)) {
-    check_type(as, "character")
-    check_length(as, 1)
-    check_content(as, c("part", "staff", "voice"))
-  }
-}
-
-
-check_line_to <- function(to) {
-  check_type(to, c("character", "double", "integer"))
-  check_length(to, 1)
-
-  if (is.character(to)) {
-    valid <- expression(!is.na(x))
-    general <- "If `to` is a character, it must not be NA."
-    check_content(to, valid, general = general)
-
-  } else if (is.numeric(to)) {
-    valid <- expression(!is.na(x) & as.integer(x) == x & x > 0)
-    general <- "If `to` is a numeric, it must be a positive integer."
-    check_content(to, valid, general = general)
-  }
-}
-
-
-check_line_after <- function(after) {
-  if (!is.null(after)) {
-    check_type(after, "logical")
-    check_length(after, 1)
-    check_content(after, c(TRUE, FALSE))
-  }
-}
-
-
-check_line_offset <- function(offset) {
-  if (!is.null(offset)) {
-    check_type(offset, c("double", "integer"))
-    check_length(offset, 1)
-
-    valid <- expression(x == 0 || is_tied_duration_value(x))
-    general <- "`offset` must be 0, a duration value or sum of ones."
-    check_content(offset, valid, general = general)
-  }
-}
-
-
-
-# print Line --------------------------------------------------------------
 
 #' @export
 print.Line <- function(x, context = "console", silent = FALSE, i, ...) {
@@ -262,9 +207,6 @@ print.Line <- function(x, context = "console", silent = FALSE, i, ...) {
 }
 
 
-
-# Music + Line ------------------------------------------------------------
-
 add.Line <- function(term, music) {
   # unpack `music`
   lines <- music$lines
@@ -321,6 +263,56 @@ add.Line <- function(term, music) {
   }
 
   music
+}
+
+
+
+# Line validators ---------------------------------------------------------
+
+check_line_as <- function(as) {
+  if (!is.null(as)) {
+    check_type(as, "character")
+    check_length(as, 1)
+    check_content(as, c("part", "staff", "voice"))
+  }
+}
+
+
+check_line_to <- function(to) {
+  check_type(to, c("character", "double", "integer"))
+  check_length(to, 1)
+
+  if (is.character(to)) {
+    valid <- expression(!is.na(x))
+    general <- "If `to` is a character, it must not be NA."
+    check_content(to, valid, general = general)
+
+  } else if (is.numeric(to)) {
+    valid <- expression(!is.na(x) & as.integer(x) == x & x > 0)
+    general <- "If `to` is a numeric, it must be a positive integer."
+    check_content(to, valid, general = general)
+  }
+}
+
+
+check_line_after <- function(after) {
+  if (!is.null(after)) {
+    check_type(after, "logical")
+    check_length(after, 1)
+    check_content(after, c(TRUE, FALSE))
+  }
+}
+
+
+check_line_offset <- function(offset) {
+  if (!is.null(offset)) {
+    check_type(offset, c("double", "integer"))
+    check_length(offset, 1)
+
+    valid <- expression(x == 0 || is_tied_duration_value(x))
+    general <- "`offset` must be 0, a duration value or sum of ones."
+    check_content(offset, valid, general = general)
+  }
 }
 
 
