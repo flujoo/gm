@@ -106,10 +106,9 @@ print.Key <- function(x, context = "console", silent = FALSE, ...) {
       s_to <- "to be added only to the {x$scope} containing"
 
       if (is.character(to)) {
-        s_to <- paste(s_to, 'Line with name "{to}"')
+        s_to <- paste(s_to, 'Line "{to}"')
       } else if (is.numeric(to)) {
-        to <- toOrdinal::toOrdinal(to)
-        s_to <- paste(s_to, "the {to} Line")
+        s_to <- paste(s_to, "Line {to}")
       }
 
       specifics[[length(specifics) + 1]] <- s_to
