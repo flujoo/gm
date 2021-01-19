@@ -4,7 +4,7 @@
 Line <- function(pitches, durations, name = NULL, as = NULL, to = NULL,
                  after = NULL, bar = NULL, offset = NULL) {
   # normalize and check `pitches` and `durations` -------------------------
-  # # normalize `pitches`
+  # normalize `pitches`
   if (class(pitches)[1] != "PitchLine") {
     pitches <- PitchLine(pitches)
   }
@@ -14,10 +14,12 @@ Line <- function(pitches, durations, name = NULL, as = NULL, to = NULL,
     durations <- DurationLine(durations)
   }
 
-  # check if `pitches` and `durations` have same length
-  check_same_length(
-    pitches$pitches, durations$durations, "pitches", "durations"
-  )
+  # unpack
+  ps <- pitches$pitches
+  ds <- durations$durations
+
+  # check if `ps` and `ds` have same length
+  check_same_length(ps, ds, "pitches", "durations")
 
 
   # check other arguments -------------------------------------------------
