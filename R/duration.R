@@ -1349,7 +1349,7 @@ check_tuplet_group_over_bar <- function(lines, meters) {
   # template for generating `specific`
   specific <- paste(
     "In Line {name},",
-    "the tuplet group starting from the {ith} duration crosses barline."
+    "the tuplet group starting at position {k} crosses barline."
   )
 
   for (i in 1:length(lines)) {
@@ -1372,7 +1372,6 @@ check_tuplet_group_over_bar <- function(lines, meters) {
 
     # generate `specific`
     for (k in ks) {
-      ith <- toOrdinal::toOrdinal(k)
       specifics[[length(specifics) + 1]] <- specific %>%
         glue::glue() %>%
         unclass()
