@@ -176,8 +176,7 @@ print.Line <- function(x, context = "console", silent = FALSE, i, ...) {
       if (is.character(to)) {
         s_after_to <- 'to be inserted {s_after} Line "{to}"'
       } else if (is.numeric(to)) {
-        to <- toOrdinal::toOrdinal(to)
-        s_after_to <- "to be inserted {s_after} the {to} Line"
+        s_after_to <- "to be inserted {s_after} Line {to}"
       }
     } else {
       if (!is.null(after)) {
@@ -364,8 +363,7 @@ check_voice_number <- function(number, to) {
     } else if (is.character(to)) {
       s_to <- 'Line "{to}"'
     } else if (is.numeric(to)) {
-      to <- toOrdinal::toOrdinal(to)
-      s_to <- "the {to} Line"
+      s_to <- "Line {to}"
     }
 
     glue::glue(
