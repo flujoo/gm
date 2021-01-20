@@ -285,46 +285,6 @@ print.PositionLine <- function(x, silent = FALSE, ...) {
 # normalize `positions` ---------------------------------------------------
 
 # only apply to list `positions`
-remove_duplicate <- function(positions, type, warn = TRUE, name = NULL) {
-  if (is.null(name)) {
-    name <- deparse(substitute(positions))
-  }
-
-  positions %<>% lapply(as.integer)
-  # `unique` differentiates between double and integer
-
-  removed <- unique(positions)
-
-  # for tie
-  if (type == "chord") {
-    # get length 1 positions
-    ps <- Filter(function(p) length(p) == 1, removed)
-
-    # for example, remove `c(1, 1)` if `1` is in `removed`
-    for (i in 1:length(removed)) {
-      p <- removed[[i]]
-      p1 <- p[1]
-
-      if (p1 %in% ps && length(p) == 2) {
-        removed[[i]] <- p1
-      }
-    }
-
-    removed %<>% unique()
-  }
-
-  # warn if there is any change
-  if (warn && !identical(removed, positions)) {
-    "Any duplicate in `{name}` is removed." %>%
-      glue::glue() %>%
-      rlang::warn()
-  }
-
-  removed
-}
-
-
-# only apply to list `positions`
 sort_positions <- function(positions) {
   # get all first elements
   p1s <- sapply(positions, function(position) position[1])
