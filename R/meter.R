@@ -1,5 +1,3 @@
-# create Meter ------------------------------------------------------------
-
 #' @export
 Meter <- function(number, unit, bar = NULL, actual_number = NULL,
                   actual_unit = NULL) {
@@ -37,9 +35,6 @@ Meter <- function(number, unit, bar = NULL, actual_number = NULL,
 }
 
 
-
-# check argument `unit` and `actual_unit` in `Meter` ----------------------
-
 check_meter_unit <- function(unit) {
   name <- deparse(substitute(unit))
 
@@ -48,9 +43,6 @@ check_meter_unit <- function(unit) {
   check_content(unit, 2^(0:6), name)
 }
 
-
-
-# normalize argument `actual_*` in `Meter` --------------------------------
 
 normalize_meter_actual <- function(number, unit, actual_number, actual_unit) {
   # if only one actual is NULL, assign the corresponding nominal to it
@@ -73,9 +65,6 @@ normalize_meter_actual <- function(number, unit, actual_number, actual_unit) {
   list(actual_number = actual_number, actual_unit = actual_unit)
 }
 
-
-
-# print Meter -------------------------------------------------------------
 
 #' @export
 print.Meter <- function(x, context = "console", silent = FALSE, ...) {
@@ -123,9 +112,6 @@ print.Meter <- function(x, context = "console", silent = FALSE, ...) {
 }
 
 
-
-# Meter -> value ----------------------------------------------------------
-
 #' @keywords internal
 #' @export
 to_value.Meter <- function(x, ...) {
@@ -140,16 +126,10 @@ to_value.Meter <- function(x, ...) {
 }
 
 
-
-# initialize MeterLine ----------------------------------------------------
-
 MeterLine <- function() {
   list(meters = list()) %>% `class<-`("MeterLine")
 }
 
-
-
-# MeterLine + Meter -------------------------------------------------------
 
 #' @keywords internal
 #' @export
@@ -161,9 +141,6 @@ MeterLine <- function() {
   meter_line
 }
 
-
-
-# print MeterLine ---------------------------------------------------------
 
 #' @keywords internal
 #' @export
@@ -215,9 +192,6 @@ print.MeterLine <- function(x, silent = FALSE, ...) {
 }
 
 
-
-# Music + Meter -----------------------------------------------------------
-
 add.Meter <- function(term, music) {
   ml <- music$meter_line
 
@@ -229,9 +203,6 @@ add.Meter <- function(term, music) {
   music
 }
 
-
-
-# find Meter --------------------------------------------------------------
 
 # get the Meter for `bar`
 # can be used as "find_key"
