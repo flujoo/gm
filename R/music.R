@@ -9,7 +9,7 @@ Music <- function() {
   c_l <- class(music)[1]
   c_r <- class(term)[1]
   cs_l <- "Music"
-  cs_r <- c("Line", "Meter", "Key", "Tie")
+  cs_r <- c("Line", "Meter", "Key")
 
   check_binary_classes(c_l, c_r, cs_l, cs_r)
 
