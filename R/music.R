@@ -1,13 +1,8 @@
-# initialize Music --------------------------------------------------------
-
 #' @export
 Music <- function() {
   list() %>% `class<-`("Music")
 }
 
-
-
-# Music + * ---------------------------------------------------------------
 
 #' @export
 `+.Music` <- function(music, term) {
@@ -33,9 +28,6 @@ add <- function(term, music) {
   UseMethod("add")
 }
 
-
-
-# print Music -------------------------------------------------------------
 
 #' @export
 print.Music <- function(x, ...) {
