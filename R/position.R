@@ -1,6 +1,6 @@
 # introduction ------------------------------------------------------------
 
-# when a Key is added at a bar, when a Tie is added at an index,
+# when a Key is added at a bar, when a tie is added at an index,
 # they are added at a "position"
 # so position is an abstraction of bar, index, etc.
 
