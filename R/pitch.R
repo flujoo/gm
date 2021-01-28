@@ -381,11 +381,9 @@ to_Pitch.PitchValue <- function(x, key = 0, after = NULL, ...) {
   # return if any Pitch ascend or descend to `after` chromatically
   if (!is.null(after)) {
     # check if `x` and `after` are chromatically adjacent
-    con <- after %>%
-      to_value() %>%
-      {. - x} %>%
-      abs(.) %>%
-      {. == 1}
+    con <-
+      to_value(after) - x %>%
+      {abs(.) == 1}
 
     if (con) {
       p <- after %>%
