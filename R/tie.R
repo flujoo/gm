@@ -287,6 +287,9 @@ to_values.pitches <- function(pitches) {
     } else if (c_ == "PitchRest") {
       pitches[[i]] <- 0
 
+    } else if (c_ == "Pitch") {
+      pitches[[i]] <- to_value(p)
+
     } else if (c_ == "PitchChord") {
       pitches[[i]] <- p %>%
         unclass() %>%
