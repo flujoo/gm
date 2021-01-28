@@ -602,7 +602,9 @@ to_Pitch.Line <- function(x, meters, key_lines, ...) {
     if (c_ == "PitchRest") {
 
     } else if (c_ == "PitchNotation") {
-      x$pitches$pitches[[i]] <- to_Pitch(p)
+      pitches[[i]] <- to_Pitch(p)
+      # re-assign `pitches` rather than `x$pitches$pitches`,
+      # the latter will be re-assigned at the end
 
     } else {
       # get the KeyLine for current Line
@@ -615,17 +617,20 @@ to_Pitch.Line <- function(x, meters, key_lines, ...) {
       # get `after`
       if (i == l) {
         after <- NULL
+
       } else {
         after <- pitches[[i + 1]]
-        if (class(after)[1] == "PitchChord") {
+        # not use `after` if it is a PitchChord or PitchRest
+        if (class(after)[1] %in% c("PitchChord", "PitchRest")) {
           after <- NULL
         }
       }
 
-      x$pitches$pitches[[i]] <- to_Pitch(p, key, after)
+      pitches[[i]] <- to_Pitch(p, key, after)
     }
   }
 
+  x$pitches$pitches <- pitches
   x
 }
 
