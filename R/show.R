@@ -19,6 +19,9 @@ show.Music <- function(x, to = NULL, width = NULL, ...) {
 
   # convert each PitchNotation/Value to Pitch
   x %<>% to_Pitch()
+
+  # add Clef at position 1 in each Line if no
+  x$lines %<>% normalize_clefs()
 }
 
 
@@ -183,4 +186,43 @@ normalize_key_lines <- function(key_lines) {
   }
 
   key_lines
+}
+
+
+# infer a Clef and add it at position 1 in each Line if no
+normalize_clefs <- function(lines) {
+  for (i in 1:length(lines)) {
+    # unpack
+    line <- lines[[i]]
+    number <- line$number
+
+    # not add Clef to voices
+    if (number[3] == 1) {
+      clefs <- line$clefs
+
+      # get first Clef's position if any
+      if (!is.null(clefs)) {
+        po <- clefs$clefs[[1]]$position
+      }
+
+      # add a Clef if no Clef at position 1
+      if (is.null(clefs) || po != 1) {
+        pitches <- line$pitches$pitches
+
+        # initialize `clefs`
+        if (is.null(clefs)) {
+          clefs <- ClefLine()
+        # take only pitches before the first Clef
+        } else {
+          pitches <- pitches[1:(po - 1)]
+        }
+
+        clef <- infer_clef(pitches)
+        clefs %<>% merge_clef(clef)
+        lines[[i]]$clefs <- clefs
+      }
+    }
+  }
+
+  lines
 }
