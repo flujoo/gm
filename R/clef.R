@@ -197,6 +197,57 @@ check_clef <- function(position, length) {
 }
 
 
+# guess a Clef for `pitches`, which is "to_Pitched"
+infer_clef <- function(pitches) {
+  # convert `pitches` to values
+  pitches %<>%
+    to_values.pitches() %>%
+    unlist() %>%
+    # remove any PitchRest
+    {.[. != 0]}
+
+  l <- length(pitches)
+
+  if (l == 0) {
+    return(Clef("G"))
+  }
+
+  # ranges for typical Clefs
+  ranges <- list(
+    # treble: C4, A5
+    c(60, 81),
+    # bass: E2, C4
+    c(40, 60),
+    # octave up treble: C5, A6
+    c(72, 93),
+    # octave down bass: E1, C3
+    c(28, 48),
+    # alto: D3, B4
+    c(50, 71)
+  )
+
+  # measure the fitness of each range for `pitches`
+  get_fitness <- function(range) {
+    con <- pitches >= range[1] & pitches <= range[2]
+    table(con)["TRUE"]
+  }
+
+  # find the fittest
+  fs <- sapply(ranges, get_fitness)
+  k <- which(fs == max(fs, na.rm = TRUE))[1]
+
+  # get the corresponding Clef
+  switch(
+    as.character(k),
+    "1" = Clef("G"),
+    "2" = Clef("F"),
+    "3" = Clef("G", 2, 1),
+    "4" = Clef("F", 4, -1),
+    "5" = Clef("C")
+  )
+}
+
+
 
 # Clef validators ---------------------------------------------------------
 
