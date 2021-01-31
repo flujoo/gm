@@ -586,7 +586,7 @@ to_Pitch.Line <- function(x, meters, key_lines, ...) {
   offset <- x$offset
 
   # get values from `durations` and sum it accumulatively
-  vs <- sapply(durations, function(d) d$.value) %>%
+  vs <- sapply(durations, to_value) %>%
     Reduce(sum, ., accumulate = TRUE)
 
   l <- length(pitches)

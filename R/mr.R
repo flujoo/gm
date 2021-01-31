@@ -88,13 +88,3 @@ quote_string <- function(x) {
     x
   }
 }
-
-
-# add `$.value` to each item of `x`
-add_value <- function(x) {
-  for (i in 1:length(x)) {
-    x[[i]]$.value <- to_value(x[[i]])
-  }
-
-  x
-}

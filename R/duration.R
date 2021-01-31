@@ -886,9 +886,6 @@ DurationLine <- function(durations) {
   # mark the first and last tuplet at each level of each group
   durations %<>% mark_tuplet()
 
-  # add `$.value` to each item in `durations` for further use
-  durations %<>% add_value()
-
   # create DurationLine
   list(durations = durations) %>% `class<-`("DurationLine")
 }
@@ -1308,7 +1305,7 @@ locate_tuplet_groups_over_bar <- function(durations, meters, bar, offset) {
   }
 
   # get values from `durations`
-  vs <- sapply(durations, function(d) d$.value)
+  vs <- sapply(durations, to_value)
 
   for (k in ks) {
     # start and end indices
