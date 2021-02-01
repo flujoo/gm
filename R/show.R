@@ -22,6 +22,9 @@ show.Music <- function(x, to = NULL, width = NULL, ...) {
 
   # add Clef at position 1 in each Line if no
   x$lines %<>% normalize_clefs()
+
+  # leave marks in tied pitches in each Line
+  x$lines %<>% mark_tie.lines()
 }
 
 
@@ -221,6 +224,25 @@ normalize_clefs <- function(lines) {
         clefs %<>% merge_clef(clef)
         lines[[i]]$clefs <- clefs
       }
+    }
+  }
+
+  lines
+}
+
+
+# leave marks in tied pitches in each Line
+mark_tie.lines <- function(lines) {
+  for (i in 1:length(lines)) {
+    # unpack
+    line <- lines[[i]]
+    tie <- line$tie
+
+    # mark
+    if (!is.null(tie)) {
+      pitches <- line$pitches$pitches
+      positions <- tie$positions
+      lines[[i]]$pitches$pitches <- mark_tie(pitches, positions)
     }
   }
 
