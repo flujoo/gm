@@ -10,7 +10,7 @@ show.Music <- function(x, to = NULL, width = NULL, ...) {
   check_show_meter_line(x$meter_line)
 
   # normalize `bar` and `offset` in each Line
-  x$lines %<>% normalize_lines_bar_offset(x$meter_line$meters)
+  x$lines %<>% normalize_bar_offset.lines(x$meter_line$meters)
 
   # check if there is any tuplet group which crosses barline
   check_tuplet_group_over_bar(x$lines, x$meter_line$meters)
@@ -136,7 +136,7 @@ normalize_bar_offset <- function(bar, offset, meters, up = TRUE) {
 
 
 # normalize `bar` and `offset` in each Line
-normalize_lines_bar_offset <- function(lines, meters) {
+normalize_bar_offset.lines <- function(lines, meters) {
   for (i in 1:length(lines)) {
     line <- lines[[i]]
 
