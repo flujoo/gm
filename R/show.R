@@ -22,6 +22,8 @@ show.Music <- function(x, to = NULL, width = NULL, ...) {
 
   # add Clef at position 1 in each Line if no
   x$lines %<>% infer_clef.lines()
+  # add each Clef to its corresponding Duration in each Line
+  x$lines %<>% add_clef()
 
   # leave marks in tied pitches in each Line
   x$lines %<>% mark_tie.lines()
@@ -223,6 +225,26 @@ infer_clef.lines <- function(lines) {
         clef <- infer_clef(pitches)
         clefs %<>% merge_clef(clef)
         lines[[i]]$clefs <- clefs
+      }
+    }
+  }
+
+  lines
+}
+
+
+# add each Clef to its corresponding Duration in each Line
+add_clef <- function(lines) {
+  for (i in 1:length(lines)) {
+    # unpack
+    line <- lines[[i]]
+    clefs <- line$clefs
+
+    # add each Clef
+    if (!is.null(clefs)) {
+      for (clef in clefs$clefs) {
+        position <- clef$position
+        lines[[i]]$durations$durations[[position]]$.clef <- clef
       }
     }
   }
