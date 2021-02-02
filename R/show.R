@@ -31,7 +31,7 @@ show.Music <- function(x, to = NULL, width = NULL, ...) {
 
 
 
-# `show.Music` validators -------------------------------------------------
+# validators --------------------------------------------------------------
 
 check_show_to <- function(to) {
   # early return
@@ -112,7 +112,7 @@ check_show_meter_line <- function(meter_line) {
 
 
 
-# `show.Music` normalizers ------------------------------------------------
+# normalizers -------------------------------------------------------------
 
 # `offset` may be larger than the value of the Meter for `bar`,
 # i.e. `offset` may be beyond the scope of `bar`
