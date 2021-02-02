@@ -306,7 +306,7 @@ to_values.pitches <- function(pitches) {
 mark_tie <- function(pitches, positions) {
   for (po in positions) {
     # mark the start pitch
-    pitches[[po]]$.tie_start <- TRUE
+    pitches[[po]]$tie_start <- TRUE
 
     # mark the end pitch
     po2 <- po[1] + 1
@@ -314,7 +314,7 @@ mark_tie <- function(pitches, positions) {
     c_ <- class(p2)
 
     if (c_ == "Pitch") {
-      pitches[[po2]]$.tie_stop <- TRUE
+      pitches[[po2]]$tie_stop <- TRUE
 
     } else if (c_ == "PitchChord") {
       v1 <- pitches[[po]] %>% to_value()
@@ -327,10 +327,10 @@ mark_tie <- function(pitches, positions) {
 
       repeat {
         k <- ks[i]
-        mark <- pitches[[c(po2, k)]]$.tie_stop
+        mark <- pitches[[c(po2, k)]]$tie_stop
 
         if (is.null(mark)) {
-          pitches[[c(po2, k)]]$.tie_stop <- TRUE
+          pitches[[c(po2, k)]]$tie_stop <- TRUE
           break
         }
 

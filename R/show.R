@@ -244,7 +244,7 @@ add_clef <- function(lines) {
     if (!is.null(clefs)) {
       for (clef in clefs$clefs) {
         position <- clef$position
-        lines[[i]]$durations$durations[[position]]$.clef <- clef
+        lines[[i]]$durations$durations[[position]]$clef <- clef
       }
     }
   }
