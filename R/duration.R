@@ -1253,7 +1253,9 @@ untie_duration_value <- function(value, values = to_values.duration_types(0),
     }
   }
 
-  core(value)
+  value %>%
+    core() %>%
+    unname()
 }
 
 
