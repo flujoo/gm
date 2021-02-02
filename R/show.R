@@ -21,7 +21,7 @@ show.Music <- function(x, to = NULL, width = NULL, ...) {
   x %<>% to_Pitch()
 
   # add Clef at position 1 in each Line if no
-  x$lines %<>% normalize_clefs()
+  x$lines %<>% infer_clef.lines()
 
   # leave marks in tied pitches in each Line
   x$lines %<>% mark_tie.lines()
@@ -193,7 +193,7 @@ normalize_key_lines <- function(key_lines) {
 
 
 # infer a Clef and add it at position 1 in each Line if no
-normalize_clefs <- function(lines) {
+infer_clef.lines <- function(lines) {
   for (i in 1:length(lines)) {
     # unpack
     line <- lines[[i]]
