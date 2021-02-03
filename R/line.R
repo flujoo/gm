@@ -113,18 +113,6 @@ print.Line <- function(x, context = "console", silent = FALSE, i, ...) {
   }
 
 
-  # convert `x$clefs` to string -------------------------------------------
-  clefs <- x$clefs
-  if (is.null(clefs)) {
-    s_clefs <- NULL
-  } else {
-    s_clefs <-
-      print(clefs, silent = TRUE) %>%
-      paste("with", .) %>%
-      shorten_string(globals$width)
-  }
-
-
   # convert `x$name` to string --------------------------------------------
   name <- x$name
   if (is.null(name)) {
@@ -169,7 +157,7 @@ print.Line <- function(x, context = "console", silent = FALSE, i, ...) {
     # adjust `general` and `specifics`
     general <- paste(general, i)
     specifics <- c(
-      s_number, s_l, s_ps, s_ds, s_tie, s_clefs, s_name, s_bar_offset
+      s_number, s_l, s_ps, s_ds, s_tie, s_name, s_bar_offset
     )
 
   } else if (context == "console") {
@@ -204,8 +192,7 @@ print.Line <- function(x, context = "console", silent = FALSE, i, ...) {
 
     # adjust `specifics`
     specifics <- c(
-      s_l, s_ps, s_ds, s_tie, s_clefs,
-      s_name, s_bar_offset, s_as, s_after_to
+      s_l, s_ps, s_ds, s_tie, s_name, s_bar_offset, s_as, s_after_to
     )
   }
 
