@@ -147,18 +147,16 @@ KeyLine <- function() {
 }
 
 
-# `name` is for `+.ClefLine`, in which "bar" is "position"
-# the same goes for `merge_key`
-normalize_key_bar <- function(key, name = "bar") {
-  if (is.null(key[[name]])) {
-    key[[name]] <- 1L
+normalize_key_bar <- function(key) {
+  if (is.null(key$bar)) {
+    key$bar <- 1L
   }
 
   key
 }
 
 
-merge_key <- function(keys, key, name = "bar") {
+merge_key <- function(keys, key) {
   l <- length(keys)
 
   if (l == 0) {
@@ -166,10 +164,10 @@ merge_key <- function(keys, key, name = "bar") {
     return(keys)
   }
 
-  bar <- key[[name]]
+  bar <- key$bar
 
   for (i in 1:l) {
-    bar_i <- keys[[i]][[name]]
+    bar_i <- keys[[i]]$bar
 
     # insert `key`
     if (bar_i > bar) {
