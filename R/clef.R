@@ -1,58 +1,59 @@
 # https://www.dolmetsch.com/musictheory14.htm
 #' @export
-Clef <- function(sign, line = NULL, octave = NULL, position = NULL) {
-  # check `sign`
+Clef <- function(sign, to, line = NULL, octave = NULL, bar = NULL,
+                 offset = NULL) {
+  # check and normalize arguments -----------------------------------------
   check_clef_sign(sign)
+
   # normalize `sign`
   sign %<>% toupper()
 
-  # check `line`
+  check_line_to(to)
+
   check_clef_line(line, sign)
+
   # normalize `line`
   if (is.null(line)) {
-    line <- switch(
-      sign,
-      "G" = 2,
-      "F" = 4,
-      "C" = 3
-    )
+    line <- switch(sign, "G" = 2, "F" = 4, "C" = 3)
   }
 
-  # check `octave`
   check_clef_octave(octave, sign, line)
 
-  # check `position`
-  if (!is.null(position)) {
-    check_positive_integer(position)
+  if (!is.null(bar)) {
+    check_positive_integer(bar)
   }
 
-  # create Clef
-  list(sign = sign, line = line, octave = octave, position = position) %>%
-    `class<-`("Clef")
+  check_line_offset(offset)
+
+
+  # create Clef -----------------------------------------------------------
+  list(
+    sign = sign,
+    line = line,
+    octave = octave,
+    to = to,
+    bar = bar,
+    offset = offset
+  ) %>% `class<-`("Clef")
 }
 
 
 #' @export
 print.Clef <- function(x, context = "console", silent = FALSE, ...) {
-  # unpack
+  # convert `x$sign` and `x$line` -----------------------------------------
   sign <- x$sign
-  line <- x$line
-  octave <- x$octave
-  position <- x$position
-
-  # convert `sign` and `line` to string
-  s_line <- as.character(line)
+  line <- as.character(x$line)
 
   if (sign == "G") {
     s <- switch(
-      s_line,
+      line,
       "1" = "French Clef",
       "2" = "treble Clef"
     )
 
   } else if (sign == "F") {
     s <- switch(
-      s_line,
+      line,
       "3" = "baritone F-Clef",
       "4" = "bass Clef",
       "5" = "subbass Clef"
@@ -60,7 +61,7 @@ print.Clef <- function(x, context = "console", silent = FALSE, ...) {
 
   } else if (sign == "C") {
     s <- switch(
-      s_line,
+      line,
       "1" = "soprano Clef",
       "2" = "mezzo-soprano Clef",
       "3" = "alto Clef",
@@ -69,182 +70,59 @@ print.Clef <- function(x, context = "console", silent = FALSE, ...) {
     )
   }
 
-  # convert `octave` to string
+
+  # convert `x$octave` ----------------------------------------------------
+  octave <- x$octave
+
   if (!is.null(octave)) {
     s_octave <- ifelse(octave == 1, "octave up", "octave down")
     s %<>% paste(s_octave, .)
   }
 
-  # convert `x` to string
+
+  # convert `x` -----------------------------------------------------------
   if (context == "inside") {
 
   } else if (context == "console") {
-    if (!is.null(position)) {
-      specific <- "to be added at position {position}"
-      s %<>% generate_string(specific, environment())
+    specifics <- character(0)
+
+    # convert `x$to`
+    s_to <- quote_string(x$to)
+    specifics %<>% c("to be added to the staff containing Line {s_to}")
+
+    # convert `x$bar` and `x$offset`
+    bar <- x$bar
+    offset <- x$offset
+    s_bar <- "to be added at bar {bar}"
+    s_offset <- "with offset {offset}"
+
+    if (!is.null(bar)) {
+      if (is.null(offset)) {
+        s_bar_offset <- s_bar
+      } else {
+        s_bar_offset <- paste(s_bar, s_offset)
+      }
+    } else {
+      if (!is.null(offset)) {
+        bar <- 1
+        s_bar_offset <- paste(s_bar, s_offset)
+      } else {
+        s_bar_offset <- NULL
+      }
     }
+
+    specifics %<>% c(s_bar_offset)
+
+    s %<>% generate_string(specifics, environment())
   }
 
-  # print or return string
+
+  # print or return -------------------------------------------------------
   if (silent) {
     s
   } else {
     cat(s, "\n")
   }
-}
-
-
-ClefLine <- function() {
-  list(clefs = list()) %>% `class<-`("ClefLine")
-}
-
-
-# for "incompatible methods" error, can't use name `+.ClefLine`
-merge_clef <- function(clef_line, clef) {
-  clef %<>% normalize_key_bar(name = "position")
-  clef_line$clefs %<>% merge_key(clef, name = "position")
-  # the above two utils are borrowed from key.R
-
-  clef_line
-}
-
-
-#' @keywords internal
-#' @export
-print.ClefLine <- function(x, silent = FALSE, ...) {
-  # unpack
-  clefs <- x$clefs
-  l <- length(clefs)
-
-  # empty form
-  if (l == 0) {
-    s <- ""
-
-  # short form
-  } else if (l == 1) {
-    # unpack
-    clef <- clefs[[1]]
-    position <- clef$position
-
-    # convert `clef` to string
-    s <- print(clef, context = "inside", silent = TRUE)
-
-    # omit `position` if it is 1
-    if (position != 1) {
-      s %<>% glue::glue(" at position {position}")
-    }
-
-  # long form
-  } else {
-    ss <- sapply(clefs, function(clef) {
-      clef %>%
-        print(context = "inside", silent = TRUE) %>%
-        glue::glue(" at position {clef$position}")
-    })
-
-    s <- paste(ss, collapse = ", ")
-  }
-
-  # print or return string
-  if (silent) {
-    s
-  } else {
-    cat(s, "\n")
-  }
-}
-
-
-#' @export
-`+.Clef` <- function(clef, line) {
-  c_clef <- class(clef)[1]
-  c_line <- class(line)[1]
-
-  check_binary_classes(c_clef, c_line, "Clef", "Line")
-
-  # normalize argument order
-  if (c_clef == "Line" && c_line == "Clef") {
-    . <- clef
-    clef <- line
-    line <- .
-  }
-
-  # check `clef` against `line` length
-  check_clef(clef$position, length(line$durations$durations))
-
-  cl <- line$clefs
-
-  if (is.null(cl)) {
-    cl <- ClefLine()
-  }
-
-  line$clefs <- merge_clef(cl, clef)
-  line
-}
-
-
-check_clef <- function(position, length) {
-  if (!is.null(position) && position > length) {
-    general <-
-      "Can only add the Clef at a position no larger than the Line length."
-
-    specific <- paste(
-      "Can't add the Clef at position {position},",
-      "which is larger than the Line length {length}."
-    )
-
-    show_errors(general, specific, env = environment())
-  }
-}
-
-
-# guess a Clef for `pitches`, which is "to_Pitched"
-infer_clef <- function(pitches) {
-  # convert `pitches` to values
-  pitches %<>%
-    to_values.pitches() %>%
-    unlist() %>%
-    # remove any PitchRest
-    {.[. != 0]}
-
-  l <- length(pitches)
-
-  if (l == 0) {
-    return(Clef("G"))
-  }
-
-  # ranges for typical Clefs
-  ranges <- list(
-    # treble: C4, A5
-    c(60, 81),
-    # bass: E2, C4
-    c(40, 60),
-    # octave up treble: C5, A6
-    c(72, 93),
-    # octave down bass: E1, C3
-    c(28, 48),
-    # alto: D3, B4
-    c(50, 71)
-  )
-
-  # measure the fitness of each range for `pitches`
-  get_fitness <- function(range) {
-    con <- pitches >= range[1] & pitches <= range[2]
-    table(con)["TRUE"]
-  }
-
-  # find the fittest
-  fs <- sapply(ranges, get_fitness)
-  k <- which(fs == max(fs, na.rm = TRUE))[1]
-
-  # get the corresponding Clef
-  switch(
-    as.character(k),
-    "1" = Clef("G"),
-    "2" = Clef("F"),
-    "3" = Clef("G", 2, 1),
-    "4" = Clef("F", 4, -1),
-    "5" = Clef("C")
-  )
 }
 
 
@@ -301,4 +179,240 @@ check_clef_octave <- function(octave, sign, line) {
     check_length(octave, 1)
     check_content(octave, c(-1, 1))
   }
+}
+
+
+
+# Music + Clef ------------------------------------------------------------
+
+# rationale behind this section is similar to it in key.R,
+# from which some functions are borrowed
+
+
+# initialize a ClefLine
+ClefLine <- function() {
+  list(
+    clefs = list(),
+    number = NULL
+  ) %>% `class<-`("ClefLine")
+}
+
+
+# add a Clef to ClefLine
+#' @keywords internal
+#' @export
+`+.ClefLine` <- function(clef_line, clef) {
+  # normalize bar and offset in `clef`
+  if (is.null(clef$bar)) {
+    clef$bar <- 1L
+  }
+
+  if (is.null(clef$offset)) {
+    clef$offset <- 0
+  }
+
+  # unpack
+  clefs <- clef_line$clefs
+  l <- length(clefs)
+
+  # early return
+  if (l == 0) {
+    clef_line$clefs[[1]] <- clef
+    return(clef_line)
+  }
+
+  # replace the Clef with the same bar and offset in `clef_line`,
+  # or just append `clef` and sort `clefs` latter
+  for (i in 1:l) {
+    clef_i <- clefs[[i]]
+    con <- clef_i$bar == clef$bar && clef_i$offset == clef$offset
+
+    if (con) {
+      clefs[[i]] <- clef
+      break
+    }
+
+    if (!con && i == l) {
+      clefs %<>% c(list(clef))
+    }
+  }
+
+  clef_line$clefs <- sort_clefs(clefs)
+  clef_line
+}
+
+
+sort_clefs <- function(clefs) {
+  # get all `$bar`'s
+  bars <- sapply(clefs, function(clef) clef$bar)
+  # sort `clefs` by `$bar`
+  clefs <- clefs[order(bars)]
+
+  # re-assign `bars`
+  bars <- sapply(clefs, function(clef) clef$bar)
+  # sort `clefs` by `$offset`
+  for (bar in unique(bars)) {
+    ks <- which(bars == bar)
+
+    if (length(ks) > 1) {
+      cs <- clefs[ks]
+      offsets <- sapply(cs, function(clef) clef$offset)
+      clefs[ks] <- cs[order(offsets)]
+    }
+  }
+
+  clefs
+}
+
+
+add.Clef <- function(term, music) {
+  # unpack
+  lines <- music$lines
+  l <- length(lines)
+  to <- term$to
+  names <- lines %>%
+    sapply(function(line) line$name) %>%
+    unlist()
+
+  # check `to`
+  check_line_to_exist(to, names, l)
+
+  # get the number of the targeted ClefLine
+  number <- get_to_number(lines, to, l)[1:2]
+
+  # add the Clef (`term`)
+  clef_lines <- music$clef_lines
+  k <- locate_key_line(clef_lines, number)
+
+  if (is.na(k)) {
+    clef_line <- ClefLine() + term
+    clef_line$number <- number
+    clef_lines %<>% insert_key_line(clef_line, number)
+  } else {
+    clef_lines[[k]] <- clef_lines[[k]] + term
+  }
+
+  music$clef_lines <- clef_lines
+  music
+}
+
+
+#' @keywords internal
+#' @export
+print.ClefLine <- function(x, silent = FALSE, ...) {
+  # unpack
+  clefs <- x$clefs
+  l <- length(clefs)
+
+  # convert `x$number` ----------------------------------------------------
+  number <- x$number
+
+  if (is.null(number)) {
+    s_number <- NULL
+  } else {
+    s_number <- " for part {number[1]} staff {number[2]}"
+  }
+
+  # empty form ------------------------------------------------------------
+  if (l == 0) {
+    s <- ""
+  }
+
+  # short form ------------------------------------------------------------
+  if (l == 1) {
+    clef <- clefs[[1]]
+    bar <- clef$bar
+    offset <- clef$offset
+
+    if (offset != 0) {
+      s_bar_offset <- " at bar {bar} with offset {offset}"
+    } else if (bar != 1) {
+      s_bar_offset <- " at bar {bar}"
+    } else {
+      s_bar_offset <- ""
+    }
+
+    s_clef <- print(clef, "inside", TRUE)
+    s <- glue::glue(s_clef, s_bar_offset, s_number)
+  }
+
+  # long form -------------------------------------------------------------
+  if (l > 1) {
+    general <- paste0("Clefs", s_number)
+
+    specifics <- sapply(clefs, function(clef) {
+      bar <- clef$bar
+      offset <- clef$offset
+
+      if (offset != 0) {
+        s_bar_offset <- " at bar {bar} with offset {offset}"
+      } else {
+        s_bar_offset <- " at bar {bar}"
+      }
+
+      s_clef <- print(clef, "inside", TRUE)
+      glue::glue(s_clef, s_bar_offset) %>% unclass()
+    })
+
+    s <- generate_string(general, specifics, environment())
+  }
+
+  # print or return -------------------------------------------------------
+  if (silent) {
+    s
+  } else {
+    cat(s, "\n")
+  }
+}
+
+
+
+# `show.Music` normalizer -------------------------------------------------
+
+# guess a Clef for `pitches`, which contains only Pitches and PitchRests
+infer_clef <- function(pitches) {
+  # convert `pitches` to values
+  pitches %<>%
+    to_values.pitches() %>%
+    unlist() %>%
+    # remove any PitchRest
+    {.[. != 0]}
+
+  l <- length(pitches)
+
+  if (l == 0) {
+    return(Clef("G"))
+  }
+
+  # ranges for typical Clefs
+  ranges <- list(
+    # treble: C4, A5
+    c(60, 81),
+    # bass: E2, C4
+    c(40, 60),
+    # octave up treble: C5, A6
+    c(72, 93),
+    # octave down bass: E1, C3
+    c(28, 48),
+    # alto: D3, B4
+    c(50, 71)
+  )
+
+  # find the fittest
+  fs <- sapply(ranges, function(range) {
+    con <- pitches >= range[1] & pitches <= range[2]
+    table(con)["TRUE"]
+  })
+
+  k <- which(fs == max(fs, na.rm = TRUE))[1]
+
+  # get the corresponding Clef
+  switch(
+    as.character(k),
+    "1" = Clef("G"),
+    "2" = Clef("F"),
+    "3" = Clef("G", 2, 1),
+    "4" = Clef("F", 4, -1),
+    "5" = Clef("C")
+  )
 }
