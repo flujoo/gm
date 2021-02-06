@@ -52,6 +52,13 @@ print.Music <- function(x, ...) {
       c(ss, .)
   }
 
+  clef_lines <- x$clef_lines
+  if (!is.null(clef_lines)) {
+    ss <- clef_lines %>%
+      sapply(print, silent = TRUE) %>%
+      c(ss, .)
+  }
+
   ss %>%
     paste(collapse = "\n\n") %>%
     cat("\n")
