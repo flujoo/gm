@@ -262,6 +262,12 @@ add.Line <- function(term, music) {
     music$key_lines <-
       update_key_line_numbers(key_lines, number, as, after)
   }
+  # update `music$clef_lines`
+  clef_lines <- music$clef_lines
+  if (!is.null(clef_lines)) {
+    music$clef_lines <-
+      update_key_line_numbers(clef_lines, number, as, after)
+  }
 
   music
 }
