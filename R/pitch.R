@@ -317,6 +317,15 @@ print.Pitch <- function(x, silent = FALSE, ...) {
     c("--", "-", "", "#", "##")[.] %>%
     paste0(x$step, ., x$octave)
 
+  # mark tie
+  if (isTRUE(x$tie_start)) {
+    s %<>% paste0("-")
+  }
+
+  if (isTRUE(x$tie_stop)) {
+    s %<>% paste0("-", .)
+  }
+
   if (silent) {
     s
   } else {
