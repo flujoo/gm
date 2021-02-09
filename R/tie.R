@@ -302,13 +302,13 @@ to_values.pitches <- function(pitches) {
 }
 
 
-# leave marks in tied pitches
+# leave marks in tied Pitches
 mark_tie <- function(pitches, positions) {
   for (po in positions) {
-    # mark the start pitch
+    # mark the start Pitch
     pitches[[po]]$tie_start <- TRUE
 
-    # mark the end pitch
+    # mark the end Pitch
     po2 <- po[1] + 1
     p2 <- pitches[[po2]]
     c_ <- class(p2)
@@ -320,8 +320,8 @@ mark_tie <- function(pitches, positions) {
       v1 <- pitches[[po]] %>% to_value()
       vs <- sapply(p2, to_value)
 
-      # note that there could be more than one pitch same to `v1` at `po2`
-      # mark the pitch that is not marked
+      # note that there could be more than one Pitch same to `v1` at `po2`
+      # mark the Pitch that is not marked
       ks <- which(vs == v1)
       i <- 1
 
