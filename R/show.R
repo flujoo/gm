@@ -20,7 +20,7 @@ show.Music <- function(x, to = NULL, width = NULL, ...) {
   # convert each PitchNotation/Value to Pitch
   x %<>% to_Pitch()
 
-  # leave marks in tied pitches in each Line
+  # leave marks in tied Pitches in each Line
   x$lines %<>% mark_tie.lines()
 }
 
@@ -189,7 +189,7 @@ normalize_key_lines <- function(key_lines) {
 }
 
 
-# leave marks in tied pitches in each Line
+# leave marks in tied Pitches in each Line
 mark_tie.lines <- function(lines) {
   for (i in 1:length(lines)) {
     # unpack
