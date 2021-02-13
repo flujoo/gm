@@ -96,19 +96,14 @@ to_Notes <- function(value, ...) {
 
 
 # convert offset to forward or rests
-normalize_offset <- function(offset, number) {
-  p <- number[1]
-  s <- number[2]
-  v <- number[3]
-  voice <- (s - 1) * 4 + v
-
+normalize_offset <- function(offset, n2, n3, voice) {
   # convert `offset` to rests when the Line is not a voice
-  if (v == 1) {
-    to_Notes(offset, invisible = TRUE, staff = s, voice = voice)
+  if (n3 == 1) {
+    to_Notes(offset, invisible = TRUE, staff = n2, voice = voice)
 
   # convert `offset` to a forward when the Line is a voice
-  } else if (v > 1) {
-    Move(offset, "forward", staff = s, voice = voice) %>% list()
+  } else if (n3 > 1) {
+    Move(offset, "forward", staff = n2, voice = voice) %>% list()
     # add it to list for convenience of `segment`
   }
 }
@@ -117,8 +112,13 @@ normalize_offset <- function(offset, number) {
 # combine pitches and Durations to Notes in Line, convert offset also,
 # and put them into Measures
 segment <- function(line, meters) {
-  # unpack
+  # unpack `line$number`
   number <- line$number
+  n2 <- number[2]
+  n3 <- number[3]
+  voice <- (n2 - 1) * 4 + n3
+
+  # unpack `line`
   bar <- line$bar
   offset <- line$offset
   pitches <- line$pitches$pitches
@@ -137,7 +137,7 @@ segment <- function(line, meters) {
     m <- list()
   } else {
     # convert `offset` and add it to current measure
-    m <- normalize_offset(offset, number)
+    m <- normalize_offset(offset, n2, n3, voice)
   }
 
   for (i in 1:l) {
@@ -165,7 +165,11 @@ segment <- function(line, meters) {
 
         # mark tie and convert `ds` to Notes
         for (j in 1:length(ds)) {
-          ds[[j]] %<>% Note(mark_tie_in_segment(p, c_, j))
+          ds[[j]] %<>% Note(
+            pitch = mark_tie_in_segment(p, c_, j),
+            staff = n2,
+            voice = voice
+          )
         }
 
         # mark tie in `p` for next measure
@@ -176,9 +180,9 @@ segment <- function(line, meters) {
       if (v_temp <= v_meter) {
         if (isFALSE(untie)) {
           # generate Note and add it to `m`
-          m %<>% c(list(Note(d, p)))
+          m %<>% c(list(Note(d, p, staff = n2, voice = voice)))
         } else {
-          m %<>% c(to_Notes(v, pitch = p))
+          m %<>% c(to_Notes(v, pitch = p, staff = n2, voice = voice))
           untie <- FALSE
         }
       } else {
@@ -187,7 +191,7 @@ segment <- function(line, meters) {
 
       # complete the last measure with rests or forward
       if (v_temp < v_meter && i == l) {
-        m %<>% c(normalize_offset(v_meter - v_temp, number))
+        m %<>% c(normalize_offset(v_meter - v_temp, n2, n3, voice))
       }
 
       # add `m` to `ms`
