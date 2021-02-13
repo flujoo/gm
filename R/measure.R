@@ -97,15 +97,18 @@ to_Notes <- function(value, ...) {
 
 # convert offset to forward or rests
 normalize_offset <- function(offset, number) {
-  n3 <- number[3]
+  p <- number[1]
+  s <- number[2]
+  v <- number[3]
+  voice <- (s - 1) * 4 + v
 
   # convert `offset` to rests when the Line is not a voice
-  if (n3 == 1) {
-    to_Notes(offset, invisible = TRUE)
+  if (v == 1) {
+    to_Notes(offset, invisible = TRUE, staff = s, voice = voice)
 
   # convert `offset` to a forward when the Line is a voice
-  } else if (n3 > 1) {
-    Move(offset, "forward") %>% list()
+  } else if (v > 1) {
+    Move(offset, "forward", staff = s, voice = voice) %>% list()
     # add it to list for convenience of `segment`
   }
 }
