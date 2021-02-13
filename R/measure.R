@@ -150,6 +150,7 @@ segment <- function(line, meters) {
     repeat {
       v_temp <- v_accum + v
 
+      # deal with cross-barline `d`
       if (v_temp > v_meter) {
         ds <-
           # get rest value of current measure,
