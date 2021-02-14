@@ -60,6 +60,26 @@ print.Note <- function(x, silent = FALSE, ...) {
 }
 
 
+# rest for whole measure
+Rest <- function(duration, ...) {
+  list(duration = duration, ...) %>%
+    `class<-`("Rest")
+}
+
+
+#' @keywords internal
+#' @export
+print.Rest <- function(x, silent = FALSE, ...) {
+  s <- x$duration
+
+  if (silent) {
+    s
+  } else {
+    cat(s, "\n")
+  }
+}
+
+
 Measure <- function(notes, number) {
   list(notes = notes, number = number) %>%
     `class<-`("Measure")
