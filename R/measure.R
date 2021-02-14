@@ -129,6 +129,34 @@ normalize_offset <- function(offset, n2, n3, voice) {
 }
 
 
+mark_tie_in_segment <- function(pitch, type, i = NULL) {
+  if (type == "Pitch") {
+    if (!is.null(i)) {
+      pitch$tie_start <- TRUE
+    }
+
+    if (is.null(i) || i != 1) {
+      pitch$tie_stop <- TRUE
+    }
+
+  } else if (type == "PitchChord") {
+    if (!is.null(i)) {
+      for (j in 1:length(pitch)) {
+        pitch[[j]]$tie_start <- TRUE
+      }
+    }
+
+    if (is.null(i) || i != 1) {
+      for (j in 1:length(pitch)) {
+        pitch[[j]]$tie_stop <- TRUE
+      }
+    }
+  }
+
+  pitch
+}
+
+
 # combine pitches and Durations to Notes in Line, convert offset also,
 # and put them into Measures
 segment <- function(line, meters) {
@@ -245,32 +273,4 @@ segment <- function(line, meters) {
   }
 
   ms
-}
-
-
-mark_tie_in_segment <- function(pitch, type, i = NULL) {
-  if (type == "Pitch") {
-    if (!is.null(i)) {
-      pitch$tie_start <- TRUE
-    }
-
-    if (is.null(i) || i != 1) {
-      pitch$tie_stop <- TRUE
-    }
-
-  } else if (type == "PitchChord") {
-    if (!is.null(i)) {
-      for (j in 1:length(pitch)) {
-        pitch[[j]]$tie_start <- TRUE
-      }
-    }
-
-    if (is.null(i) || i != 1) {
-      for (j in 1:length(pitch)) {
-        pitch[[j]]$tie_stop <- TRUE
-      }
-    }
-  }
-
-  pitch
 }
