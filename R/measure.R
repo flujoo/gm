@@ -129,6 +129,7 @@ normalize_offset <- function(offset, n2, n3, voice) {
 }
 
 
+# mark tie in untied Notes
 mark_tie_in_segment <- function(pitch, type, i = NULL) {
   if (type == "Pitch") {
     if (!is.null(i)) {
