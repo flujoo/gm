@@ -32,7 +32,7 @@ print.Move <- function(x, silent = FALSE, ...) {
 
 
 # to represent MusicXML element note
-# `...` includes `invisible`, `measure`, `staff` and `voice`
+# `...` includes `invisible`, `staff` and `voice`
 # it's more convenient to add marks in Pitches rather than in Notes,
 # since a Note may contain more than one Pitch at its early stage
 Note <- function(duration, pitch = PitchRest(), ...) {
