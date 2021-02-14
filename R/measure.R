@@ -158,6 +158,34 @@ mark_tie_in_segment <- function(pitch, type, i = NULL) {
 }
 
 
+# generate Measures before specified `bar` in the Line
+initialize_measures <- function(bar, meters, n2, n3, voice) {
+  ms <- list()
+
+  if (bar == 1) {
+    return(ms)
+  }
+
+  for (bar_i in 1:(bar - 1)) {
+    if (n3 > 1) {
+      m <- Measure(list(), bar_i)
+
+    } else if (n3 == 1) {
+      m <-
+        find_meter(bar_i, meters) %>%
+        to_value() %>%
+        Rest(staff = n2, voice = voice) %>%
+        list() %>%
+        Measure(bar_i)
+    }
+
+    ms %<>% c(list(m))
+  }
+
+  ms
+}
+
+
 # combine pitches and Durations to Notes in Line, convert offset also,
 # and put them into Measures
 segment <- function(line, meters) {
