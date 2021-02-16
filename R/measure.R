@@ -129,13 +129,8 @@ segment <- function(line, meters) {
   # converted Measures
   ms <- list()
 
-  # current measure
-  if (offset == 0) {
-    m <- list()
-  } else {
-    # convert `offset` and add it to current measure
-    m <- normalize_offset(offset, n2, n3, voice)
-  }
+  # initialize current measure
+  m <- initialize_measure(offset, n2, n3, voice)
 
   for (i in 1:l) {
     # unpack
@@ -188,7 +183,7 @@ segment <- function(line, meters) {
 
       # complete the last measure with rests or forward
       if (v_temp < v_meter && i == l) {
-        m %<>% c(normalize_offset(v_meter - v_temp, n2, n3, voice))
+        m %<>% c(initialize_measure(v_meter - v_temp, n2, n3, voice))
       }
 
       # add `m` to `ms`
@@ -234,8 +229,12 @@ to_Notes <- function(value, ...) {
 }
 
 
-# convert offset to forward or rests
-normalize_offset <- function(offset, n2, n3, voice) {
+# convert offset to a forward or rests (to initialize a measure)
+initialize_measure <- function(offset, n2, n3, voice) {
+  if (offset == 0) {
+    return(list())
+  }
+
   # convert `offset` to rests when the Line is not a voice
   if (n3 == 1) {
     to_Notes(offset, invisible = TRUE, staff = n2, voice = voice)
