@@ -109,12 +109,6 @@ print.Measure <- function(x, silent = FALSE, ...) {
 # combine pitches and Durations to Notes in Line, convert offset also,
 # and put them into Measures
 segment <- function(line, meters) {
-  # unpack `line$number`
-  number <- line$number
-  n2 <- number[2]
-  n3 <- number[3]
-  voice <- (n2 - 1) * 4 + n3
-
   # unpack `line`
   bar <- line$bar
   offset <- line$offset
@@ -122,15 +116,22 @@ segment <- function(line, meters) {
   durations <- line$durations$durations
   l <- length(durations)
 
-  # accumulated value of current measure
-  v_accum <- offset
-  # meter value for current measure
-  v_meter <- find_meter(bar, meters) %>% to_value()
-  # converted Measures
-  ms <- list()
+  # unpack `line$number`
+  number <- line$number
+  n2 <- number[2]
+  n3 <- number[3]
+  voice <- (n2 - 1) * 4 + n3
+  # every staff has four voices
 
+  # generate Measures before `bar`
+  ms <- initialize_measures(bar, meters, n2, n3, voice)
   # initialize current measure
   m <- initialize_measure(offset, n2, n3, voice)
+
+  # meter value for current measure
+  v_meter <- find_meter(bar, meters) %>% to_value()
+  # accumulated value of current measure
+  v_accum <- offset
 
   for (i in 1:l) {
     # unpack
@@ -184,6 +185,11 @@ segment <- function(line, meters) {
       # complete the last measure with rests or forward
       if (v_temp < v_meter && i == l) {
         m %<>% c(initialize_measure(v_meter - v_temp, n2, n3, voice))
+      }
+
+      # add backup to any staff and voice
+      if (n2 > 1 || n3 > 1) {
+        m %<>% append(list(Move(v_meter, "backup")), 0)
       }
 
       # add `m` to `ms`
