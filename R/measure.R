@@ -106,86 +106,6 @@ print.Measure <- function(x, silent = FALSE, ...) {
 
 # pack --------------------------------------------------------------------
 
-# convert (tied) duration value to Notes
-to_Notes <- function(value, ...) {
-  value %>%
-    untie_duration_value(decreasing = FALSE) %>%
-    lapply(to_Duration) %>%
-    lapply(Note, ...)
-}
-
-
-# convert offset to forward or rests
-normalize_offset <- function(offset, n2, n3, voice) {
-  # convert `offset` to rests when the Line is not a voice
-  if (n3 == 1) {
-    to_Notes(offset, invisible = TRUE, staff = n2, voice = voice)
-
-  # convert `offset` to a forward when the Line is a voice
-  } else if (n3 > 1) {
-    Move(offset, "forward", staff = n2, voice = voice) %>% list()
-    # add it to list for convenience of `segment`
-  }
-}
-
-
-# mark tie in untied Notes
-mark_tie_in_segment <- function(pitch, type, i = NULL) {
-  if (type == "Pitch") {
-    if (!is.null(i)) {
-      pitch$tie_start <- TRUE
-    }
-
-    if (is.null(i) || i != 1) {
-      pitch$tie_stop <- TRUE
-    }
-
-  } else if (type == "PitchChord") {
-    if (!is.null(i)) {
-      for (j in 1:length(pitch)) {
-        pitch[[j]]$tie_start <- TRUE
-      }
-    }
-
-    if (is.null(i) || i != 1) {
-      for (j in 1:length(pitch)) {
-        pitch[[j]]$tie_stop <- TRUE
-      }
-    }
-  }
-
-  pitch
-}
-
-
-# generate Measures before specified `bar` in the Line
-initialize_measures <- function(bar, meters, n2, n3, voice) {
-  ms <- list()
-
-  if (bar == 1) {
-    return(ms)
-  }
-
-  for (bar_i in 1:(bar - 1)) {
-    if (n3 > 1) {
-      m <- Measure(list(), bar_i)
-
-    } else if (n3 == 1) {
-      m <-
-        find_meter(bar_i, meters) %>%
-        to_value() %>%
-        Rest(staff = n2, voice = voice) %>%
-        list() %>%
-        Measure(bar_i)
-    }
-
-    ms %<>% c(list(m))
-  }
-
-  ms
-}
-
-
 # combine pitches and Durations to Notes in Line, convert offset also,
 # and put them into Measures
 segment <- function(line, meters) {
@@ -299,6 +219,86 @@ segment <- function(line, meters) {
         break
       }
     }
+  }
+
+  ms
+}
+
+
+# convert (tied) duration value to Notes
+to_Notes <- function(value, ...) {
+  value %>%
+    untie_duration_value(decreasing = FALSE) %>%
+    lapply(to_Duration) %>%
+    lapply(Note, ...)
+}
+
+
+# convert offset to forward or rests
+normalize_offset <- function(offset, n2, n3, voice) {
+  # convert `offset` to rests when the Line is not a voice
+  if (n3 == 1) {
+    to_Notes(offset, invisible = TRUE, staff = n2, voice = voice)
+
+  # convert `offset` to a forward when the Line is a voice
+  } else if (n3 > 1) {
+    Move(offset, "forward", staff = n2, voice = voice) %>% list()
+    # add it to list for convenience of `segment`
+  }
+}
+
+
+# mark tie in untied Notes
+mark_tie_in_segment <- function(pitch, type, i = NULL) {
+  if (type == "Pitch") {
+    if (!is.null(i)) {
+      pitch$tie_start <- TRUE
+    }
+
+    if (is.null(i) || i != 1) {
+      pitch$tie_stop <- TRUE
+    }
+
+  } else if (type == "PitchChord") {
+    if (!is.null(i)) {
+      for (j in 1:length(pitch)) {
+        pitch[[j]]$tie_start <- TRUE
+      }
+    }
+
+    if (is.null(i) || i != 1) {
+      for (j in 1:length(pitch)) {
+        pitch[[j]]$tie_stop <- TRUE
+      }
+    }
+  }
+
+  pitch
+}
+
+
+# generate Measures before specified `bar` in the Line
+initialize_measures <- function(bar, meters, n2, n3, voice) {
+  ms <- list()
+
+  if (bar == 1) {
+    return(ms)
+  }
+
+  for (bar_i in 1:(bar - 1)) {
+    if (n3 > 1) {
+      m <- Measure(list(), bar_i)
+
+    } else if (n3 == 1) {
+      m <-
+        find_meter(bar_i, meters) %>%
+        to_value() %>%
+        Rest(staff = n2, voice = voice) %>%
+        list() %>%
+        Measure(bar_i)
+    }
+
+    ms %<>% c(list(m))
   }
 
   ms
