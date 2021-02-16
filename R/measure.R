@@ -104,7 +104,7 @@ print.Measure <- function(x, silent = FALSE, ...) {
 
 
 
-# pack --------------------------------------------------------------------
+# segment -----------------------------------------------------------------
 
 # combine pitches and Durations to Notes in Line, convert offset also,
 # and put them into Measures
