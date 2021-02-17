@@ -465,7 +465,7 @@ initialize_measure <- function(offset, n2, n3, voice) {
   if (n3 == 1) {
     to_Notes(offset, invisible = TRUE, staff = n2, voice = voice)
 
-    # convert `offset` to a forward when the Line is a voice
+  # convert `offset` to a forward when the Line is a voice
   } else if (n3 > 1) {
     Move(offset, "forward", staff = n2, voice = voice) %>% list()
     # add it to list for convenience of `segment`
