@@ -22,6 +22,9 @@ show.Music <- function(x, to = NULL, width = NULL, ...) {
 
   # leave marks in tied Pitches in each Line
   x$lines %<>% mark_tie.lines()
+
+  # add `$measures`
+  x$lines %<>% segment.lines(x$meter_line$meters)
 }
 
 
@@ -512,4 +515,14 @@ mark_tie_in_segment <- function(pitch, type, i = NULL) {
   }
 
   pitch
+}
+
+
+# convert each Line to Measures and add it to `$measures`
+segment.lines <- function(lines, meters) {
+  for (i in 1:length(lines)) {
+    lines[[i]]$measures <- segment(lines[[i]], meters)
+  }
+
+  lines
 }
