@@ -341,3 +341,22 @@ mark_tie <- function(pitches, positions) {
 
   pitches
 }
+
+
+# leave marks in tied Pitches in each Line
+mark_tie.lines <- function(lines) {
+  for (i in 1:length(lines)) {
+    # unpack
+    line <- lines[[i]]
+    tie <- line$tie
+
+    # mark
+    if (!is.null(tie)) {
+      pitches <- line$pitches$pitches
+      positions <- tie$positions
+      lines[[i]]$pitches$pitches <- mark_tie(pitches, positions)
+    }
+  }
+
+  lines
+}
