@@ -298,8 +298,21 @@ print.Measure <- function(x, silent = FALSE, ...) {
 
 # segment -----------------------------------------------------------------
 
-# combine pitches and Durations to Notes in Line, convert offset also,
-# and put them into Measures
+# convert Line to Measures:
+
+# 1. combine pitches and Durations to Notes
+
+# 2. segment Notes into Measures
+
+# 3. add a backup to each Measure if the Line is not a part
+
+# 4. convert offset to a forward if the Line is a voice, or untie offset
+# into rests if not
+
+# 5. generate empty Measures for bars before specified `$bar`
+# if the Line is a voice, or Measures of Rest if not
+
+
 segment <- function(line, meters) {
   # unpack `line`
   bar <- line$bar
