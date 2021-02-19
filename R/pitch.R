@@ -381,7 +381,7 @@ to_Pitch.PitchValue <- function(x, key = 0, after = NULL, ...) {
   # return if any Pitch fits `key`
   p <- key %>%
     get_scale() %>%
-    find_Pitch(ps, .)
+    find_pitch(ps, .)
 
   if (!is.null(p)) {
     return(p)
@@ -397,7 +397,7 @@ to_Pitch.PitchValue <- function(x, key = 0, after = NULL, ...) {
     if (con) {
       p <- after %>%
         get_chromatic_previous() %>%
-        find_Pitch(ps, .)
+        find_pitch(ps, .)
 
       if (!is.null(p)) {
         return(p)
@@ -409,7 +409,7 @@ to_Pitch.PitchValue <- function(x, key = 0, after = NULL, ...) {
   p <- key %>%
     get_sharp_5th() %>%
     list() %>%
-    find_Pitch(ps, .)
+    find_pitch(ps, .)
 
   if (!is.null(p)) {
     return(p)
@@ -562,7 +562,7 @@ get_chromatic_previous <- function(pitch) {
 
 
 # return Pitch in `candidate` matching any Pitch/pitch class in `domain`
-find_Pitch <- function(candidates, domain) {
+find_pitch <- function(candidates, domain) {
   for (pitch in candidates) {
     for (p in domain) {
       if (pitch == p) {
