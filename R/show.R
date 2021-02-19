@@ -530,6 +530,8 @@ segment.lines <- function(lines, meters) {
 
   lines
 }
+
+
 # append Measures to some Lines,
 # to make all Lines contain the same number of Measures
 equalize <- function(lines, meters) {
