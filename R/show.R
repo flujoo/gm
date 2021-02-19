@@ -28,6 +28,9 @@ show.Music <- function(x, to = NULL, width = NULL, ...) {
 
   # append Measures to some Lines
   x$lines %<>% equalize(x$meter_line$meters)
+
+  # merge any voice to its parent staff
+  x$lines %<>% to_staff()
 }
 
 
@@ -562,4 +565,35 @@ equalize <- function(lines, meters) {
   }
 
   lines
+}
+
+
+
+# merge -------------------------------------------------------------------
+
+# merge any voice to its parent staff
+to_staff <- function(lines) {
+  for (i in 1:length(lines)) {
+    # unpack
+    line <- lines[[i]]
+    n3 <- line$number[3]
+
+    if (n3 > 1) {
+      # locate its parent staff
+      k <- i - (n3 - 1)
+      # merge the current voice's Measures to that staff
+      lines[[k]]$measures %<>% merge_measures(line$measures)
+    }
+  }
+
+  lines
+}
+
+
+merge_measures <- function(staff, voice) {
+  for (i in 1:length(staff)) {
+    staff[[i]]$notes %<>% c(voice[[i]]$notes)
+  }
+
+  staff
 }
