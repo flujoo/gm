@@ -472,7 +472,7 @@ to_Notes <- function(value, ...) {
 }
 
 
-# convert offset to a forward or rests (to initialize a measure)
+# convert offset to a empty list, a forward in a list, or rests
 normalize_offset <- function(offset, n2, n3, voice) {
   if (offset == 0) {
     return(list())
