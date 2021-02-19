@@ -403,13 +403,15 @@ segment <- function(line, meters) {
         m %<>% c(normalize_offset(v_meter - v_temp, n2, n3, voice))
       }
 
-      # add backup to any staff and voice
-      if (n2 > 1 || n3 > 1) {
-        m %<>% append(list(Move(v_meter, "backup")), 0)
-      }
-
       # add `m` to `ms`
       if (v_temp >= v_meter || i == l) {
+        # add backup to any staff and voice
+        # do this only when the current measure is complete and
+        # ready to be appended
+        if (n2 > 1 || n3 > 1) {
+          m %<>% append(list(Move(v_meter, "backup")), 0)
+        }
+
         ms %<>% c(list(Measure(m, bar)))
       }
 
