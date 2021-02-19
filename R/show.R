@@ -339,7 +339,7 @@ segment <- function(line, meters) {
   }
 
   # initialize current measure
-  m <- initialize_measure(offset, n2, n3, voice)
+  m <- normalize_offset(offset, n2, n3, voice)
 
   # meter value for current measure
   v_meter <- find_meter(bar, meters) %>% to_value()
@@ -397,7 +397,7 @@ segment <- function(line, meters) {
 
       # complete the last measure with rests or forward
       if (v_temp < v_meter && i == l) {
-        m %<>% c(initialize_measure(v_meter - v_temp, n2, n3, voice))
+        m %<>% c(normalize_offset(v_meter - v_temp, n2, n3, voice))
       }
 
       # add backup to any staff and voice
@@ -473,7 +473,7 @@ to_Notes <- function(value, ...) {
 
 
 # convert offset to a forward or rests (to initialize a measure)
-initialize_measure <- function(offset, n2, n3, voice) {
+normalize_offset <- function(offset, n2, n3, voice) {
   if (offset == 0) {
     return(list())
   }
