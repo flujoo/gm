@@ -332,7 +332,12 @@ segment <- function(line, meters) {
   # every staff has four voices
 
   # generate Measures before `bar`
-  ms <- initialize_measures(bar, meters, n2, n3, voice)
+  if (bar == 1) {
+    ms <- list()
+  } else {
+    ms <- generate_measures(1:(bar - 1), meters, n2, n3, voice)
+  }
+
   # initialize current measure
   m <- initialize_measure(offset, n2, n3, voice)
 
@@ -434,25 +439,21 @@ segment <- function(line, meters) {
 }
 
 
-# generate Measures before specified `bar` in the Line
-initialize_measures <- function(bar, meters, n2, n3, voice) {
+# generate Measures for specified bars
+generate_measures <- function(bars, meters, n2, n3, voice) {
   ms <- list()
 
-  if (bar == 1) {
-    return(ms)
-  }
-
-  for (bar_i in 1:(bar - 1)) {
+  for (bar in bars) {
     if (n3 > 1) {
-      m <- Measure(list(), bar_i)
+      m <- Measure(list(), bar)
 
     } else if (n3 == 1) {
       m <-
-        find_meter(bar_i, meters) %>%
+        find_meter(bar, meters) %>%
         to_value() %>%
         Rest(staff = n2, voice = voice) %>%
         list() %>%
-        Measure(bar_i)
+        Measure(bar)
     }
 
     ms %<>% c(list(m))
