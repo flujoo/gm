@@ -25,6 +25,9 @@ show.Music <- function(x, to = NULL, width = NULL, ...) {
 
   # add `$measures`
   x$lines %<>% segment.lines(x$meter_line$meters)
+
+  # append Measures to some Lines
+  x$lines %<>% equalize(x$meter_line$meters)
 }
 
 
@@ -523,6 +526,35 @@ mark_tie_in_segment <- function(pitch, type, i = NULL) {
 segment.lines <- function(lines, meters) {
   for (i in 1:length(lines)) {
     lines[[i]]$measures <- segment(lines[[i]], meters)
+  }
+
+  lines
+}
+# append Measures to some Lines,
+# to make all Lines contain the same number of Measures
+equalize <- function(lines, meters) {
+  # get the max length
+  l <- lines %>%
+    lapply(function(line) line$measures) %>%
+    sapply(length) %>%
+    max()
+
+  for (i in 1:length(lines)) {
+    # unpack
+    line <- lines[[i]]
+    measures <- line$measures
+    l_ <- length(measures)
+    number <- line$number
+    n2 <- number[2]
+    n3 <- number[3]
+    voice <- (n2 - 1) * 4 + n3
+
+    if (l_ < l) {
+      lines[[i]]$measures <-
+        (l_ + 1):l %>%
+        generate_measures(meters, n2, n3, voice) %>%
+        c(measures, .)
+    }
   }
 
   lines
