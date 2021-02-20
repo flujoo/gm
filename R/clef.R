@@ -1,14 +1,12 @@
 # https://www.dolmetsch.com/musictheory14.htm
 #' @export
-Clef <- function(sign, to, line = NULL, octave = NULL, bar = NULL,
+Clef <- function(sign, line = NULL, octave = NULL, to = NULL, bar = NULL,
                  offset = NULL) {
   # check and normalize arguments -----------------------------------------
   check_clef_sign(sign)
 
   # normalize `sign`
   sign %<>% toupper()
-
-  check_line_to(to)
 
   check_clef_line(line, sign)
 
@@ -18,6 +16,10 @@ Clef <- function(sign, to, line = NULL, octave = NULL, bar = NULL,
   }
 
   check_clef_octave(octave, sign, line)
+
+  if (!is.null(to)) {
+    check_line_to(to)
+  }
 
   if (!is.null(bar)) {
     check_positive_integer(bar)
@@ -87,8 +89,11 @@ print.Clef <- function(x, context = "console", silent = FALSE, ...) {
     specifics <- character(0)
 
     # convert `x$to`
-    s_to <- quote_string(x$to)
-    specifics %<>% c("to be added to the staff containing Line {s_to}")
+    to <- x$to
+    if (!is.null(to)) {
+      s_to <- quote_string(to)
+      specifics %<>% c("to be added to the staff containing Line {s_to}")
+    }
 
     # convert `x$bar` and `x$offset`
     bar <- x$bar
@@ -308,7 +313,7 @@ print.ClefLine <- function(x, silent = FALSE, ...) {
   number <- x$number
 
   if (is.null(number)) {
-    s_number <- NULL
+    s_number <- ""
   } else {
     s_number <- " for part {number[1]} staff {number[2]}"
   }
