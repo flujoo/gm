@@ -187,6 +187,16 @@ check_clef_octave <- function(octave, sign, line) {
 }
 
 
+# check its `to` when adding a Clef to a Music
+check_clef_to <- function(to) {
+  if (is.null(to)) {
+    general <- "`to` in the Clef must be specified."
+    specific <- "`to` is NULL."
+    show_errors(general, specific)
+  }
+}
+
+
 
 # Music + Clef ------------------------------------------------------------
 
@@ -280,6 +290,7 @@ add.Clef <- function(term, music) {
     unlist()
 
   # check `to`
+  check_clef_to(to)
   check_line_to_exist(to, names, l)
 
   # get the number of the targeted ClefLine
