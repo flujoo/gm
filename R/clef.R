@@ -432,3 +432,47 @@ infer_clef <- function(pitches) {
     "5" = Clef("C")
   )
 }
+
+
+# get staffs' numbers (first two digits)
+get_staff_numbers <- function(lines) {
+  lines %>%
+    lapply(function(line) line$number[1:2] %>% as.integer()) %>%
+    unique()
+}
+
+
+normalize_clef_lines <- function(clef_lines, lines) {
+  # get staffs' numbers
+  numbers <- get_staff_numbers(lines)
+
+  for (number in numbers) {
+    # locate corresponding ClefLine
+    k <- locate_key_line(clef_lines, number)
+
+    if (is.na(k)) {
+      pitches <- extract_pitches(lines, number)
+      clef <- infer_clef(pitches)
+      clef_line <- ClefLine() + clef
+      clef_line$number <- number
+      clef_lines %<>% insert_key_line(clef_line, number)
+
+    } else {
+      # get the ClefLine
+      clef_line <- clef_lines[[k]]
+
+      # check first Clef
+      . <- clef_line[[1]]
+      bar <- .$bar
+      offset <- .$offset
+
+      if (bar != 1 || offset != 0) {
+        pitches <- extract_pitches(lines, number, bar, offset)
+        clef <- infer_clef(pitches)
+        clef_lines[[k]] <- clef_line + clef
+      }
+    }
+  }
+
+  clef_lines
+}
