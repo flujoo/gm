@@ -383,7 +383,7 @@ print.ClefLine <- function(x, silent = FALSE, ...) {
 
 
 
-# `show.Music` normalizer -------------------------------------------------
+# normalize `clef_lines` --------------------------------------------------
 
 # guess a Clef for `pitches`, which contains only Pitches and PitchRests
 infer_clef <- function(pitches) {
