@@ -451,8 +451,8 @@ extract_pitches.lines <- function(lines, number, bar = Inf, offset = Inf) {
   for (line in lines) {
     # unpack
     number_ <- line$number
-    n1_ <- number[1]
-    n2_ <- number[2]
+    n1_ <- number_[1]
+    n2_ <- number_[2]
 
     # break or skip
     if (n1_ > n1 || (n1_ == n1 && n2_ > n2)) {
