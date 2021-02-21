@@ -434,6 +434,40 @@ infer_clef <- function(pitches) {
 }
 
 
+# extract Pitches from the corresponding staff
+extract_pitches.lines <- function(lines, number, bar = Inf, offset = Inf) {
+  # normalize `bar` and `offset`
+  if (offset == 0) {
+    bar <- bar - 1
+    offset <- Inf
+  }
+
+  # unpack `number`
+  n1 <- number[1]
+  n2 <- number[2]
+
+  pitches <- list()
+
+  for (line in lines) {
+    # unpack
+    number_ <- line$number
+    n1_ <- number[1]
+    n2_ <- number[2]
+
+    # break or skip
+    if (n1_ > n1 || (n1_ == n1 && n2_ > n2)) {
+      break
+    } else if (n1_ != n1 || n2_ != n2) {
+      next
+    }
+
+    pitches %<>% c(extract_pitches(line$measures, bar, offset))
+  }
+
+  pitches
+}
+
+
 # get staffs' numbers (first two digits)
 get_staff_numbers <- function(lines) {
   lines %>%
@@ -451,7 +485,7 @@ normalize_clef_lines <- function(clef_lines, lines) {
     k <- locate_key_line(clef_lines, number)
 
     if (is.na(k)) {
-      pitches <- extract_pitches(lines, number)
+      pitches <- extract_pitches.lines(lines, number)
       clef <- infer_clef(pitches)
       clef_line <- ClefLine() + clef
       clef_line$number <- number
@@ -467,7 +501,7 @@ normalize_clef_lines <- function(clef_lines, lines) {
       offset <- .$offset
 
       if (bar != 1 || offset != 0) {
-        pitches <- extract_pitches(lines, number, bar, offset)
+        pitches <- extract_pitches.lines(lines, number, bar, offset)
         clef <- infer_clef(pitches)
         clef_lines[[k]] <- clef_line + clef
       }
