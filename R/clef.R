@@ -468,6 +468,64 @@ extract_pitches.lines <- function(lines, number, bar = Inf, offset = Inf) {
 }
 
 
+# extract Pitches from `measures`
+extract_pitches <- function(measures, bar, offset) {
+  pitches <- list()
+
+  for (measure in measures) {
+    number <- measure$number
+
+    if (number > bar) {
+      return(pitches)
+    }
+
+    # accumulator
+    v <- 0
+
+    for (note in measure$notes) {
+      if (number == bar && v >= offset) {
+        return(pitches)
+      }
+
+      c_ <- class(note)
+
+      # skip current measure if it contains only a Rest
+      if (c_ == "Rest") {
+        break
+      }
+
+      # ignore backup, add forward's duration to `v`
+      if (c_ == "Move") {
+        direction <- note$direction
+
+        if (direction == "backup") {
+          next
+        } else if (direction == "forward") {
+          v <- v + note$duration
+        }
+      }
+
+      if (c_ == "Note") {
+        # update `v`
+        v <- v + to_value(note$duration)
+
+        # update `pitches`
+        pitch <- note$pitch
+        c_p <- class(pitch)
+
+        if (c_p == "Pitch") {
+          pitches %<>% c(list(pitch))
+        } else if (c_ == "PitchChord") {
+          pitches %<>% c(pitch)
+        }
+      }
+    }
+  }
+
+  pitches
+}
+
+
 # get staffs' numbers (first two digits)
 get_staff_numbers <- function(lines) {
   lines %>%
