@@ -28,6 +28,8 @@ show.Music <- function(x, to = NULL, width = NULL, ...) {
 
   # append Measures to some Lines
   x$lines %<>% equalize(x$meter_line$meters)
+
+  x$clef_lines %<>% normalize_clef_lines(x$lines)
 }
 
 
