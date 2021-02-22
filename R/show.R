@@ -30,6 +30,9 @@ show.Music <- function(x, to = NULL, width = NULL, ...) {
   x$lines %<>% equalize(x$meter_line$meters)
 
   x$clef_lines %<>% normalize_clef_lines(x$lines)
+
+  # merge any staff or voice to its parent part
+  x$lines %<>% to_part()
 }
 
 
@@ -569,3 +572,31 @@ equalize <- function(lines, meters) {
 
 
 # merge -------------------------------------------------------------------
+
+# merge any staff or voice to its parent part
+to_part <- function(lines) {
+  for (i in 1:length(lines)) {
+    # unpack
+    line <- lines[[i]]
+    number <- line$number
+
+    # skip if `line` is a part
+    if (all(number[2:3] == c(1, 1))) {
+      next
+    }
+
+    # get its parent part's number
+    number_part <- c(number[1], 1, 1)
+    # locate the part
+    k <- locate_key_line(lines, number_part)
+
+    measures <- line$measures
+
+    # merge
+    for (j in 1:length(measures)) {
+      lines[[k]]$measures[[j]]$notes %<>% c(measures[[j]]$notes)
+    }
+  }
+
+  lines
+}
