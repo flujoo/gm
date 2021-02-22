@@ -570,9 +570,6 @@ equalize <- function(lines, meters) {
 }
 
 
-
-# merge -------------------------------------------------------------------
-
 # merge any staff or voice to its parent part
 to_part <- function(lines) {
   for (i in 1:length(lines)) {
