@@ -454,19 +454,26 @@ generate_measures <- function(bars, meters, n2, n3, voice) {
   ms <- list()
 
   for (bar in bars) {
-    if (n3 > 1) {
-      m <- Measure(list(), bar)
+    # for voice
+    if (n3 != 1) {
+      ns <- list()
 
-    } else if (n3 == 1) {
-      m <-
-        find_meter(bar, meters) %>%
-        to_value() %>%
-        Rest(staff = n2, voice = voice) %>%
-        list() %>%
-        Measure(bar)
+    } else {
+      d <- find_meter(bar, meters) %>% to_value()
+      r <- Rest(d, staff = n2, voice = voice)
+
+      # for part
+      if (n2 == 1) {
+        ns <- list(r)
+
+      # for staff
+      } else {
+        b <- Move(d, "backup")
+        ns <- list(b, r)
+      }
     }
 
-    ms %<>% c(list(m))
+    ms %<>% c(list(Measure(ns, bar)))
   }
 
   ms
