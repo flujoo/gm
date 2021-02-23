@@ -1,7 +1,7 @@
 #' @export
 Meter <- function(number, unit, bar = NULL, actual_number = NULL,
                   actual_unit = NULL) {
-  # check arguments -------------------------------------------------------
+  # check arguments
   check_positive_integer(number)
   check_meter_unit(unit)
 
@@ -17,14 +17,12 @@ Meter <- function(number, unit, bar = NULL, actual_number = NULL,
     check_meter_unit(actual_unit)
   }
 
-
-  # normalize `actual_number` and `actual_unit` ---------------------------
+  # normalize `actual_number` and `actual_unit`
   actual <- normalize_meter_actual(number, unit, actual_number, actual_unit)
   actual_number <- actual$actual_number
   actual_unit <- actual$actual_unit
 
-
-  # create Meter ----------------------------------------------------------
+  # create Meter
   list(
     number = number,
     unit = unit,
@@ -68,7 +66,6 @@ normalize_meter_actual <- function(number, unit, actual_number, actual_unit) {
 
 #' @export
 print.Meter <- function(x, context = "console", silent = FALSE, ...) {
-  # generate main string --------------------------------------------------
   # nominal meter
   nominal <- paste0(x$number, "/", x$unit)
 
@@ -81,27 +78,22 @@ print.Meter <- function(x, context = "console", silent = FALSE, ...) {
     actual <- paste0(" (", actual_number, "/", x$actual_unit, ")")
   }
 
-
-  # initialize `general` and `specifics` ----------------------------------
   general <- paste0(nominal, actual)
   specifics <- character(0)
 
-
-  # convert `x` to string -------------------------------------------------
+  # convert `x`
   if (context == "inside") {
 
   } else if (context == "console") {
     general <- paste("Meter", general)
 
-    # convert `x$bar` to string
+    # convert `x$bar`
     bar <- x$bar
     if (!is.null(bar)) {
       specifics[[length(specifics) + 1]] <- "to be added at bar {bar}"
     }
   }
 
-
-  # print or return string ------------------------------------------------
   s <- generate_string(general, specifics, environment())
 
   if (silent) {
@@ -145,7 +137,6 @@ MeterLine <- function() {
 #' @keywords internal
 #' @export
 print.MeterLine <- function(x, silent = FALSE, ...) {
-  # convert `x` to string -------------------------------------------------
   meters <- x$meters
   l <- length(meters)
 
@@ -182,8 +173,6 @@ print.MeterLine <- function(x, silent = FALSE, ...) {
     s <- generate_string(general, specifics, environment())
   }
 
-
-  # print or return string ------------------------------------------------
   if (silent) {
     s
   } else {
