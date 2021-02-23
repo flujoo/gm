@@ -1,13 +1,8 @@
-# create Element ----------------------------------------------------------
-
 Element <- function(tag, contents = NULL, attributes = NULL) {
   list(tag = tag, contents = contents, attributes = attributes) %>%
     `class<-`("Element")
 }
 
-
-
-# print Element -----------------------------------------------------------
 
 #' @keywords internal
 #' @export
