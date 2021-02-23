@@ -248,7 +248,7 @@ print.Attributes <- function(x, silent = FALSE, ...) {
 
 
 
-# segment -----------------------------------------------------------------
+# Music -> Score ----------------------------------------------------------
 
 # convert Line to Measures:
 
