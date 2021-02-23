@@ -222,7 +222,7 @@ check_same_length <- function(x, y, name_x = NULL, name_y = NULL) {
 
 
 
-# show many error messages ------------------------------------------------
+# show many errors --------------------------------------------------------
 
 show_errors <- function(general, specifics, supplement = NULL,
                         env = NULL, class = NULL) {
