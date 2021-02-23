@@ -538,7 +538,7 @@ get_staff_numbers <- function(lines) {
 }
 
 
-normalize_clef_lines <- function(clef_lines, lines) {
+normalize_clef_lines <- function(clef_lines, lines, meters) {
   # get staffs' numbers
   numbers <- get_staff_numbers(lines)
 
@@ -556,17 +556,31 @@ normalize_clef_lines <- function(clef_lines, lines) {
     } else {
       # get the ClefLine
       clef_line <- clef_lines[[k]]
+      clefs <- clef_line$clefs
+      l <- length(clefs)
+
+      # normalize bar and offset of each Clef
+      for (i in 1:l) {
+        clef_i <- clefs[[i]]
+        bar_i <- clef_i$bar
+        offset_i <- clef_i$offset
+        . <- normalize_bar_offset(bar_i, offset_i, meters)
+        clef_line$clefs[[i]]$bar <- .$bar
+        clef_line$clefs[[i]]$offset <- .$offset
+      }
 
       # check first Clef
-      . <- clef_line$clefs[[1]]
-      bar <- .$bar
-      offset <- .$offset
+      clef_1 <- clefs[[1]]
+      bar_1 <- clef_1$bar
+      offset_1 <- clef_1$offset
 
-      if (bar != 1 || offset != 0) {
-        pitches <- extract_pitches.lines(lines, number, bar, offset)
+      if (bar_1 != 1 || offset_1 != 0) {
+        pitches <- extract_pitches.lines(lines, number, bar_1, offset_1)
         clef <- infer_clef(pitches)
-        clef_lines[[k]] <- clef_line + clef
+        clef_line <- clef_line + clef
       }
+
+      clef_lines[[k]] <- clef_line
     }
   }
 
