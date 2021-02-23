@@ -572,3 +572,48 @@ normalize_clef_lines <- function(clef_lines, lines) {
 
   clef_lines
 }
+
+
+# merge any Clef with non-zero offset to its parent part
+# for convenience of calculating divisions
+merge_clef_lines <- function(lines, clef_lines, meters) {
+  for (clef_line in clef_lines) {
+    number <- clef_line$number
+    # locate its parent part
+    k <- locate_key_line(lines, c(number[1], 1, 1))
+
+    # merge Clef backwards
+    for (clef in rev(clef_line$clefs)) {
+      # unpack
+      bar <- clef$bar
+      offset <- clef$offset
+
+      # only merge any Clef with non-zero offset
+      if (offset == 0) {
+        next
+      }
+
+      # add staff number to `clef`
+      clef$number <- number[2]
+
+      # get the value of the Meter at `bar`
+      v_meter <- find_meter(bar, meters) %>% to_value()
+      # generate forwards and backup
+      f1 <- Move(offset, "forward")
+      f2 <- Move(v_meter - offset, "forward")
+      b <- Move(v_meter, "backup")
+
+      # pack `clef`
+      ns <- list(f1, clef, f2, b)
+
+      # merge
+      tryCatch(
+        # in case of "subscript out of bounds" error of `bar`
+        {lines[[k]]$measures[[bar]]$notes %<>% append(ns, 0)},
+        error = function(e) return()
+      )
+    }
+  }
+
+  lines
+}
