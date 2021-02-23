@@ -171,38 +171,6 @@ normalize_bar_offset.lines <- function(lines, meters) {
 }
 
 
-normalize_key_lines <- function(key_lines) {
-  # add a global KeyLine to `key_lines`,
-  con <- any(
-    # when `key_lines` is empty,
-    is.null(key_lines),
-    length(key_lines) == 0,
-    # or the first KeyLine is not global KeyLine
-    any(key_lines[[1]]$number != c(0, 0))
-  )
-
-  if (con) {
-    # create a global KeyLine
-    key_line <- KeyLine() + Key(0)
-    key_line$number <- c(0L, 0L)
-
-    # insert it into `key_lines`
-    key_lines %<>% append(list(key_line), 0)
-  }
-
-  # add `Key(0)` to any KeyLine that has no Key at bar 1
-  for (i in 1:length(key_lines)) {
-    key_line <- key_lines[[i]]
-
-    if (key_line$keys[[1]]$bar != 1) {
-      key_lines[[i]] <- key_line + Key(0)
-    }
-  }
-
-  key_lines
-}
-
-
 
 # constructors ------------------------------------------------------------
 
