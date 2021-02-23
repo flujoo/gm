@@ -293,7 +293,7 @@ Measure <- function(notes, number) {
 #' @export
 print.Measure <- function(x, silent = FALSE, ...) {
   s <-
-    sapply(x$notes, print, silent = TRUE) %>%
+    sapply(x$notes, print, silent = TRUE, context = "inside") %>%
     paste(collapse = ", ") %>%
     paste0(x$number, ": ", .)
 
