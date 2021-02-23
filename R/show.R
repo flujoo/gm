@@ -226,6 +226,27 @@ print.Measure <- function(x, silent = FALSE, ...) {
 }
 
 
+# to represent MusicXML element attributes
+Attributes <- function(...) {
+  list(...) %>% `class<-`("Attributes")
+}
+
+
+#' @keywords internal
+#' @export
+print.Attributes <- function(x, silent = FALSE, ...) {
+  s <-
+    sapply(x, print, silent = TRUE, context = "inside") %>%
+    paste(collapse = ", ")
+
+  if (silent) {
+    s
+  } else {
+    cat(s, "\n")
+  }
+}
+
+
 
 # segment -----------------------------------------------------------------
 

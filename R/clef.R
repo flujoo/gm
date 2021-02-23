@@ -618,7 +618,7 @@ merge_clef_lines <- function(lines, clef_lines, meters) {
       b <- Move(v_meter, "backup")
 
       # pack `clef`
-      ns <- list(f1, clef, f2, b)
+      ns <- list(f1, Attributes(clef), f2, b)
 
       # merge
       tryCatch(
