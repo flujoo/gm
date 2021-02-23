@@ -1,8 +1,7 @@
-# create Key --------------------------------------------------------------
+# Key ---------------------------------------------------------------------
 
 #' @export
 Key <- function(key, bar = NULL, to = NULL, scope = NULL) {
-  # check arguments -------------------------------------------------------
   check_key(key)
 
   if (!is.null(bar)) {
@@ -12,22 +11,67 @@ Key <- function(key, bar = NULL, to = NULL, scope = NULL) {
   if (!is.null(to)) {
     check_line_to(to)
   }
-  # borrowed from line.R
 
   check_key_scope(scope, to)
 
-
-  # normalize `scope` -----------------------------------------------------
   scope <- normalize_key_scope(scope, to)
 
-
-  # create Key ------------------------------------------------------------
   list(key = key, bar = bar, to = to, scope = scope) %>% `class<-`("Key")
 }
 
 
+#' @export
+print.Key <- function(x, context = "console", silent = FALSE, ...) {
+  # convert `x$key`
+  steps <- c("F", "C", "G", "D", "A", "E", "B")
+  i <- which(x$key == -7:7)
 
-# check argument `key` and `scope` in `Key` -------------------------------
+  # major key
+  major <- Pitch(steps[i %% 7 + 1], i %/% 7 - 1) %>% print(silent = TRUE)
+
+  # minor key
+  minor <- Pitch(steps[(i + 3) %% 7 + 1], (i - 4) %/% 7) %>%
+    print(silent = TRUE)
+
+  general <- "{major} major ({minor} minor)"
+  specifics <- character(0)
+
+  # convert `x`
+  if (context == "inside") {
+
+  } else if (context == "console") {
+    general <- paste("Key", general)
+
+    # convert `x$bar`
+    bar <- x$bar
+    if (!is.null(bar)) {
+      specifics[[length(specifics) + 1]] <- "to be added at bar {bar}"
+    }
+
+    # convert `x$to`
+    to <- x$to
+    if (!is.null(to)) {
+      s_to <- "to be added only to the {x$scope} containing"
+
+      if (is.character(to)) {
+        s_to <- paste(s_to, 'Line "{to}"')
+      } else if (is.numeric(to)) {
+        s_to <- paste(s_to, "Line {to}")
+      }
+
+      specifics[[length(specifics) + 1]] <- s_to
+    }
+  }
+
+  s <- generate_string(general, specifics, environment())
+
+  if (silent) {
+    s
+  } else {
+    cat(s, "\n")
+  }
+}
+
 
 check_key <- function(key) {
   check_type(key, c("double", "integer"))
@@ -48,9 +92,6 @@ check_key_scope <- function(scope, to) {
 }
 
 
-
-# normalize argument `scope` in `Key` -------------------------------------
-
 normalize_key_scope <- function(scope, to) {
   # always assign `NULL` to `scope`, if `to` is `NULL`
   if (is.null(to)) {
@@ -67,76 +108,12 @@ normalize_key_scope <- function(scope, to) {
 
 
 
-# print Key ---------------------------------------------------------------
-
-#' @export
-print.Key <- function(x, context = "console", silent = FALSE, ...) {
-  # convert `x$key` to string ---------------------------------------------
-  steps <- c("F", "C", "G", "D", "A", "E", "B")
-  i <- which(x$key == -7:7)
-
-  # major key
-  major <- Pitch(steps[i %% 7 + 1], i %/% 7 - 1) %>% print(silent = TRUE)
-
-  # minor key
-  minor <- Pitch(steps[(i + 3) %% 7 + 1], (i - 4) %/% 7) %>%
-    print(silent = TRUE)
-
-
-  # initialize `general` and `specifics` ----------------------------------
-  general <- "{major} major ({minor} minor)"
-  specifics <- character(0)
-
-
-  # convert `x` to string based on `context` ------------------------------
-  if (context == "inside") {
-
-  } else if (context == "console") {
-    general <- paste("Key", general)
-
-    # convert `x$bar` to string
-    bar <- x$bar
-    if (!is.null(bar)) {
-      specifics[[length(specifics) + 1]] <- "to be added at bar {bar}"
-    }
-
-    # convert `x$to` to string
-    to <- x$to
-    if (!is.null(to)) {
-      s_to <- "to be added only to the {x$scope} containing"
-
-      if (is.character(to)) {
-        s_to <- paste(s_to, 'Line "{to}"')
-      } else if (is.numeric(to)) {
-        s_to <- paste(s_to, "Line {to}")
-      }
-
-      specifics[[length(specifics) + 1]] <- s_to
-    }
-  }
-
-
-  # print or return string ------------------------------------------------
-  s <- generate_string(general, specifics, environment())
-
-  if (silent) {
-    s
-  } else {
-    cat(s, "\n")
-  }
-}
-
-
-
-# initialize KeyLine ------------------------------------------------------
+# KeyLine -----------------------------------------------------------------
 
 KeyLine <- function() {
   list(keys = list(), number = NULL) %>% `class<-`("KeyLine")
 }
 
-
-
-# KeyLine + Key -----------------------------------------------------------
 
 #' @keywords internal
 #' @export
@@ -188,13 +165,10 @@ merge_key <- function(keys, key) {
 }
 
 
-
-# print KeyLine -----------------------------------------------------------
-
 #' @keywords internal
 #' @export
 print.KeyLine <- function(x, silent = FALSE, ...) {
-  # convert `x$number` to string ------------------------------------------
+  # convert `x$number`
   number <- x$number
   number_1 <- number[1]
   number_2 <- number[2]
@@ -209,8 +183,7 @@ print.KeyLine <- function(x, silent = FALSE, ...) {
     }
   }
 
-
-  # convert `x` to string -------------------------------------------------
+  # convert `x`
   keys <- x$keys
   l <- length(keys)
 
@@ -247,8 +220,6 @@ print.KeyLine <- function(x, silent = FALSE, ...) {
     s <- generate_string(general, specifics, environment())
   }
 
-
-  # print or return string ------------------------------------------------
   if (silent) {
     s
   } else {
