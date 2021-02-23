@@ -546,3 +546,54 @@ update_key_line_numbers <- function(key_lines, number, as, after) {
 
   key_lines
 }
+
+
+
+# normalize `lines` -------------------------------------------------------
+
+# `offset` may be larger than the value of the Meter for `bar`,
+# i.e. `offset` may be beyond the scope of `bar`
+# normalize them to make the offset be within the scope of the bar
+# `up` decide if round up offset when it has the length of the current Meter
+normalize_bar_offset <- function(bar, offset, meters, up = TRUE) {
+  repeat {
+    v <- find_meter(bar, meters) %>% to_value()
+
+    # e.g., bar = 2, offset = 0 vs bar = 1, offset = 4
+    if (up && offset < v) {
+      break
+    } else if (!up && offset <= v) {
+      break
+    }
+
+    bar <- bar + 1L
+    offset <- offset - v
+  }
+
+  list(bar = bar, offset = offset)
+}
+
+
+# normalize `bar` and `offset` in each Line
+normalize_bar_offset.lines <- function(lines, meters) {
+  for (i in 1:length(lines)) {
+    line <- lines[[i]]
+
+    if (is.null(line$bar)) {
+      lines[[i]]$bar <- 1L
+    }
+
+    offset <- line$offset
+
+    if (is.null(offset)) {
+      lines[[i]]$offset <- 0
+
+    } else {
+      . <- normalize_bar_offset(lines[[i]]$bar, offset, meters)
+      lines[[i]]$bar <- .$bar
+      lines[[i]]$offset <- .$offset
+    }
+  }
+
+  lines
+}
