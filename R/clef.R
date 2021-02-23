@@ -558,7 +558,7 @@ normalize_clef_lines <- function(clef_lines, lines) {
       clef_line <- clef_lines[[k]]
 
       # check first Clef
-      . <- clef_line[[1]]
+      . <- clef_line$clefs[[1]]
       bar <- .$bar
       offset <- .$offset
 
