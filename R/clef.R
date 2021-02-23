@@ -387,6 +387,10 @@ print.ClefLine <- function(x, silent = FALSE, ...) {
 
 # guess a Clef for `pitches`, which contains only Pitches and PitchRests
 infer_clef <- function(pitches) {
+  if (length(pitches) == 0) {
+    return(Clef("G"))
+  }
+
   # convert `pitches` to values
   pitches %<>%
     to_values.pitches() %>%
