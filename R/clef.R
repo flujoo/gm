@@ -588,44 +588,56 @@ normalize_clef_lines <- function(clef_lines, lines, meters) {
 }
 
 
-# merge any Clef with non-zero offset to its parent part
-# for convenience of calculating divisions
+# merge Clefs to its parent part
 merge_clef_lines <- function(lines, clef_lines, meters) {
-  for (clef_line in clef_lines) {
+  # merge ClefLines backwards
+  for (clef_line in rev(clef_lines)) {
+    # get current ClefLine's number
     number <- clef_line$number
-    # locate its parent part
+    # locate its parent part and unpack it
     k <- locate_key_line(lines, c(number[1], 1, 1))
+    measures <- lines[[k]]$measures
+    l <- length(measures)
 
-    # merge Clef backwards
+    # merge Clefs backwards
     for (clef in rev(clef_line$clefs)) {
       # unpack
       bar <- clef$bar
       offset <- clef$offset
 
-      # only merge any Clef with non-zero offset
-      if (offset == 0) {
+      # skip Clef with bar beyond `l`
+      if (bar > l) {
         next
       }
 
       # add staff number to `clef`
       clef$number <- number[2]
 
-      # get the value of the Meter at `bar`
-      v_meter <- find_meter(bar, meters) %>% to_value()
-      # generate forwards and backup
-      f1 <- Move(offset, "forward")
-      f2 <- Move(v_meter - offset, "forward")
-      b <- Move(v_meter, "backup")
+      # Clefs with offset 0 are merged in a different way
+      if (offset == 0) {
+        # get first item in current Measure
+        a <- measures[[bar]]$notes[[1]]
+        c_ <- class(a)
 
-      # pack `clef`
-      ns <- list(f1, Attributes(clef), f2, b)
+        if (c_ == "Attributes") {
+          lines[[k]]$measures[[bar]]$notes[[1]]$attributes %<>%
+            append(list(clef), 0)
+        } else {
+          lines[[k]]$measures[[bar]]$notes %<>%
+            append(list(Attributes(list(clef))), 0)
+        }
 
-      # merge
-      tryCatch(
-        # in case of "subscript out of bounds" error of `bar`
-        {lines[[k]]$measures[[bar]]$notes %<>% append(ns, 0)},
-        error = function(e) return()
-      )
+      } else {
+        # get the value of the Meter at `bar`
+        v_meter <- find_meter(bar, meters) %>% to_value()
+        # generate forwards and backup
+        f1 <- Move(offset, "forward")
+        f2 <- Move(v_meter - offset, "forward")
+        b <- Move(v_meter, "backup")
+
+        lines[[k]]$measures[[bar]]$notes %<>%
+          append(list(f1, Attributes(list(clef)), f2, b), 0)
+      }
     }
   }
 
