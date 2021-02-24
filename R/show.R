@@ -34,7 +34,7 @@ show.Music <- function(x, to = NULL, width = NULL, ...) {
   # merge any staff or voice to its parent part
   x$lines %<>% to_part()
 
-  # merge any Clef with non-zero offset to its parent part
+  # merge Clefs to its parent part
   x$lines %<>% merge_clef_lines(x$clef_lines, x$meter_line$meters)
 }
 
