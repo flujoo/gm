@@ -36,6 +36,9 @@ show.Music <- function(x, to = NULL, width = NULL, ...) {
 
   # merge Clefs to its parent part
   x$lines %<>% merge_clef_lines(x$clef_lines, x$meter_line$meters)
+
+  # add Element staves to each part
+  x$lines %<>% add_staves()
 }
 
 
@@ -544,4 +547,44 @@ to_part <- function(lines) {
   }
 
   lines
+}
+
+
+# add Element staves to each part
+add_staves <- function(lines) {
+  for (i in 1:length(lines)) {
+    # unpack
+    line <- lines[[i]]
+    number <- line$number
+
+    # skip non-part
+    if (any(number[2:3] != c(1, 1))) {
+      next
+    }
+
+    n <- count_staves(number, lines)
+    staves <- Element("staves", n)
+    lines[[i]]$measures[[1]]$notes[[1]]$attributes %<>%
+      append(list(staves), 0)
+  }
+
+  lines
+}
+
+
+# count the number of staves in a part
+count_staves <- function(number, lines) {
+  ns <- integer()
+
+  for (line in lines) {
+    number_ <- line$number
+
+    if (number_[1] == number[1]) {
+      ns %<>% c(number_[2])
+    }
+  }
+
+  ns %>%
+    unique() %>%
+    length()
 }
