@@ -227,8 +227,8 @@ print.Measure <- function(x, silent = FALSE, ...) {
 
 
 # to represent MusicXML element attributes
-Attributes <- function(...) {
-  list(...) %>% `class<-`("Attributes")
+Attributes <- function(attributes) {
+  list(attributes = attributes) %>% `class<-`("Attributes")
 }
 
 
@@ -236,7 +236,7 @@ Attributes <- function(...) {
 #' @export
 print.Attributes <- function(x, silent = FALSE, ...) {
   s <-
-    sapply(x, print, silent = TRUE, context = "inside") %>%
+    sapply(x$attributes, print, silent = TRUE, context = "inside") %>%
     paste(collapse = ", ")
 
   if (silent) {
