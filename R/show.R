@@ -563,9 +563,12 @@ add_staves <- function(lines) {
     }
 
     n <- count_staves(number, lines)
-    staves <- Element("staves", n)
-    lines[[i]]$measures[[1]]$notes[[1]]$attributes %<>%
-      append(list(staves), 0)
+
+    if (n > 1) {
+      staves <- Element("staves", n)
+      lines[[i]]$measures[[1]]$notes[[1]]$attributes %<>%
+        append(list(staves), 0)
+    }
   }
 
   lines
