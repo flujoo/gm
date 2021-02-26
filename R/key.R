@@ -344,3 +344,54 @@ normalize_key_lines <- function(key_lines) {
 
   key_lines
 }
+
+
+merge_key_lines <- function(lines, key_lines) {
+  for (i in length(lines):1) {
+    # unpack
+    line <- lines[[i]]
+    number <- line$number
+
+    # skip any voice
+    if (number[3] != 1) {
+      next
+    }
+
+    # get the KeyLine for current Line
+    kl <- find_key_line(number, key_lines)
+    keys <- kl$keys
+
+    # locate current Line's parent part
+    k <- locate_key_line(lines, c(number[1], 1, 1))
+    # get its `$measures`
+    measures <- lines[[k]]$measures
+    l <- length(measures)
+
+    # merge Keys
+    for (key in keys) {
+      bar <- key$bar
+
+      # skip any Key with bar beyond `l`
+      if (bar > l) {
+        next
+      }
+
+      # add staff number to `key`
+      key$number <- number[2]
+
+      # check if there is an Attributes already
+      a <- measures[[bar]]$notes[[1]]
+      c_ <- class(a)
+
+      if (c_ == "Attributes") {
+        lines[[k]]$measures[[bar]]$notes[[1]]$attributes %<>%
+          append(list(key), 0)
+      } else {
+        lines[[k]]$measures[[bar]]$notes %<>%
+          append(list(Attributes(list(key))), 0)
+      }
+    }
+  }
+
+  lines
+}

@@ -42,6 +42,9 @@ show.Music <- function(x, to = NULL, width = NULL, ...) {
 
   # merge Meters to each part
   x$lines %<>% merge_meter_line(x$meter_line$meters)
+
+  # merge Keys to each part
+  x$lines %<>% merge_key_lines(x$key_lines)
 }
 
 
