@@ -214,3 +214,15 @@ find_meter <- function(bar, meters) {
     }
   }
 }
+
+
+#' @keywords internal
+#' @export
+to_Element.Meter <- function(x, ...) {
+  contents <- list(
+    Element("beats", x$number),
+    Element("beat-type", x$unit)
+  )
+
+  Element("time", contents)
+}
