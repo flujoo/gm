@@ -225,28 +225,10 @@ find_meter <- function(bar, meters) {
 
 
 
-# Music -> Score ----------------------------------------------------------
-
-#' @keywords internal
-#' @export
-to_Element.Meter <- function(x, ...) {
-  contents <- list(
-    Element("beats", x$number),
-    Element("beat-type", x$unit)
-  )
-
-  Element("time", contents)
-}
-
+# show --------------------------------------------------------------------
 
 # merge MeterLine to each part
 merge_meter_line <- function(lines, meters) {
-  # add Element to each Meter
-  for (i in 1:length(meters)) {
-    meters[[i]]$element <- meters[[i]] %>% to_Element()
-  }
-
-  # merge generated Elements to parts
   for (i in 1:length(lines)) {
     # unpack
     line <- lines[[i]]
@@ -257,24 +239,44 @@ merge_meter_line <- function(lines, meters) {
       next
     }
 
-    # merge
+    # unpack
+    measures <- line$measures
+    l <- length(measures)
+
+    # merge Meters
     for (meter in meters) {
       bar <- meter$bar
-      element <- meter$element
+
+      # break when bar is beyond `l`
+      if (bar > l) {
+        break
+      }
 
       # check if there is an Attributes already
-      a <- line$measures[[bar]]$notes[[1]]
+      a <- measures[[bar]]$notes[[1]]
       c_ <- class(a)
 
       if (c_ == "Attributes") {
         lines[[i]]$measures[[bar]]$notes[[1]]$attributes %<>%
-          append(list(element), 0)
+          append(list(meter), 0)
       } else {
         lines[[i]]$measures[[bar]]$notes %<>%
-          append(list(Attributes(list(element))), 0)
+          append(list(Attributes(list(meter))), 0)
       }
     }
   }
 
   lines
+}
+
+
+#' @keywords internal
+#' @export
+to_Element.Meter <- function(x, ...) {
+  contents <- list(
+    Element("beats", x$number),
+    Element("beat-type", x$unit)
+  )
+
+  Element("time", contents)
 }
