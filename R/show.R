@@ -32,7 +32,7 @@ show.Music <- function(x, to = NULL, width = NULL, ...) {
   x$clef_lines %<>% normalize_clef_lines(x$lines, x$meter_line$meters)
 
   # merge any staff or voice to its parent part
-  x$lines %<>% to_part()
+  x$lines %<>% merge_lines()
 
   # merge Clefs to its parent part
   x$lines %<>% merge_clef_lines(x$clef_lines, x$meter_line$meters)
@@ -525,7 +525,7 @@ equalize <- function(lines, meters) {
 
 
 # merge any staff or voice to its parent part
-to_part <- function(lines) {
+merge_lines <- function(lines) {
   for (i in 1:length(lines)) {
     # unpack
     line <- lines[[i]]
