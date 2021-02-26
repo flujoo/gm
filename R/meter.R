@@ -1,3 +1,5 @@
+# Meter -------------------------------------------------------------------
+
 #' @export
 Meter <- function(number, unit, bar = NULL, actual_number = NULL,
                   actual_unit = NULL) {
@@ -104,19 +106,8 @@ print.Meter <- function(x, context = "console", silent = FALSE, ...) {
 }
 
 
-#' @keywords internal
-#' @export
-to_value.Meter <- function(x, ...) {
-  actual_unit <- x$actual_unit
 
-  if (is.null(actual_unit)) {
-    (4 / x$unit) * x$number
-
-  } else {
-    (4 / actual_unit) * x$actual_number
-  }
-}
-
+# Music + Meter -----------------------------------------------------------
 
 MeterLine <- function() {
   list(meters = list()) %>% `class<-`("MeterLine")
@@ -193,6 +184,23 @@ add.Meter <- function(term, music) {
 }
 
 
+
+# utils -------------------------------------------------------------------
+
+#' @keywords internal
+#' @export
+to_value.Meter <- function(x, ...) {
+  actual_unit <- x$actual_unit
+
+  if (is.null(actual_unit)) {
+    (4 / x$unit) * x$number
+
+  } else {
+    (4 / actual_unit) * x$actual_number
+  }
+}
+
+
 # get the Meter for `bar`
 # can be used as "find_key"
 find_meter <- function(bar, meters) {
@@ -215,6 +223,9 @@ find_meter <- function(bar, meters) {
   }
 }
 
+
+
+# Music -> Score ----------------------------------------------------------
 
 #' @keywords internal
 #' @export
