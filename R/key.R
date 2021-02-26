@@ -311,7 +311,7 @@ insert_key_line <- function(key_lines, key_line, number) {
 
 
 
-# Music -> Score ----------------------------------------------------------
+# show --------------------------------------------------------------------
 
 # normalize `key_lines` in `show.Music`
 normalize_key_lines <- function(key_lines) {
