@@ -226,3 +226,44 @@ to_Element.Meter <- function(x, ...) {
 
   Element("time", contents)
 }
+
+
+# merge MeterLine to each part
+merge_meter_line <- function(lines, meters) {
+  # add Element to each Meter
+  for (i in 1:length(meters)) {
+    meters[[i]]$element <- meters[[i]] %>% to_Element()
+  }
+
+  # merge generated Elements to parts
+  for (i in 1:length(lines)) {
+    # unpack
+    line <- lines[[i]]
+    number <- line$number
+
+    # skip non-part
+    if (any(number[2:3] != c(1, 1))) {
+      next
+    }
+
+    # merge
+    for (meter in meters) {
+      bar <- meter$bar
+      element <- meter$element
+
+      # check if there is an Attributes already
+      a <- line$measures[[bar]]$notes[[1]]
+      c_ <- class(a)
+
+      if (c_ == "Attributes") {
+        lines[[i]]$measures[[bar]]$notes[[1]]$attributes %<>%
+          append(list(element), 0)
+      } else {
+        lines[[i]]$measures[[bar]]$notes %<>%
+          append(list(Attributes(list(element))), 0)
+      }
+    }
+  }
+
+  lines
+}

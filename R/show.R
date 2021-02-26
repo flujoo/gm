@@ -39,6 +39,9 @@ show.Music <- function(x, to = NULL, width = NULL, ...) {
 
   # add Element staves to each part
   x$lines %<>% add_staves()
+
+  # merge Meters to each part
+  x$lines %<>% merge_meter_line(x$meter_line$meters)
 }
 
 
