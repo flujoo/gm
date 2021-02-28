@@ -1379,3 +1379,103 @@ check_tuplet_group_over_bar <- function(lines, meters) {
 
   show_errors(general, specifics)
 }
+
+
+
+# divisions ---------------------------------------------------------------
+
+# extract duration values from parts
+extract_duration_values <- function(lines) {
+  vs <- double()
+
+  for (line in lines) {
+    # skip non-parts
+    if (any(line$number[2:3] != c(1, 1))) {
+      next
+    }
+
+    for (measure in line$measures) {
+      for (note in measure$notes) {
+        c_ <- class(note)
+
+        if (c_ == "Note") {
+          v <- note$duration %>% to_value()
+        } else if (c_ %in% c("Rest", "Move")) {
+          v <- note$duration
+        } else {
+          next
+        }
+
+        vs %<>% c(v)
+      }
+    }
+  }
+
+  vs
+}
+
+
+# get greatest common divisor
+get_gcd <- function(a, b) {
+  while (b != 0) {
+    x <- a
+    a <- b
+    b <- x %% b
+  }
+
+  a
+}
+
+
+# get lowest common multiple
+# https://stackoverflow.com/questions/147515/
+# least-common-multiple-for-3-or-more-numbers
+get_lcm <- function(a, b) {
+  a * b / get_gcd(a, b)
+}
+
+
+get_divisions <- function(lines) {
+  vs <- extract_duration_values(lines)
+
+  # get denominators from `vs`
+  ds <- integer()
+
+  for (v in vs) {
+    ds <-
+      # convert `v` to fraction
+      MASS::fractions(v) %>%
+      attr("fracs") %>%
+      # get its denominator
+      {strsplit(., "/")[[1]][2]} %>%
+      # convert it to integer
+      {ifelse(is.na(.), 1L, as.integer(.))} %>%
+      # add it to `ds`
+      c(ds, .)
+  }
+
+  Reduce(get_lcm, ds)
+}
+
+
+# add Element divisions to each part
+add_divisions <- function(lines) {
+  divisions <- get_divisions(lines)
+  element <- Element("divisions", divisions)
+
+  for (i in 1:length(lines)) {
+    # unpack
+    line <- lines[[i]]
+    number <- line$number
+
+    # skip non-part
+    if (any(number[2:3] != c(1, 1))) {
+      next
+    }
+
+    lines[[i]]$measures[[1]]$notes[[1]]$attributes %<>%
+      append(list(element), 0)
+  }
+
+  lines
+}
