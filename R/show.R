@@ -263,6 +263,21 @@ print.Attributes <- function(x, silent = FALSE, ...) {
 }
 
 
+Part <- function(measures, number, name) {
+  if (is.null(name)) {
+    name <- number
+  }
+
+  list(measures = measures, number = number, name = name) %>%
+    `class<-`("Part")
+}
+
+
+Score <- function(parts) {
+  list(parts = parts) %>% `class<-`("Score")
+}
+
+
 
 # Line -> Measures --------------------------------------------------------
 
@@ -657,4 +672,21 @@ split_chord <- function(lines) {
   }
 
   lines
+}
+
+
+to_Score <- function(lines) {
+  parts <- list()
+
+  for (line in lines) {
+    number <- line$number
+
+    if (any(number[2:3] != c(1, 1))) {
+      next
+    }
+
+    parts %<>% c(list(Part(line$measures, number[1], line$name)))
+  }
+
+  Score(parts)
 }
