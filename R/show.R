@@ -49,6 +49,9 @@ show.Music <- function(x, to = NULL, width = NULL, ...) {
   # get divisions and add the Element to each part
   divisions <- get_divisions(x$lines)
   x$lines %<>% add_divisions()
+
+  # split any chord into notes in each part
+  x$lines %<>% split_chord()
 }
 
 
@@ -600,4 +603,54 @@ count_staves <- function(number, lines) {
   ns %>%
     unique() %>%
     length()
+}
+
+
+# split any chord into notes in each part
+split_chord <- function(lines) {
+  for (i in 1:length(lines)) {
+    # unpack
+    line <- lines[[i]]
+    number <- line$number
+
+    # skip non-part
+    if (any(number[2:3] != c(1, 1))) {
+      next
+    }
+
+    measures <- line$measures
+    for (j in 1:length(measures)) {
+      notes <- measures[[j]]$notes
+      for (k in 1:length(notes)) {
+        note <- notes[[k]]
+        if (class(note) != "Note") {
+          next
+        }
+
+        pitches <- note$pitch
+        if (class(pitches) != "PitchChord") {
+          next
+        }
+
+        # split chord into notes
+        ns <- list()
+        for (l in 1:length(pitches)) {
+          if (l == 1) {
+            n <- Note(note$duration, pitches[[l]])
+          } else {
+            n <- Note(note$duration, pitches[[l]], chord = TRUE)
+          }
+
+          ns %<>% c(list(n))
+        }
+
+        # merge `ns` back
+        lines[[i]]$measures[[j]]$notes %<>%
+          append(ns, k)
+        lines[[i]]$measures[[j]]$notes[[k]] <- NULL
+      }
+    }
+  }
+
+  lines
 }
