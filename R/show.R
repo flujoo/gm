@@ -266,8 +266,6 @@ print.Attributes <- function(x, silent = FALSE, ...) {
 
 # Line -> Measures --------------------------------------------------------
 
-# convert Line to Measures:
-
 # 1. combine pitches and Durations to Notes
 
 # 2. segment Notes into Measures
@@ -279,6 +277,9 @@ print.Attributes <- function(x, silent = FALSE, ...) {
 
 # 5. generate empty Measures for bars before specified `$bar`
 # if the Line is a voice, or Measures of Rest if not
+
+# 6. append Measures to some Lines to make all Lines contain the same number
+# of Measures
 
 
 segment <- function(line, meters) {
