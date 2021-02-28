@@ -93,3 +93,10 @@ to_semi_musicxml <- function(element) {
 to_Element <- function(x, ...) {
   UseMethod("to_Element")
 }
+
+
+#' @keywords internal
+#' @export
+to_Element.Element <- function(x, ...) {
+  x
+}

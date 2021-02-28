@@ -690,3 +690,64 @@ to_Score <- function(lines) {
 
   Score(parts)
 }
+
+
+
+# Score -> MusicXML -------------------------------------------------------
+
+#' @keywords internal
+#' @export
+to_Element.Score <- function(x, ...) {
+  # get Element "part-list"
+  part_list <-
+    x$parts %>%
+    lapply(function(part) {
+      Element(
+        "score-part",
+        Element("part-name", part$name),
+        list(id = paste0("P", part$number))
+      )
+    }) %>%
+    Element("part-list", .)
+
+  # get Elements "part"
+  parts <- lapply(x$parts, to_Element)
+
+  Element(
+    "score-partwise",
+    c(list(part_list), parts),
+    list(version = "3.1")
+  )
+}
+
+
+#' @keywords internal
+#' @export
+to_Element.Part <- function(x, ...) {
+  Element(
+    "part",
+    lapply(x$measures, to_Element),
+    list(id = paste0("P", part$number))
+  )
+}
+
+
+#' @keywords internal
+#' @export
+to_Element.Measure <- function(x, ...) {
+  Element(
+    "measure",
+    lapply(x$notes, to_Element),
+    list(number = x$number)
+  )
+}
+
+
+#' @keywords internal
+#' @export
+to_Element.Attributes <- function(x, ...) {
+  Element(
+    "attributes",
+    lapply(x$attributes, to_Element)
+  )
+}
