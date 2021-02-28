@@ -264,7 +264,7 @@ print.Attributes <- function(x, silent = FALSE, ...) {
 
 
 
-# Music -> Score ----------------------------------------------------------
+# Line -> Measures --------------------------------------------------------
 
 # convert Line to Measures:
 
@@ -533,6 +533,9 @@ equalize <- function(lines, meters) {
   lines
 }
 
+
+
+# Music -> Score ----------------------------------------------------------
 
 # merge any staff or voice to its parent part
 merge_lines <- function(lines) {
