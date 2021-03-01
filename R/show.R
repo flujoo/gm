@@ -751,3 +751,29 @@ to_Element.Attributes <- function(x, ...) {
     lapply(x$attributes, to_Element)
   )
 }
+
+
+#' @keywords internal
+#' @export
+to_Element.Move <- function(x, divisions, ...) {
+  contents <- list()
+
+  contents %<>% c(list(Element("duration", x$duration * divisions)))
+
+  # it seems that voice and staff can be omitted in forward,
+  # add them for now anyway
+
+  # voice should come before staff, or there will be an error in MuseScore:
+  # "Element voice is not defined in this scope"
+  voice <- x$voice
+  if (!is.null(voice)) {
+    contents %<>% c(list(Element("voice", voice)))
+  }
+
+  staff <- x$staff
+  if (!is.null(staff)) {
+    contents %<>% c(list(Element("staff", staff)))
+  }
+
+  Element(x$direction, contents)
+}
