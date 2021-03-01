@@ -394,3 +394,10 @@ merge_key_lines <- function(lines, key_lines) {
 
   lines
 }
+
+
+#' @keywords internal
+#' @export
+to_Element.Key <- function(x, ...) {
+  Element("key", Element("fifths", x$key))
+}
