@@ -697,6 +697,30 @@ to_Score <- function(lines) {
 
 #' @keywords internal
 #' @export
+print.Score <- function(x, divisions, silent = FALSE, ...) {
+  pre <- paste(
+    '<?xml version="1.0" encoding="UTF-8" standalone="no"?>',
+    '<!DOCTYPE score-partwise PUBLIC',
+    '"-//Recordare//DTD MusicXML 3.1 Partwise//EN"',
+    '"http://www.musicxml.org/dtds/partwise.dtd">',
+    sep = "\n"
+  )
+
+  s <-
+    to_Element(x, divisions) %>%
+    print(silent = TRUE) %>%
+    paste0(pre, "\n", .)
+
+  if (silent) {
+    s
+  } else {
+    cat(s, "\n")
+  }
+}
+
+
+#' @keywords internal
+#' @export
 to_Element.Score <- function(x, divisions, ...) {
   # get Element "part-list"
   part_list <-
