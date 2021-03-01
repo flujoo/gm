@@ -697,7 +697,7 @@ to_Score <- function(lines) {
 
 #' @keywords internal
 #' @export
-to_Element.Score <- function(x, ...) {
+to_Element.Score <- function(x, divisions, ...) {
   # get Element "part-list"
   part_list <-
     x$parts %>%
@@ -711,7 +711,7 @@ to_Element.Score <- function(x, ...) {
     Element("part-list", .)
 
   # get Elements "part"
-  parts <- lapply(x$parts, to_Element)
+  parts <- lapply(x$parts, to_Element, divisions = divisions)
 
   Element(
     "score-partwise",
@@ -723,21 +723,21 @@ to_Element.Score <- function(x, ...) {
 
 #' @keywords internal
 #' @export
-to_Element.Part <- function(x, ...) {
+to_Element.Part <- function(x, divisions, ...) {
   Element(
     "part",
-    lapply(x$measures, to_Element),
-    list(id = paste0("P", part$number))
+    lapply(x$measures, to_Element, divisions = divisions),
+    list(id = paste0("P", x$number))
   )
 }
 
 
 #' @keywords internal
 #' @export
-to_Element.Measure <- function(x, ...) {
+to_Element.Measure <- function(x, divisions, ...) {
   Element(
     "measure",
-    lapply(x$notes, to_Element),
+    lapply(x$notes, to_Element, divisions = divisions),
     list(number = x$number)
   )
 }
