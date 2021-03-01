@@ -399,5 +399,12 @@ merge_key_lines <- function(lines, key_lines) {
 #' @keywords internal
 #' @export
 to_Element.Key <- function(x, ...) {
-  Element("key", Element("fifths", x$key))
+  number <- x$number
+  if (!is.null(number)) {
+    attributes <- list(number = number)
+  } else {
+    attributes <- NULL
+  }
+
+  Element("key", Element("fifths", x$key), attributes)
 }
