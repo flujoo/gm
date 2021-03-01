@@ -680,3 +680,30 @@ find_key_line <- function(number, key_lines) {
 
   kl
 }
+
+
+
+# * -> Element ------------------------------------------------------------
+
+#' @keywords internal
+#' @export
+to_Element.PitchRest <- function(x, ...) {
+  Element("rest")
+}
+
+
+#' @keywords internal
+#' @export
+to_Element.Pitch <- function(x, ...) {
+  contents <- list(
+    Element("step", x$step),
+    Element("octave", x$octave)
+  )
+
+  alter <- x$alter
+  if (alter != 0) {
+    contents %<>% append(list(Element("alter", alter)), 1)
+  }
+
+  Element("pitch", contents)
+}
