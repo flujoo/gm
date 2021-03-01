@@ -815,3 +815,75 @@ to_Element.Rest <- function(x, divisions, ...) {
 
   Element("note", contents)
 }
+
+
+#' @keywords internal
+#' @export
+to_Element.Note <- function(x, divisions, ...) {
+  # unpack
+  pitch <- x$pitch
+  duration <- x$duration
+
+  contents <- list()
+  notations <- list()
+
+  # the order of adding Elements to `contents` can not be changed,
+  # or there will be "* is not defined in this scope" error in MuseScore
+
+  # add Element "chord"
+  if (isTRUE(x$chord)) {
+    contents %<>% c(list(Element("chord")))
+  }
+
+  # add Element "rest" or "pitch"
+  contents %<>% c(list(to_Element(pitch)))
+
+  # add Element "duration"
+  contents %<>% c(list(Element("duration", to_value(duration) * divisions)))
+
+  # add Elements "tie" and "tied"
+  if (class(pitch) == "Pitch") {
+    # stop
+    if (isTRUE(pitch$tie_stop)) {
+      contents %<>% c(list(Element("tie", NULL, list(type = "stop"))))
+      notations %<>% c(list(Element("tied", NULL, list(type = "stop"))))
+    }
+
+    # start
+    if (isTRUE(pitch$tie_start)) {
+      contents %<>% c(list(Element("tie", NULL, list(type = "start"))))
+      notations %<>% c(list(Element("tied", NULL, list(type = "start"))))
+    }
+  }
+
+  # add Element "voice"
+  voice <- x$voice
+  if (!is.null(voice)) {
+    contents %<>% c(list(Element("voice", voice)))
+  }
+
+  # add Element "type"
+  contents %<>% c(list(to_Element_type(duration)))
+
+  # add Elements "dot"
+  contents %<>% c(to_Elements_dot(duration))
+
+  # add Element "time-modification"
+  time_modification <- to_Element_time_modification(duration)
+  if (!is.null(time_modification)) {
+    contents %<>% c(list(time_modification))
+  }
+
+  # add Element "staff"
+  staff <- x$staff
+  if (!is.null(staff)) {
+    contents %<>% c(list(Element("staff", staff)))
+  }
+
+  # add Element "notations"
+  if (length(notations) != 0) {
+    contents %<>% c(list(Element("notations", notations)))
+  }
+
+  Element("note", contents)
+}
