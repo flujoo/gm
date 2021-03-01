@@ -643,3 +643,20 @@ merge_clef_lines <- function(lines, clef_lines, meters) {
 
   lines
 }
+
+
+#' @keywords internal
+#' @export
+to_Element.Clef <- function(x, ...) {
+  contents <- list(
+    Element("sign", x$sign),
+    Element("line", x$line)
+  )
+
+  octave <- x$octave
+  if (!is.null(octave)) {
+    contents %<>% c(list(Element("clef-octave-change", octave)))
+  }
+
+  Element("clef", contents)
+}
