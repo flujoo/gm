@@ -777,3 +777,17 @@ to_Element.Move <- function(x, divisions, ...) {
 
   Element(x$direction, contents)
 }
+
+
+#' @keywords internal
+#' @export
+to_Element.Rest <- function(x, divisions, ...) {
+  contents <- list(
+    Element("rest", attributes = list(measure = "yes")),
+    Element("duration", x$duration * divisions),
+    Element("voice", x$voice),
+    Element("staff", x$staff)
+  )
+
+  Element("note", contents)
+}
