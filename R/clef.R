@@ -132,7 +132,7 @@ print.Clef <- function(x, context = "console", silent = FALSE, ...) {
 
 
 
-# Clef validators ---------------------------------------------------------
+# validators --------------------------------------------------------------
 
 check_clef_sign <- function(sign) {
   check_type(sign, "character")
