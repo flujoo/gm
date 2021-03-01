@@ -658,5 +658,12 @@ to_Element.Clef <- function(x, ...) {
     contents %<>% c(list(Element("clef-octave-change", octave)))
   }
 
-  Element("clef", contents)
+  number <- x$number
+  if (!is.null(number)) {
+    attributes <- list(number = number)
+  } else {
+    attributes <- NULL
+  }
+
+  Element("clef", contents, attributes)
 }
