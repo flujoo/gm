@@ -1,142 +1,3 @@
-#' @export
-show.Music <- function(x, to = NULL, width = NULL, ...) {
-  # check arguments
-  check_type(x, "Music", method = "class")
-  check_show_to(to)
-  check_show_width(width)
-  # `x$lines` must not be empty
-  check_show_lines(x$lines)
-  # `x$meter_line` must have a Meter at bar 1
-  check_show_meter_line(x$meter_line)
-
-  # normalize `bar` and `offset` in each Line
-  x$lines %<>% normalize_bar_offset.lines(x$meter_line$meters)
-
-  # check if there is any tuplet group which crosses barline
-  check_tuplet_group_over_bar(x$lines, x$meter_line$meters)
-
-  x$key_lines %<>% normalize_key_lines()
-
-  # convert each PitchNotation/Value to Pitch
-  x %<>% to_Pitch()
-
-  # leave marks in tied Pitches in each Line
-  x$lines %<>% mark_tie.lines()
-
-  # add `$measures`
-  x$lines %<>% segment.lines(x$meter_line$meters)
-
-  # append Measures to some Lines
-  x$lines %<>% equalize(x$meter_line$meters)
-
-  x$clef_lines %<>% normalize_clef_lines(x$lines, x$meter_line$meters)
-
-  # merge any staff or voice to its parent part
-  x$lines %<>% merge_lines()
-
-  # merge Clefs to its parent part
-  x$lines %<>% merge_clef_lines(x$clef_lines, x$meter_line$meters)
-
-  # add Element staves to each part
-  x$lines %<>% add_staves()
-
-  # merge Meters to each part
-  x$lines %<>% merge_meter_line(x$meter_line$meters)
-
-  # merge Keys to each part
-  x$lines %<>% merge_key_lines(x$key_lines)
-
-  # get divisions and add the Element to each part
-  divisions <- get_divisions(x$lines)
-  x$lines %<>% add_divisions()
-
-  # split any chord into notes in each part
-  x$lines %<>% split_chord()
-}
-
-
-
-# validators --------------------------------------------------------------
-
-check_show_to <- function(to) {
-  # early return
-  if (is.null(to)) {
-    return()
-  }
-
-  # basic checking
-  check_type(to, "character")
-  check_length(to, 1:2)
-
-  # check content
-  valid <- c("score", "audio")
-  general <- '`to` must be "score", "audio" or both, if specified.'
-  specifics <- character(0)
-  l <- length(to)
-
-  # the wording is more nuanced, don't merge this clause
-  if (l == 1) {
-    check_content(to, valid, general = general)
-
-  } else {
-    for (i in 1:l) {
-      to_i <- to[[i]]
-      if (!(to_i %in% valid)) {
-        specifics[length(specifics) + 1] <-
-          '`to[{i}]` is "{to_i}."' %>%
-          glue::glue() %>%
-          unclass()
-      }
-    }
-
-    show_errors(general, specifics)
-  }
-}
-
-
-check_show_width <- function(width) {
-  if (!is.null(width)) {
-    check_type(width, c("integer", "double"))
-    check_length(width, 1)
-
-    general <- '`width` must be a positive number, if specified.'
-    check_content(width, expression(!is.na(x) && x > 0), general = general)
-  }
-}
-
-
-check_show_lines <- function(lines) {
-  if (is.null(lines)) {
-    general <- "`x` must contain some Line."
-
-    specifics <- c(
-      "`x` contains no Line.",
-      "Use `+ Line()` to add a Line."
-    )
-
-    show_errors(general, specifics)
-  }
-}
-
-
-check_show_meter_line <- function(meter_line) {
-  general <- "`x` must have a Meter at bar 1."
-  specifics <- character(0)
-
-  if (is.null(meter_line)) {
-    specifics <- "`x` contains no Meter."
-  } else if (meter_line$meters[[1]]$bar != 1) {
-    specifics <- "`x` has no Meter at bar 1."
-  }
-
-  if (length(specifics) != 0) {
-    specifics %<>% c("Use `+ Meter()` to add a Meter.")
-    show_errors(general, specifics)
-  }
-}
-
-
-
 # constructors ------------------------------------------------------------
 
 # generalization of MusicXML elements backup and forward
@@ -886,4 +747,103 @@ to_Element.Note <- function(x, divisions, ...) {
   }
 
   Element("note", contents)
+}
+
+
+
+# Music -> MusicXML -------------------------------------------------------
+
+to_musicxml <- function(music) {
+  # the Music must contain some Line
+  check_music_lines(music$lines)
+
+  # the Music must have a Meter at bar 1
+  check_music_meter_line(music$meter_line)
+
+  # normalize `$bar` and `$offset` of each Line,
+  # to make `$offset` smaller than the length of Measure `$bar`
+  music$lines %<>% normalize_bar_offset.lines(music$meter_line$meters)
+
+  # check if there is any tuplet group crossing barline
+  check_tuplet_group_over_bar(music$lines, music$meter_line$meters)
+
+  # normalize `$key_lines` of the Music
+  music$key_lines %<>% normalize_key_lines()
+
+  # convert any PitchNotation/Value in the Music to Pitch
+  music %<>% to_Pitch()
+
+  # leave marks in tied Pitches in each Line
+  music$lines %<>% mark_tie.lines()
+
+  # convert each Line to Measures, and add the result to `$measures`
+  music$lines %<>% segment.lines(music$meter_line$meters)
+
+  # append Measures to some Lines,
+  # to make all Lines have the same number of Measures
+  music$lines %<>% equalize(music$meter_line$meters)
+
+  # normalize `$clef_lines` of the Music
+  music$clef_lines %<>%
+    normalize_clef_lines(music$lines, music$meter_line$meters)
+
+  # merge the Measures of any staff or voice to its parent part's
+  music$lines %<>% merge_lines()
+
+  # merge any Clef to its targeted part
+  music$lines %<>%
+    merge_clef_lines(music$clef_lines, music$meter_line$meters)
+
+  # add Element "staves" to each part
+  music$lines %<>% add_staves()
+
+  # merge any Meter to its targeted part
+  music$lines %<>% merge_meter_line(music$meter_line$meters)
+
+  # merge any Key to its targeted part
+  music$lines %<>% merge_key_lines(music$key_lines)
+
+  # get divisions and add Element "divisions" to each part
+  divisions <- get_divisions(music$lines)
+  music$lines %<>% add_divisions()
+
+  # split any chord into notes in each part
+  music$lines %<>% split_chord()
+
+  # convert the Music to Score
+  score <- to_Score(music$lines)
+
+  # generate MusicXML
+  print(score, divisions, silent = TRUE)
+}
+
+
+check_music_lines <- function(lines) {
+  if (is.null(lines)) {
+    general <- "The Music must contain some Line."
+
+    specifics <- c(
+      "The Music contains no Line.",
+      "Use `+ Line()` to add a Line."
+    )
+
+    show_errors(general, specifics)
+  }
+}
+
+
+check_music_meter_line <- function(meter_line) {
+  general <- "The Music must have a Meter at bar 1."
+  specifics <- character(0)
+
+  if (is.null(meter_line)) {
+    specifics <- "The Music contains no Meter."
+  } else if (meter_line$meters[[1]]$bar != 1) {
+    specifics <- "The Music has no Meter at bar 1."
+  }
+
+  if (length(specifics) != 0) {
+    specifics %<>% c("Use `+ Meter()` to add a Meter.")
+    show_errors(general, specifics)
+  }
 }
