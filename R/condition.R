@@ -105,11 +105,11 @@ check_content <- function(x, valid, name = NULL, general = NULL,
       x <- paste0('"', x, '"')
     }
 
-    if (is.character(valid)) {
-      valid <- sapply(valid, function(v) paste0('"', v, '"'))
+    if (!is.function(valid) && !is.expression(valid)) {
+      valid %<>%
+        sapply(quote_string) %>%
+        coordinate()
     }
-
-    valid <- coordinate(valid)
 
     if (is.null(general)) {
       general <- "`{name}` must be {valid}."
