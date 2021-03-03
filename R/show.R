@@ -847,3 +847,61 @@ check_music_meter_line <- function(meter_line) {
     show_errors(general, specifics)
   }
 }
+
+
+
+# MuseScore ---------------------------------------------------------------
+
+# configure MuseScore:
+
+# open ".Renviron" file with `usethis::edit_r_environ()`
+
+# add the path to MuseScore in it:
+# `MUSESCORE_PATH=/your/path/to/musescore`
+
+# check the default paths in various systems:
+# https://musescore.org/en/handbook/revert-factory-settings
+
+
+# call MuseScore to export MusicXML
+# `from` and `to` specify file paths
+# `...` are other options passed to MuseScore
+call_musescore <- function(from, to, ...) {
+  # get MuseScore path from ".Renviron" file
+  path <- Sys.getenv("MUSESCORE_PATH")
+
+  # infer the path if `MUSESCORE_PATH` is not specified
+  if (path == "") {
+    # check operating system
+    os <- Sys.info()["sysname"]
+
+    if (os == "Darwin") {
+      path <- "/Applications/MuseScore\ 3.app/Contents/MacOS/mscore"
+    } else if (os == "Windows") {
+      path <- "%ProgramFiles%/MuseScore 3/bin/MuseScore3.exe"
+    } else {
+      path <- "mscore"
+    }
+  }
+
+  # try calling MuseScore
+  tryCatch(
+    {system2(path, c(from, "-o", to, ...), stderr = NULL)},
+    warning = abort_musescore
+  )
+}
+
+
+abort_musescore <- function() {
+  general <- paste(
+    "MuseScore must be installed",
+    "to convert Music object to score or audio file."
+  )
+
+  specifics <- c(
+    "Can't find MuseScore.",
+    "See . for how to install and configure MuseScore."
+  )
+
+  show_errors(general, specifics)
+}
