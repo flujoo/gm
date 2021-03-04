@@ -945,7 +945,7 @@ check_export_formats <- function(formats) {
 
   l <- length(formats)
 
-  if (l == 1 && !(formats %in% valid)) {
+  if (l == 1 && !(tolower(formats) %in% valid)) {
     specifics <- '`formats` is "{formats}".'
 
   } else if (l > 1) {
@@ -954,7 +954,7 @@ check_export_formats <- function(formats) {
     for (i in 1:l) {
       format <- formats[i]
 
-      if (!(format %in% valid)) {
+      if (!(tolower(format) %in% valid)) {
         specifics <- specific %>%
           glue::glue() %>%
           unclass() %>%
