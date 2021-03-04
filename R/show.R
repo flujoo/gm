@@ -905,3 +905,63 @@ abort_musescore <- function() {
 
   show_errors(general, specifics)
 }
+
+
+
+# export MusicXML ---------------------------------------------------------
+
+check_export_dir_path <- function(dir_path) {
+  check_type(dir_path, "character")
+  check_length(dir_path, 1)
+
+  general <- "`dir_path` must be a path to an existing directory."
+  check_content(dir_path, dir.exists, general = general)
+}
+
+
+check_export_formats <- function(formats) {
+  check_type(formats, "character")
+  check_length(formats, Inf)
+
+  valid <- c(
+    # MuseScore
+    "mscz", "mscx",
+    # graphic
+    "pdf", "png", "svg",
+    # audio
+    "wav", "mp3", "flac", "ogg", "midi", "mid",
+    # musicxml
+    "musicxml", "mxl", "xml",
+    # misc
+    "metajson", "mlog", "mpos", "spos"
+  )
+
+  s_valid <- valid %>%
+    sapply(quote_string) %>%
+    coordinate()
+
+  general <- "`formats` must be {s_valid}."
+  specifics <- character()
+
+  l <- length(formats)
+
+  if (l == 1 && !(formats %in% valid)) {
+    specifics <- '`formats` is "{formats}".'
+
+  } else if (l > 1) {
+    specific <- '`formats[{i}]` is "{format}".'
+
+    for (i in 1:l) {
+      format <- formats[i]
+
+      if (!(format %in% valid)) {
+        specifics <- specific %>%
+          glue::glue() %>%
+          unclass() %>%
+          c(specifics, .)
+      }
+    }
+  }
+
+  show_errors(general, specifics, env = environment())
+}
