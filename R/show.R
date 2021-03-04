@@ -966,3 +966,10 @@ check_export_formats <- function(formats) {
 
   show_errors(general, specifics, env = environment())
 }
+
+
+normalize_export_formats <- function(formats) {
+  formats %>%
+    tolower() %>%
+    unique()
+}
