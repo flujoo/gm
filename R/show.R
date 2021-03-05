@@ -973,3 +973,86 @@ normalize_export_formats <- function(formats) {
     tolower() %>%
     unique()
 }
+
+
+export_musicxml <- function(musicxml, dir_path, file_name, formats) {
+  # check and normalize arguments
+  check_export_dir_path(dir_path)
+  dir_path %<>% normalizePath() # remove last "/"(s)
+  check_name(file_name)
+  check_export_formats(formats)
+  formats %<>% normalize_export_formats()
+
+  # file path without extension
+  name_path <- file.path(dir_path, file_name)
+
+  # export `musicxml` to musicxml file first
+  # create musicxml file path
+  if ("musicxml" %in% formats) {
+    musicxml_path <- paste0(name_path, ".musicxml")
+  } else {
+    musicxml_path <- tempfile(fileext = ".musicxml")
+  }
+
+  writeLines(musicxml, musicxml_path)
+
+  for (format in formats) {
+    # skip musicxml file
+    if (format == "musicxml") {
+      next
+    }
+
+    # file name extension
+    extension <- paste0(".", format)
+    # file path
+    file_path <- paste0(name_path, extension)
+
+    # export `musicxml` to non-graphic file directly
+    if (!(format %in% c("png", "svg"))) {
+      call_musescore(musicxml_path, file_path)
+    }
+
+    # MuseScore splits long graphic files,
+    # so export `musicxml` to temporary dir first,
+    # then combine split parts
+
+    # create temporary path
+    tmp_path <- tempfile(fileext = extension)
+    # export `musicxml` to the temporary path
+    call_musescore(musicxml_path, tmp_path, "-T 20")
+
+    # there may be split graphic files in the temporary dir now,
+    # check and combine them
+
+    # names of all files in the temporary dir
+    tmp_files <- list.files(tempdir(), full.names = TRUE)
+    # the paths to all exported graphic files
+    graphic_paths <-
+      # get the file name part (no extension) of `tmp_path`
+      tools::file_path_sans_ext(basename(tmp_path)) %>%
+      # generate a regular expression
+      paste0(".*\\.", format, "$") %>%
+      # get the paths of all exported graphic files
+      {tmp_files[grep(., tmp_files)]}
+
+    l <- length(graphic_paths)
+    # just copy and rename one-part graphic file
+    if (l == 1) {
+      file.copy(graphic_paths, file_path)
+    # combine graphic file parts
+    } else {
+      graphic_paths %>%
+        magick::image_read() %>%
+        magick::image_append(stack = TRUE) %>%
+        magick::image_write(path = file_path, format = format)
+    }
+
+    # remove temporary graphic files
+    unlink(graphic_paths)
+  }
+
+  # remove temporary musicxml file
+  if (!("musicxml" %in% formats)) {
+    unlink(musicxml_path)
+  }
+}
