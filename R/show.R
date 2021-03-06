@@ -1095,17 +1095,6 @@ check_show_to <- function(to) {
 }
 
 
-check_show_width <- function(width) {
-  if (!is.null(width)) {
-    check_type(width, c("integer", "double"))
-    check_length(width, 1)
-
-    general <- '`width` must be a positive number, if specified.'
-    check_content(width, expression(!is.na(x) && x > 0), general = general)
-  }
-}
-
-
 normalize_show_to <- function(to) {
   if (is.null(to)) {
     return("png")
