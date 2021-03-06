@@ -1104,3 +1104,24 @@ check_show_width <- function(width) {
     check_content(width, expression(!is.na(x) && x > 0), general = general)
   }
 }
+
+
+# figure out the context in which `show_musicxml` is called,
+# to tell it is R Markdown, RStudio, or normal R console
+# refs:
+# https://stackoverflow.com/questions/33107908/
+# how-to-tell-if-code-is-executed-within-a-knitr-rmarkdown-context
+# https://stackoverflow.com/questions/12389158/
+# check-if-r-is-running-in-rstudio
+get_show_context <- function() {
+  # check if it is R Markdown first
+  # if you put this clause and the second into an R Markdown file,
+  # then call `knitr::knit()` on that file, both clauses will be TRUE
+  if (isTRUE(getOption('knitr.in.progress'))) {
+    "rmd"
+  } else if (rstudioapi::isAvailable()) {
+    "rstudio"
+  } else {
+    "other"
+  }
+}
