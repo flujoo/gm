@@ -975,8 +975,8 @@ normalize_export_formats <- function(formats) {
 }
 
 
-export_musicxml <- function(musicxml, dir_path, file_name, formats) {
-  # check and normalize arguments
+export_musicxml <- function(musicxml, dir_path, file_name, formats,
+                            dpi = "") {
   check_export_dir_path(dir_path)
   dir_path %<>% normalizePath() # remove last "/"(s)
   check_name(file_name)
@@ -1019,7 +1019,7 @@ export_musicxml <- function(musicxml, dir_path, file_name, formats) {
     # create temporary path
     tmp_path <- tempfile(fileext = extension)
     # export `musicxml` to the temporary path
-    call_musescore(musicxml_path, tmp_path, "-T 20")
+    call_musescore(musicxml_path, tmp_path, "-T 20", dpi)
 
     # there may be split graphic files in the temporary dir now,
     # check and combine them
