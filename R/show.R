@@ -1056,3 +1056,51 @@ export_musicxml <- function(musicxml, dir_path, file_name, formats) {
     unlink(musicxml_path)
   }
 }
+
+
+
+# show MusicXML -----------------------------------------------------------
+
+check_show_to <- function(to) {
+  if (is.null(to)) {
+    return()
+  }
+
+  check_type(to, "character")
+  check_length(to, 1:2)
+
+  # check content
+  valid <- c("score", "audio")
+  general <- '`to` must be "score", "audio" or both, if specified.'
+  specifics <- character(0)
+  l <- length(to)
+
+  # the wording is more nuanced, don't merge this clause
+  if (l == 1) {
+    check_content(to, valid, general = general)
+
+  } else {
+    for (i in 1:l) {
+      to_i <- to[[i]]
+      if (!(to_i %in% valid)) {
+        specifics[length(specifics) + 1] <-
+          '`to[{i}]` is "{to_i}."' %>%
+          glue::glue() %>%
+          unclass()
+      }
+    }
+
+    show_errors(general, specifics)
+  }
+}
+
+
+check_show_width <- function(width) {
+  if (!is.null(width)) {
+    check_type(width, c("integer", "double"))
+    check_length(width, 1)
+
+    general <- '`width` must be a positive number, if specified.'
+    check_content(width, expression(!is.na(x) && x > 0), general = general)
+  }
+}
