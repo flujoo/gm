@@ -1116,7 +1116,8 @@ check_show_width <- function(width) {
 get_show_context <- function() {
   # check if it is R Markdown first
   # if you put this clause and the second into an R Markdown file,
-  # then call `knitr::knit()` on that file, both clauses will be TRUE
+  # then call `knitr::knit()` on that file from RStudio,
+  # both clauses will be TRUE
   if (isTRUE(getOption('knitr.in.progress'))) {
     "rmd"
   } else if (rstudioapi::isAvailable()) {
