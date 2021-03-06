@@ -1211,3 +1211,22 @@ show_musicxml <- function(musicxml, to) {
     utils::browseURL(html_path)
   }
 }
+
+
+
+# show/export Music -------------------------------------------------------
+
+#' @export
+show.Music <- function(x, to = NULL, ...) {
+  x %>%
+    to_musicxml() %>%
+    show_musicxml(to)
+}
+
+
+#' @export
+export.Music <- function(x, dir_path, file_name, formats, ...) {
+  x %>%
+    to_musicxml() %>%
+    export_musicxml(dir_path, file_name, formats)
+}
