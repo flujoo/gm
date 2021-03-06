@@ -1131,3 +1131,82 @@ get_show_context <- function() {
     "other"
   }
 }
+
+
+show_musicxml <- function(musicxml, to) {
+  check_show_to(to)
+  to %<>% normalize_show_to()
+
+  name_path <- tempfile()
+  dir_path <- dirname(name_path)
+  file_name <- basename(name_path)
+
+  export_musicxml(musicxml, dir_path, file_name, to)
+
+  context <- get_show_context()
+
+  # generate HTML object(s) to show
+  contents <- list()
+
+  for (format in to) {
+    file_path <- paste0(name_path, ".", format)
+
+    # use relative path
+    if (context != "rmd") {
+      file_path %<>% basename()
+    }
+
+    if (format == "mp3") {
+      html_object <- file_path %>%
+        {htmltools::tags$source(src = ., type = "audio/mp3")} %>%
+        htmltools::tags$audio(controls = NA, .) %>%
+        htmltools::tags$p()
+
+    } else if (format == "png") {
+      html_object <- file_path %>%
+        {htmltools::tags$img(src = .)} %>%
+        htmltools::tags$p()
+    }
+
+    contents %<>% c(list(html_object))
+  }
+
+  if (length(contents) == 1) {
+    contents %<>% .[[1]]
+  } else {
+    contents %<>% do.call(htmltools::tags$div, .)
+  }
+
+  # show file(s)
+  if (context == "rmd") {
+    return(contents)
+  }
+
+  html_template <- paste(
+    "<!DOCTYPE html>",
+    "<html>",
+    "<head>",
+    '<meta charset="utf-8">',
+    "</head>",
+    "<body>",
+    "{{{ content }}}",
+    "</body>",
+    "</html>",
+    sep = "\n"
+  )
+
+  html_path <- paste0(name_path, ".", "html")
+
+  # export `contents` to HTML file
+  writeLines(
+    whisker::whisker.render(html_template, list(content = contents)),
+    html_path
+  )
+
+  # open the HTML file
+  if (context == "rstudio") {
+    rstudioapi::viewer(html_path)
+  } else if (context == "other") {
+    utils::browseURL(html_path)
+  }
+}
