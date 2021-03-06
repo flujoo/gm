@@ -978,9 +978,10 @@ normalize_export_formats <- function(formats) {
 export_musicxml <- function(musicxml, dir_path, file_name, formats,
                             dpi = "") {
   check_export_dir_path(dir_path)
-  dir_path %<>% normalizePath() # remove last "/"(s)
   check_name(file_name)
   check_export_formats(formats)
+
+  dir_path %<>% normalizePath() # remove last "/"(s)
   formats %<>% normalize_export_formats()
 
   # file path without extension
