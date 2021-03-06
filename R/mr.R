@@ -29,6 +29,12 @@ show <- function(x, ...) {
 }
 
 
+#' @export
+export <- function(x, ...) {
+  UseMethod("export")
+}
+
+
 
 # utils -------------------------------------------------------------------
 
