@@ -1141,7 +1141,7 @@ show_musicxml <- function(musicxml, to) {
   dir_path <- dirname(name_path)
   file_name <- basename(name_path)
 
-  export_musicxml(musicxml, dir_path, file_name, to)
+  export_musicxml(musicxml, dir_path, file_name, to, "-r 115")
 
   context <- get_show_context()
 
