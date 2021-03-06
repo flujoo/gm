@@ -1106,6 +1106,22 @@ check_show_width <- function(width) {
 }
 
 
+normalize_show_to <- function(to) {
+  if (is.null(to)) {
+    return("png")
+  }
+
+  for (i in 1:length(to)) {
+    to[i] %<>% switch(
+      "score" = "png",
+      "audio" = "mp3"
+    )
+  }
+
+  to
+}
+
+
 # figure out the context in which `show_musicxml` is called,
 # to tell it is R Markdown, RStudio, or normal R console
 # refs:
