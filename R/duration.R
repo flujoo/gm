@@ -1254,6 +1254,7 @@ untie_duration_value <- function(value, values = to_values.duration_types(0),
   }
 
   value %>%
+    round_number() %>%
     core() %>%
     unname()
 }
@@ -1267,6 +1268,24 @@ is_tied_duration_value <- function(value) {
     },
     error = function(e) FALSE
   )
+}
+
+
+# https://stackoverflow.com/questions/9508518/
+# why-are-these-numbers-not-equal
+round_number <- function(x) {
+  i <- 0
+
+  repeat {
+    y <- round(x, digits = i)
+    con <- all.equal(x, y)
+
+    if (isTRUE(con)) {
+      return(y)
+    }
+
+    i <- i + 1
+  }
 }
 
 
