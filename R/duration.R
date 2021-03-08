@@ -1592,3 +1592,55 @@ get_ratios <- function(duration) {
 
   rs
 }
+
+
+to_Elements_tuplet <- function(duration) {
+  elements <- list()
+
+  tuplet_stop <- duration$tuplet_stop
+  if (!is.null(tuplet_stop)) {
+    for (i in tuplet_stop) {
+      attributes <- list(type = "stop", number = i)
+      element <- Element("tuplet", attributes = attributes)
+      elements %<>% c(list(element))
+    }
+  }
+
+  tuplet_start <- duration$tuplet_start
+  if (!is.null(tuplet_start)) {
+    tuplers <- duration$tuplers
+    rs <- get_ratios(duration)
+
+    for (i in tuplet_start) {
+      ratio <- rs[[i]]
+      tupler <- tuplers[[i]]
+      unit <- tupler$unit
+      type <- unit$type
+      dot <- unit$dot
+
+      attributes <- list(type = "start", number = i, bracket = "yes")
+
+      contents_ta <- list(
+        Element("tuplet-number", ratio[1]),
+        Element("tuplet-type", type)
+      )
+
+      contents_tn <- list(
+        Element("tuplet-number", ratio[2]),
+        Element("tuplet-type", type)
+      )
+
+      dots <- rep(list(Element("tuplet-dot")), dot)
+      contents_ta %<>% c(dots)
+      contents_tn %<>% c(dots)
+
+      ta <- Element("tuplet-actual", contents_ta)
+      tn <- Element("tuplet-normal", contents_tn)
+
+      element <- Element("tuplet", list(ta, tn), attributes)
+      elements %<>% c(list(element))
+    }
+  }
+
+  elements
+}

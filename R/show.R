@@ -735,6 +735,9 @@ to_Element.Note <- function(x, divisions, ...) {
     contents %<>% c(list(time_modification))
   }
 
+  # add Elements "tuplet"
+  notations %<>% c(to_Elements_tuplet(duration))
+
   # add Element "staff"
   staff <- x$staff
   if (!is.null(staff)) {
