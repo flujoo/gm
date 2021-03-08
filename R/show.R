@@ -746,7 +746,12 @@ to_Element.Note <- function(x, divisions, ...) {
     contents %<>% c(list(Element("notations", notations)))
   }
 
-  Element("note", contents)
+  attributes <- NULL
+  if (isTRUE(x$invisible)) {
+    attributes <- list(`print-object` = "no")
+  }
+
+  Element("note", contents, attributes)
 }
 
 
