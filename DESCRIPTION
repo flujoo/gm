@@ -1,0 +1,29 @@
+Package: mr
+Type: Package
+Title: Generate, Show and Play Musical Score in R Markdown, RStudio or Browser
+Version: 1.0.0
+Author: Renfei Mao
+Maintainer: Renfei Mao <renfeimao@gmail.com>
+Description: An elegant and intuitive system for representing musical scores,
+    and generating and displaying them painlessly in R Markdown or RStudio.
+    You only tell "mr" the structure of your music, and it takes care of all
+    the dirty technical details.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1
+Suggests: 
+    testthat
+Imports:
+    glue,
+    htmltools,
+    knitr,
+    magick,
+    magrittr,
+    MASS,
+    rlang,
+    rstudioapi,
+    stringr,
+    tools,
+    utils,
+    whisker
