@@ -1,3 +1,19 @@
+#' @title Initialize `Music` Object
+#'
+#' @description Initialize a `Music` object, to which you can add other
+#' components with [mr::+.Music()].
+#'
+#' @return A list with class `Music`.
+#'
+#' @seealso [mr::+.Music()] for adding other components to a `Music` object.
+#'
+#' @examples
+#' # Initialize a Music
+#' m <- Music()
+#' m
+#'
+#' # add other components
+#' m + Meter(4, 4) + Line(list("C4"), list(1))
 #' @export
 Music <- function() {
   list() %>% `class<-`("Music")
