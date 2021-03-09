@@ -1,11 +1,11 @@
 Package: mr
 Type: Package
-Title: Generate Musical Score in R Markdown or RStudio
+Title: Generate Musical Score in R Markdown and RStudio
 Version: 1.0.0
 Author: Renfei Mao
 Maintainer: Renfei Mao <renfeimao@gmail.com>
 Description: An elegant and intuitive system for representing musical scores,
-    and generating, showing and playing them painlessly in R Markdown or
+    and generating, showing and playing them painlessly in R Markdown and
     RStudio. You only tell "mr" the structure of your music, and it takes care
     of all the dirty technical details.
 License: MIT + file LICENSE

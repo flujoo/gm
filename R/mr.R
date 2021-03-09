@@ -1,8 +1,8 @@
-#' @title mr: Generate Musical Score in R Markdown or RStudio
+#' @title mr: Generate Musical Score in R Markdown and RStudio
 #'
 #' @description An elegant and intuitive system for representing musical
 #' scores, and generating, showing and playing them painlessly in R Markdown
-#' or RStudio. You only tell "mr" the structure of your music, and it takes
+#' and RStudio. You only tell "mr" the structure of your music, and it takes
 #' care of all the dirty technical details.
 #'
 #' @section Author:
