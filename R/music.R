@@ -25,14 +25,14 @@ Music <- function() {
 #' @description Add a component to a `Music` object.
 #'
 #' @param music A `music` object.
-#' @param term A `Line`, `Meter`, `Key` or `Clef` object.
+#' @param term A `Line`, `Meter`, `Key`, `Clef` or `Tempo` object.
 #'
 #' @return A list with class `Music`.
 #'
 #' @seealso [mr::Music()] for Initializing a `Music` object.
 #'
-#' [mr::Line()], [mr::Meter()], [mr::Key()] and [mr::Clef()] for creating
-#' objects of corresponding classes.
+#' [mr::Line()], [mr::Meter()], [mr::Key()], [mr::Clef()] and [mr::Tempo()]
+#' for creating objects of corresponding classes.
 #'
 #' @examples
 #' # Initialize a Music
@@ -52,13 +52,18 @@ Music <- function() {
 #' m
 #'
 #' # add a Clef
-#' m + Clef("G", to = 1)
+#' m <- m + Clef("G", to = 1)
+#' m
+#'
+#' # add a Tempo
+#' m <- m + Tempo(120)
+#' m
 #' @export
 `+.Music` <- function(music, term) {
   c_l <- class(music)[1]
   c_r <- class(term)[1]
   cs_l <- "Music"
-  cs_r <- c("Line", "Meter", "Key", "Clef")
+  cs_r <- c("Line", "Meter", "Key", "Clef", "Tempo")
 
   check_binary_classes(c_l, c_r, cs_l, cs_r)
 
@@ -106,6 +111,11 @@ print.Music <- function(x, ...) {
     ss <- clef_lines %>%
       sapply(print, silent = TRUE) %>%
       c(ss, .)
+  }
+
+  tempo_line <- x$tempo_line
+  if (!is.null(tempo_line)) {
+    ss[[length(ss) + 1]] <- tempo_line %>% print(silent = TRUE)
   }
 
   ss %>%
