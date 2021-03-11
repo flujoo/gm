@@ -348,5 +348,5 @@ to_Element.Tempo <- function(x, ...) {
   direction_type <- Element("direction-type", metronome)
   sound <- Element("sound", NULL, list(tempo = x$tempo))
 
-  Element("direction", list(direction_type, sound))
+  Element("direction", list(direction_type, sound), list(placement = "above"))
 }
