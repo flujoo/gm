@@ -328,3 +328,25 @@ merge_tempo_line <- function(lines, tempo_line, meters) {
 
   lines
 }
+
+
+#' @keywords internal
+#' @export
+to_Element.Tempo <- function(x, ...) {
+  d <- x$unit %>% to_Duration()
+
+  contents <- list(
+    Element("beat-unit", d$type),
+    Element("per-minute", x$bpm)
+  )
+
+  if (d$dot == 1) {
+    contents %<>% append(list(Element("beat-unit-dot")), 1)
+  }
+
+  metronome <- Element("metronome", contents)
+  direction_type <- Element("direction-type", metronome)
+  sound <- Element("sound", NULL, list(tempo = x$tempo))
+
+  Element("direction", list(direction_type, sound))
+}
