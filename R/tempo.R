@@ -255,3 +255,76 @@ print.TempoLine <- function(x, silent = FALSE, ...) {
     cat(s, "\n")
   }
 }
+
+
+
+# Music -> MusicXML -------------------------------------------------------
+
+merge_tempo_line <- function(lines, tempo_line, meters) {
+  if (is.null(tempo_line)) {
+    return(lines)
+  }
+
+  tempos <- tempo_line$tempos
+
+  # normalize bar and offset of each Tempo
+  for (i in 1:length(tempos)) {
+    tempo <- tempos[[i]]
+    bar <- tempo$bar
+    offset <- tempo$offset
+    . <- normalize_bar_offset(bar, offset, meters)
+    tempos[[i]]$bar <- .$bar
+    tempos[[i]]$offset <- .$offset
+  }
+
+  tempos %<>% sort_clefs()
+
+  # merge to first bar
+  measures <- lines[[1]]$measures
+  l <- length(measures)
+
+  # merge Tempos measure by measure
+  bars <- sapply(tempos, function(tempo) tempo$bar) %>%
+    as.integer() %>%
+    unique()
+
+  for (bar in bars) {
+    if (bar > l) {
+      break
+    }
+
+    # get Tempos with bar `bar`
+    ts <- Filter(function(tempo) tempo$bar == bar, tempos)
+
+    # store Tempos, forwards and backup
+    ns <- list()
+    # offset accumulator
+    v <- 0
+
+    for (i in 1:length(ts)) {
+      tempo <- ts[[i]]
+      offset <- tempo$offset
+
+      d <- offset - v
+      v <- offset
+
+      if (d == 0) {
+        ns %<>% c(list(tempo))
+      } else {
+        ns %<>% c(list(Move(d, "forward"), tempo))
+      }
+    }
+
+    # add backup
+    v_meter <- find_meter(bar, meters) %>% to_value()
+    ns %<>% c(list(Move(v_meter - v, "forward"), Move(v_meter, "backup")))
+
+    # merge `ns` to first part
+    # get first item in current Measure
+    a <- measures[[bar]]$notes[[1]]
+    k <- ifelse(class(a) == "Attributes", 1, 0)
+    lines[[1]]$measures[[bar]]$notes %<>% append(ns, k)
+  }
+
+  lines
+}

@@ -802,6 +802,10 @@ to_musicxml <- function(music) {
   music$lines %<>%
     merge_clef_lines(music$clef_lines, music$meter_line$meters)
 
+  # merge any Tempo to the first part
+  music$lines %<>%
+    merge_tempo_line(music$tempo_line, music$meter_line$meters)
+
   # add Element "staves" to each part
   music$lines %<>% add_staves()
 
