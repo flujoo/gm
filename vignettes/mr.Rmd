@@ -1,0 +1,109 @@
+---
+title: "Introduction to mr"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to mr}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE, message = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+library(mr)
+```
+
+
+## Quick Introduction
+
+You create musical scores easily with mr.
+
+Let's go through an example.
+
+```{r}
+m <- Music()
+```
+
+The above code initialized a `Music` object, to which we can add components:
+
+```{r}
+m <- m +
+  Meter(4, 4) +
+  Line(pitches = list("C5", "E5"), durations = list(2, 2))
+```
+
+We have added two components to the `Music` object:
+
+1. a 4/4 time signature and
+2. a musical line consisting of a C5 half note and an E5 half note.
+
+If we print the `Music` object in an R console, we get a brief description of
+it:
+
+```{r}
+m
+```
+
+We can convert the `Music` object to a musical score and an audio file:
+
+```{r}
+show(m, to = c("score", "audio"))
+```
+
+We can continue to add components and convert the `Music` object.
+
+Add a tempo mark, for example:
+
+```{r}
+m <- m + Tempo(120)
+show(m)
+```
+
+Add another musical line as a part:
+
+```{r}
+m <- m + Line(
+  pitches = list("C3", "D3", "E3", "F3"),
+  durations = list(1, 1, 1, 1)
+)
+
+show(m)
+```
+
+Add another musical line as a voice:
+
+```{r}
+m <- m + Line(
+  pitches = list(c("E4", "G4")),
+  durations = list(4),
+  as = "voice",
+  to = 1
+)
+
+show(m)
+```
+
+So now you have a rough idea of what mr does, before we go deeper, let's
+learn how to install and configure it.
+
+
+## Installation and Configuration
+
+Install mr:
+
+```r
+install.packages("mr")
+```
+
+MuseScore, an open source and free notation software, is required. Get it
+from <https://musescore.org/>.
+
+If you don't install MuseScore to the default path (see
+<https://musescore.org/en/handbook/3/revert-factory-settings>),
+you need to tell mr where to find MuseScore:
+
+Open ".Renviron" file, add `MUSESCORE_PATH=/your/path/to/musescore` into
+it. You can open the file with `usethis::edit_r_environ()`.
