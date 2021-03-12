@@ -1177,7 +1177,7 @@ show_musicxml <- function(musicxml, to) {
 
     } else if (format == "png") {
       html_object <- file_path %>%
-        {htmltools::tags$img(src = .)} %>%
+        {htmltools::tags$img(src = ., style = "max-width: 100%;")} %>%
         htmltools::tags$p()
     }
 
