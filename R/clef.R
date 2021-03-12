@@ -519,7 +519,7 @@ extract_pitches <- function(measures, bar, offset) {
 
         if (c_p == "Pitch") {
           pitches %<>% c(list(pitch))
-        } else if (c_ == "PitchChord") {
+        } else if (c_p == "PitchChord") {
           pitches %<>% c(pitch)
         }
       }
