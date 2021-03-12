@@ -520,10 +520,15 @@ split_chord <- function(lines) {
 
         # split chord into notes
         for (k in 1:length(pitches)) {
-          if (k == 1) {
-            n <- Note(note$duration, pitches[[k]])
-          } else {
-            n <- Note(note$duration, pitches[[k]], chord = TRUE)
+          # copy `note` to keep `$voice`, `$staff`, ...
+          n <- note
+
+          # change `$pitch`
+          n$pitch <- pitches[[k]]
+
+          # add `$chord` from the second
+          if (k != 1) {
+            n$chord <- TRUE
           }
 
           ns %<>% c(list(n))
