@@ -30,3 +30,4 @@ Imports:
     whisker
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
+SystemRequirements: MuseScore - https://musescore.org/
