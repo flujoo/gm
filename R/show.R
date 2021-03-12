@@ -501,34 +501,36 @@ split_chord <- function(lines) {
     measures <- line$measures
     for (j in 1:length(measures)) {
       notes <- measures[[j]]$notes
-      for (k in 1:length(notes)) {
-        note <- notes[[k]]
+
+      # to store non-chords and split chords
+      ns <- list()
+
+      for (note in notes) {
         if (class(note) != "Note") {
+          ns %<>% c(list(note))
           next
         }
 
         pitches <- note$pitch
+
         if (class(pitches) != "PitchChord") {
+          ns %<>% c(list(note))
           next
         }
 
         # split chord into notes
-        ns <- list()
-        for (l in 1:length(pitches)) {
-          if (l == 1) {
-            n <- Note(note$duration, pitches[[l]])
+        for (k in 1:length(pitches)) {
+          if (k == 1) {
+            n <- Note(note$duration, pitches[[k]])
           } else {
-            n <- Note(note$duration, pitches[[l]], chord = TRUE)
+            n <- Note(note$duration, pitches[[k]], chord = TRUE)
           }
 
           ns %<>% c(list(n))
         }
-
-        # merge `ns` back
-        lines[[i]]$measures[[j]]$notes %<>%
-          append(ns, k)
-        lines[[i]]$measures[[j]]$notes[[k]] <- NULL
       }
+
+      lines[[i]]$measures[[j]]$notes <- ns
     }
   }
 
