@@ -107,3 +107,6 @@ you need to tell mr where to find MuseScore:
 
 Open ".Renviron" file, add `MUSESCORE_PATH=/your/path/to/musescore` into
 it. You can open the file with `usethis::edit_r_environ()`.
+
+Now let's have a formal Introduction to mr.
+
