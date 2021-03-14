@@ -217,7 +217,7 @@ normalize_tie <- function(positions, pitches) {
     po1 <- po[1]
     po2 <- po[2]
 
-    p <- pitches[[po]]
+    p <- pitches[[po1]]
     l_p <- length(p)
     p_after <- pitches[[po1 + 1]]
 
