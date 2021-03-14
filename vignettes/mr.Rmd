@@ -40,7 +40,7 @@ We have added two components to the `Music` object:
 1. a 4/4 time signature and
 2. a musical line consisting of a C5 whole note.
 
-If we print the `Music` object in an R console, we get a brief description of
+If we print the `Music` object in the R console, we get a brief description of
 it:
 
 ```{r}
@@ -110,3 +110,169 @@ it. You can open the file with `usethis::edit_r_environ()`.
 
 Now let's have a formal Introduction to mr.
 
+
+## `Music` Objects
+
+In mr, we use `Music` objects to represent musical scores.
+
+The workflow is usually like this:
+
+1. Initialize an empty `Music` object with `Music()`.
+
+2. Add components to it with `+`, for example, `Music() + Meter(4, 4)`.
+
+3. Print it in R console or convert it to a musical score or an audio file
+with `show()` to check its structure.
+
+4. Keep adding components and checking it until you get what you want.
+
+5. Sometimes you may want to export the final `Music` object with `export()`.
+
+Let's have a look at each component which you can add to a `Music` object.
+
+
+## `Line` Objects
+
+We use `Line` objects to represent musical lines.
+
+In the code below, we define a `Line` object which consists of a note,
+a chord and a rest:
+
+```{r}
+l <- Line(
+  pitches = list("C4", c("E4", "G4"), NA),
+  durations = list("quarter", "quarter", "quarter")
+)
+```
+
+We can just print it in the R console to check its structure:
+
+```{r}
+l
+```
+
+To convert it to a score, we need to add it to a `Music` object:
+
+```{r}
+m <- Music() + Meter(4, 4) + l
+show(m)
+```
+
+As you may have noticed, to represent a musical line, we don't directly supply
+notes, chords, or rests to `Line()` as input. Instead, we separate the line's
+pitch and durational contents. This is more convenient, since you may always 
+want to deal with one aspect and in the meantime ignore the other.
+
+
+### Pitches
+
+The `pitches` argument in `Line()` represents a musical line's pitch contents.
+
+`pitches` must be a list, whose members can be
+
+1. single pitch notations, like `"C4"`, to represent the pitch contents of
+notes,
+
+2. single MIDI note numbers, like `60` or `"60"`, also to represent the pitch
+contents of notes,
+
+3. single logical `NA`s to represent the pitch contents of rests, and
+
+4. vectors of pitch notations and MIDI note numbers, like `c("C4", "61")`,
+to represent the pitch contents of chords.
+
+A pitch notation consists of
+
+1. a tone name (from A to G),
+2. an optional accidental (\-, \-\-, \# or \#\#), and
+3. a number identifying the pitch's octave (from 0 to 9).
+
+A MIDI note number is a number between 12 and 127.
+
+See
+<https://en.wikipedia.org/wiki/Scientific_pitch_notation#Table_of_note_frequencies>
+for a conversion table of pitch notations and MIDI note numbers.
+
+An advantage of MIDI note numbers is that they are easy to operate. For
+example, we have the following four MIDI note numbers:
+
+```{r}
+pitches <- c(60, 62, 64, 65)
+```
+
+```{r, echo = FALSE}
+m <- Music() + Meter(4, 4) + Line(as.list(pitches), rep(list(1), 4))
+show(m)
+```
+
+We can transpose them up by a fifth easily:
+
+```{r}
+pitches + 7
+```
+
+```{r, echo = FALSE}
+m <- Music() + Meter(4, 4) + Line(as.list(pitches + 7), rep(list(1), 4))
+show(m)
+```
+
+However, this advantage comes at a cost: MIDI note numbers are always
+ambiguous. For example, the following three pitches are all equivalent to
+MIDI note number 73:
+
+```{r, echo = FALSE}
+m <- Music() + Meter(3, 4) + Line(list("C#5", "D-5", "B##4"), list(1, 1, 1))
+show(m)
+```
+
+mr converts MIDI note numbers based on keys and neighbor pitches. In the
+following example, MIDI note number 73 is interpreted as C5 sharp in the
+first measure, but as D5 flat in the second measure, for these two measures
+have different keys.
+
+```{r}
+l <- Line(list(73, 73), list(2, 2))
+m <- Music() + Meter(2, 4) + Key(7, bar = 1) + Key(-7, bar = 2) + l
+show(m)
+```
+
+mr is not perfect in interpreting MIDI note numbers, so if you want it to
+be precise, use pitch notations.
+
+
+### Tie
+
+Sometimes you may want to tie together some notes, you can do this by
+specifying the argument `tie` in `Line()`.
+
+```{r}
+l <- Line(
+  pitches = list(c("C5", "E5"), c("C5", "E5"), c("C5", "E5"), c("C5", "E5")),
+  durations = list("quarter", "quarter", "quarter", "quarter"),
+  tie = list(c(1, 1), c(2, 2), 3)
+)
+
+m <- Music() + Meter(4, 4) + l
+show(m)
+```
+
+In `tie = list(c(1, 1), c(2, 2), 3)` in the above example,
+
+1. `c(1, 1)` means we add a tie to the first note of the first chord to
+connect it with the first note of the second chord. Note that to tie two
+adjacent notes, we only specify the position of the first note.
+
+2. Similarly, `c(2, 2)` means we add a tie to the second note of the second
+chord to connect it with the second note of the third chord.
+
+3. `3` means we add ties to the whole third chord to connect it with the
+fourth chord.
+
+However, don't bother to split a cross-bar note and tie resulted notes
+together, mr takes care of this kind of situations, like in the following
+example:
+
+```{r}
+m <- Music() + Meter(1, 4) + Line(list("C5"), list(4))
+show(m)
+```
