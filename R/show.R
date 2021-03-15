@@ -1131,6 +1131,23 @@ normalize_show_to <- function(to) {
 }
 
 
+# check if mr is used in R Jupyter Notebook
+is_jupyter <- function() {
+  f <- getOption("jupyter.base_display_func")
+
+  if (is.function(f)) {
+    tryCatch(
+      {f()},
+      error = function(e) TRUE,
+      warning = function(w) FALSE
+    )
+
+  } else {
+    FALSE
+  }
+}
+
+
 # figure out the context in which `show_musicxml` is called,
 # to tell it is R Markdown, RStudio, or normal R console
 # refs:
@@ -1147,6 +1164,8 @@ get_show_context <- function() {
     "rmd"
   } else if (rstudioapi::isAvailable()) {
     "rstudio"
+  } else if (is_jupyter()) {
+    "jupyter"
   } else {
     "other"
   }
