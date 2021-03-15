@@ -919,7 +919,7 @@ abort_musescore <- function() {
 
   specifics <- c(
     "Can't find MuseScore.",
-    "See . for how to install and configure MuseScore."
+    'See `vignette("mr")` for how to install and configure MuseScore.'
   )
 
   show_errors(general, specifics)
