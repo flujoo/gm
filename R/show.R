@@ -906,7 +906,7 @@ call_musescore <- function(from, to, ...) {
   # try calling MuseScore
   tryCatch(
     {system2(path, c(from, "-o", to, ...), stderr = NULL)},
-    warning = abort_musescore
+    warning = function(w) abort_musescore()
   )
 }
 
