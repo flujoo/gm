@@ -1181,19 +1181,52 @@ show_musicxml <- function(musicxml, to) {
   file_name <- basename(name_path)
 
   export_musicxml(musicxml, dir_path, file_name, to, "-r 115")
-
   context <- get_show_context()
+  content <- generate_show_content(name_path, to, context)
 
-  # generate HTML object(s) to show
-  contents <- list()
+  if (context %in% c("rmd", "jupyter")) {
+    content
+  } else {
+    html_path <- to_html(content, name_path)
+
+    if (context == "rstudio") {
+      rstudioapi::viewer(html_path)
+    } else if (context == "other") {
+      utils::browseURL(html_path)
+    }
+  }
+}
+
+
+# write `content` to HTML file and return its path
+to_html <- function(content, name_path) {
+  html <- paste(
+    "<!DOCTYPE html>",
+    "<html>",
+    "<head>",
+    '<meta charset="utf-8">',
+    "</head>",
+    "<body>",
+    "{content}",
+    "</body>",
+    "</html>",
+    sep = "\n"
+  )
+
+  html_path <- paste0(name_path, ".", "html")
+  content %<>% as.character()
+  html %<>% glue::glue()
+  writeLines(html, html_path)
+  html_path
+}
+
+
+# generate the content to show in different contexts
+generate_show_content <- function(name_path, to, context) {
+  content <- list()
 
   for (format in to) {
-    file_path <- paste0(name_path, ".", format)
-
-    # use relative path
-    if (context != "rmd") {
-      file_path %<>% basename()
-    }
+    file_path <- generate_file_path(name_path, format, context)
 
     if (format == "mp3") {
       html_object <- file_path %>%
@@ -1207,47 +1240,32 @@ show_musicxml <- function(musicxml, to) {
         htmltools::tags$p()
     }
 
-    contents %<>% c(list(html_object))
+    content %<>% c(list(html_object))
   }
 
-  if (length(contents) == 1) {
-    contents %<>% .[[1]]
+  if (length(content) == 1) {
+    content[[1]]
   } else {
-    contents %<>% do.call(htmltools::tags$div, .)
+    htmltools::tags$div(content)
+  }
+}
+
+
+generate_file_path <- function(name_path, format, context) {
+  # use absolute path in R Markdown
+  file_path <- paste0(name_path, ".", format)
+
+  # use relative path in RStudio and normal R console
+  if (context %in% c("rstudio", "other")) {
+    file_path %<>% basename()
   }
 
-  # show file(s)
-  if (context == "rmd") {
-    return(contents)
+  # use data url in Jupyter Notebook
+  if (context == "jupyter") {
+    file_path %<>% {base64enc::dataURI(file = .)}
   }
 
-  html_template <- paste(
-    "<!DOCTYPE html>",
-    "<html>",
-    "<head>",
-    '<meta charset="utf-8">',
-    "</head>",
-    "<body>",
-    "{{{ content }}}",
-    "</body>",
-    "</html>",
-    sep = "\n"
-  )
-
-  html_path <- paste0(name_path, ".", "html")
-
-  # export `contents` to HTML file
-  writeLines(
-    whisker::whisker.render(html_template, list(content = contents)),
-    html_path
-  )
-
-  # open the HTML file
-  if (context == "rstudio") {
-    rstudioapi::viewer(html_path)
-  } else if (context == "other") {
-    utils::browseURL(html_path)
-  }
+  file_path
 }
 
 

@@ -16,6 +16,7 @@ Suggests:
     rmarkdown,
     testthat
 Imports:
+    base64enc,
     glue,
     htmltools,
     knitr,
