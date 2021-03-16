@@ -5,10 +5,10 @@ Version: 1.0.0
 Author: Renfei Mao
 Maintainer: Renfei Mao <renfeimao@gmail.com>
 Description: mr provides a simple and intuitive language, with which you can
-    create musical scores easily. Also, mr works in R Markdown files, R Jupyter
-    Notebooks and RStudio, so you can embed scores anywhere. You only tell mr
-    the structure of your music, and it takes care of all the dirty technical
-    details.
+    create musical scores and audio files easily. Also, mr works in R Markdown
+    files, R Jupyter Notebooks and RStudio, so you can embed scores and audio
+    files anywhere. You only tell mr the structure of your music, and it takes
+    care of all the dirty technical details.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
