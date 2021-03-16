@@ -1,8 +1,10 @@
 ---
-title: "Introduction to mr"
-output: rmarkdown::html_vignette
+title: "Complete Guide to mr"
+output:
+  rmarkdown::html_vignette:
+    toc: true
 vignette: >
-  %\VignetteIndexEntry{Introduction to mr}
+  %\VignetteIndexEntry{Complete Guide to mr}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -17,17 +19,19 @@ library(mr)
 ```
 
 
-## Quick Introduction
+With mr, you can create musical scores and audio files easily, and show them
+in R Markdown files, R Jupyter Notebooks and RStudio.
 
-You create musical scores easily with mr.
+Let's go through a quick example to get a feeling of it.
 
-Let's go through an example.
+
+## Quick Example
 
 ```{r}
 m <- Music()
 ```
 
-The above code initialized a `Music` object, to which we can add components:
+We have initialized an empty `Music` object, to which we can add components:
 
 ```{r}
 m <- m +
@@ -35,25 +39,24 @@ m <- m +
   Line(pitches = list("C5"), durations = list("whole"))
 ```
 
-We have added two components to the `Music` object:
+We have added two components:
 
 1. a 4/4 time signature and
-2. a musical line consisting of a C5 whole note.
+2. a musical line which consists of a C5 whole note.
 
-If we print the `Music` object in the R console, we get a brief description of
-it:
+We can print the `Music` object to get a brief description of it:
 
 ```{r}
 m
 ```
 
-We can convert the `Music` object to a musical score and an audio file:
+We can convert the `Music` object to musical score and audio file:
 
 ```{r}
 show(m, to = c("score", "audio"))
 ```
 
-We can continue to add components and convert the `Music` object.
+We can add more components.
 
 Add a tempo mark, for example:
 
@@ -86,8 +89,8 @@ m <- m + Line(
 show(m)
 ```
 
-So now you have a rough idea of what mr does, before we go deeper, let's
-learn how to install and configure it.
+This process can keep going, but let's stop here. If you want to go deeper,
+let's first learn how to install and configure mr.
 
 
 ## Installation and Configuration
@@ -105,15 +108,15 @@ If you don't install MuseScore to the default path (see
 <https://musescore.org/en/handbook/3/revert-factory-settings>),
 you need to tell mr where to find MuseScore:
 
-Open ".Renviron" file, add `MUSESCORE_PATH=/your/path/to/musescore` into
-it. You can open the file with `usethis::edit_r_environ()`.
+Open ".Renviron" file and add `MUSESCORE_PATH=/your/path/to/musescore`
+into it. You can open the file with `usethis::edit_r_environ()`.
 
-Now let's have a formal Introduction to mr.
+Now below is a complete guide to mr.
 
 
 ## `Music` Objects
 
-In mr, we use `Music` objects to represent musical scores.
+In mr, we use `Music` objects to represent music.
 
 The workflow is usually like this:
 
@@ -121,22 +124,21 @@ The workflow is usually like this:
 
 2. Add components to it with `+`, for example, `Music() + Meter(4, 4)`.
 
-3. Print it in R console or convert it to a musical score or an audio file
-with `show()` to check its structure.
+3. Print it, or convert it to musical score or audio file with `show()`
+to check its structure.
 
 4. Keep adding components and checking it until you get what you want.
 
 5. Sometimes you may want to export the final `Music` object with `export()`.
 
-Let's have a look at each component which you can add to a `Music` object.
+Let's have a look at each component that you can add to a `Music` object.
 
 
 ## `Line` Objects
 
 We use `Line` objects to represent musical lines.
 
-In the code below, we define a `Line` object which consists of a note,
-a chord and a rest:
+Create a `Line` object with `Line()`:
 
 ```{r}
 l <- Line(
@@ -145,13 +147,15 @@ l <- Line(
 )
 ```
 
-We can just print it in the R console to check its structure:
+This `Line` object consists of a note, a chord and a rest.
+
+Print it to check its structure:
 
 ```{r}
 l
 ```
 
-To convert it to a score, we need to add it to a `Music` object:
+Add it to a `Music` object to convert it to musical score:
 
 ```{r}
 m <- Music() + Meter(4, 4) + l
@@ -225,7 +229,7 @@ m <- Music() + Meter(3, 4) + Line(list("C#5", "D-5", "B##4"), list(1, 1, 1))
 show(m)
 ```
 
-mr converts MIDI note numbers based on keys and neighbor pitches. In the
+mr interprets MIDI note numbers based on keys and neighbor pitches. In the
 following example, MIDI note number 73 is interpreted as C5 sharp in the
 first measure, but as D5 flat in the second measure, for these two measures
 have different keys.
@@ -238,6 +242,152 @@ show(m)
 
 mr is not perfect in interpreting MIDI note numbers, so if you want it to
 be precise, use pitch notations.
+
+
+### Durations
+
+The `durations` argument in `Line()` represents a musical line’s durational
+contents.
+
+`durations` must be a list, whose members can be
+
+1. single duration notations or their abbreviations, like `"quarter"` or
+just `"q"`,
+
+2. single duration values, like `1`, which is equivalent to `"quarter"`, and
+
+3. `Duration` objects returned by `tuplet()`, which is used to create complex
+tuplets.
+
+The most basic duration notations consist of only duration types. The
+duration types defined in mr are:
+
+```{r, echo = FALSE}
+mr:::duration_types
+```
+
+Their abbreviations are:
+
+```{r, echo = FALSE}
+mr:::duration_type_abbrs
+```
+
+For example, the following musical line consists of a whole rest, a quarter
+rest, and a 32nd rest:
+
+```{r}
+m <- Music() + Meter(6, 4) + Line(list(NA, NA, NA), list("w", "q", "32"))
+show(m)
+```
+
+The duration type or its abbreviation can be followed by zero to four dots,
+in a duration notation, as in the following example:
+
+```{r}
+l <- Line(rep(list(NA), 5), list("q", "q.", "q..", "q...", "q...."))
+m <- Music() + Meter(9, 4) + l
+show(m)
+```
+
+You can also append what we call "tupler" notations in mr to a duration
+notation to represent a tuplet:
+
+```{r}
+l <- Line(rep(list(NA), 3), list("q/3", "q/3", "q/3"))
+m <- Music() + Meter(1, 4) + l
+show(m)
+```
+
+In the above example, we use `"q/3"` to represent a triplet. You can read
+`"q/3"` as "divide a quarter note into three parts, and take one of them".
+We will talk more about tuplets in the next section.
+
+To sum up, a duration notation consists of
+
+1. a duration type or its abbreviation,
+2. zero to four dots, and
+3. zero or more tupler notations.
+
+You get a duration value when convert a duration notation to value. For
+example, `1` is equivalent to `"quarter"`, and `1.5` to `"quarter."`.
+
+However, the duration notations that can be converted to duration values must
+NOT contain tupler notation. For example, if you convert `"q/3"` to *value*,
+you get `1/3`, but this in mr is not a valid *duration value*. We put this
+restriction to avoid ambiguity. For example, value `1/3` can be `"q/3"`,
+`"half/6"`, or two tied `"eighth/3"`s.
+
+Also note that you can NOT use characters to represent duration values. For
+example, you can use duration value `1` to represent quarter note, but not 
+`"1"`, which is invalid in mr. This is also to avoid ambiguity. For example,
+we can use `"eighth"` to represent eighth note, whose abbreviation is `"8"`.
+if `"8"` was a duration value, it would represent breve note, there would
+be a conflict. So keep `"8"` to only eighth note, and `8` to breve note.
+
+
+### Tuplets
+
+Duration notations can't represent some complex tuplets.
+
+For example, how to represent the first tuplet in the following score:
+
+```{r, echo = FALSE}
+t1 <- tuplet("q", Tupler(3, take = "q"))
+t2 <- tuplet("q", Tupler(3, take = "8"))
+
+m <- Music() + Meter(1, 4) + Line(list(NA, NA), list(t1, t2))
+show(m)
+```
+
+This tuplet can read as "divide a quarter note into three parts, take two
+of them". We can't express "take two" in any duration notation. This is where
+we need `tuplet()` and `Tupler()`. Let's look at an example.
+
+We can express duration notation `"quarter/3"` with `tuplet()` and `Tupler()`
+as:
+
+```{r}
+t <- tuplet("quarter", Tupler(3, unit = "eighth", take = "eighth"))
+```
+
+This code can read as: divide a quarter note (`tuplet("quarter", ...)`) into
+there parts (`Tupler(3, ...)`), each part is an eighth note
+(`unit = "eighth"`), and we take one part (`take = "eighth"`).
+
+Print it and we can see it is just equivalent to `"quarter/3"`:
+
+```{r}
+t
+```
+
+Modify the code and we can represent the aforementioned tuplet:
+
+```{r}
+tuplet("quarter", Tupler(3, unit = "eighth", take = "quarter"))
+```
+
+The difference is that this time we take two parts or units.
+
+To sum up, we use `tuplet()` to create complex tuplets, and `Tupler()` to
+specify how to divide a duration into parts and what to take from these parts.
+
+We can go further with these two functions.
+
+For example, we can change `unit` in the above example:
+
+```{r}
+t <- tuplet("quarter", Tupler(3, unit = "quarter", take = "quarter"))
+t
+```
+
+The score looks like this:
+
+```{r}
+m <- Music() + Meter(1, 4) + Line(list(NA, NA, NA), list(t, t, t))
+show(m)
+```
+
+This may seem strange to you, but it's syntactically valid.
 
 
 ### Tie
@@ -276,3 +426,6 @@ example:
 m <- Music() + Meter(1, 4) + Line(list("C5"), list(4))
 show(m)
 ```
+
+The C5 whole note is automatically split into four tied quarter notes,
+because the time signature is 1/4.
