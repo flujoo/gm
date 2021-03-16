@@ -1,6 +1,6 @@
 Package: mr
 Type: Package
-Title: Create Musical Scores Easily and Show Them Anywhere
+Title: Generate Musical Scores Easily and Show Them Anywhere
 Version: 1.0.0
 Author: Renfei Mao
 Maintainer: Renfei Mao <renfeimao@gmail.com>
