@@ -1030,6 +1030,7 @@ export_musicxml <- function(musicxml, dir_path, file_name, formats,
     # export `musicxml` to non-graphic file directly
     if (!(format %in% c("png", "svg"))) {
       call_musescore(musicxml_path, file_path)
+      next
     }
 
     # MuseScore splits long graphic files,
