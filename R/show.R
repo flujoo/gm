@@ -1049,7 +1049,7 @@ export_musicxml <- function(musicxml, dir_path, file_name, formats,
     # the paths to all exported graphic files
     graphic_paths <-
       # get the file name part (no extension) of `tmp_path`
-      tools::file_path_sans_ext(basename(tmp_path)) %>%
+      strsplit(basename(tmp_path), "[.]")[[1]][1] %>%
       # generate a regular expression
       paste0(".*\\.", format, "$") %>%
       # get the paths of all exported graphic files
