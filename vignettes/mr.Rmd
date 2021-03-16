@@ -472,3 +472,71 @@ show(m)
 
 The C5 whole note is automatically split into four tied quarter notes,
 because the time signature is 1/4.
+
+
+### `bar` and `offset`
+
+With these two arguments in `Line()`, you can easily insert a `Line` object
+at other positions rather than the first beat of the first measure.
+
+For example, below is an ordinary `Line` object:
+
+```{r}
+l <- Line(list("C5", "D5", "E5"), list(1, 1, 1))
+m <- Music() + Meter(4, 4) + l
+show(m)
+```
+
+We can insert it into the third measure at the second beat:
+
+```{r}
+l <- Line(list("C5", "D5", "E5"), list(1, 1, 1), bar = 3, offset = 2)
+m <- Music() + Meter(4, 4) + l
+show(m)
+```
+
+
+### Multiple `Line` Objects
+
+Below is a `Music` object that consists of only one `Line` object:
+
+```{r}
+l1 <- Line(rep(list("E5"), 8), rep(list(0.5), 8), name = "a")
+m <- Music() + Meter(4, 4) + l1
+show(m)
+```
+
+The `Line` object is named "a" with argument `name`.
+
+Below is another `Line` object named "b":
+
+```r
+Line(list("C4", "G4"), list(2, 2), name = "b")
+```
+
+We can add a `Line` object to a `Music` object in many different ways.
+
+For example, we can add `Line` "b" as another **part**:
+
+```{r}
+l2 <- Line(list("C4", "G4"), list(2, 2), name = "b")
+show(m + l2)
+```
+
+We can make `Line` "b" come before `Line` "a", by specifying argument
+`to` and `after`:
+
+```{r}
+l2 <- Line(list("C4", "G4"), list(2, 2), name = "b", to = "a", after = FALSE)
+m <- m + l2
+show(m)
+```
+
+`to = "a"` means we add `Line` "b" with `Line` "a" as a reference.
+
+The `Music` object contains two `Line` objects now. Let's introduce a third
+`Line` object named "c":
+
+```r
+Line(list("A4", "B4", "C5"), rep(list("w/3"), 3), name = "c")
+```
