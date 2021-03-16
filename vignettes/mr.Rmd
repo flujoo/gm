@@ -389,6 +389,49 @@ show(m)
 
 This may seem strange to you, but it's syntactically valid.
 
+We can even create complex nested tuplets like in the following score:
+
+![](../man/figures/nested_tuplets.png)
+
+The first three tuplets can be represented by:
+
+```{r}
+t <- tuplet(
+  "half",
+  Tupler(3, unit = "quarter", take = "half"),
+  Tupler(3, unit = "quarter", take = "quarter")
+)
+
+t
+```
+
+Note that there are two `Tupler` objects in the above code.
+
+Create this score:
+
+```{r}
+l <- Line(rep(list(NA), 4), list(t, t, t, tuplet("half/3")))
+m <- Music() + Meter(2, 4) + l
+show(m)
+```
+
+Yes, there is something wrong with this score. MuseScore (which mr uses
+internally) has some bugs, so it can't convert MusicXML (which mr uses to
+represent musical scores internally) containing nested tuplets to score 
+correctly. So if there are nested tuplets in your `Music` object, you can
+export it to MusicXML file with `export()`, and open the file with other
+notation software like Finale. Below is a correct score generated in Finale:
+
+![](../man/figures/nested_tuplets_finale.png)
+
+Note that in `Line()` objects, tuplets must form tuplet groups, or you will
+get an error. For example,
+
+```{r, error = TRUE}
+# try to create a `Line` object which consists of only one tuplet
+Line(list(NA), list("q/3"))
+```
+
 
 ### Tie
 
