@@ -181,7 +181,7 @@ segment <- function(line, meters) {
   }
 
   # initialize current measure
-  m <- normalize_offset(offset, n2, n3, voice)
+  m <- normalize_offset(offset, n2, n3, voice, FALSE)
 
   # meter value for current measure
   v_meter <- find_meter(bar, meters) %>% to_value()
@@ -324,14 +324,14 @@ to_Notes <- function(value, ...) {
 
 
 # convert offset to a empty list, a forward in a list, or rests
-normalize_offset <- function(offset, n2, n3, voice) {
+normalize_offset <- function(offset, n2, n3, voice, invisible = TRUE) {
   if (offset == 0) {
     return(list())
   }
 
   # convert `offset` to rests when the Line is not a voice
   if (n3 == 1) {
-    to_Notes(offset, invisible = TRUE, staff = n2, voice = voice)
+    to_Notes(offset, invisible = invisible, staff = n2, voice = voice)
 
   # convert `offset` to a forward when the Line is a voice
   } else if (n3 > 1) {
