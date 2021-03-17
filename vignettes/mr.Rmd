@@ -432,6 +432,14 @@ get an error. For example,
 Line(list(NA), list("q/3"))
 ```
 
+Also note that tuplet groups must NOT cross barline. For example,
+
+```{r, error = TRUE}
+l <- Line(list(NA, NA, NA), list("h/3", "h/3", "h/3"))
+m <- Music() + Meter(1, 4) + l
+show(m)
+```
+
 
 ### Tie
 
@@ -487,7 +495,7 @@ m <- Music() + Meter(4, 4) + l
 show(m)
 ```
 
-We can insert it into the third measure at the second beat:
+We can insert it into the third measure after the second beat:
 
 ```{r}
 l <- Line(list("C5", "D5", "E5"), list(1, 1, 1), bar = 3, offset = 2)
@@ -498,7 +506,10 @@ show(m)
 
 ### Multiple `Line` Objects
 
-Below is a `Music` object that consists of only one `Line` object:
+We can add multiple `Line` objects to a `Music` object in different ways.
+
+For example, below is a `Music` object that consists of only one `Line`
+object:
 
 ```{r}
 l1 <- Line(rep(list("E5"), 8), rep(list(0.5), 8), name = "a")
@@ -514,17 +525,15 @@ Below is another `Line` object named "b":
 Line(list("C4", "G4"), list(2, 2), name = "b")
 ```
 
-We can add a `Line` object to a `Music` object in many different ways.
-
-For example, we can add `Line` "b" as another **part**:
+We can add `Line` "b" as another **part**:
 
 ```{r}
 l2 <- Line(list("C4", "G4"), list(2, 2), name = "b")
 show(m + l2)
 ```
 
-We can make `Line` "b" come before `Line` "a", by specifying argument
-`to` and `after`:
+`Line` "b" is appended at the end by default. We can make `Line` "b" come
+before `Line` "a", by specifying argument `to` and `after`:
 
 ```{r}
 l2 <- Line(list("C4", "G4"), list(2, 2), name = "b", to = "a", after = FALSE)
@@ -540,3 +549,90 @@ The `Music` object contains two `Line` objects now. Let's introduce a third
 ```r
 Line(list("A4", "B4", "C5"), rep(list("w/3"), 3), name = "c")
 ```
+
+We can add it to `Line` "a" as another **voice**:
+
+```{r}
+l3 <- Line(
+  pitches = list("A4", "B4", "C5"),
+  durations = rep(list("w/3"), 3),
+  name = "c",
+  to = "a",
+  as = "voice"
+)
+
+m <- m + l3
+show(m)
+```
+
+Finally, below is a fourth `Line`, let's add it to `Line` "b" as another
+**staff**:
+
+```{r}
+l4 <- Line(list("E3"), list(4), to = "b", as = "staff", name = "d")
+m <- m + l4
+show(m)
+```
+
+We can print this `Music` to check its structure:
+
+```{r}
+m
+```
+
+The `Music` contains four `Line`s now, which have different states. In summary,
+there are two parts, the first part contains two staffs, which are `Line` "b"
+and `Line` "d", and the second part contains one staff which has two voices,
+which are `Line` "a" and `Line` "c".
+
+With these arguments in `Line()` we have so far introduced, you can create
+quite complex musical scores easily.
+
+
+## `Meter` Objects
+
+We use `Meter` objects to represent time signatures.
+
+For example, 3/4 time signature can be represented by
+
+```r
+Meter(number = 3, unit = 4)
+```
+
+We can add it to a `Music` object:
+
+```{r}
+Music() + Meter(3, 4)
+```
+
+To change time signature in the middle, we can add another `Meter` object with
+specific `bar`. For example,
+
+```{r}
+m <- Music() + Meter(3, 4) + Meter(1, 8, bar = 2)
+m
+```
+
+Add a `Line`, we can convert this `Music` to score:
+
+```{r}
+m <- m + Line(list("G4"), list(4))
+show(m)
+```
+
+By specifying arguments `actual_number` and `actual_unit`, we can create
+**pickup measures**. For example,
+
+```{r}
+m <- Music() +
+  Meter(4, 4, actual_number = 1, actual_unit = 4) +
+  Meter(4, 4, bar = 2)
+
+m
+
+l <- Line(list("A4"), list(8))
+show(m + l)
+```
+
+The time signature which appears on the first measure is 4/4, but the actual
+one is 1/4.
