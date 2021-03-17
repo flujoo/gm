@@ -635,8 +635,67 @@ show(m + l)
 ```
 
 The time signature which appears on the first measure is 4/4, but the actual
-one is 1/4.
+one is 1/4. `invisible = TRUE` makes the second time signature invisible.
 
 
 ## `Key` Objects
 
+We use `Key` objects to represent key signatures.
+
+By specifying argument `key` in `Key()`, we can create key signatures from
+C flat major to C sharp major.
+
+```{r}
+for (key in -7:7) {
+  print(Key(key))
+}
+```
+
+By specifying argument `bar` in `Key()`, we can change the key signature of
+a musical score in the middle. For example,
+
+```{r}
+m <- Music() + Meter(1, 4) + Key(-7) + Key(0, bar = 2) + Key(7, bar = 3)
+m
+
+l <- Line(list(NA, NA, NA), list(1, 1, 1))
+show(m + l)
+```
+
+We can add a key signature to a specific part or staff, rather than to the
+whole score. For example, below is a musical score of two parts:
+
+```{r}
+m <- Music() + Meter(4, 4) +
+  Line(list("E5"), list(4)) +
+  Line(list("G4", "A4"), list(2, 2), to = 1, as = "staff") +
+  Line(list("C4"), list(4)) +
+  Line(list("C3", "D3"), list(2, 2), to = 3, as = "staff")
+
+show(m)
+```
+
+We can change the key signature of only the first part:
+
+```{r}
+m <- m + Key(-2, to = 1)
+show(m)
+```
+
+`to = 1` means the `Key` object is added only to the part containing the first
+`Line` in the `Music` object.
+
+We can change the key signature of only the second staff of the second part:
+
+```{r}
+m <- m + Key(2, to = 4, scope = "staff")
+show(m)
+```
+
+`scope = "staff"` means the key signature is added only to a specific staff.
+
+
+## `Clef` Objects
+
+
+## `Tempo` Objects
