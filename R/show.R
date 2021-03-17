@@ -266,6 +266,9 @@ segment <- function(line, meters) {
         v_accum <- 0
       }
 
+      # store the original `v_meter`
+      . <- v_meter
+
       if (v_temp >= v_meter) {
         m <- list()
         bar <- bar + 1
@@ -273,7 +276,7 @@ segment <- function(line, meters) {
       }
 
       # break
-      if (v_temp <= v_meter) {
+      if (v_temp <= .) {
         break
       }
     }
