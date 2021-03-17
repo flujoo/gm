@@ -2,7 +2,7 @@
 
 #' @export
 Meter <- function(number, unit, bar = NULL, actual_number = NULL,
-                  actual_unit = NULL) {
+                  actual_unit = NULL, invisible = NULL) {
   # check arguments
   check_positive_integer(number)
   check_meter_unit(unit)
@@ -19,6 +19,8 @@ Meter <- function(number, unit, bar = NULL, actual_number = NULL,
     check_meter_unit(actual_unit)
   }
 
+  check_invisible(invisible)
+
   # normalize `actual_number` and `actual_unit`
   actual <- normalize_meter_actual(number, unit, actual_number, actual_unit)
   actual_number <- actual$actual_number
@@ -30,7 +32,8 @@ Meter <- function(number, unit, bar = NULL, actual_number = NULL,
     unit = unit,
     bar = bar,
     actual_number = actual_number,
-    actual_unit = actual_unit
+    actual_unit = actual_unit,
+    invisible = invisible
   ) %>% `class<-`("Meter")
 }
 
@@ -41,6 +44,14 @@ check_meter_unit <- function(unit) {
   check_type(unit, c("double", "integer"), name)
   check_length(unit, 1, name)
   check_content(unit, 2^(0:6), name)
+}
+
+
+check_invisible <- function(invisible) {
+  if (!is.null(invisible)) {
+    check_type(invisible, "logical")
+    check_length(invisible, 1)
+  }
 }
 
 
@@ -278,5 +289,10 @@ to_Element.Meter <- function(x, ...) {
     Element("beat-type", x$unit)
   )
 
-  Element("time", contents)
+  attributes <- NULL
+  if (isTRUE(x$invisible)) {
+    attributes <- list(`print-object` = "no")
+  }
+
+  Element("time", contents, attributes)
 }
