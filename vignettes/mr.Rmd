@@ -697,5 +697,70 @@ show(m)
 
 ## `Clef` Objects
 
+We use `Clef` objects to represent clefs.
+
+`Clef` objects you can create in mr are:
+
+```{r}
+Clef("G")
+
+Clef("G", line = 1)
+
+Clef("G", octave = 1)
+
+Clef("G", octave = -1)
+
+Clef("F")
+
+Clef("F", line = 3)
+
+Clef("F", line = 5)
+
+Clef("F", octave = 1)
+
+Clef("F", octave = -1)
+
+Clef("C")
+
+Clef("C", line = 1)
+
+Clef("C", line = 2)
+
+Clef("C", line = 4)
+
+Clef("C", line = 5)
+```
+
+mr automatically adds a clef to a staff based on its pitch contents, if
+the staff has no clef at the beginning. For example, in the following score,
+mr adds an alto clef to the staff:
+
+```{r}
+l <- Line(list("B3", "C4", "D4"), list(3, 3, 3))
+m <- Music() + Meter(3, 4) + l
+show(m)
+```
+
+If not satisfied, you can change it:
+
+```{r}
+m <- m + Clef("G", to = 1)
+show(m)
+```
+
+You can also add a clef into other measures:
+
+```{r}
+m <- m + Clef("F", to = 1, bar = 2)
+show(m)
+```
+
+Or even at other beat:
+
+```{r}
+m <- m + Clef("G", octave = -1, to = 1, bar = 3, offset = 2)
+show(m)
+```
+
 
 ## `Tempo` Objects
