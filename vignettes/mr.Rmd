@@ -595,7 +595,7 @@ We use `Meter` objects to represent time signatures.
 
 For example, 3/4 time signature can be represented by
 
-```r
+```{r}
 Meter(number = 3, unit = 4)
 ```
 
@@ -616,7 +616,7 @@ m
 Add a `Line`, we can convert this `Music` to score:
 
 ```{r}
-m <- m + Line(list("G4"), list(4))
+m <- m + Line(list("G4", "A4"), list(3, 0.5))
 show(m)
 ```
 
@@ -626,13 +626,17 @@ By specifying arguments `actual_number` and `actual_unit`, we can create
 ```{r}
 m <- Music() +
   Meter(4, 4, actual_number = 1, actual_unit = 4) +
-  Meter(4, 4, bar = 2)
+  Meter(4, 4, bar = 2, invisible = TRUE)
 
 m
 
-l <- Line(list("A4"), list(8))
+l <- Line(list("A4", "B4", "C5", "D5", "E5"), rep(list(1), 5))
 show(m + l)
 ```
 
 The time signature which appears on the first measure is 4/4, but the actual
 one is 1/4.
+
+
+## `Key` Objects
+
