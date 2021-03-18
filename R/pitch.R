@@ -152,6 +152,7 @@ is_pitch_value <- function(x) {
 
 # normalize `pitches` in `PitchLine` --------------------------------------
 
+#' for internal use
 #' @keywords internal
 #' @export
 normalize_pitch <- function(pitch) {
@@ -334,6 +335,7 @@ print.Pitch <- function(x, silent = FALSE, ...) {
 }
 
 
+#' for internal use
 #' @keywords internal
 #' @export
 to_Pitch <- function(x, ...) {

@@ -145,6 +145,7 @@ Duration <- function(type, dot, tuplers = list()) {
 }
 
 
+#' for internal use
 #' @keywords internal
 #' @export
 to_Duration <- function(duration) {
@@ -278,6 +279,7 @@ divide_duration_type <- function(duration_type, n) {
 # by dot without applying tuplers
 
 
+#' for internal use
 #' @keywords internal
 #' @export
 check_duration <- function(duration, name, abort) {

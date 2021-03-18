@@ -27,6 +27,7 @@
 
 # check `positions` length ------------------------------------------------
 
+#' for internal use
 #' @keywords internal
 #' @export
 check_positions_length <- function(positions, type, name = NULL) {
@@ -64,6 +65,7 @@ check_positions_length.list <- function(positions, type, name = NULL) {
 
 # check `positions` content -----------------------------------------------
 
+#' for internal use
 #' @keywords internal
 #' @export
 check_positions_content <- function(positions, type, name = NULL) {

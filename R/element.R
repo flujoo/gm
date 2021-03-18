@@ -88,6 +88,7 @@ to_semi_musicxml <- function(element) {
 }
 
 
+#' for internal use
 #' @keywords internal
 #' @export
 to_Element <- function(x, ...) {

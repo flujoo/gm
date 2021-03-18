@@ -34,6 +34,7 @@ globals$width <- 75
 
 # generics ----------------------------------------------------------------
 
+#' for internal use
 #' @keywords internal
 #' @export
 to_value <- function(x, ...) {

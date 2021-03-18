@@ -78,6 +78,7 @@ Music <- function() {
 }
 
 
+#' for internal use
 #' @keywords internal
 #' @export
 add <- function(term, music) {
