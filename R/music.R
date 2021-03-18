@@ -8,7 +8,7 @@
 #' @seealso [mr::+.Music()] for adding other components to a `Music` object.
 #'
 #' @examples
-#' # Initialize a Music
+#' # initialize a Music
 #' m <- Music()
 #' m
 #'
