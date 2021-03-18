@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 )
 
 library(mr)
+library(magrittr)
 ```
 
 
