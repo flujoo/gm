@@ -764,3 +764,67 @@ show(m)
 
 
 ## `Tempo` Objects
+
+We use `Tempo` objects to represent tempo marks.
+
+We can create a `Tempo` object with `Tempo()`. For example,
+
+```{r}
+Tempo(tempo = 240)
+```
+
+`tempo = 240` means the speed is 240 quarter notes per minute. The default
+unit is quarter note, you can change it with argument `unit`:
+
+```{r}
+Tempo(tempo = 240, unit = "half")
+```
+
+These two speeds, 240 quarter notes per minute and 120 half notes per minute,
+are nonetheless equivalent.
+
+With arguments `bar` and `offset`, you can add a `Tempo` object at any
+position. For example,
+
+```{r}
+m <- Music() +
+  Meter(4, 4) +
+  Line(as.list(70:77), rep(list(1), 8)) +
+  Tempo(60) +
+  Tempo(240, unit = "half.", bar = 1, offset = 2.5)
+
+show(m, to = c("score", "audio"))
+```
+
+
+## Algorithmic Composition
+
+mr provides a simple and intuitive language, with which you can express
+complex music easily. One possible usage of mr is algorithmic composition,
+which means using algorithms to create music.
+
+Below is an example:
+
+```{r}
+pitches <- c(64, 65, 69, 71, 72, 76) %>% as.list()
+durations <- rep(list(1), length(pitches))
+
+m <- Music() + Meter(4, 4) + Tempo(120) + Line(pitches, durations)
+
+for (i in 1:8) {
+  m <- m + Line(pitches, durations, offset = 0.5 * i)
+}
+
+show(m, to = c("score", "audio"))
+```
+
+The code generates nine parts which all contain the same pitch and durational
+contents. The only difference is that their delays are gradually increased,
+to create the echo sound effect.
+
+
+## Cite mr
+
+```r
+citation(package = "mr")
+```
