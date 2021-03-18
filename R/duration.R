@@ -280,7 +280,7 @@ divide_duration_type <- function(duration_type, n) {
 
 #' @keywords internal
 #' @export
-check_duration <- function(duration, ...) {
+check_duration <- function(duration, name, abort) {
   UseMethod("check_duration")
 }
 
