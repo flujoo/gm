@@ -810,9 +810,9 @@ Below is an example:
 pitches <- c(64, 65, 69, 71, 72, 76) %>% as.list()
 durations <- rep(list(1), length(pitches))
 
-m <- Music() + Meter(4, 4) + Tempo(120) + Line(pitches, durations)
+m <- Music() + Meter(4, 4) + Tempo(120)
 
-for (i in 1:8) {
+for (i in 0:8) {
   m <- m + Line(pitches, durations, offset = 0.5 * i)
 }
 
