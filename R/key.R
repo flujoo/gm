@@ -1,5 +1,42 @@
 # Key ---------------------------------------------------------------------
 
+#' @title Create `Key` Object
+#'
+#' @description Create a `Key` object. `Key` objects represent key
+#' signatures.
+#'
+#' @param key An integer between -7 and 7, which indicates the number of
+#' flat or sharp symbols in the key signature.
+#'
+#' @param bar Optional. A positive integer which indicates the measure into
+#' which to insert the `Key` object.
+#'
+#' @param to Optional. A positive integer or a single character which
+#' indicates the `Line` object to which to add the `Key` object.
+#'
+#' @param scope Optional. `"part"` or `"staff"`, which indicates whether
+#' to add the `Key` object to a part or only to a staff.
+#'
+#' @return A list with class `Key`.
+#'
+#' @seealso [mr::+.Music()] for adding `Key` objects to a `Music` object.
+#'
+#' @examples
+#' # create a Key object
+#' Key(-7)
+#'
+#' # add a Key object into a specific measure
+#' Music() + Key(7, bar = 2)
+#'
+#' m <- Music() +
+#'   Line(list("E5"), list(1), name = "a") +
+#'   Line(list("C4"), list(1), name = "b", as = "staff")
+#'
+#' # add a Key to a part
+#' m + Key(2, to = "b")
+#'
+#' # add a Key to a staff
+#' m + Key(2, to = "b", scope = "staff")
 #' @export
 Key <- function(key, bar = NULL, to = NULL, scope = NULL) {
   check_key(key)
