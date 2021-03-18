@@ -183,6 +183,8 @@ print.MeterLine <- function(x, silent = FALSE, ...) {
 }
 
 
+#' @keywords internal
+#' @export
 add.Meter <- function(term, music) {
   ml <- music$meter_line
 

@@ -208,6 +208,8 @@ print.Line <- function(x, context = "console", silent = FALSE, i, ...) {
 }
 
 
+#' @keywords internal
+#' @export
 add.Line <- function(term, music) {
   # unpack `music`
   lines <- music$lines

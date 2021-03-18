@@ -78,6 +78,8 @@ Music <- function() {
 }
 
 
+#' @keywords internal
+#' @export
 add <- function(term, music) {
   UseMethod("add")
 }

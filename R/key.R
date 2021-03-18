@@ -231,6 +231,8 @@ print.KeyLine <- function(x, silent = FALSE, ...) {
 
 # Music + Key -------------------------------------------------------------
 
+#' @keywords internal
+#' @export
 add.Key <- function(term, music) {
   lines <- music$lines
   l <- length(lines)

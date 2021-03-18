@@ -280,6 +280,8 @@ sort_clefs <- function(clefs) {
 }
 
 
+#' @keywords internal
+#' @export
 add.Clef <- function(term, music) {
   # unpack
   lines <- music$lines

@@ -189,6 +189,8 @@ TempoLine <- function() {
 }
 
 
+#' @keywords internal
+#' @export
 add.Tempo <- function(term, music) {
   tl <- music$tempo_line
 
