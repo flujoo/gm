@@ -2,20 +2,26 @@
 
 #' @title Create `Key` Object
 #'
-#' @description Create a `Key` object. `Key` objects represent key
-#' signatures.
+#' @description Create a `Key` object.
+#'
+#' `Key` objects represent key signatures.
 #'
 #' @param key An integer between -7 and 7, which indicates the number of
 #' flat or sharp symbols in the key signature.
 #'
-#' @param bar Optional. A positive integer which indicates the measure into
-#' which to insert the `Key` object.
+#' @param bar Optional. A positive integer which indicates the number of
+#' the measure into which to insert the `Key` object. By default, a `Key`
+#' object will be inserted into the first measure(s).
 #'
 #' @param to Optional. A positive integer or a single character which
-#' indicates the `Line` object to which to add the `Key` object.
+#' indicates the `Line` object to which to add the `Key` object. By default,
+#' a `Key` object will be added to a whole `Music` object rather than to
+#' any specific `Line` object.
 #'
 #' @param scope Optional. `"part"` or `"staff"`, which indicates whether
-#' to add the `Key` object to a part or only to a staff.
+#' to add the `Key` object to a whole part or only to a staff of a part,
+#' if the argument `to` is specified, or this argument will be ignored.
+#' The default value is `"part"`.
 #'
 #' @return A list with class `Key`.
 #'
@@ -25,7 +31,7 @@
 #' # create a Key object
 #' Key(-7)
 #'
-#' # add a Key object into a specific measure
+#' # insert a Key object into a specific measure
 #' Music() + Key(7, bar = 2)
 #'
 #' m <- Music() +
