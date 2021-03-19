@@ -44,38 +44,37 @@ Music <- function() {
 #'
 #' @description Add a component to a `Music` object.
 #'
-#' @param music A `music` object.
+#' @param music A `Music` object.
 #' @param term A `Line`, `Meter`, `Key`, `Clef` or `Tempo` object.
 #'
 #' @return A list with class `Music`.
 #'
-#' @seealso [mr::Music()] for Initializing a `Music` object.
+#' @seealso [mr::Music()] for initializing a `Music` object.
 #'
 #' [mr::Line()], [mr::Meter()], [mr::Key()], [mr::Clef()] and [mr::Tempo()]
 #' for creating objects of corresponding classes.
 #'
 #' @examples
-#' # Initialize a Music
+#' # initialize a Music object
 #' m <- Music()
-#' m
 #'
-#' # add a Line
+#' # add a Line object
 #' m <- m + Line(list("C4"), list(1))
 #' m
 #'
-#' # add a Meter
+#' # add a Meter object
 #' m <- m + Meter(4, 4)
 #' m
 #'
-#' # add a Key
+#' # add a Key object
 #' m <- m + Key(1)
 #' m
 #'
-#' # add a Clef
+#' # add a Clef object
 #' m <- m + Clef("G", to = 1)
 #' m
 #'
-#' # add a Tempo
+#' # add a Tempo object
 #' m <- m + Tempo(120)
 #' m
 #' @export
