@@ -1,19 +1,39 @@
 #' @title Initialize `Music` Object
 #'
-#' @description Initialize a `Music` object, to which you can add other
-#' components with [mr::+.Music()].
+#' @description Initialize a `Music` object.
+#'
+#' `Music` objects represent whole music pieces.
+#'
+#' @details A typical workflow with `Music` objects:
+#'
+#' 1. Initialize an empty `Music` object with [mr::Music()].
+#'
+#' 2. Add components to it with [mr::+.Music()].
+#'
+#' 3. Print it, or display it as musical score or audio file with
+#' [mr::show()], to check its structure.
+#'
+#' 4. Keep adding components and checking it until you get what you want.
+#'
+#' 5. Sometimes you may want to export the final `Music` object with
+#' [mr::export()].
 #'
 #' @return A list with class `Music`.
 #'
-#' @seealso [mr::+.Music()] for adding other components to a `Music` object.
+#' @seealso [mr::+.Music()] for adding components to a `Music` object.
+#'
+#' [mr::show()] for displaying a `Music` object as musical score and
+#' audio file.
+#'
+#' [mr::export()] for exporting a `Music` object to various file formats.
 #'
 #' @examples
-#' # initialize a Music
-#' m <- Music()
-#' m
+#' # initialize a Music object
+#' Music()
 #'
-#' # add other components
-#' m + Meter(4, 4) + Line(list("C4"), list(1))
+#' # print a Music object to check its structure
+#' m <- Music() + Meter(4, 4) + Line(list("C4"), list(4))
+#' m
 #' @export
 Music <- function() {
   list() %>% `class<-`("Music")
