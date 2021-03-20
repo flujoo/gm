@@ -275,6 +275,17 @@ show_errors <- function(general, specifics, supplement = NULL,
 }
 
 
+#' @title See Full Error Report
+#'
+#' @description See a full error report when the error message is too
+#' long and thus shortened.
+#'
+#' @return Invisible `NULL`.
+#'
+#' @examples
+#' \dontrun{
+#' Line(list(c, "p", NULL, 1:3, TRUE, NA_character_))
+#' }
 #' @export
 inspect_errors <- function() {
   globals$error_messages %>%
