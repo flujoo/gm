@@ -649,7 +649,7 @@ print.tuplers <- function(tuplers, type, dot) {
 #'
 #' @seealso [mr::Tupler()]
 #'
-#' `vignette("mr", package = "mr")` for more details about tuplets.
+#' `vignette("mr", package = "mr")` for a friendly guide to tuplets.
 #'
 #' @examples
 #' # create a triplet quarter note
