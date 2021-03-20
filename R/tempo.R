@@ -1,3 +1,40 @@
+#' @title Create `Tempo` Object
+#'
+#' @description Create a `Tempo` object.
+#'
+#' `Tempo` objects represent tempo marks.
+#'
+#' @param tempo A number between 5 and 999 which indicates how many quarter
+#' notes per minute the tempo is.
+#'
+#' @param unit Optional. A duration notation, its abbreviation, or duration
+#' value corresponding to "whole", "half", "quarter", "eighth", "16th", with
+#' or without a dot. The default `unit` is "quarter".
+#'
+#' @param bar Optional. A positive integer which indicates the number of
+#' the measure at which to add the `Tempo` object. By default, a `Tempo`
+#' object will be added at the first measure.
+#'
+#' @param offset Optional. A duration value, sum of duration values or 0,
+#' which indicates the position in a measure, at which to add the `Tempo`
+#' object. The default value is 0.
+#'
+#' @return A list with class `Tempo`.
+#'
+#' @seealso [mr::+.Music()] for adding `Tempo` objects to a `Music` object.
+#'
+#' `vignette("mr", package = "mr")` for details about duration notations
+#' and duration values.
+#'
+#' @examples
+#' # create a Tempo object
+#' Tempo(200)
+#'
+#' # set unit in a Tempo object
+#' Tempo(120, unit = "half.")
+#'
+#' # add Tempo objects to a Music object
+#' Music() + Tempo(200) + Tempo(100, bar = 10, offset = 1)
 #' @export
 Tempo <- function(tempo, unit = NULL, bar = NULL, offset = NULL) {
   # check arguments -------------------------------------------------------
