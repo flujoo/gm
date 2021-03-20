@@ -1,5 +1,50 @@
 # Meter -------------------------------------------------------------------
 
+#' @title Create `Meter` Object
+#'
+#' @description Create a `Meter` object.
+#'
+#' `Meter` objects represent time signatures.
+#'
+#' @param number A positive number to represent the upper numeral in a
+#' time signature symbol, which indicates how many beats are contained in
+#' each measure.
+#'
+#' @param unit 1, 2, 4, 8, 16, 32 or 64 to represent the lower numeral in
+#' a time signature symbol, which indicates the duration of one beat.
+#'
+#' @param bar Optional. A positive integer which indicates the number of
+#' the measure into which to insert the `Meter` object. By default, a `Meter`
+#' object will be inserted into the first measure(s).
+#'
+#' @param actual_number,actual_unit Optional, which defines the actual
+#' time signature rather than the time signature symbol on score. Usually
+#' used to create pickup measures.
+#'
+#' @param invisible Optional. A single logical, which indicates whether to
+#' show the time signature symbol on score.
+#'
+#' @return A list with class `Meter`.
+#'
+#' @seealso [mr::+.Music()] for adding `Meter` objects to a `Music` object.
+#'
+#' @examples
+#' # create a 3/4 time signature
+#' Meter(3, 4)
+#'
+#' # insert a time signature into a specific measure
+#' Music() + Meter(3, 4, bar = 10)
+#'
+#' m <- Music() + Line(list("C5"), list(3))
+#'
+#' # specify the actual time signature
+#' ts <- Meter(3, 4, actual_number = 1, actual_unit = 4)
+#' ts
+#' show(m + ts)
+#'
+#' # make a time signature invisible on score
+#' ts <- Meter(3, 4, invisible = TRUE)
+#' show(m + ts)
 #' @export
 Meter <- function(number, unit, bar = NULL, actual_number = NULL,
                   actual_unit = NULL, invisible = NULL) {
