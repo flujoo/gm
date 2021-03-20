@@ -43,12 +43,49 @@ to_value <- function(x, ...) {
 }
 
 
+#' @title Show Object
+#'
+#' @description Show an object as musical score or audio file.
+#'
+#' @param x An object.
+#'
+#' @param to Optional. A character vector which contains "score", "audio" or
+#' both, which indicates whether to show the object as musical score or
+#' audio file.
+#'
+#' @return Invisible `NULL`.
+#'
+#' @examples
+#' m <- Music() + Meter(4, 4) + Line(list("C4"), list(4))
+#' show(m, c("score", "audio"))
 #' @export
 show <- function(x, to) {
   UseMethod("show")
 }
 
 
+#' @title Export Object
+#'
+#' @description Export an object to various file formats.
+#'
+#' @param x An object.
+#'
+#' @param dir_path A single character which specifies the directory to
+#' which to export the object.
+#'
+#' @param file_name A single character which specifies the name of the
+#' exported file(s).
+#'
+#' @param formats A character vector which specifies the file formats.
+#' Supported file formats are "mscz", "mscx", "pdf", "png", "svg", "wav",
+#' "mp3", "flac", "ogg", "midi", "mid", "musicxml", "mxl", "xml", "metajson",
+#' "mlog", "mpos" and "spos".
+#'
+#' @return Invisible `NULL`.
+#'
+#' @examples
+#' m <- Music() + Meter(4, 4) + Line(list("C4"), list(4))
+#' export(m, tempdir(), "x", c("mp3", "png"))
 #' @export
 export <- function(x, dir_path, file_name, formats) {
   UseMethod("export")

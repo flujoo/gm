@@ -1276,6 +1276,7 @@ generate_file_path <- function(name_path, format, context) {
 
 # show/export Music -------------------------------------------------------
 
+#' @describeIn show show a `Music` object.
 #' @export
 show.Music <- function(x, to = NULL) {
   x %>%
@@ -1284,6 +1285,7 @@ show.Music <- function(x, to = NULL) {
 }
 
 
+#' @describeIn export export a `Music` object.
 #' @export
 export.Music <- function(x, dir_path, file_name, formats) {
   x %>%
