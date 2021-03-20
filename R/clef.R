@@ -1,4 +1,43 @@
 # https://www.dolmetsch.com/musictheory14.htm
+#' @title Create `Clef` Object
+#'
+#' @description Create a `Clef` object.
+#'
+#' `Clef` objects represent clefs.
+#'
+#' @param sign "G", "F" or "C", case insensitive.
+#'
+#' @param line Optional, 1 or 2 if `sign` is "G", an integer between 3 and 5
+#' if `sign` is "F", or an integer between 1 and 5 if `sign` is "C".
+#'
+#' @param octave Optional, -1 or 1. `octave` can be specified only when
+#' `sign` is "G" and `line` is 2, or `sign` is "F" and `line` is 4.
+#'
+#' @param to an index or a `Line` name, which indicates to which `Line` object
+#' to add the `Clef` object.
+#'
+#' @param bar Optional. A positive integer which indicates the number of
+#' the measure to which to add the `Clef` object. By default, a `Clef`
+#' object will be added to the first measure.
+#'
+#' @param offset Optional. A duration value, sum of duration values or 0,
+#' which indicates the position in a measure, at which to add the `Clef`
+#' object. The default value is 0.
+#'
+#' @return A list with class `Clef`.
+#'
+#' @seealso [mr::+.Music()] for adding `Clef` objects to a `Music` object.
+#'
+#' `vignette("mr", package = "mr")` for details about duration values.
+#'
+#' @examples
+#' # create a Clef object
+#' Clef("G", line = 2, octave = 1)
+#'
+#' # add a Clef object to a Music object
+#' Music() +
+#'   Line(list("C4"), list(1)) +
+#'   Clef("F", to = 1, bar = 10, offset = 1)
 #' @export
 Clef <- function(sign, line = NULL, octave = NULL, to = NULL, bar = NULL,
                  offset = NULL) {
