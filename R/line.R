@@ -1,3 +1,89 @@
+#' @title Create `Line` Object
+#'
+#' @description Create a `Line` object.
+#'
+#' `Line` objects represent musical lines.
+#'
+#' @param pitches A list whose members are
+#' 1. single pitch notations, like "C4", to represent the pitch contents of
+#' notes,
+#'
+#' 2. single MIDI note numbers, like 60 or "60", also to represent the pitch
+#' contents of notes,
+#'
+#' 3. single logical `NA`s to represent the pitch contents of rests, or
+#'
+#' 4. vectors of pitch notations and MIDI note numbers, like `c("C4", "61")`,
+#' to represent the pitch contents of chords.
+#'
+#' @param durations A list whose members are
+#' 1. single duration notations or their abbreviations, like "quarter" or
+#' just "q",
+#'
+#' 2. single duration values, like 1, which is equivalent to "quarter", or
+#'
+#' 3. `Duration` objects returned by `tuplet()`, which is used to create
+#' complex tuplets.
+#'
+#' @param tie Optional. A list of indices of argument `pitches`, which
+#' indicates at which positions to add ties.
+#'
+#' @param name Optional. A single character to name the `Line` object.
+#'
+#' @param as Optional. "part", "staff" or "voice", to specify the state
+#' of the `Line` object. The default value is "part".
+#'
+#' @param to Optional. An index or a `Line` name, which indicates with which
+#' `Line` object as the reference to add the `Line` object.
+#'
+#' @param after Optional. A single logical which indicates whether to add the
+#' `Line` object after or before a reference `Line` object. The default value
+#' is `TRUE`.
+#'
+#' @param bar Optional. A positive integer which indicates the number of
+#' the measure to which to insert the `Line` object. By default, a `Line`
+#' object will be inserted to the first measure.
+#'
+#' @param offset Optional. A duration value, sum of duration values or 0,
+#' which indicates the position in a measure, at which to insert the `Line`
+#' object. The default value is 0.
+#'
+#' @return A list with class `Line`.
+#'
+#' @seealso [mr::+.Music()] for adding `Line` objects to a `Music` object.
+#'
+#' `vignette("mr", package = "mr")` for more details about `Line` objects.
+#'
+#' @examples
+#' m <- Music() + Meter(4, 4) + Line(list("C4"), list(8), name = "a")
+#'
+#' # add a Line object to the Music object
+#' l <- Line(
+#'   pitches = list("C5", "C5", "C5"),
+#'   durations = list(1, 1, 1),
+#'
+#'   # tie the first two notes
+#'   tie = list(1),
+#'
+#'   # add the Line as a voice
+#'   as = "voice",
+#'
+#'   # with Line "a" as reference
+#'   to = "a",
+#'
+#'   # before Line "a"
+#'   after = FALSE,
+#'
+#'   # insert the Line to bar 2 with offset 1
+#'   bar = 2,
+#'   offset = 1
+#' )
+#' l
+#'
+#' m <- m + l
+#' m
+#'
+#' show(m)
 #' @export
 Line <- function(pitches, durations, tie = NULL, name = NULL, as = NULL,
                  to = NULL, after = NULL, bar = NULL, offset = NULL) {
