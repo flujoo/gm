@@ -19,10 +19,11 @@
 #'
 #' @param actual_number,actual_unit Optional, which defines the actual
 #' time signature rather than the time signature symbol on score. Usually
-#' used to create pickup measures.
+#' used to create pickup measures. By default, these two arguments are the
+#' same with `number` and `unit` respectively.
 #'
 #' @param invisible Optional. A single logical, which indicates whether to
-#' show the time signature symbol on score.
+#' show the time signature symbol on score. The default value is `FALSE`.
 #'
 #' @return A list with class `Meter`.
 #'
