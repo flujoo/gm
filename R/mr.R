@@ -44,13 +44,13 @@ to_value <- function(x, ...) {
 
 
 #' @export
-show <- function(x, ...) {
+show <- function(x, to) {
   UseMethod("show")
 }
 
 
 #' @export
-export <- function(x, ...) {
+export <- function(x, dir_path, file_name, formats) {
   UseMethod("export")
 }
 

@@ -1277,7 +1277,7 @@ generate_file_path <- function(name_path, format, context) {
 # show/export Music -------------------------------------------------------
 
 #' @export
-show.Music <- function(x, to = NULL, ...) {
+show.Music <- function(x, to = NULL) {
   x %>%
     to_musicxml() %>%
     show_musicxml(to)
@@ -1285,7 +1285,7 @@ show.Music <- function(x, to = NULL, ...) {
 
 
 #' @export
-export.Music <- function(x, dir_path, file_name, formats, ...) {
+export.Music <- function(x, dir_path, file_name, formats) {
   x %>%
     to_musicxml() %>%
     export_musicxml(dir_path, file_name, formats)
