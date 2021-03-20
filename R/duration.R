@@ -613,6 +613,24 @@ print.tuplers <- function(tuplers, type, dot) {
 
 # tuplet ------------------------------------------------------------------
 
+#' @title Create Tuplet
+#'
+#' @description Create a tuplet.
+#'
+#' @param duration A duration notation, duration value, or `Duration` object.
+#' @param ... `Tupler` objects returned by [mr::Tupler()], which specify
+#' how to divide the argument `duration` into parts, and how to take from
+#' these parts.
+#'
+#' @return A list with class `Duration`.
+#'
+#' @seealso [mr::Tupler()]
+#'
+#' `vignette("mr", package = "mr")` for more details about tuplets.
+#'
+#' @examples
+#' # create a triplet quarter note
+#' tuplet("half", Tupler(3, unit = "quarter", take = "quarter"))
 #' @export
 tuplet <- function(duration, ...) {
   tuplers <- list(...)
