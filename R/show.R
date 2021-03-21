@@ -1290,7 +1290,11 @@ generate_file_path <- function(name_path, format, context) {
 #'
 #' @examples
 #' m <- Music() + Meter(4, 4) + Line(list("C4"), list(4))
+#'
+#' \dontrun{
+#' # don't run this code if MuseScore is not available
 #' show(m, c("score", "audio"))
+#' }
 #' @export
 show <- function(x, to) {
   UseMethod("show")
@@ -1327,7 +1331,11 @@ show.Music <- function(x, to = NULL) {
 #'
 #' @examples
 #' m <- Music() + Meter(4, 4) + Line(list("C4"), list(4))
+#'
+#' \dontrun{
+#' # don't run this code if MuseScore is not available
 #' export(m, tempdir(), "x", c("mp3", "png"))
+#' }
 #' @export
 export <- function(x, dir_path, file_name, formats) {
   UseMethod("export")

@@ -36,5 +36,9 @@ Export an object to various file formats.
 
 \examples{
 m <- Music() + Meter(4, 4) + Line(list("C4"), list(4))
+
+\dontrun{
+# don't run this code if MuseScore is not available
 export(m, tempdir(), "x", c("mp3", "png"))
+}
 }
