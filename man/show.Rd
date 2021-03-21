@@ -14,7 +14,7 @@ show(x, to)
 
 \item{to}{Optional. A character vector which contains "score", "audio" or
 both, which indicates whether to show the object as musical score or
-audio file.}
+audio file. The default value is "score".}
 }
 \value{
 Invisible \code{NULL}.
