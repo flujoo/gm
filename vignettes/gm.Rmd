@@ -19,11 +19,12 @@ knitr::opts_chunk$set(
   # to build the vignette locally
   eval = identical(Sys.getenv("gm_vignette"), "true")
 )
+```
 
+```{r, message = FALSE}
 library(gm)
 library(magrittr)
 ```
-
 
 With gm, you can create musical scores and audio files easily, and show them
 in R Markdown files, R Jupyter Notebooks and RStudio.
