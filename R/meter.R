@@ -41,11 +41,19 @@
 #' # specify the actual time signature
 #' ts <- Meter(3, 4, actual_number = 1, actual_unit = 4)
 #' ts
+#'
+#' \dontrun{
+#' # don't run this code if MuseScore is not available
 #' show(m + ts)
+#' }
 #'
 #' # make a time signature invisible on score
 #' ts <- Meter(3, 4, invisible = TRUE)
+#'
+#' \dontrun{
+#' # don't run this code if MuseScore is not available
 #' show(m + ts)
+#' }
 #' @export
 Meter <- function(number, unit, bar = NULL, actual_number = NULL,
                   actual_unit = NULL, invisible = NULL) {
