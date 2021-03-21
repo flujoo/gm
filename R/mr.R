@@ -14,26 +14,18 @@
 NULL
 
 
-
-# import functions --------------------------------------------------------
-
 #' @importFrom magrittr %>% %T>% %<>%
 NULL
 
 
-
-# globals -----------------------------------------------------------------
-
 utils::globalVariables(".")
+
 
 globals <- new.env()
 globals$error_messages <- character(0)
 globals$env <- NULL
 globals$width <- 75
 
-
-
-# generics ----------------------------------------------------------------
 
 #' for internal use
 #' @keywords internal
@@ -42,9 +34,6 @@ to_value <- function(x, ...) {
   UseMethod("to_value")
 }
 
-
-
-# utils -------------------------------------------------------------------
 
 # connect `words` with `conjunction`
 coordinate <- function(words, conjunction = "or") {
