@@ -69,9 +69,10 @@ Create a \code{Line} object.
 \code{Line} objects represent musical lines.
 }
 \examples{
+# create a Music object
 m <- Music() + Meter(4, 4) + Line(list("C4"), list(8), name = "a")
 
-# add a Line object to the Music object
+# create a Line object
 l <- Line(
   pitches = list("C5", "C5", "C5"),
   durations = list(1, 1, 1),
@@ -94,10 +95,14 @@ l <- Line(
 )
 l
 
+# add the Line object to the Music object
 m <- m + l
 m
 
+\dontrun{
+# don't run this code if MuseScore is not available
 show(m)
+}
 }
 \seealso{
 \code{\link[=+.Music]{+.Music()}} for adding \code{Line} objects to a \code{Music} object.

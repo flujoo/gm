@@ -55,9 +55,10 @@
 #' `vignette("mr", package = "mr")` for more details about `Line` objects.
 #'
 #' @examples
+#' # create a Music object
 #' m <- Music() + Meter(4, 4) + Line(list("C4"), list(8), name = "a")
 #'
-#' # add a Line object to the Music object
+#' # create a Line object
 #' l <- Line(
 #'   pitches = list("C5", "C5", "C5"),
 #'   durations = list(1, 1, 1),
@@ -80,10 +81,14 @@
 #' )
 #' l
 #'
+#' # add the Line object to the Music object
 #' m <- m + l
 #' m
 #'
+#' \dontrun{
+#' # don't run this code if MuseScore is not available
 #' show(m)
+#' }
 #' @export
 Line <- function(pitches, durations, tie = NULL, name = NULL, as = NULL,
                  to = NULL, after = NULL, bar = NULL, offset = NULL) {
