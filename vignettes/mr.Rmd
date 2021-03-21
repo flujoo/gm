@@ -13,7 +13,11 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  eval = identical(Sys.getenv("NOT_CRAN"), "true")
+  
+  # open ".Renviron" file with `usethis::edit_r_environ()`
+  # add `mr_vignette=true` into it
+  # to build the vignette locally
+  eval = identical(Sys.getenv("mr_vignette"), "true")
 )
 
 library(mr)
