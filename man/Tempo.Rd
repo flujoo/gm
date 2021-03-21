@@ -43,6 +43,6 @@ Music() + Tempo(200) + Tempo(100, bar = 10, offset = 1)
 \seealso{
 \code{\link[=+.Music]{+.Music()}} for adding \code{Tempo} objects to a \code{Music} object.
 
-\code{vignette("mr", package = "mr")} for details about duration notations
+\code{vignette("gm", package = "gm")} for details about duration notations
 and duration values.
 }

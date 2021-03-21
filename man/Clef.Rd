@@ -46,5 +46,5 @@ Music() +
 \seealso{
 \code{\link[=+.Music]{+.Music()}} for adding \code{Clef} objects to a \code{Music} object.
 
-\code{vignette("mr", package = "mr")} for details about duration values.
+\code{vignette("gm", package = "gm")} for details about duration values.
 }

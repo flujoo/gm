@@ -1,10 +1,10 @@
 ---
-title: "Complete Guide to mr"
+title: "Complete Guide to gm"
 output:
   rmarkdown::html_vignette:
     toc: true
 vignette: >
-  %\VignetteIndexEntry{Complete Guide to mr}
+  %\VignetteIndexEntry{Complete Guide to gm}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -15,17 +15,17 @@ knitr::opts_chunk$set(
   comment = "#>",
   
   # open ".Renviron" file with `usethis::edit_r_environ()`
-  # add `mr_vignette=true` into it
+  # add `gm_vignette=true` into it
   # to build the vignette locally
-  eval = identical(Sys.getenv("mr_vignette"), "true")
+  eval = identical(Sys.getenv("gm_vignette"), "true")
 )
 
-library(mr)
+library(gm)
 library(magrittr)
 ```
 
 
-With mr, you can create musical scores and audio files easily, and show them
+With gm, you can create musical scores and audio files easily, and show them
 in R Markdown files, R Jupyter Notebooks and RStudio.
 
 Let's go through a quick example to get a feeling of it.
@@ -96,15 +96,15 @@ show(m)
 ```
 
 This process can keep going, but let's stop here. If you want to go deeper,
-let's first learn how to install and configure mr.
+let's first learn how to install and configure gm.
 
 
 ## Installation and Configuration
 
-Install mr:
+Install gm:
 
 ```r
-install.packages("mr")
+install.packages("gm")
 ```
 
 MuseScore, an open source and free notation software, is required. Get it
@@ -112,17 +112,17 @@ from <https://musescore.org/>.
 
 If you don't install MuseScore to the default path (see
 <https://musescore.org/en/handbook/3/revert-factory-settings>),
-you need to tell mr where to find MuseScore:
+you need to tell gm where to find MuseScore:
 
 Open ".Renviron" file and add `MUSESCORE_PATH=/your/path/to/musescore`
 into it. You can open the file with `usethis::edit_r_environ()`.
 
-Now below is a complete guide to mr.
+Now below is a complete guide to gm.
 
 
 ## `Music` Objects
 
-In mr, we use `Music` objects to represent music.
+In gm, we use `Music` objects to represent music.
 
 The workflow is usually like this:
 
@@ -235,7 +235,7 @@ m <- Music() + Meter(3, 4) + Line(list("C#5", "D-5", "B##4"), list(1, 1, 1))
 show(m)
 ```
 
-mr interprets MIDI note numbers based on keys and neighbor pitches. In the
+gm interprets MIDI note numbers based on keys and neighbor pitches. In the
 following example, MIDI note number 73 is interpreted as C5 sharp in the
 first measure, but as D5 flat in the second measure, for these two measures
 have different keys.
@@ -246,7 +246,7 @@ m <- Music() + Meter(2, 4) + Key(7, bar = 1) + Key(-7, bar = 2) + l
 show(m)
 ```
 
-mr is not perfect in interpreting MIDI note numbers, so if you want it to
+gm is not perfect in interpreting MIDI note numbers, so if you want it to
 be precise, use pitch notations.
 
 
@@ -266,16 +266,16 @@ just `"q"`,
 tuplets.
 
 The most basic duration notations consist of only duration types. The
-duration types defined in mr are:
+duration types defined in gm are:
 
 ```{r, echo = FALSE}
-mr:::duration_types
+gm:::duration_types
 ```
 
 Their abbreviations are:
 
 ```{r, echo = FALSE}
-mr:::duration_type_abbrs
+gm:::duration_type_abbrs
 ```
 
 For example, the following musical line consists of a whole rest, a quarter
@@ -295,7 +295,7 @@ m <- Music() + Meter(9, 4) + l
 show(m)
 ```
 
-You can also append what we call "tupler" notations in mr to a duration
+You can also append what we call "tupler" notations in gm to a duration
 notation to represent a tuplet:
 
 ```{r}
@@ -319,13 +319,13 @@ example, `1` is equivalent to `"quarter"`, and `1.5` to `"quarter."`.
 
 However, the duration notations that can be converted to duration values must
 NOT contain tupler notation. For example, if you convert `"q/3"` to *value*,
-you get `1/3`, but this in mr is not a valid *duration value*. We put this
+you get `1/3`, but this in gm is not a valid *duration value*. We put this
 restriction to avoid ambiguity. For example, value `1/3` can be `"q/3"`,
 `"half/6"`, or two tied `"eighth/3"`s.
 
 Also note that you can NOT use characters to represent duration values. For
 example, you can use duration value `1` to represent quarter note, but not 
-`"1"`, which is invalid in mr. This is also to avoid ambiguity. For example,
+`"1"`, which is invalid in gm. This is also to avoid ambiguity. For example,
 we can use `"eighth"` to represent eighth note, whose abbreviation is `"8"`.
 if `"8"` was a duration value, it would represent breve note, there would
 be a conflict. So keep `"8"` to only eighth note, and `8` to breve note.
@@ -421,8 +421,8 @@ m <- Music() + Meter(2, 4) + l
 show(m)
 ```
 
-Yes, there is something wrong with this score. MuseScore (which mr uses
-internally) has some bugs, so it can't convert MusicXML (which mr uses to
+Yes, there is something wrong with this score. MuseScore (which gm uses
+internally) has some bugs, so it can't convert MusicXML (which gm uses to
 represent musical scores internally) containing nested tuplets to score 
 correctly. So if there are nested tuplets in your `Music` object, you can
 export it to MusicXML file with `export()`, and open the file with other
@@ -476,7 +476,7 @@ chord to connect it with the second note of the third chord.
 fourth chord.
 
 However, don't bother to split a cross-bar note and tie resulted notes
-together, mr takes care of this kind of situations, like in the following
+together, gm takes care of this kind of situations, like in the following
 example:
 
 ```{r}
@@ -705,7 +705,7 @@ show(m)
 
 We use `Clef` objects to represent clefs.
 
-`Clef` objects you can create in mr are:
+`Clef` objects you can create in gm are:
 
 ```{r}
 Clef("G")
@@ -737,9 +737,9 @@ Clef("C", line = 4)
 Clef("C", line = 5)
 ```
 
-mr automatically adds a clef to a staff based on its pitch contents, if
+gm automatically adds a clef to a staff based on its pitch contents, if
 the staff has no clef at the beginning. For example, in the following score,
-mr adds an alto clef to the staff:
+gm adds an alto clef to the staff:
 
 ```{r}
 l <- Line(list("B3", "C4", "D4"), list(3, 3, 3))
@@ -805,8 +805,8 @@ show(m, to = c("score", "audio"))
 
 ## Algorithmic Composition
 
-mr provides a simple and intuitive language, with which you can express
-complex music easily. One possible usage of mr is algorithmic composition,
+gm provides a simple and intuitive language, with which you can express
+complex music easily. One possible usage of gm is algorithmic composition,
 which means using algorithms to create music.
 
 Below is an example:
@@ -829,8 +829,8 @@ contents. The only difference is that their delays are gradually increased,
 to create the echo sound effect.
 
 
-## Cite mr
+## Cite gm
 
 ```r
-citation(package = "mr")
+citation(package = "gm")
 ```

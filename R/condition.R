@@ -248,7 +248,7 @@ show_errors <- function(general, specifics, supplement = NULL,
     }
 
     more <- more %>%
-      paste0("\n", ., " See full report with `mr::inspect_errors()`.")
+      paste0("\n", ., " See full report with `gm::inspect_errors()`.")
   }
 
   # add a enter between blocks

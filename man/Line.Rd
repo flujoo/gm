@@ -107,5 +107,5 @@ show(m)
 \seealso{
 \code{\link[=+.Music]{+.Music()}} for adding \code{Line} objects to a \code{Music} object.
 
-\code{vignette("mr", package = "mr")} for more details about \code{Line} objects.
+\code{vignette("gm", package = "gm")} for more details about \code{Line} objects.
 }

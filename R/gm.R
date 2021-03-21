@@ -1,4 +1,4 @@
-#' @title mr: Generate Musical Scores Easily and Show Them Anywhere
+#' @title gm: Generate Musical Scores Easily and Show Them Anywhere
 #'
 #' @description Provides a simple and intuitive language, with which you can
 #' create complex music easily. Takes care of all the dirty technical
@@ -10,7 +10,7 @@
 #' Renfei Mao <renfeimao@gmail.com>
 #'
 #' @docType package
-#' @name mr
+#' @name gm
 NULL
 
 

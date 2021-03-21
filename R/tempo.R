@@ -21,9 +21,9 @@
 #'
 #' @return A list with class `Tempo`.
 #'
-#' @seealso [mr::+.Music()] for adding `Tempo` objects to a `Music` object.
+#' @seealso [gm::+.Music()] for adding `Tempo` objects to a `Music` object.
 #'
-#' `vignette("mr", package = "mr")` for details about duration notations
+#' `vignette("gm", package = "gm")` for details about duration notations
 #' and duration values.
 #'
 #' @examples

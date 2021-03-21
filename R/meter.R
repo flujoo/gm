@@ -27,7 +27,7 @@
 #'
 #' @return A list with class `Meter`.
 #'
-#' @seealso [mr::+.Music()] for adding `Meter` objects to a `Music` object.
+#' @seealso [gm::+.Music()] for adding `Meter` objects to a `Music` object.
 #'
 #' @examples
 #' # create a 3/4 time signature

@@ -399,7 +399,7 @@ check_duration.character <- function(duration, name = NULL, abort = FALSE) {
 #' @title Create `Tupler` Object
 #'
 #' @description Create a `Tupler` object. `Tupler` objects are used in
-#' [mr::tuplet()] to create tuplets.
+#' [gm::tuplet()] to create tuplets.
 #'
 #' @param n A positive integer which indicates into how many parts to divide
 #' a duration.
@@ -409,9 +409,9 @@ check_duration.character <- function(duration, name = NULL, abort = FALSE) {
 #'
 #' @return A list with class `Tupler`.
 #'
-#' @seealso [mr::tuplet()]
+#' @seealso [gm::tuplet()]
 #'
-#' `vignette("mr", package = "mr")` for a friendly guide to tuplets.
+#' `vignette("gm", package = "gm")` for a friendly guide to tuplets.
 #'
 #' @examples
 #' # create a triplet quarter note
@@ -641,15 +641,15 @@ print.tuplers <- function(tuplers, type, dot) {
 #' @description Create a tuplet.
 #'
 #' @param duration A duration notation, duration value, or `Duration` object.
-#' @param ... `Tupler` objects returned by [mr::Tupler()], which specify
+#' @param ... `Tupler` objects returned by [gm::Tupler()], which specify
 #' how to divide the argument `duration` into parts, and how to take from
 #' these parts.
 #'
 #' @return A list with class `Duration`.
 #'
-#' @seealso [mr::Tupler()]
+#' @seealso [gm::Tupler()]
 #'
-#' `vignette("mr", package = "mr")` for a friendly guide to tuplets.
+#' `vignette("gm", package = "gm")` for a friendly guide to tuplets.
 #'
 #' @examples
 #' # create a triplet quarter note

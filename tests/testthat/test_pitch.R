@@ -1,4 +1,4 @@
-library(mr)
+library(gm)
 
 
 test_that("PitchValue -> Pitch", {

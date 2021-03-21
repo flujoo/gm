@@ -26,5 +26,5 @@ tuplet("half", Tupler(3, unit = "quarter", take = "quarter"))
 \seealso{
 \code{\link[=Tupler]{Tupler()}}
 
-\code{vignette("mr", package = "mr")} for a friendly guide to tuplets.
+\code{vignette("gm", package = "gm")} for a friendly guide to tuplets.
 }

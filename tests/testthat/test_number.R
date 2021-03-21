@@ -1,4 +1,4 @@
-library(mr)
+library(gm)
 
 
 m <- Music() + Line(list(90), list(1))

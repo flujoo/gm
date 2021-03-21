@@ -922,7 +922,7 @@ abort_musescore <- function() {
 
   specifics <- c(
     "Can't find MuseScore.",
-    'See `vignette("mr", package = "mr")` for how to configure MuseScore.'
+    'See `vignette("gm", package = "gm")` for how to configure MuseScore.'
   )
 
   show_errors(general, specifics)
@@ -1135,7 +1135,7 @@ normalize_show_to <- function(to) {
 }
 
 
-# check if mr is used in R Jupyter Notebook
+# check if gm is used in R Jupyter Notebook
 is_jupyter <- function() {
   f <- getOption("jupyter.base_display_func")
 

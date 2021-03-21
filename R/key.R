@@ -25,7 +25,7 @@
 #'
 #' @return A list with class `Key`.
 #'
-#' @seealso [mr::+.Music()] for adding `Key` objects to a `Music` object.
+#' @seealso [gm::+.Music()] for adding `Key` objects to a `Music` object.
 #'
 #' @examples
 #' # create a Key object

@@ -26,9 +26,9 @@
 #'
 #' @return A list with class `Clef`.
 #'
-#' @seealso [mr::+.Music()] for adding `Clef` objects to a `Music` object.
+#' @seealso [gm::+.Music()] for adding `Clef` objects to a `Music` object.
 #'
-#' `vignette("mr", package = "mr")` for details about duration values.
+#' `vignette("gm", package = "gm")` for details about duration values.
 #'
 #' @examples
 #' # create a Clef object

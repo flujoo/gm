@@ -50,9 +50,9 @@
 #'
 #' @return A list with class `Line`.
 #'
-#' @seealso [mr::+.Music()] for adding `Line` objects to a `Music` object.
+#' @seealso [gm::+.Music()] for adding `Line` objects to a `Music` object.
 #'
-#' `vignette("mr", package = "mr")` for more details about `Line` objects.
+#' `vignette("gm", package = "gm")` for more details about `Line` objects.
 #'
 #' @examples
 #' # create a Music object

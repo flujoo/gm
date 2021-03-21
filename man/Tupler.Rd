@@ -30,5 +30,5 @@ tuplet("half", t)
 \seealso{
 \code{\link[=tuplet]{tuplet()}}
 
-\code{vignette("mr", package = "mr")} for a friendly guide to tuplets.
+\code{vignette("gm", package = "gm")} for a friendly guide to tuplets.
 }

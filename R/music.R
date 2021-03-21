@@ -6,26 +6,26 @@
 #'
 #' @details A typical workflow with `Music` objects:
 #'
-#' 1. Initialize an empty `Music` object with [mr::Music()].
+#' 1. Initialize an empty `Music` object with [gm::Music()].
 #'
-#' 2. Add components to it with [mr::+.Music()].
+#' 2. Add components to it with [gm::+.Music()].
 #'
 #' 3. Print it, or display it as musical score or audio file with
-#' [mr::show()], to check its structure.
+#' [gm::show()], to check its structure.
 #'
 #' 4. Keep adding components and checking it until you get what you want.
 #'
 #' 5. Sometimes you may want to export the final `Music` object with
-#' [mr::export()].
+#' [gm::export()].
 #'
 #' @return A list with class `Music`.
 #'
-#' @seealso [mr::+.Music()] for adding components to a `Music` object.
+#' @seealso [gm::+.Music()] for adding components to a `Music` object.
 #'
-#' [mr::show()] for displaying a `Music` object as musical score and
+#' [gm::show()] for displaying a `Music` object as musical score and
 #' audio file.
 #'
-#' [mr::export()] for exporting a `Music` object to various file formats.
+#' [gm::export()] for exporting a `Music` object to various file formats.
 #'
 #' @examples
 #' # initialize a Music object
@@ -49,9 +49,9 @@ Music <- function() {
 #'
 #' @return A list with class `Music`.
 #'
-#' @seealso [mr::Music()] for initializing a `Music` object.
+#' @seealso [gm::Music()] for initializing a `Music` object.
 #'
-#' [mr::Line()], [mr::Meter()], [mr::Key()], [mr::Clef()] and [mr::Tempo()]
+#' [gm::Line()], [gm::Meter()], [gm::Key()], [gm::Clef()] and [gm::Tempo()]
 #' for creating objects of corresponding classes.
 #'
 #' @examples
