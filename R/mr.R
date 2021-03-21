@@ -1,10 +1,10 @@
 #' @title mr: Generate Musical Scores Easily and Show Them Anywhere
 #'
-#' @description mr provides a simple and intuitive language, with which you
-#' can create musical scores and audio files easily. Also, mr works in R
-#' Markdown documents, R Jupyter Notebooks and RStudio, so you can embed
-#' scores and audio files anywhere. You only tell mr the structure of your
-#' music, and it takes care of all the dirty technical details.
+#' @description Provides a simple and intuitive language, with which you can
+#' create complex music easily. Takes care of all the dirty technical
+#' details in converting your music to musical scores and audio files.
+#' Works in R Markdown documents, R Jupyter Notebooks and RStudio, so you
+#' can embed musical scores and audio files anywhere.
 #'
 #' @section Author:
 #' Renfei Mao <renfeimao@gmail.com>
