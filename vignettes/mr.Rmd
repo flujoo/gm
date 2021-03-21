@@ -12,7 +12,8 @@ vignette: >
 ```{r, include = FALSE, message = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  eval = identical(Sys.getenv("NOT_CRAN"), "true")
 )
 
 library(mr)
