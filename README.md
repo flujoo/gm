@@ -45,3 +45,7 @@ See `vignette("gm", package = "gm")` for a complete guide to gm.
 ## Donation
 
 <https://ko-fi.com/flujoo>
+
+or Alipay (支付宝):
+
+<img src="man/figures/alipay.jpeg" alt="alipay" width="250">
