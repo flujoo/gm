@@ -32,7 +32,8 @@ show(m)
 Install gm:
 
 ``` r
-install.packages("gm")
+# install.packages("devtools")
+devtools::install_github("flujoo/gm")
 ```
 
 MuseScore, an open source and free notation software, is required. Get
