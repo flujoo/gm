@@ -155,6 +155,7 @@ is_pitch_value <- function(x) {
 #' for internal use
 #' @keywords internal
 #' @export
+#' @noRd
 normalize_pitch <- function(pitch) {
   UseMethod("normalize_pitch")
 }
@@ -338,6 +339,7 @@ print.Pitch <- function(x, silent = FALSE, ...) {
 #' for internal use
 #' @keywords internal
 #' @export
+#' @noRd
 to_Pitch <- function(x, ...) {
   UseMethod("to_Pitch")
 }

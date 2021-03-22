@@ -91,6 +91,7 @@ to_semi_musicxml <- function(element) {
 #' for internal use
 #' @keywords internal
 #' @export
+#' @noRd
 to_Element <- function(x, ...) {
   UseMethod("to_Element")
 }

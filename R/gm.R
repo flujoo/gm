@@ -30,6 +30,7 @@ globals$width <- 75
 #' for internal use
 #' @keywords internal
 #' @export
+#' @noRd
 to_value <- function(x, ...) {
   UseMethod("to_value")
 }

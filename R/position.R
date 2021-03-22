@@ -30,6 +30,7 @@
 #' for internal use
 #' @keywords internal
 #' @export
+#' @noRd
 check_positions_length <- function(positions, type, name = NULL) {
   UseMethod("check_positions_length")
 }
@@ -68,6 +69,7 @@ check_positions_length.list <- function(positions, type, name = NULL) {
 #' for internal use
 #' @keywords internal
 #' @export
+#' @noRd
 check_positions_content <- function(positions, type, name = NULL) {
   UseMethod("check_positions_content")
 }
