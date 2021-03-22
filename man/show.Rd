@@ -36,6 +36,8 @@ Show an object as musical score or audio file.
 }}
 
 \examples{
-m <- Music() + Meter(4, 4) + Line(list("C4"), list(4))
-\donttest{show(m, c("score", "audio"))}
+if (interactive()) {
+  m <- Music() + Meter(4, 4) + Line(list("C4"), list(4))
+  show(m, c("score", "audio"))
+}
 }

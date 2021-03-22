@@ -42,11 +42,15 @@
 #' ts <- Meter(3, 4, actual_number = 1, actual_unit = 4)
 #' ts
 #'
-#' \donttest{show(m + ts)}
+#' if (interactive()) {
+#'   show(m + ts)
+#' }
 #'
 #' # make a time signature invisible on score
-#' ts <- Meter(3, 4, invisible = TRUE)
-#' \donttest{show(m + ts)}
+#' if (interactive()) {
+#'   ts <- Meter(3, 4, invisible = TRUE)
+#'   show(m + ts)
+#' }
 #' @export
 Meter <- function(number, unit, bar = NULL, actual_number = NULL,
                   actual_unit = NULL, invisible = NULL) {

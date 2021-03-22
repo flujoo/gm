@@ -1299,8 +1299,10 @@ generate_file_path <- function(name_path, format, context) {
 #' 4. showed in user's browser if called in a normal R console.
 #'
 #' @examples
-#' m <- Music() + Meter(4, 4) + Line(list("C4"), list(4))
-#' \donttest{show(m, c("score", "audio"))}
+#' if (interactive()) {
+#'   m <- Music() + Meter(4, 4) + Line(list("C4"), list(4))
+#'   show(m, c("score", "audio"))
+#' }
 #' @export
 show <- function(x, to) {
   UseMethod("show")
@@ -1339,8 +1341,10 @@ show.Music <- function(x, to = NULL) {
 #' `formats` are generated in `dir_path`.
 #'
 #' @examples
-#' m <- Music() + Meter(4, 4) + Line(list("C4"), list(4))
-#' \donttest{export(m, tempdir(), "x", c("mp3", "png"))}
+#' if (interactive()) {
+#'   m <- Music() + Meter(4, 4) + Line(list("C4"), list(4))
+#'   export(m, tempdir(), "x", c("mp3", "png"))
+#' }
 #' @export
 export <- function(x, dir_path, file_name, formats) {
   UseMethod("export")

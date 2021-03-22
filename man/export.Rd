@@ -38,6 +38,8 @@ Export an object to various file formats.
 }}
 
 \examples{
-m <- Music() + Meter(4, 4) + Line(list("C4"), list(4))
-\donttest{export(m, tempdir(), "x", c("mp3", "png"))}
+if (interactive()) {
+  m <- Music() + Meter(4, 4) + Line(list("C4"), list(4))
+  export(m, tempdir(), "x", c("mp3", "png"))
+}
 }

@@ -99,7 +99,9 @@ l
 m <- m + l
 m
 
-\donttest{show(m)}
+if (interactive()) {
+  show(m)
+}
 }
 \seealso{
 \code{\link[=+.Music]{+.Music()}} for adding \code{Line} objects to a \code{Music} object.

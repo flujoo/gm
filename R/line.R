@@ -85,7 +85,9 @@
 #' m <- m + l
 #' m
 #'
-#' \donttest{show(m)}
+#' if (interactive()) {
+#'   show(m)
+#' }
 #' @export
 Line <- function(pitches, durations, tie = NULL, name = NULL, as = NULL,
                  to = NULL, after = NULL, bar = NULL, offset = NULL) {
