@@ -11,7 +11,7 @@ for (i in -2:2) {
 
 s <- sticker(
   subplot = p,
-  s_y = 1.1,
+  s_y = 0.74,
   s_width = 2.5,
 
   h_color = "black",
@@ -20,7 +20,7 @@ s <- sticker(
   package = "gm",
   p_color = "black",
   p_size = 15,
-  p_y = 1.09,
+  p_y = 1.185,
 
   filename = "./man/figures/logo.png"
 )
