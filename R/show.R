@@ -1256,7 +1256,7 @@ generate_show_content <- function(name_path, to, context) {
 
 
 generate_file_path <- function(name_path, format, context) {
-  # use absolute path in R Markdown
+  # create absolute path
   file_path <- paste0(name_path, ".", format)
 
   # use relative path in RStudio and normal R console
@@ -1264,8 +1264,8 @@ generate_file_path <- function(name_path, format, context) {
     file_path %<>% basename()
   }
 
-  # use data url in Jupyter Notebook
-  if (context == "jupyter") {
+  # use data URL in R Markdown documents and Jupyter Notebooks
+  if (context %in% c("jupyter", "rmd")) {
     file_path %<>% {base64enc::dataURI(file = .)}
   }
 
