@@ -99,10 +99,7 @@ l
 m <- m + l
 m
 
-\dontrun{
-# don't run this code if MuseScore is not available
-show(m)
-}
+\donttest{show(m)}
 }
 \seealso{
 \code{\link[=+.Music]{+.Music()}} for adding \code{Line} objects to a \code{Music} object.

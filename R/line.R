@@ -85,10 +85,7 @@
 #' m <- m + l
 #' m
 #'
-#' \dontrun{
-#' # don't run this code if MuseScore is not available
-#' show(m)
-#' }
+#' \donttest{show(m)}
 #' @export
 Line <- function(pitches, durations, tie = NULL, name = NULL, as = NULL,
                  to = NULL, after = NULL, bar = NULL, offset = NULL) {

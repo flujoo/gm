@@ -29,9 +29,5 @@ Show an object as musical score or audio file.
 
 \examples{
 m <- Music() + Meter(4, 4) + Line(list("C4"), list(4))
-
-\dontrun{
-# don't run this code if MuseScore is not available
-show(m, c("score", "audio"))
-}
+\donttest{show(m, c("score", "audio"))}
 }

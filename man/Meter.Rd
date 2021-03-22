@@ -54,18 +54,11 @@ m <- Music() + Line(list("C5"), list(3))
 ts <- Meter(3, 4, actual_number = 1, actual_unit = 4)
 ts
 
-\dontrun{
-# don't run this code if MuseScore is not available
-show(m + ts)
-}
+\donttest{show(m + ts)}
 
 # make a time signature invisible on score
 ts <- Meter(3, 4, invisible = TRUE)
-
-\dontrun{
-# don't run this code if MuseScore is not available
-show(m + ts)
-}
+\donttest{show(m + ts)}
 }
 \seealso{
 \code{\link[=+.Music]{+.Music()}} for adding \code{Meter} objects to a \code{Music} object.
