@@ -8,7 +8,9 @@ Description: Provides a simple and intuitive language, with which you can
     create complex music easily. Takes care of all the dirty technical
     details in converting your music to musical scores and audio files.
     Works in R Markdown documents, R Jupyter Notebooks and RStudio, so you
-    can embed musical scores and audio files anywhere.
+    can embed musical scores and audio files anywhere. Internally, uses
+    MusicXML <https://www.musicxml.com/> to represent musical scores, and
+    MuseScore <https://musescore.org/> to convert MusicXML.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
