@@ -8,6 +8,8 @@ inspect_errors()
 }
 \value{
 Invisible \code{NULL}.
+
+The full error report is printed in console.
 }
 \description{
 See a full error report when the error message is too

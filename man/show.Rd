@@ -18,6 +18,14 @@ audio file. The default value is "score".}
 }
 \value{
 Invisible \code{NULL}.
+
+The generated musical score or audio file is
+\enumerate{
+\item showed in Viewer panel if \code{show} is called in RStudio,
+\item included in generated HTML file if called in R Markdown document,
+\item showed in output cell if called in R Jupyter Notebook, and
+\item showed in user's browser if called in a normal R console.
+}
 }
 \description{
 Show an object as musical score or audio file.

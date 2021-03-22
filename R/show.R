@@ -1288,6 +1288,16 @@ generate_file_path <- function(name_path, format, context) {
 #'
 #' @return Invisible `NULL`.
 #'
+#' The generated musical score or audio file is
+#'
+#' 1. showed in Viewer panel if `show` is called in RStudio,
+#'
+#' 2. included in generated HTML file if called in R Markdown document,
+#'
+#' 3. showed in output cell if called in R Jupyter Notebook, and
+#'
+#' 4. showed in user's browser if called in a normal R console.
+#'
 #' @examples
 #' m <- Music() + Meter(4, 4) + Line(list("C4"), list(4))
 #' \donttest{show(m, c("score", "audio"))}
@@ -1324,6 +1334,9 @@ show.Music <- function(x, to = NULL) {
 #' "mlog", "mpos" and "spos".
 #'
 #' @return Invisible `NULL`.
+#'
+#' Files with name `file_name` and with extensions
+#' `formats` are generated in `dir_path`.
 #'
 #' @examples
 #' m <- Music() + Meter(4, 4) + Line(list("C4"), list(4))

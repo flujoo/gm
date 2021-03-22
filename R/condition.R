@@ -282,6 +282,8 @@ show_errors <- function(general, specifics, supplement = NULL,
 #'
 #' @return Invisible `NULL`.
 #'
+#' The full error report is printed in console.
+#'
 #' @examples
 #' \dontrun{
 #' Line(list(c, "p", NULL, 1:3, TRUE, NA_character_))

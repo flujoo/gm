@@ -25,6 +25,9 @@ Supported file formats are "mscz", "mscx", "pdf", "png", "svg", "wav",
 }
 \value{
 Invisible \code{NULL}.
+
+Files with name \code{file_name} and with extensions
+\code{formats} are generated in \code{dir_path}.
 }
 \description{
 Export an object to various file formats.
