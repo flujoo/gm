@@ -28,7 +28,7 @@ show(m, to = c("score", "audio"))
 ![](man/figures/readme.png)
 
 <audio controls>
-  <source src="man/figures/readme_audio.mp3" type="audio/mpeg">
+  <source src="reference/figures/readme_audio.mp3" type="audio/mpeg">
 </audio>
 
 ## Installation
