@@ -14,6 +14,96 @@
 NULL
 
 
+# https://cran.r-project.org/doc/manuals/r-devel/R-exts.html
+# #Package-subdirectories
+# if a package pkg contains user-level objects which are for “internal” use
+# only, it should provide a file pkg-internal.Rd which documents all such
+# objects, and clearly states that these are not meant to be called by the
+# user. See e.g. the sources for package grid in the R distribution
+#' @title Internal gm Functions
+#'
+#' @description Internal gm functions.
+#' These are not to be called by the user.
+#'
+#' @aliases
+#' to_value
+#' to_value.Pitch
+#' to_value.Tupler
+#' to_value.Duration
+#' to_value.Meter
+#' add
+#' add.Clef
+#' add.Key
+#' add.Meter
+#' add.Tempo
+#' add.Line
+#' normalize_pitch
+#' normalize_pitch.numeric
+#' normalize_pitch.character
+#' normalize_pitch.logical
+#' print.PitchLine
+#' print.PitchNotation
+#' print.PitchValue
+#' print.PitchRest
+#' print.PitchChord
+#' print.Pitch
+#' print.ClefLine
+#' print.DurationLine
+#' print.KeyLine
+#' print.MeterLine
+#' print.Move
+#' print.Note
+#' print.Rest
+#' print.Measure
+#' print.Attributes
+#' print.Score
+#' print.Element
+#' print.TempoLine
+#' print.PositionLine
+#' to_Pitch
+#' to_Pitch.PitchNotation
+#' to_Pitch.PitchValue
+#' to_Pitch.PitchChord
+#' to_Pitch.Line
+#' to_Pitch.Music
+#' to_Duration
+#' to_Duration.Duration
+#' to_Duration.numeric
+#' to_Duration.character
+#' check_duration
+#' check_duration.numeric
+#' check_duration.character
+#' to_Element
+#' to_Element.PitchRest
+#' to_Element.Pitch
+#' to_Element.Clef
+#' to_Element.Key
+#' to_Element.Meter
+#' to_Element.Score
+#' to_Element.Part
+#' to_Element.Measure
+#' to_Element.Attributes
+#' to_Element.Move
+#' to_Element.Rest
+#' to_Element.Note
+#' to_Element.Element
+#' to_Element.Tempo
+#' check_positions_length
+#' check_positions_length.numeric
+#' check_positions_content
+#' check_positions_content.numeric
+#' check_positions_content.list
+#' ==.Pitch
+#' +.ClefLine
+#' +.KeyLine
+#' +.MeterLine
+#' +.TempoLine
+#'
+#' @keywords internal
+#' @name gm-internal
+NULL
+
+
 #' @importFrom magrittr %>% %T>% %<>%
 NULL
 
@@ -27,10 +117,8 @@ globals$env <- NULL
 globals$width <- 75
 
 
-#' for internal use
 #' @keywords internal
 #' @export
-#' @noRd
 to_value <- function(x, ...) {
   UseMethod("to_value")
 }
