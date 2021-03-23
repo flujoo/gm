@@ -22,10 +22,12 @@ m <-
   # add a musical line of four quarter notes
   Line(list("C5", "D5", "E5", "F5"), list(1, 1, 1, 1))
   
-show(m)
+show(m, to = c("score", "audio"))
 ```
 
 ![](man/figures/readme.png)
+
+![](man/figures/readme_audio.png)
 
 ## Installation
 
