@@ -13,28 +13,25 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  
-  # open ".Renviron" file with `usethis::edit_r_environ()`
-  # add `gm_vignette=true` into it
-  # to build the vignette locally
   eval = identical(Sys.getenv("gm_vignette"), "true")
 )
 ```
 
-```{r, message = FALSE}
-library(gm)
-library(magrittr)
-```
 
-With gm, you can create musical scores and audio files easily, and show them
-in R Markdown files, R Jupyter Notebooks and RStudio.
+The package name "gm" means "grammar of music" or "generate musical scores".
+
+It provides an elegant and intuitive language, with which you can create
+music easily. It generates and embeds musical scores and audio files in R Markdown documents, R Jupyter Notebooks and RStudio seamlessly.
 
 Let's go through a quick example to get a feeling of it.
 
 
 ## Quick Example
 
-```{r}
+```{r, message = FALSE}
+library(gm)
+library(magrittr)
+
 m <- Music()
 ```
 
