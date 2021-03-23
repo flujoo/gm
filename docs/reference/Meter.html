@@ -195,11 +195,15 @@ show the time signature symbol on score. The default value is <code>FALSE</code>
 <span class='va'>ts</span> <span class='op'>&lt;-</span> <span class='fu'>Meter</span><span class='op'>(</span><span class='fl'>3</span>, <span class='fl'>4</span>, actual_number <span class='op'>=</span> <span class='fl'>1</span>, actual_unit <span class='op'>=</span> <span class='fl'>4</span><span class='op'>)</span>
 <span class='va'>ts</span>
 </div><div class='output co'>#&gt; Meter 3/4 (1/4) </div><div class='input'>
-<span class='fu'><a href='show.html'>show</a></span><span class='op'>(</span><span class='va'>m</span> <span class='op'>+</span> <span class='va'>ts</span><span class='op'>)</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='show.html'>show</a></span><span class='op'>(</span><span class='va'>m</span> <span class='op'>+</span> <span class='va'>ts</span><span class='op'>)</span>
+<span class='op'>}</span>
 
 <span class='co'># make a time signature invisible on score</span>
-<span class='va'>ts</span> <span class='op'>&lt;-</span> <span class='fu'>Meter</span><span class='op'>(</span><span class='fl'>3</span>, <span class='fl'>4</span>, invisible <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='fu'><a href='show.html'>show</a></span><span class='op'>(</span><span class='va'>m</span> <span class='op'>+</span> <span class='va'>ts</span><span class='op'>)</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>ts</span> <span class='op'>&lt;-</span> <span class='fu'>Meter</span><span class='op'>(</span><span class='fl'>3</span>, <span class='fl'>4</span>, invisible <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+  <span class='fu'><a href='show.html'>show</a></span><span class='op'>(</span><span class='va'>m</span> <span class='op'>+</span> <span class='va'>ts</span><span class='op'>)</span>
+<span class='op'>}</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

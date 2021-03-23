@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Show Object — show • gm</title>
+<title>Internal gm Functions — gm-internal • gm</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,9 @@
 
 
 
-<meta property="og:title" content="Show Object — show" />
-<meta property="og:description" content="Show an object as musical score or audio file." />
+<meta property="og:title" content="Internal gm Functions — gm-internal" />
+<meta property="og:description" content="Internal gm functions.
+These are not to be called by the user." />
 <meta property="og:image" content="https://flujoo.github.io/gm/logo.png" />
 
 
@@ -119,58 +120,19 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Show Object</h1>
-    <small class="dont-index">Source: <a href='https://github.com/flujoo/gm/blob/master/R/show.R'><code>R/show.R</code></a></small>
-    <div class="hidden name"><code>show.Rd</code></div>
+    <h1>Internal gm Functions</h1>
+    <small class="dont-index">Source: <a href='https://github.com/flujoo/gm/blob/master/R/gm.R'><code>R/gm.R</code></a></small>
+    <div class="hidden name"><code>gm-internal.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Show an object as musical score or audio file.</p>
+    <p>Internal gm functions.
+These are not to be called by the user.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>show</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>to</span><span class='op'>)</span>
 
-<span class='co'># S3 method for Music</span>
-<span class='fu'>show</span><span class='op'>(</span><span class='va'>x</span>, to <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>x</th>
-      <td><p>An object.</p></td>
-    </tr>
-    <tr>
-      <th>to</th>
-      <td><p>Optional. A character vector which contains "score", "audio" or
-both, which indicates whether to show the object as musical score or
-audio file. The default value is "score".</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>Invisible <code>NULL</code>.</p>
-<p>The generated musical score or audio file is</p><ol>
-<li><p>showed in Viewer panel if <code>show</code> is called in RStudio,</p></li>
-<li><p>included in generated HTML file if called in R Markdown document,</p></li>
-<li><p>showed in output cell if called in R Jupyter Notebook, and</p></li>
-<li><p>showed in user's browser if called in a normal R console.</p></li>
-</ol>
-
-    <h2 class="hasAnchor" id="methods-by-class-"><a class="anchor" href="#methods-by-class-"></a>Methods (by class)</h2>
-
-    
-<ul>
-<li><p><code>Music</code>: show a <code>Music</code> object.</p></li>
-</ul>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-  <span class='va'>m</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Music.html'>Music</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='Meter.html'>Meter</a></span><span class='op'>(</span><span class='fl'>4</span>, <span class='fl'>4</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='Line.html'>Line</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>"C4"</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fl'>4</span><span class='op'>)</span><span class='op'>)</span>
-  <span class='fu'>show</span><span class='op'>(</span><span class='va'>m</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"score"</span>, <span class='st'>"audio"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
