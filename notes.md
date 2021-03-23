@@ -13,3 +13,13 @@ are not built again.
 
 4. Also set `MUSESCORE_PATH=<wrong path>` in .Renviron to make MuseScore
 unavailable when `R CMD check --as-cran` runs tests, for the same reason.
+
+
+Can't add audio file in Github README, so let pkgdown use `index.md` 
+rather than `README.md` to generate the home page. The only difference is:
+
+```html
+<audio controls>
+  <source src="reference/figures/readme_audio.mp3" type="audio/mpeg">
+</audio>
+```
