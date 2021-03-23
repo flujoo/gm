@@ -30,7 +30,6 @@ Let's go through a quick example to get a feeling of it.
 
 ```{r, message = FALSE}
 library(gm)
-library(magrittr)
 
 m <- Music()
 ```
@@ -810,7 +809,7 @@ which means using algorithms to create music.
 Below is an example:
 
 ```{r}
-pitches <- c(64, 65, 69, 71, 72, 76) %>% as.list()
+pitches <- as.list(c(64, 65, 69, 71, 72, 76))
 durations <- rep(list(1), length(pitches))
 
 m <- Music() + Meter(4, 4) + Tempo(120)
