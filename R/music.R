@@ -97,10 +97,8 @@ Music <- function() {
 }
 
 
-#' for internal use
 #' @keywords internal
 #' @export
-#' @noRd
 add <- function(term, music) {
   UseMethod("add")
 }
