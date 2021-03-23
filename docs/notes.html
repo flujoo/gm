@@ -129,6 +129,10 @@
 <li><p>Comment <code>gm_vignette=true</code> out before calling <code>R CMD check --as-cran</code> to simulate the environment where CRAN tests this package. These vignettes are not built again.</p></li>
 <li><p>Also set <code>MUSESCORE_PATH=&lt;wrong path&gt;</code> in .Renviron to make MuseScore unavailable when <code>R CMD check --as-cran</code> runs tests, for the same reason.</p></li>
 </ol>
+<p>Can’t add audio file in Github README, so let pkgdown use <code>index.md</code> rather than <code>README.md</code> to generate the home page. The only difference is:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;audio</span><span class="ot"> controls</span><span class="kw">&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;source</span><span class="ot"> src=</span><span class="st">"reference/figures/readme_audio.mp3"</span><span class="ot"> type=</span><span class="st">"audio/mpeg"</span><span class="kw">&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/audio&gt;</span></span></code></pre></div>
 
 
   </div>
