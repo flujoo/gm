@@ -6,7 +6,7 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-Generate musical scores and audio files easily, and show them in R
+Create music easily, and show musical scores and audio files in R
 Markdown documents, R Jupyter Notebooks and RStudio.
 
 ## Hello! World
