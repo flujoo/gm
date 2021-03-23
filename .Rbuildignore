@@ -9,3 +9,4 @@
 ^pkgdown$
 ^logo\.R$
 ^notes\.md$
+^man/figures/readme_audio\.mp3$
