@@ -8,8 +8,8 @@ but without MuseScore installed. To prevent errors in this situation:
 `R CMD build` to build these vignettes locally.
 
 3. Comment `gm_vignette=true` out before calling `R CMD check --as-cran`
-to simulate the environment where CRAN test this package. These vignettes
+to simulate the environment where CRAN tests this package. These vignettes
 are not built again. 
 
 4. Also set `MUSESCORE_PATH=<wrong path>` in .Renviron to make MuseScore
-unavailable when `R CMD check --as-cran` runs tests for the same reason.
+unavailable when `R CMD check --as-cran` runs tests, for the same reason.
