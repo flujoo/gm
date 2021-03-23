@@ -3,7 +3,7 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   gm: gm.html
-last_built: 2021-03-23T17:37Z
+last_built: 2021-03-23T17:53Z
 urls:
   reference: https://flujoo.github.io/gm/reference
   article: https://flujoo.github.io/gm/articles

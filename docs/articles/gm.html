@@ -95,7 +95,6 @@
 <a href="#quick-example" class="anchor"></a>Quick Example</h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/flujoo/gm">gm</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span>
 
 <span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Music.html">Music</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>We have initialized an empty <code>Music</code> object, to which we can add components:</p>
@@ -744,7 +743,7 @@
 <p>gm provides a simple and intuitive language, with which you can express complex music easily. One possible usage of gm is algorithmic composition, which means using algorithms to create music.</p>
 <p>Below is an example:</p>
 <div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">pitches</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">64</span>, <span class="fl">65</span>, <span class="fl">69</span>, <span class="fl">71</span>, <span class="fl">72</span>, <span class="fl">76</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">as.list</a></span><span class="op">(</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">pitches</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">as.list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">64</span>, <span class="fl">65</span>, <span class="fl">69</span>, <span class="fl">71</span>, <span class="fl">72</span>, <span class="fl">76</span><span class="op">)</span><span class="op">)</span>
 <span class="va">durations</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">pitches</span><span class="op">)</span><span class="op">)</span>
 
 <span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Music.html">Music</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/Meter.html">Meter</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">4</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/Tempo.html">Tempo</a></span><span class="op">(</span><span class="fl">120</span><span class="op">)</span>
