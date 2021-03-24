@@ -938,8 +938,7 @@ DurationLine <- function(durations) {
 check_durations <- function(durations) {
   general <- paste(
     "Each item of `durations` must be a duration notation,",
-    "duration value or Duration object, and have valid duration.",
-    "See `?tuplet`."
+    "duration value or Duration object, and have valid duration."
   )
 
   specifics <- character(0)
