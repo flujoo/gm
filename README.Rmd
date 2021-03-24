@@ -47,8 +47,7 @@ show(m, to = c("score", "audio"))
 Install gm:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("flujoo/gm")
+install.packages("gm")
 ```
 
 MuseScore, an open source and free notation software, is required. Get it from
