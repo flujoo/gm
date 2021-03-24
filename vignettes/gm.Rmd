@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 ```
 
 
-The package name "gm" means "grammar of music" or "generate musical scores".
+The package name "gm" means "grammar of music" or "generate music".
 
 It provides an elegant and intuitive language, with which you can create
 music easily. It generates and embeds musical scores and audio files in R Markdown documents, R Jupyter Notebooks and RStudio seamlessly.
