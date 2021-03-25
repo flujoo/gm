@@ -23,7 +23,7 @@ Line(
 notes,
 \item single MIDI note numbers, like 60 or "60", also to represent the pitch
 contents of notes,
-\item single logical \code{NA}s to represent the pitch contents of rests, or
+\item single \code{NA}s to represent the pitch contents of rests, or
 \item vectors of pitch notations and MIDI note numbers, like \code{c("C4", "61")},
 to represent the pitch contents of chords.
 }}

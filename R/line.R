@@ -11,7 +11,7 @@
 #' 2. single MIDI note numbers, like 60 or "60", also to represent the pitch
 #' contents of notes,
 #'
-#' 3. single logical `NA`s to represent the pitch contents of rests, or
+#' 3. single `NA`s to represent the pitch contents of rests, or
 #'
 #' 4. vectors of pitch notations and MIDI note numbers, like `c("C4", "61")`,
 #' to represent the pitch contents of chords.
