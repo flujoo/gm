@@ -1,4 +1,4 @@
-# create PitchLine --------------------------------------------------------
+# PitchLine ---------------------------------------------------------------
 
 PitchLine <- function(pitches) {
   # check `pitches`
@@ -14,8 +14,24 @@ PitchLine <- function(pitches) {
 }
 
 
+#' @keywords internal
+#' @export
+print.PitchLine <- function(x, silent = FALSE, ...) {
+  s <-
+    x$pitches %>%
+    sapply(print, silent = TRUE) %>%
+    paste(collapse = ", ")
 
-# check `pitches` in `PitchLine` ------------------------------------------
+  if (silent) {
+    s
+  } else {
+    cat(s, "\n")
+  }
+}
+
+
+
+# PitchLine validator -----------------------------------------------------
 
 # check if a single character is not a pitch notation or value
 is_character_non_pitch <- function(pitch, l = 1) {
@@ -119,9 +135,6 @@ check_pitches <- function(pitches) {
 }
 
 
-
-# two predicates ----------------------------------------------------------
-
 is_pitch_notation <- function(x) {
   if (!is.character(x)) {
     return(FALSE)
@@ -171,7 +184,7 @@ is_pitch_value <- function(x) {
 
 
 
-# normalize `pitches` in `PitchLine` --------------------------------------
+# PitchLine normalizer ----------------------------------------------------
 
 #' @keywords internal
 #' @export
@@ -239,45 +252,10 @@ normalize_pitch.default <- function(pitch) {
 
 
 
-# some handy constructors -------------------------------------------------
-# to make printing PitchLine easy
-
-PitchValue <- function(x) {
-  x %>% `class<-`("PitchValue")
-}
-
+# constructors ------------------------------------------------------------
 
 PitchNotation <- function(x) {
   x %>% `class<-`("PitchNotation")
-}
-
-
-PitchRest <- function() {
-  NA %>% `class<-`("PitchRest")
-}
-
-
-PitchChord <- function(x) {
-  x %>% `class<-`("PitchChord")
-}
-
-
-
-# print PitchLine ---------------------------------------------------------
-
-#' @keywords internal
-#' @export
-print.PitchLine <- function(x, silent = FALSE, ...) {
-  s <-
-    x$pitches %>%
-    sapply(print, silent = TRUE) %>%
-    paste(collapse = ", ")
-
-  if (silent) {
-    s
-  } else {
-    cat(s, "\n")
-  }
 }
 
 
@@ -294,9 +272,19 @@ print.PitchNotation <- function(x, silent = FALSE, ...) {
 }
 
 
+PitchValue <- function(x) {
+  x %>% `class<-`("PitchValue")
+}
+
+
 #' @keywords internal
 #' @export
 print.PitchValue <- print.PitchNotation
+
+
+PitchRest <- function() {
+  NA %>% `class<-`("PitchRest")
+}
 
 
 #' @keywords internal
@@ -309,6 +297,11 @@ print.PitchRest <- function(x, silent = FALSE, ...) {
   } else {
     cat(s, "\n")
   }
+}
+
+
+PitchChord <- function(x) {
+  x %>% `class<-`("PitchChord")
 }
 
 
