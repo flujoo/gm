@@ -17,11 +17,52 @@ PitchLine <- function(pitches) {
 
 # check `pitches` in `PitchLine` ------------------------------------------
 
+# check if a single character is not a pitch notation or value
+is_character_non_pitch <- function(pitch, l = 1) {
+  all(
+    is.character(pitch),
+    l == 1,
+    !is_pitch_notation(pitch),
+    !is_pitch_value(pitch)
+  )
+}
+
+
+is_numeric_non_pitch <- function(pitch, l = 1) {
+  is.numeric(pitch) && l == 1 && !is_pitch_value(pitch)
+}
+
+
+# add a specific error message to `specifics`,
+# when `pitch` is a single character but not a pitch notation or value
+report_non_pitch <- function(specifics, pitch, i, j = NULL) {
+  if (is.null(j)) {
+    s_pitch <- "`pitches[[{i}]]`"
+  } else {
+    s_pitch <- "`pitches[[{i}]][{j}]`"
+  }
+
+  s_which <- "which is not a MIDI note number."
+  s_is <- 'is {pitch},'
+
+  if (is.character(pitch)) {
+    s_is <- 'is "{pitch}",'
+    tryCatch(
+      {as.numeric(pitch)},
+      warning = function(w) s_which <<- "which is not a pitch notation."
+    )
+  }
+
+  m <- paste(s_pitch, s_is, s_which)
+  add_specific(specifics, m, environment())
+}
+
+
 check_pitches <- function(pitches) {
   general <- paste(
-    "Each item of `pitches` must be a single logical NA,",
-    "or be a character or numeric vector",
-    "containing pitch notations and MIDI note numbers."
+    "Each item of `pitches` must be a single NA, single pitch notation,",
+    "single MIDI note number, or vector of pitch notations or",
+    "MIDI note numbers."
   )
 
   specifics <- character(0)
@@ -31,65 +72,45 @@ check_pitches <- function(pitches) {
     t <- typeof(p)
     l <- length(p)
 
-    # check type
-    if (!(t %in% c("character", "integer", "double", "logical"))) {
-      specifics[[length(specifics) + 1]] <-
-        "`pitches[[{i}]]` is of type {t}." %>%
-        glue::glue() %>%
-        unclass()
-
+    if (!is.atomic(p)) {
+      specifics %<>% add_specific("`pitches[[{i}]]` is of type {t}.")
       next
     }
 
-    # check logical
-    if (is.logical(p)) {
-      # check length of logical
+    if (is.null(p)) {
+      specifics %<>% add_specific("`pitches[[{i}]]` is `NULL`.")
+      next
+    }
+
+    # NA but not single
+    if (anyNA(p)) {
       if (l != 1) {
-        specifics[[length(specifics) + 1]] <-
-          "`pitches[[{i}]]` is a logical of length {l}." %>%
-          glue::glue() %>%
-          unclass()
-
-      # check content of logical
-      } else if (!is.na(p)) {
-        specifics[[length(specifics) + 1]] <-
-          "`pitches[[{i}]]` is {p}." %>%
-          glue::glue() %>%
-          unclass()
+        specifics %<>%
+          add_specific("`pitches[[{i}]]` contains `NA` but has length {l}.")
       }
-
       next
     }
 
-    # check length of non-logical
-    if (!is.logical(p) && l == 0) {
-      # determine article
-      if (is.integer(p)) {
-        article <- "an"
-      } else {
-        article <- "a"
-      }
-
-      specifics[[length(specifics) + 1]] <-
-        "`pitches[[{i}]]` is {article} {t} of length 0." %>%
-        glue::glue() %>%
-        unclass()
-
+    # atomic but invalid type
+    if (!is.character(p) && !is.numeric(p) && !is.na(p)) {
+      specifics %<>% add_specific("`pitches[[{i}]]` is of type {t}.")
       next
     }
 
-    # check if is a pitch notation or value
-    for (j in 1:l) {
-      p_j <- p[j]
+    # single character or numeric but not a pitch notation or value
+    if (is_character_non_pitch(p, l) || is_numeric_non_pitch(p, l)) {
+      specifics %<>% report_non_pitch(p, i)
+      next
+    }
 
-      if (!is_pitch_notation(p_j) && !is_pitch_value(p_j)) {
-        # convert `p_j` to correct string
-        p_j %<>% quote_string()
-
-        specifics[[length(specifics) + 1]] <-
-          "`pitches[[{i}]][{j}]` is {p_j}." %>%
-          glue::glue() %>%
-          unclass()
+    # chord
+    if (l > 1) {
+      for (j in 1:length(p)) {
+        p_j <- p[j]
+        if (is_character_non_pitch(p_j) || is_numeric_non_pitch(p_j)) {
+          specifics %<>% report_non_pitch(p_j, i, j)
+          next
+        }
       }
     }
   }
