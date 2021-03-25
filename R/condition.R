@@ -296,6 +296,15 @@ inspect_errors <- function() {
 }
 
 
+# add a specific error message to `specifics`
+add_specific <- function(specifics, specific, env = parent.frame()) {
+  specific %>%
+    glue::glue(.envir = env) %>%
+    unclass() %>%
+    c(specifics, .)
+}
+
+
 
 # item validators ---------------------------------------------------------
 
