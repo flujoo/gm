@@ -109,7 +109,9 @@ check_pitches <- function(pitches) {
 
     # atomic but invalid type
     if (!is.character(p) && !is.numeric(p) && !is.na(p)) {
-      specifics %<>% add_specific("`pitches[[{i}]]` is of type {t}.")
+      specifics %<>% add_specific(
+        "`pitches[[{i}]]` is of type {t} but not `NA`."
+      )
       next
     }
 
