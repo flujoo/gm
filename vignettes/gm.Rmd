@@ -104,6 +104,13 @@ Install gm:
 install.packages("gm")
 ```
 
+Or the development version from GitHub:
+
+```r
+# install.packages("devtools")
+devtools::install_github("flujoo/gm")
+```
+
 MuseScore, an open source and free notation software, is required. Get it
 from <https://musescore.org/>.
 
