@@ -900,7 +900,7 @@ call_musescore <- function(from, to, ...) {
     if (os == "Darwin") {
       path <- "/Applications/MuseScore\ 3.app/Contents/MacOS/mscore"
     } else if (os == "Windows") {
-      path <- "%ProgramFiles%/MuseScore 3/bin/MuseScore3.exe"
+      path <- "C:/Program Files/MuseScore 3/bin/MuseScore3.exe"
     } else {
       path <- "mscore"
     }
