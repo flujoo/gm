@@ -116,10 +116,17 @@ from <https://musescore.org/>.
 
 If you don't install MuseScore to the default path (see
 <https://musescore.org/en/handbook/3/revert-factory-settings>),
-you need to tell gm where to find MuseScore:
+you need to specify the path to the MuseScore executable:
 
-Open ".Renviron" file and add `MUSESCORE_PATH=/your/path/to/musescore`
-into it. You can open the file with `usethis::edit_r_environ()`.
+1. Open ".Renviron" file. You can do this with `usethis::edit_r_environ()`.
+
+2. Add `MUSESCORE_PATH=<path to MuseScore executable>` into it.
+For example, suppose on a computer using Windows the path is
+"C:/Program Files/MuseScore 3/bin/MuseScore3.exe", you can add
+`MUSESCORE_PATH=C:/Program Files/MuseScore 3/bin/MuseScore3.exe`, if gm
+can't figure it out.
+
+3. Restart R session to activate the change.
 
 Now below is a complete guide to gm.
 
