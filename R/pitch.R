@@ -186,7 +186,11 @@ normalize_pitch.numeric <- function(pitch) {
   pitch %<>% as.integer()
 
   if (length(pitch) == 1) {
-    pitch %>% PitchValue()
+    if (is.na(pitch)) {
+      PitchRest()
+    } else {
+      pitch %>% PitchValue()
+    }
 
   } else {
     pitch %>%
@@ -213,7 +217,11 @@ normalize_pitch.character <- function(pitch) {
   }
 
   if (length(pitch) == 1) {
-    core(pitch)
+    if (is.na(pitch)) {
+      PitchRest()
+    } else {
+      core(pitch)
+    }
 
   } else {
     pitch %>%
@@ -225,7 +233,7 @@ normalize_pitch.character <- function(pitch) {
 
 #' @keywords internal
 #' @export
-normalize_pitch.logical <- function(pitch) {
+normalize_pitch.default <- function(pitch) {
   PitchRest()
 }
 

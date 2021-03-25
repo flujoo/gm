@@ -40,7 +40,7 @@ NULL
 #' normalize_pitch
 #' normalize_pitch.numeric
 #' normalize_pitch.character
-#' normalize_pitch.logical
+#' normalize_pitch.default
 #' print.PitchLine
 #' print.PitchNotation
 #' print.PitchValue

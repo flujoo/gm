@@ -16,7 +16,7 @@
 \alias{normalize_pitch}
 \alias{normalize_pitch.numeric}
 \alias{normalize_pitch.character}
-\alias{normalize_pitch.logical}
+\alias{normalize_pitch.default}
 \alias{print.PitchLine}
 \alias{print.PitchNotation}
 \alias{print.PitchValue}
