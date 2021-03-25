@@ -109,10 +109,10 @@ from <https://musescore.org/>.
 
 If you don't install MuseScore to the default path (see
 <https://musescore.org/en/handbook/3/revert-factory-settings>),
-you need to tell gm where to find MuseScore:
+you need to tell gm where to find the MuseScore executable file (MuseScore3.exe). If you are using Windows, you may need to tell gm where to find MuseScore even if you used the default path:
 
 Open ".Renviron" file and add `MUSESCORE_PATH=/your/path/to/musescore`
-into it. You can open the file with `usethis::edit_r_environ()`.
+into it. You can open the file with `usethis::edit_r_environ()`. For example, the default path on a computer using Windows may be "C:/Program Files/MuseScore 3/bin/MuseScore3.exe".
 
 Now below is a complete guide to gm.
 
