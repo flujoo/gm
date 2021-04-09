@@ -6,3 +6,14 @@ authors:
 
 home:
   title: Generate Music in R
+
+navbar:
+  left:
+    - text: "Complete Guide"
+      href: "articles/gm.html"
+    - text: "中文导论"
+      href: "articles/cn.html"
+    - text: "Reference"
+      href: "reference/index.html"
+    - text: "Changelog"
+      href: "news/index.html"
