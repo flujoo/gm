@@ -100,7 +100,7 @@ This process can keep going, but let's stop here. If you want to go deeper,
 let's first learn how to install and configure gm.
 
 
-## Installation and Configuration
+## Installation
 
 Install gm from CRAN:
 
@@ -119,6 +119,9 @@ devtools::install_github("flujoo/gm")
 
 Download and install [MuseScore](https://musescore.org/),
 an open source and free notation software, which gm uses internally.
+
+
+## Configuration
 
 If you don't install MuseScore to the
 [default path](https://musescore.org/en/handbook/3/revert-factory-settings),
