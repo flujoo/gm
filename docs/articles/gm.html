@@ -789,30 +789,51 @@
 <div id="comparison" class="section level2">
 <h2 class="hasAnchor">
 <a href="#comparison" class="anchor"></a>Comparison</h2>
-<p>At the time of writing, the author knows only <a href="https://github.com/leonawicz/tabr">tabr</a> that has similar purposes and similar level of functionality to gm, among other R packages.</p>
-<p>However, there are some noticeable differences:</p>
-<ul>
-<li>Besides music generation, tabr also provides functions for music analysis and manipulation.</li>
-<li>tabr can generate guitar tabs and add more music notation symbols to score than gm can. gm is not yet for professional level music notation.</li>
-<li>gm embeds generated music in R Markdown documents and R Jupyter Notebooks, while tabr exports it.</li>
-<li>gm uses R’s basic data structures such as vector and list to represent music, while tabr uses strings.</li>
-<li>gm’s language is simpler than tabr’s, it is more straightforward to add components such as musical lines in gm. This and the above difference make gm more suitable for music programming.</li>
-</ul>
-<p>In Python, <a href="http://web.mit.edu/music21/">music21</a> is a mature library which provides abundant tools for music generation and analysis. For its music generation functionality, music21 can generate more professional musical scores than gm can, and also works in Python Jupyter Notebooks. However, at its core, gm’s language is far simpler and more intuitive. For example, in music21,</p>
-<ul>
-<li>it’s cumbersome to define notes and add them to musical lines,</li>
-<li>users have to be concerned about musical score structures when they only want to express music structures at a higher level,</li>
-<li>creation of complex and nested tuplets is not straightforward,</li>
-<li>…</li>
-</ul>
+<div id="r-package-tabr" class="section level3">
+<h3 class="hasAnchor">
+<a href="#r-package-tabr" class="anchor"></a>R package <a href="https://github.com/leonawicz/tabr">tabr</a>
+</h3>
+<p>At the time of writing, the author knows only tabr that has similar purposes and similar level of functionality to gm, among other R music packages.</p>
+<p>However, there are some noticeable differences.</p>
+<p>First, besides music generation, tabr also provides functions for music analysis and manipulation. gm is only for music generation.</p>
+<p>Second, as for music generation, tabr is more about music notation. For example, tabr can generate guitar tabs and add more music notation symbols to score than gm can. gm is more about music creation at a higher level.</p>
+<p>Third, gm embeds generated music in R Markdown documents and R Jupyter Notebooks, while tabr exports it.</p>
+<p>Fourth, gm uses R’s basic data structures such as vector and list to represent music, while tabr uses strings.</p>
+<p>Last, gm’s language is simpler than tabr’s, it is more straightforward to add components such as musical lines in gm. This and the above difference make gm more suitable for music programming.</p>
+</div>
+<div id="python-library-music21" class="section level3">
+<h3 class="hasAnchor">
+<a href="#python-library-music21" class="anchor"></a>Python library <a href="http://web.mit.edu/music21/">music21</a>
+</h3>
+<p>music21 is a mature and famous Python library which provides abundant tools for music generation and analysis. For its music generation functionality, music21 can generate more professional musical scores than gm can, and also works in Python Jupyter Notebooks.</p>
+<p>However, the advantage of gm is still that its language is far simpler and more intuitive.</p>
+<p>For example, in music21, it’s cumbersome to define notes and add them to musical lines:</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> music21 <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>note1 <span class="op">=</span> note.Note(<span class="st">"C4"</span>)</span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a>note2 <span class="op">=</span> note.Note(<span class="st">"F#4"</span>)</span>
+<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a>note3 <span class="op">=</span> note.Note(<span class="st">"B-2"</span>)</span>
+<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-7"><a href="#cb64-7" aria-hidden="true" tabindex="-1"></a>stream1 <span class="op">=</span> stream.Stream()</span>
+<span id="cb64-8"><a href="#cb64-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-9"><a href="#cb64-9" aria-hidden="true" tabindex="-1"></a>stream1.append(note1)</span>
+<span id="cb64-10"><a href="#cb64-10" aria-hidden="true" tabindex="-1"></a>stream1.append(note2)</span>
+<span id="cb64-11"><a href="#cb64-11" aria-hidden="true" tabindex="-1"></a>stream1.append(note3)</span></code></pre></div>
+<p>Also, creation of complex and nested tuplets is not straightforward. See <a href="http://web.mit.edu/music21/doc/usersGuide/usersGuide_19_duration2.html">Complex and Tuplets</a>.</p>
+<p>And sometimes users have to be concerned about musical score structures when they only want to express music structures at a higher level.</p>
+</div>
+<div id="summary" class="section level3">
+<h3 class="hasAnchor">
+<a href="#summary" class="anchor"></a>Summary</h3>
 <p>In summary, gm is a good tool for expression of high-level music structures and communication of generated music. It’s not yet for professional level music notation.</p>
+</div>
 </div>
 <div id="algorithmic-composition" class="section level2">
 <h2 class="hasAnchor">
 <a href="#algorithmic-composition" class="anchor"></a>Algorithmic Composition</h2>
 <p>gm’s language is simple but powerful. One possible use of gm is algorithmic composition, which means using algorithms to create music.</p>
 <p>Below is an example:</p>
-<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pitches</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">as.list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">64</span>, <span class="fl">65</span>, <span class="fl">69</span>, <span class="fl">71</span>, <span class="fl">72</span>, <span class="fl">76</span><span class="op">)</span><span class="op">)</span>
 <span class="va">durations</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">pitches</span><span class="op">)</span><span class="op">)</span>
 
@@ -836,7 +857,7 @@
 <h2 class="hasAnchor">
 <a href="#citation-donation-and-contact" class="anchor"></a>Citation, Donation and Contact</h2>
 <p>Cite gm:</p>
-<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/citation.html">citation</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"gm"</span><span class="op">)</span></code></pre></div>
 <p>if you appreciate gm, please consider a donation:</p>
 <p><a href="https://ko-fi.com/flujoo" class="uri">https://ko-fi.com/flujoo</a></p>
