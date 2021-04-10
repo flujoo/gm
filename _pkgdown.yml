@@ -20,3 +20,22 @@ navbar:
 
 template:
   package: preferably
+
+reference:
+  - title: Create music
+    contents:
+      - Music
+      - +.Music
+      - Line
+      - Meter
+      - Key
+      - Clef
+      - Tempo
+  - title: Create complex tuplets
+    contents:
+      - tuplet
+      - Tupler
+  - title: Convert music
+    contents:
+      - show
+      - export
