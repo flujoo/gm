@@ -3,13 +3,13 @@
 \docType{package}
 \name{gm}
 \alias{gm}
-\title{gm: Generate Musical Scores Easily and Show Them Anywhere}
+\title{gm: Create Music and Show Them Anywhere}
 \description{
-Provides a simple and intuitive language, with which you can
-create complex music easily. Takes care of all the dirty technical
-details in converting your music to musical scores and audio files.
-Works in R Markdown documents, R Jupyter Notebooks and RStudio, so you
-can embed musical scores and audio files anywhere.
+Provides a simple and intuitive high-level language,
+with which you can create  music easily. Takes care of all the dirty
+technical details in converting your music to musical scores and audio
+files. Works in R Markdown documents, R Jupyter Notebooks and RStudio,
+so you can embed generated music anywhere.
 }
 \section{Author}{
 
