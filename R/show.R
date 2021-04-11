@@ -287,7 +287,8 @@ segment <- function(line, meters) {
 
 
 # generate Measures for specified bars
-generate_measures <- function(bars, meters, n2, n3, voice) {
+generate_measures <- function(bars, meters, n2, n3, voice,
+                              invisible = FALSE) {
   ms <- list()
 
   for (bar in bars) {
@@ -297,7 +298,7 @@ generate_measures <- function(bars, meters, n2, n3, voice) {
 
     } else {
       d <- find_meter(bar, meters) %>% to_value()
-      r <- Rest(d, staff = n2, voice = voice)
+      r <- Rest(d, staff = n2, voice = voice, invisible = invisible)
 
       # for part
       if (n2 == 1) {
@@ -405,7 +406,7 @@ equalize <- function(lines, meters) {
     if (l_ < l) {
       lines[[i]]$measures <-
         (l_ + 1):l %>%
-        generate_measures(meters, n2, n3, voice) %>%
+        generate_measures(meters, n2, n3, voice, TRUE) %>%
         c(measures, .)
     }
   }
@@ -684,7 +685,12 @@ to_Element.Rest <- function(x, divisions, ...) {
     Element("staff", x$staff)
   )
 
-  Element("note", contents)
+  attributes <- NULL
+  if (isTRUE(x$invisible)) {
+    attributes <- list(`print-object` = "no")
+  }
+
+  Element("note", contents, attributes)
 }
 
 
