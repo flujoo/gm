@@ -2,8 +2,8 @@
 
 * Fix bug of not showing scores when knit to PDF or Word (#9).
 * Make filling rest notes after Lines invisible.
-* Modify complete guide.
 * Add short introduction in Chinese.
+* Add "Comparison" section in `vignette("gm")`.
 
 
 # gm 1.0.1
