@@ -42,7 +42,6 @@ install.packages("gm")
 Or the development version from GitHub:
 
 ```r
-# install.packages("devtools")
 devtools::install_github("flujoo/gm")
 ```
 
