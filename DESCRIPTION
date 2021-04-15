@@ -1,15 +1,15 @@
 Package: gm
 Type: Package
-Title: Generate Musical Scores Easily and Show Them Anywhere
+Title: Generate Music Easily and Show Them Anywhere
 Version: 1.0.1
 Author: Renfei Mao
 Maintainer: Renfei Mao <renfeimao@gmail.com>
-Description: Provides a simple and intuitive language, with which you can
-    create complex music easily. Takes care of all the dirty technical
+Description: Provides a simple and intuitive high-level language, with which
+    you can create music easily. Takes care of all the dirty technical
     details in converting your music to musical scores and audio files.
     Works in 'R Markdown' documents <https://rmarkdown.rstudio.com/>,
     R 'Jupyter Notebooks' <https://jupyter.org/>, and 'RStudio'
-    <https://rstudio.com/>, so you can embed musical scores and audio files
+    <https://rstudio.com/>, so you can embed generated music
     anywhere. Internally, uses 'MusicXML' <https://www.musicxml.com/> to
     represent musical scores, and 'MuseScore' <https://musescore.org/> to
     convert 'MusicXML'.

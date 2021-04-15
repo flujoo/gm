@@ -1,4 +1,4 @@
-#' @title gm: Create Music and Show Them Anywhere
+#' @title gm: Generate Music Easily and Show Them Anywhere
 #'
 #' @description Provides a simple and intuitive high-level language,
 #' with which you can create music easily. Takes care of all the dirty
