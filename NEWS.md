@@ -1,3 +1,11 @@
+# gm 1.0.2
+
+* Fix bug of not showing scores when knit to PDF or Word (#9).
+* Make filling rest notes after Lines invisible.
+* Modify complete guide.
+* Add short introduction in Chinese.
+
+
 # gm 1.0.1
 
 * Improve `Line()` to accept non-logical `NA` as pitch.
