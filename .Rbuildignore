@@ -12,3 +12,5 @@
 ^man/figures/readme_audio\.mp3$
 ^acknowledgement$
 ^joss$
+^\.github$
+^index\.md$
