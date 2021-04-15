@@ -306,11 +306,11 @@ tuplets.
 The most basic duration notations consist of only duration types. The
 duration types (and their abbreviations) defined in gm are:
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, results = "asis"}
 for (i in 1:length(gm:::duration_types)) {
   cat(paste0(
-    '"', (gm:::duration_types)[i], '" (',
-    '"', (gm:::duration_type_abbrs)[i], '")\n'
+    '- `"', (gm:::duration_types)[i], '"` or ',
+    '`"', (gm:::duration_type_abbrs)[i], '"`\n\n'
   ))
 }
 ```
