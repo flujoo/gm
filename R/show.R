@@ -1171,7 +1171,8 @@ get_show_context <- function() {
   # then call `knitr::knit()` on that file from RStudio,
   # both clauses will be TRUE
   if (isTRUE(getOption('knitr.in.progress'))) {
-    "rmd"
+    # check if knit to pdf or word
+    ifelse(knitr::is_html_output(), "rmd", "rmd_other")
   } else if (rstudioapi::isAvailable()) {
     "rstudio"
   } else if (is_jupyter()) {
@@ -1192,17 +1193,27 @@ show_musicxml <- function(musicxml, to) {
 
   export_musicxml(musicxml, dir_path, file_name, to, "-r 115")
   context <- get_show_context()
-  content <- generate_show_content(name_path, to, context)
 
-  if (context %in% c("rmd", "jupyter")) {
-    content
+  if (context == "rmd_other" && ("png" %in% to)) {
+    name_path %>%
+      paste0(".png") %>%
+      knitr::include_graphics()
+
   } else {
-    html_path <- to_html(content, name_path)
+    content <- generate_show_content(name_path, to, context)
 
-    if (context == "rstudio") {
-      rstudioapi::viewer(html_path)
-    } else if (context == "other") {
-      utils::browseURL(html_path)
+    if (context %in% c("rmd", "jupyter")) {
+      content
+
+    } else {
+      html_path <- to_html(content, name_path)
+
+      if (context == "rstudio") {
+        rstudioapi::viewer(html_path)
+
+      } else if (context == "other") {
+        utils::browseURL(html_path)
+      }
     }
   }
 }
