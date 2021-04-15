@@ -842,7 +842,7 @@ show(m, to = c("score", "audio"))
 
 ## Comparison
 
-### R package [tabr](https://github.com/leonawicz/tabr)
+### R Package [tabr](https://github.com/leonawicz/tabr)
 
 At the time of writing, the author knows only tabr that has similar purposes
 and similar level of functionality to gm, among other R music packages.
@@ -868,7 +868,7 @@ to add components such as musical lines in gm. This and the above difference
 make gm more suitable for music programming.
 
 
-### Python library [music21](http://web.mit.edu/music21/)
+### Python Library [music21](http://web.mit.edu/music21/)
 
 music21 is a mature and famous Python library which provides abundant
 tools for music generation and analysis. For its music generation 

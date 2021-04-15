@@ -22,7 +22,7 @@ template:
   package: preferably
 
 reference:
-  - title: Create music
+  - title: Create Music
     contents:
       - Music
       - +.Music
@@ -31,11 +31,11 @@ reference:
       - Key
       - Clef
       - Tempo
-  - title: Create complex tuplets
+  - title: Create Complex Tuplets
     contents:
       - tuplet
       - Tupler
-  - title: Convert music
+  - title: Convert Music
     contents:
       - show
       - export
