@@ -162,10 +162,10 @@
     <p>Export an object to various file formats.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>export</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>dir_path</span>, <span class='va'>file_name</span>, <span class='va'>formats</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>export</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>dir_path</span>, <span class='va'>file_name</span>, <span class='va'>formats</span>, <span class='va'>musescore</span><span class='op'>)</span>
 
 <span class='co'># S3 method for Music</span>
-<span class='fu'>export</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>dir_path</span>, <span class='va'>file_name</span>, <span class='va'>formats</span><span class='op'>)</span></pre>
+<span class='fu'>export</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>dir_path</span>, <span class='va'>file_name</span>, <span class='va'>formats</span>, musescore <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -191,6 +191,13 @@ Supported file formats are "mscz", "mscx", "pdf", "png", "svg", "wav",
 "mp3", "flac", "ogg", "midi", "mid", "musicxml", "mxl", "xml", "metajson",
 "mlog", "mpos" and "spos".</p></td>
     </tr>
+    <tr>
+      <th>musescore</th>
+      <td><p>Optional. A character vector which represents the
+command line options passed to MuseScore. See
+<a href='https://musescore.org/en/handbook/3/command-line-options'>https://musescore.org/en/handbook/3/command-line-options</a> for
+MuseScore command line options. Also see "Examples" section.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -204,11 +211,15 @@ Supported file formats are "mscz", "mscx", "pdf", "png", "svg", "wav",
 <ul>
 <li><p><code>Music</code>: export a <code>Music</code> object.</p></li>
 </ul>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><a href='https://musescore.org/en/handbook/3/command-line-options'>https://musescore.org/en/handbook/3/command-line-options</a>
+for MuseScore command line options.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
   <span class='va'>m</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Music.html'>Music</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='Meter.html'>Meter</a></span><span class='op'>(</span><span class='fl'>4</span>, <span class='fl'>4</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='Line.html'>Line</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>"C4"</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fl'>4</span><span class='op'>)</span><span class='op'>)</span>
-  <span class='fu'>export</span><span class='op'>(</span><span class='va'>m</span>, <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"x"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"mp3"</span>, <span class='st'>"png"</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='fu'>export</span><span class='op'>(</span><span class='va'>m</span>, <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"x"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"mp3"</span>, <span class='st'>"png"</span><span class='op'>)</span>, <span class='st'>"-r 200 -b 520"</span><span class='op'>)</span>
 <span class='op'>}</span>
 </div></pre>
   </div>
