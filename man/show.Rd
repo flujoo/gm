@@ -5,9 +5,9 @@
 \alias{show.Music}
 \title{Show Object}
 \usage{
-show(x, to)
+show(x, to, musescore)
 
-\method{show}{Music}(x, to = NULL)
+\method{show}{Music}(x, to = NULL, musescore = NULL)
 }
 \arguments{
 \item{x}{An object.}
@@ -15,6 +15,11 @@ show(x, to)
 \item{to}{Optional. A character vector which contains "score", "audio" or
 both, which indicates whether to show the object as musical score or
 audio file. The default value is "score".}
+
+\item{musescore}{Optional. A character vector which represents the
+command line options passed to MuseScore. See
+\url{https://musescore.org/en/handbook/3/command-line-options} for
+MuseScore command line options. Also see "Examples" section.}
 }
 \value{
 Invisible \code{NULL}.
@@ -38,6 +43,10 @@ Show an object as musical score or audio file.
 \examples{
 if (interactive()) {
   m <- Music() + Meter(4, 4) + Line(list("C4"), list(4))
-  show(m, c("score", "audio"))
+  show(m, c("score", "audio"), "-r 800 -T 5")
 }
+}
+\seealso{
+\url{https://musescore.org/en/handbook/3/command-line-options}
+for MuseScore command line options.
 }

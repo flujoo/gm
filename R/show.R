@@ -894,7 +894,7 @@ check_music_meter_line <- function(meter_line) {
 # call MuseScore to export MusicXML
 # `from` and `to` specify file paths
 # `...` are other options passed to MuseScore
-call_musescore <- function(from, to, ...) {
+call_musescore <- function(from, to, musescore) {
   # get MuseScore path from ".Renviron" file
   path <- Sys.getenv("MUSESCORE_PATH")
 
@@ -914,7 +914,7 @@ call_musescore <- function(from, to, ...) {
 
   # try calling MuseScore
   tryCatch(
-    {system2(path, c(from, "-o", to, ...), stderr = NULL)},
+    {system2(path, c(from, "-o", to, musescore), stderr = NULL)},
     warning = function(w) abort_musescore()
   )
 }
@@ -1004,7 +1004,7 @@ normalize_export_formats <- function(formats) {
 
 
 export_musicxml <- function(musicxml, dir_path, file_name, formats,
-                            dpi = "") {
+                            musescore) {
   check_export_dir_path(dir_path)
   check_name(file_name)
   check_export_formats(formats)
@@ -1038,7 +1038,7 @@ export_musicxml <- function(musicxml, dir_path, file_name, formats,
 
     # export `musicxml` to non-graphic file directly
     if (!(format %in% c("png", "svg"))) {
-      call_musescore(musicxml_path, file_path)
+      call_musescore(musicxml_path, file_path, musescore)
       next
     }
 
@@ -1049,7 +1049,7 @@ export_musicxml <- function(musicxml, dir_path, file_name, formats,
     # create temporary path
     tmp_path <- tempfile(fileext = extension)
     # export `musicxml` to the temporary path
-    call_musescore(musicxml_path, tmp_path, "-T 20", dpi)
+    call_musescore(musicxml_path, tmp_path, c("-T 20", musescore))
 
     # there may be split graphic files in the temporary dir now,
     # check and combine them
@@ -1183,7 +1183,7 @@ get_show_context <- function() {
 }
 
 
-show_musicxml <- function(musicxml, to) {
+show_musicxml <- function(musicxml, to, musescore) {
   check_show_to(to)
   to %<>% normalize_show_to()
 
@@ -1191,7 +1191,7 @@ show_musicxml <- function(musicxml, to) {
   dir_path <- dirname(name_path)
   file_name <- basename(name_path)
 
-  export_musicxml(musicxml, dir_path, file_name, to, "-r 115")
+  export_musicxml(musicxml, dir_path, file_name, to, c("-r 115", musescore))
   context <- get_show_context()
 
   if (context == "rmd_other" && ("png" %in% to)) {
@@ -1303,6 +1303,11 @@ generate_file_path <- function(name_path, format, context) {
 #' both, which indicates whether to show the object as musical score or
 #' audio file. The default value is "score".
 #'
+#' @param musescore Optional. A character vector which represents the
+#' command line options passed to MuseScore. See
+#' <https://musescore.org/en/handbook/3/command-line-options> for
+#' MuseScore command line options. Also see "Examples" section.
+#'
 #' @return Invisible `NULL`.
 #'
 #' The generated musical score or audio file is
@@ -1315,23 +1320,26 @@ generate_file_path <- function(name_path, format, context) {
 #'
 #' 4. showed in user's browser if called in a normal R console.
 #'
+#' @seealso <https://musescore.org/en/handbook/3/command-line-options>
+#' for MuseScore command line options.
+#'
 #' @examples
 #' if (interactive()) {
 #'   m <- Music() + Meter(4, 4) + Line(list("C4"), list(4))
-#'   show(m, c("score", "audio"))
+#'   show(m, c("score", "audio"), "-r 800 -T 5")
 #' }
 #' @export
-show <- function(x, to) {
+show <- function(x, to, musescore) {
   UseMethod("show")
 }
 
 
 #' @describeIn show show a `Music` object.
 #' @export
-show.Music <- function(x, to = NULL) {
+show.Music <- function(x, to = NULL, musescore = NULL) {
   x %>%
     to_musicxml() %>%
-    show_musicxml(to)
+    show_musicxml(to, musescore)
 }
 
 
@@ -1352,26 +1360,34 @@ show.Music <- function(x, to = NULL) {
 #' "mp3", "flac", "ogg", "midi", "mid", "musicxml", "mxl", "xml", "metajson",
 #' "mlog", "mpos" and "spos".
 #'
+#' @param musescore Optional. A character vector which represents the
+#' command line options passed to MuseScore. See
+#' <https://musescore.org/en/handbook/3/command-line-options> for
+#' MuseScore command line options. Also see "Examples" section.
+#'
 #' @return Invisible `NULL`.
 #'
 #' Files with name `file_name` and with extensions
 #' `formats` are generated in `dir_path`.
 #'
+#' @seealso <https://musescore.org/en/handbook/3/command-line-options>
+#' for MuseScore command line options.
+#'
 #' @examples
 #' if (interactive()) {
 #'   m <- Music() + Meter(4, 4) + Line(list("C4"), list(4))
-#'   export(m, tempdir(), "x", c("mp3", "png"))
+#'   export(m, tempdir(), "x", c("mp3", "png"), "-r 200 -b 520")
 #' }
 #' @export
-export <- function(x, dir_path, file_name, formats) {
+export <- function(x, dir_path, file_name, formats, musescore) {
   UseMethod("export")
 }
 
 
 #' @describeIn export export a `Music` object.
 #' @export
-export.Music <- function(x, dir_path, file_name, formats) {
+export.Music <- function(x, dir_path, file_name, formats, musescore = NULL) {
   x %>%
     to_musicxml() %>%
-    export_musicxml(dir_path, file_name, formats)
+    export_musicxml(dir_path, file_name, formats, musescore)
 }

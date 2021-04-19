@@ -5,9 +5,9 @@
 \alias{export.Music}
 \title{Export Object}
 \usage{
-export(x, dir_path, file_name, formats)
+export(x, dir_path, file_name, formats, musescore)
 
-\method{export}{Music}(x, dir_path, file_name, formats)
+\method{export}{Music}(x, dir_path, file_name, formats, musescore = NULL)
 }
 \arguments{
 \item{x}{An object.}
@@ -22,6 +22,11 @@ exported file(s).}
 Supported file formats are "mscz", "mscx", "pdf", "png", "svg", "wav",
 "mp3", "flac", "ogg", "midi", "mid", "musicxml", "mxl", "xml", "metajson",
 "mlog", "mpos" and "spos".}
+
+\item{musescore}{Optional. A character vector which represents the
+command line options passed to MuseScore. See
+\url{https://musescore.org/en/handbook/3/command-line-options} for
+MuseScore command line options. Also see "Examples" section.}
 }
 \value{
 Invisible \code{NULL}.
@@ -40,6 +45,10 @@ Export an object to various file formats.
 \examples{
 if (interactive()) {
   m <- Music() + Meter(4, 4) + Line(list("C4"), list(4))
-  export(m, tempdir(), "x", c("mp3", "png"))
+  export(m, tempdir(), "x", c("mp3", "png"), "-r 200 -b 520")
 }
+}
+\seealso{
+\url{https://musescore.org/en/handbook/3/command-line-options}
+for MuseScore command line options.
 }
