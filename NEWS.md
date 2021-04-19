@@ -1,3 +1,10 @@
+# gm (dev)
+
+* Add "MuseScore Command Line Options" in `vignette("gm")`.
+* Improve `show()` and `export()` to accept MuseScore command line options
+(#10).
+
+
 # gm 1.0.2
 
 * Fix bug of not showing scores when knit to PDF or Word (#9).
