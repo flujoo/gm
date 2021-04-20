@@ -425,8 +425,9 @@ generate_file_path <- function(name_path, format, context) {
 #'
 #' @param musescore Optional. A character vector which represents the
 #' command line options passed to MuseScore. See
-#' <https://musescore.org/en/handbook/3/command-line-options> for
-#' MuseScore command line options. Also see "Examples" section.
+#' [MuseScore command line options](
+#' https://musescore.org/en/handbook/3/command-line-options) for details.
+#' Also see "Examples" section.
 #'
 #' @return Invisible `NULL`.
 #'
@@ -440,8 +441,9 @@ generate_file_path <- function(name_path, format, context) {
 #'
 #' 4. showed in user's browser if called in a normal R console.
 #'
-#' @seealso <https://musescore.org/en/handbook/3/command-line-options>
-#' for MuseScore command line options.
+#' @seealso
+#' [MuseScore command line options](
+#' https://musescore.org/en/handbook/3/command-line-options).
 #'
 #' @examples
 #' if (interactive()) {
@@ -482,16 +484,18 @@ show.Music <- function(x, to = NULL, musescore = NULL) {
 #'
 #' @param musescore Optional. A character vector which represents the
 #' command line options passed to MuseScore. See
-#' <https://musescore.org/en/handbook/3/command-line-options> for
-#' MuseScore command line options. Also see "Examples" section.
+#' [MuseScore command line options](
+#' https://musescore.org/en/handbook/3/command-line-options) for details.
+#' Also see "Examples" section.
 #'
 #' @return Invisible `NULL`.
 #'
 #' Files with name `file_name` and with extensions
 #' `formats` are generated in `dir_path`.
 #'
-#' @seealso <https://musescore.org/en/handbook/3/command-line-options>
-#' for MuseScore command line options.
+#' @seealso
+#' [MuseScore command line options](
+#' https://musescore.org/en/handbook/3/command-line-options).
 #'
 #' @examples
 #' if (interactive()) {
