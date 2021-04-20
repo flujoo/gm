@@ -1,4 +1,4 @@
-# gm (dev)
+# gm 1.0.3
 
 * Change default score margin to 0.
 * Add "MuseScore Command Line Options" in `vignette("gm")`.
