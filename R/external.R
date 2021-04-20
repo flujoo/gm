@@ -169,7 +169,7 @@ export_musicxml <- function(musicxml, dir_path, file_name, formats,
     # create temporary path
     tmp_path <- tempfile(fileext = extension)
     # export `musicxml` to the temporary path
-    call_musescore(musicxml_path, tmp_path, c("-T 20", musescore))
+    call_musescore(musicxml_path, tmp_path, c("-T 0", musescore))
 
     # there may be split graphic files in the temporary dir now,
     # check and combine them
