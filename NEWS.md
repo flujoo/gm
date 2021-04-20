@@ -1,5 +1,6 @@
 # gm (dev)
 
+* Change default score margin to 0.
 * Add "MuseScore Command Line Options" in `vignette("gm")`.
 * Improve `show()` and `export()` to accept MuseScore command line options
 (#10).
