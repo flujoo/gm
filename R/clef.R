@@ -454,7 +454,7 @@ infer_clef <- function(pitches) {
     # octave up treble: C5, A6
     c(72, 93),
     # octave down bass: E1, C3
-    c(28, 48),
+    c(12, 48),
     # alto: D3, B4
     c(50, 71)
   )
