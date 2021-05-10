@@ -89,7 +89,7 @@ specify_invalid_pitches <- function(pitches) {
   # initialize
   specifics <- character(0)
 
-  for (i in seq_len(length(pitches))) {
+  for (i in seq_along(pitches)) {
     # unpack
     p <- pitches[[i]]
     l <- length(p)
