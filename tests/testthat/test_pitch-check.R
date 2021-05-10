@@ -74,12 +74,10 @@ test_that("list", {
 
   expect_silent(check_pitches(objects))
 
-  # some instances of invalid item types
-  objects <- list(list(), c, expression())
-  expect_error(check_pitches(objects))
-
-  # some instances of invalid item contents
+  # some instances of invalid items
   objects <- list(
+    # invalid types
+    list(), c, expression(),
     # `TRUE` and `FALSE`
     TRUE, FALSE, c(TRUE, FALSE),
     # non-single `NA`
@@ -88,5 +86,7 @@ test_that("list", {
     c(90.1, 0), c("c", "0", "90.1")
   )
 
-  expect_error(check_pitches(objects))
+  for (i in seq_len(length(objects))) {
+    expect_error(check_pitches(objects[i]))
+  }
 })
