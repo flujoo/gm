@@ -98,6 +98,12 @@ NULL
 #' +.KeyLine
 #' +.MeterLine
 #' +.TempoLine
+#' check_pitches
+#' check_pitches.default
+#' check_pitches.logical
+#' check_pitches.numeric
+#' check_pitches.character
+#' check_pitches.list
 #'
 #' @keywords internal
 #' @name gm-internal
