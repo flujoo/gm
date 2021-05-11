@@ -13,27 +13,30 @@ normalize_pitches <- function(pitches) {
     p <- pitches[[i]]
     l <- length(p)
 
-    # normalize `NA`s, `NULL`s and empty vectors to single logical `NA`s
+    # normalize `NA`s, `NULL`s and empty vectors to PitchRests
     if (anyNA(p) || l == 0) {
-      ps %<>% c(list(NA))
+      p <- PitchRest()
+      ps %<>% c(list(p))
       next
     }
 
     if (l == 1) {
       if (is_pitch_value(p)) {
-        # normalize MIDI note numbers to integers
-        ps %<>% c(list(as.integer(p)))
+        # normalize MIDI note numbers to PitchValues
+        p %<>% PitchValue()
 
       } else if (is_pitch_notation(p)) {
-        # normalize pitch notations to upper case
-        ps %<>% c(list(toupper(p)))
+        # normalize pitch notations to Pitches
+        p %<>% to_Pitch()
       }
     }
 
     # normalize non-single vectors to lists, recursively
     if (l > 1) {
-      ps %<>% c(list(normalize_pitches(p)))
+      p %<>% normalize_pitches()
     }
+
+    ps %<>% c(list(p))
   }
 
   ps

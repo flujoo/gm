@@ -26,10 +26,10 @@ test_that("list", {
   out <- normalize_pitches(pitches)
 
   expected <- list(
-    NA, NA, NA,
-    NA, NA,
-    90L, 90L, "C3",
-    list(80L, "E3")
+    PitchRest(), PitchRest(), PitchRest(),
+    PitchRest(), PitchRest(),
+    PitchValue(90), PitchValue(90), Pitch("C", 0, 3),
+    list(PitchValue(80), Pitch("E", 0, 3))
   )
 
   expect_identical(out, expected)
