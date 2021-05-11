@@ -38,3 +38,104 @@ normalize_pitches <- function(pitches) {
 
   ps
 }
+
+
+
+# PitchRest ---------------------------------------------------------------
+
+PitchRest <- function() {
+  `class<-`(list(), "PitchRest")
+}
+
+
+#' @keywords internal
+#' @export
+to_string.PitchRest <- function(x, ...) {
+  NA_character_
+}
+
+
+#' @keywords internal
+#' @export
+to_value.PitchRest <- function(x, ...) {
+  NA_integer_
+}
+
+
+
+# PitchValue --------------------------------------------------------------
+
+PitchValue <- function(x) {
+  `class<-`(x, "PitchValue")
+}
+
+
+#' @keywords internal
+#' @export
+to_string.PitchValue <- function(x, ...) {
+  NA_character_
+}
+
+
+#' @keywords internal
+#' @export
+to_value.PitchValue <- function(x, ...) {
+  unclass(x)
+}
+
+
+
+# Pitch -------------------------------------------------------------------
+
+# if `octave` is `NULL`, the output can be considered as a pitch class
+Pitch <- function(step, alter, octave = NULL) {
+  list(
+    step = step,
+    alter = alter,
+    octave = octave
+  ) %>% `class<-`("Pitch")
+}
+
+
+#' @keywords internal
+#' @export
+to_string.Pitch <- function(x, ...) {
+  which(x$alter == -2:2) %>%
+    c("--", "-", "", "#", "##")[.] %>%
+    paste0(x$step, ., x$octave)
+}
+
+
+#' @keywords internal
+#' @export
+to_value.Pitch <- function(x, ...) {
+  which(x$step == c("C", "D", "E", "F", "G", "A", "B")) %>%
+    c(0, 2, 4, 5, 7, 9, 11)[.] %>%
+    {. + x$alter + (x$octave + 1) * 12} %>%
+    as.integer()
+}
+
+
+#' @keywords internal
+#' @export
+to_Pitch <- function(x, ...) {
+  UseMethod("to_Pitch")
+}
+
+
+
+# pitch notation -> Pitch -------------------------------------------------
+
+#' @keywords internal
+#' @export
+to_Pitch.character <- function(x, ...) {
+  l <- nchar(x)
+  step <- substr(x, 1, 1)
+  octave <- substr(x, l, l)
+
+  alter <- substr(x, 2, l - 1) %>%
+    {which(. == c("--", "-", "", "#", "##"))} %>%
+    (-2:2)[.]
+
+  Pitch(step, alter, octave)
+}
