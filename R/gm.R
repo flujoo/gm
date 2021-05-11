@@ -189,3 +189,17 @@ quote_string <- function(x) {
 
 
 check_contents <- utils::getFromNamespace(".check_contents", "erify")
+
+
+#' @keywords internal
+#' @export
+to_string <- function(x, ...) {
+  UseMethod("to_string")
+}
+
+
+#' @keywords internal
+#' @export
+to_string.list <- function(x, ...) {
+  sapply(x, to_string, USE.NAMES = FALSE)
+}
