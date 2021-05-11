@@ -22,8 +22,8 @@ normalize_pitches <- function(pitches) {
 
     if (l == 1) {
       if (is_pitch_value(p)) {
-        # normalize MIDI note numbers to PitchValues
-        p %<>% PitchValue()
+        # normalize MIDI note numbers to integers
+        p %<>% as.integer()
 
       } else if (is_pitch_notation(p)) {
         # normalize pitch notations to Pitches
@@ -62,28 +62,6 @@ to_string.PitchRest <- function(x, ...) {
 #' @export
 to_value.PitchRest <- function(x, ...) {
   NA_integer_
-}
-
-
-
-# PitchValue --------------------------------------------------------------
-
-PitchValue <- function(x) {
-  `class<-`(as.integer(x), "PitchValue")
-}
-
-
-#' @keywords internal
-#' @export
-to_string.PitchValue <- function(x, ...) {
-  NA_character_
-}
-
-
-#' @keywords internal
-#' @export
-to_value.PitchValue <- function(x, ...) {
-  unclass(x)
 }
 
 
