@@ -130,12 +130,14 @@ to_Pitch <- function(x, ...) {
 #' @export
 to_Pitch.character <- function(x, ...) {
   l <- nchar(x)
-  step <- substr(x, 1, 1)
-  octave <- substr(x, l, l)
+
+  step <- substr(x, 1, 1) %>% toupper()
 
   alter <- substr(x, 2, l - 1) %>%
     {which(. == c("--", "-", "", "#", "##"))} %>%
     (-2:2)[.]
+
+  octave <- substr(x, l, l)
 
   Pitch(step, alter, octave)
 }
