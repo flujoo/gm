@@ -74,6 +74,12 @@
 \alias{+.KeyLine}
 \alias{+.MeterLine}
 \alias{+.TempoLine}
+\alias{check_pitches}
+\alias{check_pitches.default}
+\alias{check_pitches.logical}
+\alias{check_pitches.numeric}
+\alias{check_pitches.character}
+\alias{check_pitches.list}
 \title{Internal gm Functions}
 \description{
 Internal gm functions.
