@@ -66,7 +66,7 @@ to_value.PitchRest <- function(x, ...) {
 # PitchValue --------------------------------------------------------------
 
 PitchValue <- function(x) {
-  `class<-`(x, "PitchValue")
+  `class<-`(as.integer(x), "PitchValue")
 }
 
 
