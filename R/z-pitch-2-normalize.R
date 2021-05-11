@@ -90,9 +90,9 @@ to_value.PitchValue <- function(x, ...) {
 # if `octave` is `NULL`, the output can be considered as a pitch class
 Pitch <- function(step, alter, octave = NULL) {
   list(
-    step = step,
-    alter = alter,
-    octave = octave
+    step = toupper(step),
+    alter = as.integer(alter),
+    octave = as.integer(octave)
   ) %>% `class<-`("Pitch")
 }
 
@@ -131,7 +131,7 @@ to_Pitch <- function(x, ...) {
 to_Pitch.character <- function(x, ...) {
   l <- nchar(x)
 
-  step <- substr(x, 1, 1) %>% toupper()
+  step <- substr(x, 1, 1)
 
   alter <- substr(x, 2, l - 1) %>%
     {which(. == c("--", "-", "", "#", "##"))} %>%
