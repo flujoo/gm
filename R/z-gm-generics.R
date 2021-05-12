@@ -24,7 +24,7 @@ signify.character <- function(x, ...) {
 #' @keywords internal
 #' @export
 signify.list <- function(x, ...) {
-  sapply(x, signify, USE.NAMES = FALSE)
+  sapply(x, signify, ..., USE.NAMES = FALSE)
 }
 
 
@@ -55,5 +55,5 @@ quantify.numeric <- function(x, ...) {
 #' @keywords internal
 #' @export
 quantify.list <- function(x, ...) {
-  sapply(x, quantify, USE.NAMES = FALSE)
+  sapply(x, quantify, ..., USE.NAMES = FALSE)
 }
