@@ -61,12 +61,16 @@ NULL
 #' print.TempoLine
 #' print.PositionLine
 #' to_Pitch
+#' to_Pitch.default
+#' to_Pitch.numeric
+#' to_Pitch.character
 #' to_Pitch.PitchNotation
 #' to_Pitch.PitchValue
 #' to_Pitch.PitchChord
 #' to_Pitch.Line
 #' to_Pitch.Music
 #' to_Duration
+#' to_Duration.default
 #' to_Duration.Duration
 #' to_Duration.numeric
 #' to_Duration.character
@@ -104,6 +108,19 @@ NULL
 #' check_pitches.numeric
 #' check_pitches.character
 #' check_pitches.list
+#' signify
+#' signify.default
+#' signify.character
+#' signify.list
+#' signify.Pitch
+#' signify.Tupler
+#' quantify
+#' quantify.default
+#' quantify.numeric
+#' quantify.list
+#' quantify.Pitch
+#' quantify.Tupler
+#' quantify.Duration
 #'
 #' @keywords internal
 #' @name gm-internal

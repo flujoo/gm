@@ -37,12 +37,16 @@
 \alias{print.TempoLine}
 \alias{print.PositionLine}
 \alias{to_Pitch}
+\alias{to_Pitch.default}
+\alias{to_Pitch.numeric}
+\alias{to_Pitch.character}
 \alias{to_Pitch.PitchNotation}
 \alias{to_Pitch.PitchValue}
 \alias{to_Pitch.PitchChord}
 \alias{to_Pitch.Line}
 \alias{to_Pitch.Music}
 \alias{to_Duration}
+\alias{to_Duration.default}
 \alias{to_Duration.Duration}
 \alias{to_Duration.numeric}
 \alias{to_Duration.character}
@@ -80,6 +84,19 @@
 \alias{check_pitches.numeric}
 \alias{check_pitches.character}
 \alias{check_pitches.list}
+\alias{signify}
+\alias{signify.default}
+\alias{signify.character}
+\alias{signify.list}
+\alias{signify.Pitch}
+\alias{signify.Tupler}
+\alias{quantify}
+\alias{quantify.default}
+\alias{quantify.numeric}
+\alias{quantify.list}
+\alias{quantify.Pitch}
+\alias{quantify.Tupler}
+\alias{quantify.Duration}
 \title{Internal gm Functions}
 \description{
 Internal gm functions.
