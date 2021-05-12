@@ -65,10 +65,6 @@ check_pitches.character <- function(pitches) {
 #' @keywords internal
 #' @export
 check_pitches.list <- function(pitches) {
-  # check types
-  valid <- c("NULL", "logical", "integer", "double", "character")
-  erify::check_types(pitches, valid)
-
   # check contents
   general <- paste(
     "If `pitches` is a list,",
@@ -94,6 +90,14 @@ specify_invalid_pitches <- function(pitches) {
     # unpack
     p <- pitches[[i]]
     l <- length(p)
+    t <- typeof(p)
+
+    # check type
+    if (!(t %in% c("NULL", "logical", "integer", "double", "character"))) {
+      specific <- glue::glue("`pitches[[{i}]]` has type {t}.")
+      specifics %<>% c(specific)
+      next
+    }
 
     # check single `NA`
     if (anyNA(p)) {
