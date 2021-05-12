@@ -32,6 +32,7 @@ Imports:
     rlang,
     rstudioapi,
     stringr,
+    tibble,
     utils
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
