@@ -71,7 +71,8 @@ check_pitches.list <- function(pitches) {
 
   # check contents
   general <- paste(
-    "Each item of `pitches` must be a vector of pitch notation(s)",
+    "If `pitches` is a list,",
+    "each item of it must be a vector of pitch notation(s)",
     "or MIDI note number(s) between 12 and 127,",
     "or a single `NA` or `NULL`."
   )
