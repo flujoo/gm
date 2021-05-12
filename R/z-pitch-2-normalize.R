@@ -104,6 +104,14 @@ to_Pitch <- function(x, ...) {
 }
 
 
+# keep PitchRests and Pitches unchanged
+#' @keywords internal
+#' @export
+to_Pitch.default <- function(x, ...) {
+  x
+}
+
+
 
 # pitch notation -> Pitch -------------------------------------------------
 
