@@ -57,3 +57,27 @@ quantify.numeric <- function(x, ...) {
 quantify.list <- function(x, ...) {
   sapply(x, quantify, ..., USE.NAMES = FALSE)
 }
+
+
+
+# print -------------------------------------------------------------------
+
+# note that `signify()`s are used to convert objects to strings,
+# while `print()`s are used to display these strings to users
+
+# before argument `silently` is used in `print()`s to return strings silently,
+# with this approach, however, you can't do something like defining your
+# own `print.default()`
+
+
+print_default <- function(x, ...) {
+  cat(signify(x), "\n")
+}
+
+
+#' @export
+print.Tupler <- print_default
+
+
+#' @export
+print.Duration <- print_default
