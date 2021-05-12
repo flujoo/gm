@@ -28,7 +28,7 @@ to_Pitch.numeric <- function(x, key = 0, after = NULL, ...) {
   if (!is.null(after)) {
     # check if `x` and `after` are chromatically adjacent
     con <-
-      to_value(after) - x %>%
+      quantify(after) - x %>%
       {abs(.) == 1}
 
     if (con) {

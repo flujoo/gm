@@ -33,27 +33,27 @@ to_string.list <- function(x, ...) {
 
 #' @keywords internal
 #' @export
-to_value <- function(x, ...) {
-  UseMethod("to_value")
+quantify <- function(x, ...) {
+  UseMethod("quantify")
 }
 
 
 #' @keywords internal
 #' @export
-to_value.default <- function(x, ...) {
+quantify.default <- function(x, ...) {
   NA_integer_
 }
 
 
 #' @keywords internal
 #' @export
-to_value.numeric <- function(x, ...) {
+quantify.numeric <- function(x, ...) {
   x
 }
 
 
 #' @keywords internal
 #' @export
-to_value.list <- function(x, ...) {
-  sapply(x, to_value, USE.NAMES = FALSE)
+quantify.list <- function(x, ...) {
+  sapply(x, quantify, USE.NAMES = FALSE)
 }

@@ -60,7 +60,7 @@ to_string.PitchRest <- function(x, ...) {
 
 #' @keywords internal
 #' @export
-to_value.PitchRest <- function(x, ...) {
+quantify.PitchRest <- function(x, ...) {
   NA_integer_
 }
 
@@ -89,7 +89,7 @@ to_string.Pitch <- function(x, ...) {
 
 #' @keywords internal
 #' @export
-to_value.Pitch <- function(x, ...) {
+quantify.Pitch <- function(x, ...) {
   which(x$step == c("C", "D", "E", "F", "G", "A", "B")) %>%
     c(0, 2, 4, 5, 7, 9, 11)[.] %>%
     {. + x$alter + (x$octave + 1) * 12} %>%
