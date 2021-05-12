@@ -1,9 +1,9 @@
 library(gm)
 
 
-test_that("PitchValue -> Pitch", {
+test_that("pitch value -> Pitch", {
   # C#4 or D-4
-  v <- PitchValue(61)
+  v <- 61
   # C#4
   c_sharp <- Pitch("C", 1, 4)
   d_flat <- Pitch("D", -1, 4)
