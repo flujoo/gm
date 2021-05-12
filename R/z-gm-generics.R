@@ -2,29 +2,29 @@
 
 #' @keywords internal
 #' @export
-to_string <- function(x, ...) {
-  UseMethod("to_string")
+signify <- function(x, ...) {
+  UseMethod("signify")
 }
 
 
 #' @keywords internal
 #' @export
-to_string.default <- function(x, ...) {
+signify.default <- function(x, ...) {
   NA_character_
 }
 
 
 #' @keywords internal
 #' @export
-to_string.character <- function(x, ...) {
+signify.character <- function(x, ...) {
   x
 }
 
 
 #' @keywords internal
 #' @export
-to_string.list <- function(x, ...) {
-  sapply(x, to_string, USE.NAMES = FALSE)
+signify.list <- function(x, ...) {
+  sapply(x, signify, USE.NAMES = FALSE)
 }
 
 

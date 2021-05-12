@@ -53,7 +53,7 @@ PitchRest <- function() {
 
 #' @keywords internal
 #' @export
-to_string.PitchRest <- function(x, ...) {
+signify.PitchRest <- function(x, ...) {
   NA_character_
 }
 
@@ -80,7 +80,7 @@ Pitch <- function(step, alter, octave = NULL) {
 
 #' @keywords internal
 #' @export
-to_string.Pitch <- function(x, ...) {
+signify.Pitch <- function(x, ...) {
   which(x$alter == -2:2) %>%
     c("--", "-", "", "#", "##")[.] %>%
     paste0(x$step, ., x$octave)
