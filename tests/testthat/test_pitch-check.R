@@ -86,7 +86,7 @@ test_that("list", {
     c(90.1, 0), c("c", "0", "90.1")
   )
 
-  for (i in seq_len(length(objects))) {
+  for (i in seq_along(objects)) {
     expect_error(check_pitches(objects[i]))
   }
 })
