@@ -159,9 +159,9 @@ specify_invalid_pitches <- function(pitches) {
 # character MIDI note numbers, e.g. `"60"`, are acceptable
 is_pitch_value <- function(x) {
   core <- function(x) {
-    !is.na(x) &
-      x >= 12 &
-      x <= 127 &
+    is.finite(x) && # also excludes `NA`
+      x >= 12 &&
+      x <= 127 &&
       x == as.integer(x)
   }
 
