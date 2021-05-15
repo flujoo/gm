@@ -2,9 +2,15 @@ library(gm)
 
 
 test_that("duration value", {
-  expect_false(is_duration_value(1024))
-  expect_false(is_duration_value("1024"))
-  expect_false(is_duration_value(1.1))
+  invalid <- list(
+    c,
+    NA_real_, NA_integer_, NULL, NaN, Inf,
+    1024, "1024", 1.1
+  )
+
+  for (v in invalid) {
+    expect_false(is_duration_value(v))
+  }
 })
 
 
