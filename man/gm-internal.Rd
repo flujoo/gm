@@ -102,6 +102,9 @@
 \alias{check_durations.numeric}
 \alias{check_durations.character}
 \alias{check_durations.list}
+\alias{check_duration_length}
+\alias{check_duration_length.numeric}
+\alias{check_duration_length.character}
 \title{Internal gm Functions}
 \description{
 Internal gm functions.

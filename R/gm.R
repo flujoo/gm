@@ -126,6 +126,9 @@ NULL
 #' check_durations.numeric
 #' check_durations.character
 #' check_durations.list
+#' check_duration_length
+#' check_duration_length.numeric
+#' check_duration_length.character
 #'
 #' @keywords internal
 #' @name gm-internal
