@@ -35,7 +35,7 @@ duration_types <- tabulate_duration_types()
 # predicates --------------------------------------------------------------
 
 is_duration_value <- function(x) {
-  if (!is.numeric(x)) {
+  if (!is.numeric(x) || !is.finite(x)) {
     return(FALSE)
   }
 
