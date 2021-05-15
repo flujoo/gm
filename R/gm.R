@@ -121,6 +121,11 @@ NULL
 #' quantify.Pitch
 #' quantify.Tupler
 #' quantify.Duration
+#' check_durations
+#' check_durations.default
+#' check_durations.numeric
+#' check_durations.character
+#' check_durations.list
 #'
 #' @keywords internal
 #' @name gm-internal

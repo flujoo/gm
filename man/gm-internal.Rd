@@ -97,6 +97,11 @@
 \alias{quantify.Pitch}
 \alias{quantify.Tupler}
 \alias{quantify.Duration}
+\alias{check_durations}
+\alias{check_durations.default}
+\alias{check_durations.numeric}
+\alias{check_durations.character}
+\alias{check_durations.list}
 \title{Internal gm Functions}
 \description{
 Internal gm functions.
