@@ -23,3 +23,11 @@ test_that("check output duration", {
   e <- expect_error(tuplet("512", Tupler(3)))
   expect_s3_class(e, "check_tuplet_out")
 })
+
+
+test_that("tuplet", {
+  expect_identical(
+    tuplet("w/3/3"),
+    tuplet("w", Tupler(3), Tupler(3, "q", "q"))
+  )
+})
