@@ -1,4 +1,60 @@
+#' @title Create Complex Tuplets
+#'
+#' @description `tuplet()` and `Tupler()` are used to create complex tuplets.
+#'
+#' @param duration A duration notation, duration value, or `Duration` object
+#' returned by `tuplet()`.
+#'
+#' @param ... Tupler objects returned by `Tupler()`, which specify how to
+#' divide the argument `duration` into parts, and how to take from these
+#' parts.
+#'
+#' @param n A positive integer which indicates into how many parts to divide
+#' a duration.
+#'
+#' @param unit,take A duration type followed by zero to four dots, or its
+#' corresponding duration value, which indicates how to divide and take from
+#' a duration.
+#'
+#' @return `tuplet()` returns a list with class `Duration`.
+#'
+#' `Tupler()` returns a list with class `Tupler`.
+#'
+#' @order 1
+#'
 #' @export
+#'
+#' @details In gm, complex tuplets are tuplets which can not be represented
+#' by duration notations like `"quarter/3"`, `"whole../3/5"`, etc.
+#'
+#' The following is an example:
+#'
+#' ![](complex_tuplet.png)
+#'
+#' The first tuplet in the above score can read as “divide a quarter note
+#' into three parts, take two of them".
+#'
+#' We can create this tuplet with
+#'
+#' `tuplet("quarter", Tupler(3, unit = "eighth", take = "quarter"))`
+#'
+#' Specifically, we use `tuplet()` to create complex tuplets, and
+#' `Tupler()` to specify how to divide a duration into parts and what to
+#' take from these parts.
+#'
+#' @examples
+#' # the example in section "Details"
+#' tuplet("quarter", Tupler(3, unit = "eighth", take = "quarter"))
+#'
+#' # nested tuplet
+#' tuplet(
+#'   "half",
+#'   Tupler(3, unit = "quarter", take = "half"),
+#'   Tupler(3, unit = "quarter", take = "quarter")
+#' )
+#'
+#' # non-tuplet
+#' tuplet("quarter")
 tuplet <- function(duration, ...) {
   # check `duration`
   check_tuplet_duration(duration)

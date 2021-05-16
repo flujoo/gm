@@ -1,3 +1,4 @@
+#' @rdname tuplet
 #' @export
 Tupler <- function(n, unit = NULL, take = unit) {
   # check arguments
