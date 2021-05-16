@@ -120,6 +120,12 @@ check_duration_lengths <- function(durations) {
 
   for (i in seq_along(durations)) {
     d <- durations[[i]]
+
+    # skip Durations
+    if (inherits(d, "Duration")) {
+      next
+    }
+
     specific <- check_duration_length(d, name, FALSE) %>% glue::glue()
     specifics %<>% c(specific)
   }
