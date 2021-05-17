@@ -882,7 +882,7 @@ DurationLine <- function(durations) {
   check_tuplet_group(durations)
 
   # mark the first and last tuplet at each level of each group
-  durations %<>% mark_tuplet()
+  durations %<>% mark_tuplets()
 
   # create DurationLine
   list(durations = durations) %>% `class<-`("DurationLine")
@@ -1145,7 +1145,7 @@ reduce_tuplets <- function(tuplets) {
 # leave marks in each tuplet in `durations`,
 # to tell if it is the first or last tuplet of a group,
 # and of which level
-mark_tuplet <- function(durations) {
+mark_tuplets <- function(durations) {
   wm <- list()
 
   for (i in 1:length(durations)) {
