@@ -105,6 +105,8 @@
 \alias{check_duration_length}
 \alias{check_duration_length.numeric}
 \alias{check_duration_length.character}
+\alias{length.Duration}
+\alias{length.Pitch}
 \title{Internal gm Functions}
 \description{
 Internal gm functions.

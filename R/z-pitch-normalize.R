@@ -57,6 +57,13 @@ Pitch <- function(step, alter, octave = NULL) {
 
 #' @keywords internal
 #' @export
+length.Pitch <- function(x) {
+  1L
+}
+
+
+#' @keywords internal
+#' @export
 signify.Pitch <- function(x, ...) {
   which(x$alter == -2:2) %>%
     c("--", "-", "", "#", "##")[.] %>%
