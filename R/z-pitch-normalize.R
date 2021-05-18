@@ -13,10 +13,9 @@ normalize_pitches <- function(pitches) {
     p <- pitches[[i]]
     l <- length(p)
 
-    # normalize `NA`s, `NULL`s and empty vectors to PitchRests
+    # normalize `NA`s, `NULL`s and empty vectors to logical `NA`s
     if (anyNA(p) || l == 0) {
-      p <- PitchRest()
-      ps %<>% c(list(p))
+      ps %<>% c(list(NA))
       next
     }
 
@@ -40,28 +39,6 @@ normalize_pitches <- function(pitches) {
   }
 
   ps
-}
-
-
-
-# PitchRest ---------------------------------------------------------------
-
-PitchRest <- function() {
-  `class<-`(list(), "PitchRest")
-}
-
-
-#' @keywords internal
-#' @export
-signify.PitchRest <- function(x, ...) {
-  NA_character_
-}
-
-
-#' @keywords internal
-#' @export
-quantify.PitchRest <- function(x, ...) {
-  NA_integer_
 }
 
 
