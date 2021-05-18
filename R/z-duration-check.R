@@ -95,7 +95,7 @@ specify_invalid_durations <- function(durations) {
     # check duration value
     if (is.numeric(d) && !is_duration_value(d)) {
       specific <- glue::glue(
-        "`durations[[{i}]]` is `{d}`,",
+        "`durations[[{i}]]` is `{d}`, ",
         "which is not a duration value."
       )
 
@@ -106,7 +106,7 @@ specify_invalid_durations <- function(durations) {
     # check duration notation
     if (is.character(d) && !is_duration_notation(d)) {
       specific <- glue::glue(
-        '`durations[[{i}]]` is `"{d}"`,',
+        '`durations[[{i}]]` is `"{d}"`, ',
         "which is not a duration notation."
       )
 
