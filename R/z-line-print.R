@@ -11,7 +11,7 @@ print.Line <- function(x, ...) {
   name <- x$name
 
   if (!is.null(name)) {
-    cat(glue::glue('* of name "{name}"'), "\n")
+    cat(glue::glue('* of name "{name}"'), "\n", sep = "")
   }
 
   # `$bar` and `$offset`
@@ -22,20 +22,20 @@ print.Line <- function(x, ...) {
 
   if (!is.null(bar)) {
     if (is.null(offset)) {
-      cat(glue::glue(s_bar), "\n")
+      cat(glue::glue(s_bar), "\n", sep = "")
     } else {
-      cat(glue::glue(s_bar, s_offset, .sep = " "), "\n")
+      cat(glue::glue(s_bar, s_offset, .sep = " "), "\n", sep = "")
     }
 
   } else if (!is.null(offset)) {
     bar <- 1
-    cat(glue::glue(s_bar, s_offset, .sep = " "), "\n")
+    cat(glue::glue(s_bar, s_offset, .sep = " "), "\n", sep = "")
   }
 
   # `$as`
   as <- x$as
   if (!is.null(as)) {
-    cat(glue::glue("* as a {as}"), "\n")
+    cat(glue::glue("* as a {as}"), "\n", sep = "")
   }
 
   # `$to` and `$after`
@@ -45,14 +45,15 @@ print.Line <- function(x, ...) {
 
   if (!is.null(to)) {
     if (is.character(to)) {
-      cat(glue::glue('* to be inserted {s_after} Line "{to}"'), "\n")
+      cat(
+        glue::glue('* to be inserted {s_after} Line "{to}"'), "\n", sep = "")
     } else if (is.numeric(to)) {
-      cat(glue::glue("* to be inserted {s_after} Line {to}"), "\n")
+      cat(glue::glue("* to be inserted {s_after} Line {to}"), "\n", sep = "")
     }
 
   } else if (!is.null(after)) {
     # if `$to` is `NULL`, always insert the Line AFTER the last Line,
     # whatever `$after` is
-    cat("* to be inserted after the last Line", "\n")
+    cat("* to be inserted after the last Line\n")
   }
 }
