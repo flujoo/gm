@@ -87,7 +87,7 @@ normalize_pitches_durations <- function(pitches, durations) {
 
   # normalize `pitches` and `durations`
   pitches %<>% normalize_pitches()
-  durations %<>% lapply(to_Duration)
+  durations %<>% normalize_durations()
 
   # recycle the short one
   l_max <- max(l_ps, l_ds)
