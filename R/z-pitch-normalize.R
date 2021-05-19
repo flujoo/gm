@@ -7,6 +7,10 @@
 # main --------------------------------------------------------------------
 
 normalize_pitches <- function(pitches) {
+  if (inherits(pitches, "Pitch")) {
+    return(list(pitches))
+  }
+
   ps <- list()
 
   for (i in seq_along(pitches)) {
@@ -35,6 +39,7 @@ normalize_pitches <- function(pitches) {
       p %<>% normalize_pitches()
     }
 
+    # Pitches are covered
     ps %<>% c(list(p))
   }
 
