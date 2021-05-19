@@ -204,6 +204,3 @@ quote_string <- function(x) {
     x
   }
 }
-
-
-check_contents <- utils::getFromNamespace(".check_contents", "erify")
