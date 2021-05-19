@@ -4,6 +4,19 @@
 
 
 
+# normalizer --------------------------------------------------------------
+
+normalize_durations <- function(durations) {
+  # add `durations` to list if is Duration
+  if (inherits(durations, "Duration")) {
+    return(list(durations))
+  }
+
+  lapply(durations, to_Duration)
+}
+
+
+
 # Duration ----------------------------------------------------------------
 
 Duration <- function(type, dot, tuplers = list()) {
