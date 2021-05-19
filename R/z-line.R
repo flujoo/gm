@@ -75,18 +75,18 @@ check_pitches_durations <- function(pitches, durations) {
 
 # initialize, normalize or recycle `pitches` and `durations`
 normalize_pitches_durations <- function(pitches, durations) {
-  l_ps <- length(pitches)
-  l_ds <- length(durations)
+  l_ps <- len(pitches)
+  l_ds <- len(durations)
 
   # initialize `pitches` or `durations` if empty
   if (l_ps == 0) {
     pitches <- NA
-    l_ps <- 1
+    l_ps <- 1L
   }
 
   if (l_ds == 0) {
     durations <- 1
-    l_ds <- 1
+    l_ds <- 1L
   }
 
   # normalize `pitches` and `durations`
@@ -122,7 +122,7 @@ combine_pitches_durations <- function(pitches, durations) {
     # unpack
     pitch <- pitches[[i]]
     duration <- durations[[i]]
-    l <- length(pitch)
+    l <- len(pitch)
 
     if (l == 1) {
       notes %<>% tibble::add_case(

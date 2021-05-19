@@ -30,13 +30,6 @@ Duration <- function(type, dot, tuplers = list()) {
 
 #' @keywords internal
 #' @export
-length.Duration <- function(x) {
-  1L
-}
-
-
-#' @keywords internal
-#' @export
 to_Duration <- function(duration) {
   UseMethod("to_Duration")
 }

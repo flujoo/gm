@@ -129,8 +129,6 @@ NULL
 #' check_duration_length
 #' check_duration_length.numeric
 #' check_duration_length.character
-#' length.Duration
-#' length.Pitch
 #'
 #' @keywords internal
 #' @name gm-internal
