@@ -135,13 +135,6 @@ NULL
 NULL
 
 
-#' @importFrom magrittr %>% %T>% %<>%
-NULL
-
-
-utils::globalVariables(".")
-
-
 globals <- new.env()
 globals$error_messages <- character(0)
 globals$env <- NULL
