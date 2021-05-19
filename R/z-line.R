@@ -34,6 +34,10 @@ Line <- function(pitches = NULL, durations = NULL, name = NULL, as = NULL,
   pitches <- .$pitches
   durations <- .$durations
 
+  # check and mark tuplets
+  check_tuplet_group(durations)
+  mark_tuplets(durations)
+
   # combine `pitches` and `durations`
   notes <- combine_pitches_durations(pitches, durations)
   notes %<>% describe_notes()
