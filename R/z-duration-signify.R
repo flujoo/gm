@@ -1,14 +1,16 @@
 #' @keywords internal
 #' @export
-signify.Tupler <- function(x, type = NULL, dot = NULL, ...) {
+signify.Tupler <- function(x, type = NULL, dot = NULL, short = FALSE, ...) {
   # convert `x$n` to string
   n <- x$n
-  s_n <- paste("/", x$n)
+  s_n <- paste0("/", ifelse(short, "", " "), x$n)
 
   # convert `x$unit` to string
   unit <- x$unit
   if (!is.null(unit)) {
-    unit_type <- unit$type
+    unit_type <-
+      ifelse(short, abbreviate_duration_type(unit$type), unit$type)
+
     unit_dot <- unit$dot
     s_unit <- paste0(unit_type, strrep(".", unit_dot))
   }
@@ -16,7 +18,9 @@ signify.Tupler <- function(x, type = NULL, dot = NULL, ...) {
   # convert `x$take` to string
   take <- x$take
   if (!is.null(take)) {
-    take_type <- take$type
+    take_type <-
+      ifelse(short, abbreviate_duration_type(take$type), take$type)
+
     take_dot <- take$dot
     s_take <- paste0(take_type, strrep(".", take_dot))
   }
@@ -27,7 +31,9 @@ signify.Tupler <- function(x, type = NULL, dot = NULL, ...) {
       s <- s_n
 
     } else {
-      s <- glue::glue("{s_n} * ({s_take} / _)") %>% unclass()
+      s <- ifelse(short, "{s_n}*({s_take}/_)", "{s_n} * ({s_take} / _)") %>%
+        glue::glue() %>%
+        unclass()
     }
 
   } else {
@@ -42,7 +48,12 @@ signify.Tupler <- function(x, type = NULL, dot = NULL, ...) {
       s <- s_n
 
     } else {
-      s <- glue::glue("{s_n} * ({s_take} / {s_unit})") %>% unclass()
+      s <- ifelse(
+        short,
+        "{s_n}*({s_take}/{s_unit})",
+        "{s_n} * ({s_take} / {s_unit})"
+      ) %>% glue::glue() %>%
+        unclass()
     }
   }
 
@@ -50,11 +61,11 @@ signify.Tupler <- function(x, type = NULL, dot = NULL, ...) {
 }
 
 
-signify_tuplers <- function(tuplers, type, dot) {
+signify_tuplers <- function(tuplers, type, dot, short) {
   ss <- character(0)
 
   for (t in tuplers) {
-    ss %<>% c(signify(t, type, dot))
+    ss %<>% c(signify(t, type, dot, short))
 
     # re-assign `type` and `dot`
     take <- t$take
@@ -62,22 +73,33 @@ signify_tuplers <- function(tuplers, type, dot) {
     dot <- take$dot
   }
 
-  paste(ss, collapse = " ")
+  paste(ss, collapse = ifelse(short, "", " "))
 }
 
 
 #' @keywords internal
 #' @export
-signify.Duration <- function(x, ...) {
-  type <- x$type
+signify.Duration <- function(x, short = FALSE, ...) {
+  type <- ifelse(short, abbreviate_duration_type(x$type), x$type)
   dot <- x$dot
   tuplers <- x$tuplers
 
   s <- paste0(type, strrep(".", dot))
 
   if (length(tuplers) > 0) {
-    s %<>% paste(signify_tuplers(tuplers, type, dot))
+    s %<>% paste0(
+      ifelse(short, "", " "),
+      signify_tuplers(tuplers, type, dot, short)
+    )
   }
 
   s
+}
+
+
+abbreviate_duration_type <- function(duration_type) {
+  dplyr::filter(
+    duration_types,
+    name == duration_type | abbr == duration_type
+  )$abbr
 }
