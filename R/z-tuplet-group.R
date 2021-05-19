@@ -1,7 +1,10 @@
 # check if tuplets in `durations` form complete groups
 check_tuplet_group <- function(durations) {
   general <- "Tuplets in `durations` must form complete groups."
-  specific <- "The tuplet group containing `durations[[{i}]]` is incomplete."
+  specifics <- c(
+    "The tuplet group containing `durations[[{i}]]` is incomplete.",
+    i = "`durations` is recycled, if it's shorter than `pitches`."
+  )
 
   # "working memory" to store temporarily undecided tuplets
   wm <- list()
@@ -25,7 +28,7 @@ check_tuplet_group <- function(durations) {
 
       if (!is_tuplet(d) || (is_tuplet(d) && !is_compatible(d, last))) {
         erify::throw(
-          general, specific, list(i = i - 1), class = "incompatible")
+          general, specifics, list(i = i - 1), class = "incompatible")
       }
     }
 
@@ -38,14 +41,14 @@ check_tuplet_group <- function(durations) {
       # trigger "over-complete" error
       error = function(e) {
         erify::throw(
-          general, specific, list(i = i - 1), class = "over-complete")
+          general, specifics, list(i = i - 1), class = "over-complete")
       }
     )
 
     # if `wm` is not totally reduced,
     # but the loop has already reached the end, trigger "incomplete" error,
     if (length(wm) != 0 && i == l) {
-      erify::throw(general, specific, list(i = i), class = "incomplete")
+      erify::throw(general, specifics, list(i = i), class = "incomplete")
     }
   }
 }
