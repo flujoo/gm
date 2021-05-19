@@ -8,21 +8,23 @@ signify.Tupler <- function(x, type = NULL, dot = NULL, short = FALSE, ...) {
   # convert `x$unit` to string
   unit <- x$unit
   if (!is.null(unit)) {
-    unit_type <-
-      ifelse(short, abbreviate_duration_type(unit$type), unit$type)
-
+    unit_type <- unit$type
     unit_dot <- unit$dot
-    s_unit <- paste0(unit_type, strrep(".", unit_dot))
+    s_unit <- paste0(
+      ifelse(short, abbreviate_duration_type(unit_type), unit_type),
+      strrep(".", unit_dot)
+    )
   }
 
   # convert `x$take` to string
   take <- x$take
   if (!is.null(take)) {
-    take_type <-
-      ifelse(short, abbreviate_duration_type(take$type), take$type)
-
+    take_type <- take$type
     take_dot <- take$dot
-    s_take <- paste0(take_type, strrep(".", take_dot))
+    s_take <- paste0(
+      ifelse(short, abbreviate_duration_type(take_type), take_type),
+      strrep(".", take_dot)
+    )
   }
 
   # convert `x`
@@ -80,11 +82,14 @@ signify_tuplers <- function(tuplers, type, dot, short) {
 #' @keywords internal
 #' @export
 signify.Duration <- function(x, short = FALSE, ...) {
-  type <- ifelse(short, abbreviate_duration_type(x$type), x$type)
+  type <- x$type
   dot <- x$dot
   tuplers <- x$tuplers
 
-  s <- paste0(type, strrep(".", dot))
+  s <- paste0(
+    ifelse(short, abbreviate_duration_type(type), type),
+    strrep(".", dot)
+  )
 
   if (length(tuplers) > 0) {
     s %<>% paste0(
