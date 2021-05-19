@@ -151,7 +151,7 @@ combine_pitches_durations <- function(pitches, durations) {
 describe_notes <- function(notes) {
   notes$pn <- signify(notes$pitch)
   notes$pv <- quantify(notes$pitch)
-  notes$dn <- signify(notes$duration)
+  notes$dn <- signify(notes$duration, short = getOption("gm.shorten_dn"))
   notes$dv <- quantify(notes$duration)
   dplyr::select(notes, i, j, pitch, pn, pv, duration, dn, dv)
 }
