@@ -5,9 +5,8 @@
 \title{Create \code{Line} Object}
 \usage{
 Line(
-  pitches,
-  durations,
-  tie = NULL,
+  pitches = NULL,
+  durations = NULL,
   name = NULL,
   as = NULL,
   to = NULL,
@@ -37,9 +36,6 @@ just "q",
 complex tuplets.
 }}
 
-\item{tie}{Optional. A list of indices of argument \code{pitches}, which
-indicates at which positions to add ties.}
-
 \item{name}{Optional. A single character to name the \code{Line} object.}
 
 \item{as}{Optional. "part", "staff" or "voice", to specify the state
@@ -59,6 +55,9 @@ object will be inserted to the first measure.}
 \item{offset}{Optional. A duration value, sum of duration values or 0,
 which indicates the position in a measure, at which to insert the \code{Line}
 object. The default value is 0.}
+
+\item{tie}{Optional. A list of indices of argument \code{pitches}, which
+indicates at which positions to add ties.}
 }
 \value{
 A list with class \code{Line}.
