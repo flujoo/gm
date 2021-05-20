@@ -29,7 +29,6 @@ Imports:
     magick,
     magrittr,
     MASS,
-    stringr,
     tibble,
     utils
 Roxygen: list(markdown = TRUE)
