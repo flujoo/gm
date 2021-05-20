@@ -60,6 +60,16 @@ quantify.list <- function(x, ...) {
 
 
 
+# object -> MusicXML string -----------------------------------------------
+
+#' @keywords internal
+#' @export
+to_musicxml <- function(x, ...) {
+  UseMethod("to_musicxml")
+}
+
+
+
 # print -------------------------------------------------------------------
 
 # note that `signify()`s are used to convert objects to strings,

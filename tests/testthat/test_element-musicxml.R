@@ -1,7 +1,7 @@
 library(gm)
 
 
-test_that("convert Element to MusicXML", {
+test_that("Element -> MusicXML string", {
   octave <- Element("octave", 4)
   # empty Element
   chord <- Element("chord")
@@ -18,7 +18,7 @@ test_that("convert Element to MusicXML", {
   )
   measure <- Element("measure", note)
 
-  out <- print(measure, silent = TRUE)
+  out <- to_musicxml(measure)
   expected <- paste(
     "<measure>",
     '  <note default-x="10">',

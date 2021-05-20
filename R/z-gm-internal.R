@@ -74,7 +74,7 @@
 #' to_Element.Move
 #' to_Element.Rest
 #' to_Element.Note
-#' to_Element.Element
+#' to_Element.default
 #' to_Element.Tempo
 #' check_positions_length
 #' check_positions_length.numeric
@@ -113,6 +113,8 @@
 #' check_duration_length
 #' check_duration_length.numeric
 #' check_duration_length.character
+#' to_musicxml
+#' to_musicxml.Element
 #'
 #' @keywords internal
 #' @name gm-internal
