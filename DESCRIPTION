@@ -29,8 +29,6 @@ Imports:
     magick,
     magrittr,
     MASS,
-    rlang,
-    rstudioapi,
     stringr,
     tibble,
     utils
