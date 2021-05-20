@@ -1,11 +1,4 @@
-# description -------------------------------------------------------------
-
 # convert MIDI note numbers to Pitches
-
-
-
-# main --------------------------------------------------------------------
-
 # a better version will make use of the surrounding Pitches of `x`,
 # including those from other Lines, not only `after`,
 # to infer the background harmony or scale
@@ -80,9 +73,6 @@ to_Pitch.numeric <- function(x, key = 0, after = NULL, ...) {
   }
 }
 
-
-
-# utils -------------------------------------------------------------------
 
 # convert a MIDI note number to equivalent Pitches
 to_pitches <- function(value) {
