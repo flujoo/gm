@@ -329,7 +329,7 @@ show_musicxml <- function(musicxml, to, musescore) {
       html_path <- to_html(content, name_path)
 
       if (context == "rstudio") {
-        rstudioapi::viewer(html_path)
+        getOption("viewer")(html_path)
 
       } else if (context == "other") {
         utils::browseURL(html_path)
