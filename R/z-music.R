@@ -1,6 +1,11 @@
 #' @export
 Music <- function() {
-  `class<-`(list(), "Music")
+  list(
+    lines = NULL,
+    notes = NULL,
+    global = NULL,
+    meta = NULL
+  ) %>% `class<-`("Music")
 }
 
 
