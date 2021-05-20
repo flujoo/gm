@@ -60,7 +60,7 @@ quantify.list <- function(x, ...) {
 
 
 
-# object -> MusicXML string -----------------------------------------------
+# object -> MusicXML ------------------------------------------------------
 
 #' @keywords internal
 #' @export

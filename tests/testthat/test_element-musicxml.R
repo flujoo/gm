@@ -1,7 +1,7 @@
 library(gm)
 
 
-test_that("Element -> MusicXML string", {
+test_that("Element -> MusicXML", {
   octave <- Element("octave", 4)
   # empty Element
   chord <- Element("chord")
