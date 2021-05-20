@@ -124,7 +124,7 @@ combine_pitches_durations <- function(pitches, durations) {
     duration <- durations[[i]]
     l <- len(pitch)
 
-    if (l == 1) {
+    if (l <= 1) {
       notes %<>% tibble::add_case(
         i = i,
         j = NA_integer_,

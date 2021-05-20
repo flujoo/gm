@@ -3,14 +3,14 @@ library(gm)
 
 test_that("logical", {
   out <- normalize_pitches(c(NA, NA))
-  expected <- list(NA, NA)
+  expected <- list(NULL, NULL)
   expect_identical(out, expected)
 })
 
 
 test_that("character", {
   out <- normalize_pitches(c("c3", "90", NA))
-  expected <- list(Pitch("C", 0L, 3L), 90L, NA)
+  expected <- list(Pitch("C", 0L, 3L), 90L, NULL)
   expect_identical(out, expected)
 })
 
@@ -24,8 +24,8 @@ test_that("normalize pitches", {
   ) %>% normalize_pitches()
 
   expected <- list(
-    NA, NA, NA, NA, NA,
-    NA, NA, NA, NA,
+    NULL, NULL, NULL, NULL, NULL,
+    NULL, NULL, NULL, NULL,
     90L, Pitch("C", 0, 4), Pitch("E", 0, 3), 90L,
     list(90L, Pitch("C", 0, 4), Pitch("E", 0, 3))
   )

@@ -26,7 +26,7 @@ test_that("notes", {
     to_Duration(1), "quarter", 1,
 
     2L, NA_integer_,
-    NA, NA_character_, NA_integer_,
+    NULL, NA_character_, NA_integer_,
     to_Duration("q"), "quarter", 1,
 
     3L, 1L,

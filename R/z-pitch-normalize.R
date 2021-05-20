@@ -10,9 +10,9 @@ normalize_pitches <- function(pitches) {
     p <- pitches[[i]]
     l <- length(p)
 
-    # normalize `NA`s, `NULL`s and empty vectors to logical `NA`s
+    # normalize `NA`s, `NULL`s and empty vectors to `NULL`s
     if (anyNA(p) || l == 0) {
-      ps %<>% c(list(NA))
+      ps %<>% c(list(NULL))
       next
     }
 
