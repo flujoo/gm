@@ -1,6 +1,13 @@
 library(gm)
 
 
+test_that("parse duration notation", {
+  out <- parse_duration_notation("8/8/8")
+  expected <- list(type = "eighth", dot = 0L, ns = c(8L, 8L))
+  expect_identical(out, expected)
+})
+
+
 test_that("value <-> Duration", {
   # all duration values
   vs <- duration_types[-1:-2] %>%
