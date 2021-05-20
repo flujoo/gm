@@ -5,18 +5,25 @@ print.Line <- function(x, ...) {
   # `$notes`
   cat("* of notes:\n\n")
   print(x$notes)
-  cat("\n")
+
+  # unpack
+  name <- x$name
+  bar <- x$bar
+  offset <- x$offset
+  as <- x$as
+  to <- x$to
+  after <- x$after
+
+  if (!(is.null(c(name, bar, offset, as, to, after)))) {
+    cat("\n")
+  }
 
   # `$name`
-  name <- x$name
-
   if (!is.null(name)) {
     cat(glue::glue('* of name "{name}"'), "\n", sep = "")
   }
 
   # `$bar` and `$offset`
-  bar <- x$bar
-  offset <- x$offset
   s_bar <- "* to be inserted into bar {bar}"
   s_offset <- "with offset {offset}"
 
