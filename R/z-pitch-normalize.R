@@ -1,11 +1,4 @@
-# description -------------------------------------------------------------
-
 # normalize `pitches` in `Line()`
-
-
-
-# main --------------------------------------------------------------------
-
 normalize_pitches <- function(pitches) {
   if (inherits(pitches, "Pitch")) {
     return(list(pitches))
@@ -46,9 +39,6 @@ normalize_pitches <- function(pitches) {
   ps
 }
 
-
-
-# Pitch -------------------------------------------------------------------
 
 # if `octave` is `NULL`, the output can be considered as a pitch class
 Pitch <- function(step, alter, octave = NULL) {
@@ -93,9 +83,6 @@ to_Pitch.default <- function(x, ...) {
   x
 }
 
-
-
-# pitch notation -> Pitch -------------------------------------------------
 
 #' @keywords internal
 #' @export
