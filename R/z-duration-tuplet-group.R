@@ -39,10 +39,8 @@ check_tuplet_group <- function(durations) {
     tryCatch(
       {wm %<>% reduce_tuplets()},
       # trigger "over-complete" error
-      error = function(e) {
-        erify::throw(
+      error = function(e) erify::throw(
           general, specifics, list(i = i - 1), class = "over-complete")
-      }
     )
 
     # if `wm` is not totally reduced,
@@ -53,9 +51,6 @@ check_tuplet_group <- function(durations) {
   }
 }
 
-
-
-# utils -------------------------------------------------------------------
 
 is_tuplet <- function(duration) {
   duration$tuplers %>%
