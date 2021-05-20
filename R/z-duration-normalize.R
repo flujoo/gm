@@ -62,30 +62,28 @@ to_Duration.numeric <- function(duration) {
 # notation -> Duration ----------------------------------------------------
 
 parse_duration_notation <- function(notation) {
-  # parse type
-  reg <-
+  type <-
+    # construct pattern
     c(duration_types$name, duration_types$abbr) %>%
     paste(collapse = "|") %>%
     # must not extract digits following "/"
-    paste0("(?<!/)(", ., ")")
-
-  type <- stringr::str_extract(notation, reg)
-
-  # convert abbreviation
-  type <-
-    which(duration_types == type, TRUE)[1] %>%
+    paste0("(?<!/)(", ., ")") %>%
+    # extract type
+    {regmatches(notation, regexpr(., notation, perl = TRUE))} %>%
+    # un-abbreviate type
+    {which(duration_types == ., TRUE)[1]} %>%
     duration_types$name[.]
 
-  # parse dot
-  dot <- stringr::str_extract(notation, "\\.{1,4}") %>% nchar()
+  dot <- notation %>%
+    # extract dot
+    {regmatches(., regexpr("\\.{1,4}", .))} %>%
+    # deal with 0 dot and convert notation to integer
+    {ifelse(length(.) == 0, 0L, nchar(.))}
 
-  if (is.na(dot)) {
-    dot <- 0L
-  }
-
-  # parse tuplers
-  ns <-
-    stringr::str_extract_all(notation, "/[0-9]*")[[1]] %>%
+  ns <- notation %>%
+    # extract tuplers
+    {regmatches(., gregexpr("/[0-9]*", .))[[1]]} %>%
+    # convert notations to integers
     sapply(function(x) x %>% substr(2, nchar(.))) %>%
     as.integer()
 
