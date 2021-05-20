@@ -1,11 +1,4 @@
-# description -------------------------------------------------------------
-
 # check the durations of duration values and notations
-
-
-
-# main --------------------------------------------------------------------
-
 #' @keywords internal
 #' @export
 check_duration_length <- function(duration, name, abort) {
