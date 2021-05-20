@@ -1,11 +1,4 @@
-# description -------------------------------------------------------------
-
 # check `durations` in `Line()`
-
-
-
-# main --------------------------------------------------------------------
-
 #' @keywords internal
 #' @export
 check_durations <- function(durations) {
@@ -68,9 +61,6 @@ check_durations.list <- function(durations) {
   erify::throw(general, specifics, environment())
 }
 
-
-
-# util --------------------------------------------------------------------
 
 # specify invalid durations in `check_durations.list()`
 specify_invalid_durations <- function(durations) {
