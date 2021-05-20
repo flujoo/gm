@@ -4,7 +4,7 @@
 \alias{+.Music}
 \title{Add Component to \code{Music} Object}
 \usage{
-\method{+}{Music}(music, term)
+\method{+}{Music}(music, object)
 }
 \arguments{
 \item{music}{A \code{Music} object.}
