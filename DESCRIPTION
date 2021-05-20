@@ -22,7 +22,6 @@ Suggests:
     testthat
 Imports:
     base64enc,
-    dplyr,
     erify,
     glue,
     htmltools,

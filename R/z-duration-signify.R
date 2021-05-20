@@ -103,8 +103,6 @@ signify.Duration <- function(x, short = FALSE, ...) {
 
 
 abbreviate_duration_type <- function(duration_type) {
-  dplyr::filter(
-    duration_types,
-    name == duration_type | abbr == duration_type
-  )$abbr
+  duration_types %>%
+    {.[.$name == duration_type | .$abbr == duration_type, ]$abbr}
 }

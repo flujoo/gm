@@ -1,9 +1,7 @@
 # get a duration type or its abbreviation's value
 quantify_duration_type <- function(duration_type) {
-  dplyr::filter(
-    duration_types,
-    name == duration_type | abbr == duration_type
-  )$value
+  duration_types %>%
+    {.[.$name == duration_type | .$abbr == duration_type, ]$value}
 }
 
 
