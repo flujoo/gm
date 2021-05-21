@@ -16,7 +16,9 @@ check_to <- function(to) {
 }
 
 
-check_to_exist <- function(to, music) {
+check_to_exist <- function(object, music) {
+  to <- object$to
+
   if (is.null(to)) {
     return(invisible())
   }
