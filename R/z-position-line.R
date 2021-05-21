@@ -17,6 +17,10 @@ check_to <- function(to) {
 
 
 check_to_exist <- function(to, music) {
+  if (is.null(to)) {
+    return(invisible())
+  }
+
   lines <- music$lines
   l <- ifelse(is.null(lines), 0, nrow(lines))
 
