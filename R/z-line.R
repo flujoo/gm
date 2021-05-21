@@ -15,9 +15,7 @@ Line <- function(pitches = NULL, durations = NULL, name = NULL, as = NULL,
     erify::check_content(as, c("part", "staff", "voice", "segment"))
   }
 
-  if (!is.null(to)) {
-    check_to(to)
-  }
+  check_to(to)
 
   if (!is.null(after)) {
     erify::check_bool(after)
