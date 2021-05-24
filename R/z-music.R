@@ -52,3 +52,33 @@ Music <- function() {
 add <- function(object, music) {
   UseMethod("add")
 }
+
+
+#' @export
+print.Music <- function(x, ...) {
+  cat("Music\n")
+
+  # unpack
+  lines <- x$lines
+  notes <- x$notes
+
+  # get row number
+  l_lines <- nrow(lines) # can indicate `$notes` too
+
+  # enter
+  con <- l_lines != 0
+
+  if (con) {
+    cat("\n")
+  }
+
+  # `$lines` and `$notes`
+  if (l_lines != 0) {
+    cat("of lines:\n\n")
+    print(lines)
+    cat("\n")
+
+    cat("of notes:\n\n")
+    print(notes)
+  }
+}
