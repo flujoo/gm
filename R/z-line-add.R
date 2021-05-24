@@ -96,7 +96,6 @@ get_to_number <- function(to, lines) {
 
 # generate `$part`, `$staff`, ... for the Line
 generate_number <- function(number_to, as, after, to, lines) {
-  # generate `$part`, `$staff`, ...
   if (as == "part") {
     if (after) {
       number_to$part <- number_to$part + 1L
