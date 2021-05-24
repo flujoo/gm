@@ -1,10 +1,32 @@
 #' @export
 Music <- function() {
+  # initialize `$lines`
+  lines <- tibble::tibble(
+    name = character(),
+    part = integer(),
+    staff = integer(),
+    voice = integer(),
+    segment = integer(),
+    bar = integer(),
+    offset = double()
+  )
+
+  # initialize `$notes`
+  notes <- tibble::tibble(
+    line = integer(),
+    i = integer(),
+    j = integer(),
+    pitch = list(),
+    pn = character(),
+    pv = integer(),
+    duration = list(),
+    dn = character(),
+    dv = double()
+  )
+
   list(
-    lines = NULL,
-    notes = NULL,
-    global = NULL,
-    meta = NULL
+    lines = lines,
+    notes = notes
   ) %>% `class<-`("Music")
 }
 
