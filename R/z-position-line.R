@@ -1,4 +1,3 @@
-# `to` must refer to a Line's name or index
 check_to <- function(to) {
   if (is.null(to)) {
     return(invisible())
@@ -16,17 +15,16 @@ check_to <- function(to) {
 }
 
 
-check_to_exist <- function(object, music) {
-  to <- object$to
-
+# check if `to` refers to a Line's name or row number in the Music
+check_to_exist <- function(to, lines) {
   if (is.null(to)) {
     return(invisible())
   }
 
-  lines <- music$lines
-  l <- ifelse(is.null(lines), 0, nrow(lines))
+  l <- nrow(lines)
 
   pass <- (is.character(to) && to %in% lines$name) ||
+    # `to` has been checked in `check_to()` to be a positive integer
     (is.numeric(to) && to <= l)
 
   if (pass) {
