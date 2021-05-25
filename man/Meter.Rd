@@ -10,7 +10,8 @@ Meter(
   bar = NULL,
   actual_number = NULL,
   actual_unit = NULL,
-  invisible = NULL
+  invisible = NULL,
+  as_symbol = NULL
 )
 }
 \arguments{
