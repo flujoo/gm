@@ -14,7 +14,8 @@ print.Line <- function(x, ...) {
   bar <- x$bar
   offset <- x$offset
 
-  if (!(is.null(c(name, bar, offset, as, to)))) {
+  # if to add enter
+  if (!(is.null(c(name, as, to, after, bar, offset)))) {
     cat("\n")
   }
 
@@ -31,16 +32,18 @@ print.Line <- function(x, ...) {
   # `$to` and `$after`
   s_after <- ifelse(is.null(after) || after == TRUE, "after", "before")
 
-  if (!is.null(to)) {
-    if (is.character(to)) {
-      cat(
-        glue::glue('* to be inserted {s_after} Line "{to}"'), "\n", sep = "")
-    } else if (is.numeric(to)) {
-      cat(glue::glue("* to be inserted {s_after} Line {to}"), "\n", sep = "")
-    }
+  if (is.character(to)) {
+    s_to <- '* to be inserted {s_after} Line "{to}"'
+    cat(glue::glue(s_to), "\n", sep = "")
+
+  } else if (is.numeric(to)) {
+    s_to <- "* to be inserted {s_after} Line {to}"
+    cat(glue::glue(s_to), "\n", sep = "")
+
+  } else if (!is.null(after)) {
+    s_to <- "* to be inserted {s_after} the last Line in the score"
+    cat(glue::glue(s_to), "\n", sep = "")
   }
-  # if `$to` is `NULL`, always insert the Line AFTER the last Line,
-  # whatever `$after` is
 
   # `$bar` and `$offset`
   s_bar <- "* to be inserted into bar {bar}"
