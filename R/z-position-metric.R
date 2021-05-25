@@ -18,3 +18,8 @@ check_offset <- function(offset) {
   specific <- "`offset` is `{offset}`."
   erify::throw(general, specific, list(offset = offset))
 }
+
+
+normalize_bar <- function(bar) {
+  ifelse(is.null(bar), 1L, as.integer(bar))
+}

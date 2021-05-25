@@ -164,7 +164,7 @@ generate_line <- function(number, name, bar, offset) {
     name <- NA_character_
   }
 
-  bar %<>% {ifelse(is.null(.), 1L, as.integer(.))}
+  bar %<>% normalize_bar()
 
   if (is.null(offset)) {
     offset <- 0
