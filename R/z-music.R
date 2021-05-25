@@ -24,9 +24,21 @@ Music <- function() {
     dv = double()
   )
 
+  # initialize `$global`
+  global <- tibble::tibble(
+    object = list(),
+    notation = character(),
+    value = double(),
+    bar = integer(),
+    offset = double(),
+    line = integer(),
+    scope = character()
+  )
+
   list(
     lines = lines,
-    notes = notes
+    notes = notes,
+    global = global
   ) %>% `class<-`("Music")
 }
 
@@ -61,14 +73,16 @@ print.Music <- function(x, ...) {
   # unpack
   lines <- x$lines
   notes <- x$notes
+  global <- x$global
+  local <- x$local
 
   # get row number
   l_lines <- nrow(lines) # can indicate `$notes` too
+  l_global <- nrow(global)
+  l_local <- nrow(local)
 
-  # enter
-  con <- l_lines != 0
-
-  if (con) {
+  # if to add enter
+  if (l_lines != 0 || l_global != 0 || l_local != 0) {
     cat("\n")
   }
 
@@ -80,5 +94,16 @@ print.Music <- function(x, ...) {
 
     cat("of notes:\n\n")
     print(notes)
+  }
+
+  # if to add enter
+  if (l_global != 0 || l_local != 0) {
+    cat("\n")
+  }
+
+  # `$global`
+  if (l_global != 0) {
+    cat("of global objects:\n\n")
+    print(global)
   }
 }
