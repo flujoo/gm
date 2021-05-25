@@ -152,3 +152,21 @@ print.Meter <- function(x, ...) {
     cat(glue::glue("* to be displayed as {symbol} symbol"), "\n")
   }
 }
+
+
+#' @keywords internal
+#' @export
+add.Meter <- function(object, music) {
+  notation <- signify(object)
+  value <- quantify(object)
+  bar <- normalize_bar(object$bar)
+
+  music$global %<>% tibble::add_case(
+    object = list(object),
+    notation = notation,
+    value = value,
+    bar = bar
+  )
+
+  music
+}
