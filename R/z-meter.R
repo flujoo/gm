@@ -113,7 +113,7 @@ signify.Meter <- function(x, ...) {
     s <- paste(s, s_actual)
   }
 
-  s
+  unclass(s)
 }
 
 
