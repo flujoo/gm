@@ -24,6 +24,16 @@ Music <- function() {
     dv = double()
   )
 
+  # initialize `$local`
+  local <- tibble::tibble(
+    line = integer(),
+    i = integer(),
+    j = integer(),
+    object = list(),
+    notation = character(),
+    value = double()
+  )
+
   # initialize `$global`
   global <- tibble::tibble(
     object = list(),
@@ -35,10 +45,19 @@ Music <- function() {
     scope = character()
   )
 
+  # initialize `$meta`
+  meta <- tibble::tibble(
+    item = character(),
+    content = character()
+  )
+
+  # create Music
   list(
     lines = lines,
     notes = notes,
-    global = global
+    global = global,
+    local = local,
+    meta = meta
   ) %>% `class<-`("Music")
 }
 
