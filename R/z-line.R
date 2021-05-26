@@ -21,10 +21,7 @@ Line <- function(pitches = NULL, durations = NULL, name = NULL, as = NULL,
     erify::check_bool(after)
   }
 
-  if (!is.null(bar)) {
-    erify::check_n(bar)
-  }
-
+  check_bar(bar)
   check_offset(offset)
 
   # normalize `pitches` and `durations`
