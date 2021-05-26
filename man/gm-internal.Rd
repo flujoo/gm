@@ -91,6 +91,7 @@
 \alias{signify.Pitch}
 \alias{signify.Tupler}
 \alias{signify.Meter}
+\alias{signify.Key}
 \alias{quantify}
 \alias{quantify.default}
 \alias{quantify.numeric}
@@ -99,6 +100,7 @@
 \alias{quantify.Tupler}
 \alias{quantify.Duration}
 \alias{quantify.Meter}
+\alias{quantify.Key}
 \alias{check_durations}
 \alias{check_durations.default}
 \alias{check_durations.numeric}

@@ -99,6 +99,7 @@
 #' signify.Pitch
 #' signify.Tupler
 #' signify.Meter
+#' signify.Key
 #' quantify
 #' quantify.default
 #' quantify.numeric
@@ -107,6 +108,7 @@
 #' quantify.Tupler
 #' quantify.Duration
 #' quantify.Meter
+#' quantify.Key
 #' check_durations
 #' check_durations.default
 #' check_durations.numeric
