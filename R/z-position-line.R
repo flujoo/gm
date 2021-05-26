@@ -50,3 +50,15 @@ check_to_exist <- function(to, lines) {
 
   erify::throw(general, specific, environment())
 }
+
+
+# get the row number of the Line which `to` refers to in Music's `$lines`
+locate_line <- function(to, lines) {
+  if (is.null(to)) {
+    NA_integer_
+  } else if (is.numeric(to)) {
+    as.integer(to)
+  } else if (is.character(to)) {
+    which(lines$name == to)
+  }
+}
