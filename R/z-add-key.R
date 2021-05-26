@@ -98,3 +98,30 @@ print.Key <- function(x, ...) {
     cat(glue::glue(s_to), "\n")
   }
 }
+
+
+#' @keywords internal
+#' @export
+add.Key <- function(object, music) {
+  to <- object$to
+  lines <- music$lines
+
+  check_to_exist(to, lines)
+
+  notation <- signify(object, TRUE)
+  value <- quantify(object)
+  bar <- normalize_bar(object$bar)
+  line <- locate_line(to, lines)
+  scope <- ifelse(is.na(line), NA_character_, object$scope)
+
+  music$global %<>% tibble::add_case(
+    object = list(object),
+    notation = notation,
+    value = value,
+    bar = bar,
+    line = line,
+    scope = scope
+  )
+
+  music
+}
