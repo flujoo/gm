@@ -55,8 +55,8 @@ Music <- function() {
   list(
     lines = lines,
     notes = notes,
-    global = global,
     local = local,
+    global = global,
     meta = meta
   ) %>% `class<-`("Music")
 }
