@@ -87,42 +87,24 @@ add <- function(object, music) {
 
 #' @export
 print.Music <- function(x, ...) {
-  cat("Music\n")
+  cat("Music\n\n")
 
-  # unpack
-  lines <- x$lines
-  notes <- x$notes
-  global <- x$global
-  local <- x$local
+  cat("* of lines:\n\n")
+  print(x$lines)
+  cat("\n")
 
-  # get row number
-  l_lines <- nrow(lines) # can indicate `$notes` too
-  l_global <- nrow(global)
-  l_local <- nrow(local)
+  cat("* of notes:\n\n")
+  print(x$notes)
+  cat("\n")
 
-  # if to add enter
-  if (l_lines != 0 || l_global != 0 || l_local != 0) {
-    cat("\n")
-  }
+  cat("* of objects added to notes:\n\n")
+  print(x$local)
+  cat("\n")
 
-  # `$lines` and `$notes`
-  if (l_lines != 0) {
-    cat("of lines:\n\n")
-    print(lines)
-    cat("\n")
+  cat("* of objects added globally:\n\n")
+  print(x$global)
+  cat("\n")
 
-    cat("of notes:\n\n")
-    print(notes)
-  }
-
-  # if to add enter
-  if (l_global != 0 || l_local != 0) {
-    cat("\n")
-  }
-
-  # `$global`
-  if (l_global != 0) {
-    cat("of global objects:\n\n")
-    print(global)
-  }
+  cat("* of meta information:\n\n")
+  print(x$meta)
 }
