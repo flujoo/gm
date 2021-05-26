@@ -91,19 +91,19 @@ print.Music <- function(x, ...) {
 
   cat("* of lines:\n\n")
   print(x$lines)
-  cat("\n")
+  cat("\n\n")
 
   cat("* of notes:\n\n")
   print(x$notes)
-  cat("\n")
+  cat("\n\n")
 
   cat("* of objects added to notes:\n\n")
   print(x$local)
-  cat("\n")
+  cat("\n\n")
 
   cat("* of objects added globally:\n\n")
   print(x$global)
-  cat("\n")
+  cat("\n\n")
 
   cat("* of meta-information:\n\n")
   print(x$meta)
