@@ -101,7 +101,7 @@ print.Music <- function(x, ...) {
   print(x$local)
   cat("\n\n")
 
-  cat("* of objects added globally:\n\n")
+  cat("* of global objects:\n\n")
   print(x$global)
   cat("\n\n")
 
