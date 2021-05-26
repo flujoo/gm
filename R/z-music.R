@@ -105,6 +105,6 @@ print.Music <- function(x, ...) {
   print(x$global)
   cat("\n")
 
-  cat("* of meta information:\n\n")
+  cat("* of meta-information:\n\n")
   print(x$meta)
 }
