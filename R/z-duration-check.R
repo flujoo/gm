@@ -26,7 +26,7 @@ check_durations.numeric <- function(durations) {
     "each item of it must be a duration value."
   )
 
-  check_contents(
+  erify::check_contents(
     durations, is_duration_value, NULL, general, as_double = FALSE)
 }
 
@@ -39,7 +39,7 @@ check_durations.character <- function(durations) {
     "each item of it must be a duration notation."
   )
 
-  check_contents(durations, is_duration_notation, NULL, general)
+  erify::check_contents(durations, is_duration_notation, NULL, general)
 }
 
 

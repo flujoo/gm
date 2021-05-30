@@ -22,7 +22,7 @@ check_pitches.default <- function(pitches) {
 #' @export
 check_pitches.logical <- function(pitches) {
   general <- "If `pitches` is a logical vector, each item of it must be `NA`."
-  check_contents(pitches, is.na, NULL, general)
+  erify::check_contents(pitches, is.na, NULL, general)
 }
 
 
@@ -36,7 +36,7 @@ check_pitches.numeric <- function(pitches) {
     "each item of it must be a MIDI note number between 12 and 127, or `NA`."
   )
 
-  check_contents(pitches, valid, NULL, general, as_double = FALSE)
+  erify::check_contents(pitches, valid, NULL, general, as_double = FALSE)
 }
 
 
@@ -51,7 +51,7 @@ check_pitches.character <- function(pitches) {
     "a pitch notation, or `NA`."
   )
 
-  check_contents(pitches, valid, NULL, general)
+  erify::check_contents(pitches, valid, NULL, general)
 }
 
 

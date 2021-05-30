@@ -9,6 +9,3 @@ utils::globalVariables(".")
 len <- function(x) {
   ifelse(inherits(x, c("Pitch", "Duration")), 1L, length(x))
 }
-
-
-check_contents <- utils::getFromNamespace(".check_contents", "erify")

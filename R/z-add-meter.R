@@ -47,7 +47,7 @@ check_meter_number <- function(number) {
   erify::check_length(number, c(0, NA))
 
   general <- "Each item of `number` must be a positive integer."
-  check_contents(number, erify::is_n, NULL, general)
+  erify::check_contents(number, erify::is_n, NULL, general)
 }
 
 

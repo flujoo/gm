@@ -31,7 +31,7 @@ check_tupler_unit <- function(unit) {
 
   # check type and length
   erify::check_type(unit, c("character", "double", "integer"), name)
-  erify::check_length(unit, 1, FALSE, name)
+  erify::check_length(unit, 1, name)
 
   # check content
   general <-
