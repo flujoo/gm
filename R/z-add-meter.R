@@ -74,7 +74,7 @@ check_meter_as_symbol <- function(as_symbol, number, unit) {
     "the time signature is 2/2 or 4/4."
   )
 
-  s_number <- erify::back_quote(list(number))
+  s_number <- erify::back_quote(number, recursive = FALSE)
   specific <- "`number` is {s_number}, and `unit` is `{unit}`."
   erify::throw(general, specific, environment())
 }
