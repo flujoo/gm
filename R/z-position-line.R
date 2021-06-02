@@ -62,3 +62,12 @@ locate_line <- function(to, lines) {
     which(lines$name == to)
   }
 }
+
+
+signify_to <- function(to) {
+  if (is.character(to)) {
+    paste0('"', to, '"')
+  } else if (is.numeric(to)) {
+    as.character(to)
+  }
+}
