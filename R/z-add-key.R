@@ -87,15 +87,13 @@ print.Key <- function(x, ...) {
 
   # `$to` and `$scope`
   if (print_to) {
-    s_to <- "* to be added only to the {scope} containing Line"
-
-    if (is.character(to)) {
-      s_to %<>% paste('"{to}"')
-    } else if (is.numeric(to)) {
-      s_to %<>% paste("{to}")
-    }
-
-    cat(glue::glue(s_to), "\n")
+    cat(
+      "* to be added only to the",
+      scope,
+      "containing Line",
+      signify_to(to),
+      "\n"
+    )
   }
 }
 
