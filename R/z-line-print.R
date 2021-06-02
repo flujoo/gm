@@ -21,12 +21,12 @@ print.Line <- function(x, ...) {
 
   # `$name`
   if (!is.null(name)) {
-    cat(glue::glue('* of name "{name}"'), "\n", sep = "")
+    cat(glue::glue('* of name "{name}"'), "\n")
   }
 
   # `$as`
   if (!is.null(as)) {
-    cat(glue::glue("* as a {as}"), "\n", sep = "")
+    cat(glue::glue("* as a {as}"), "\n")
   }
 
   # `$to` and `$after`
@@ -34,15 +34,15 @@ print.Line <- function(x, ...) {
 
   if (is.character(to)) {
     s_to <- '* to be inserted {s_after} Line "{to}"'
-    cat(glue::glue(s_to), "\n", sep = "")
+    cat(glue::glue(s_to), "\n")
 
   } else if (is.numeric(to)) {
     s_to <- "* to be inserted {s_after} Line {to}"
-    cat(glue::glue(s_to), "\n", sep = "")
+    cat(glue::glue(s_to), "\n")
 
   } else if (!is.null(after)) {
     s_to <- "* to be inserted {s_after} the last Line in the score"
-    cat(glue::glue(s_to), "\n", sep = "")
+    cat(glue::glue(s_to), "\n")
   }
 
   # `$bar` and `$offset`
@@ -51,13 +51,13 @@ print.Line <- function(x, ...) {
 
   if (!is.null(bar)) {
     if (is.null(offset)) {
-      cat(glue::glue(s_bar), "\n", sep = "")
+      cat(glue::glue(s_bar), "\n")
     } else {
-      cat(glue::glue(s_bar, s_offset, .sep = " "), "\n", sep = "")
+      cat(glue::glue(s_bar, s_offset, .sep = " "), "\n")
     }
 
   } else if (!is.null(offset)) {
     bar <- 1
-    cat(glue::glue(s_bar, s_offset, .sep = " "), "\n", sep = "")
+    cat(glue::glue(s_bar, s_offset, .sep = " "), "\n")
   }
 }
