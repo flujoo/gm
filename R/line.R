@@ -25,8 +25,7 @@
 #' 3. `Duration` objects returned by `tuplet()`, which is used to create
 #' complex tuplets.
 #'
-#' @param tie Optional. A list of indices of argument `pitches`, which
-#' indicates at which positions to add ties.
+#' @param tie Deprecated. Use [Tie()] instead.
 #'
 #' @param name Optional. A single character to name the `Line` object.
 #'

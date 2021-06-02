@@ -1,6 +1,7 @@
 #' @export
-Line <- function(pitches = NULL, durations = NULL, name = NULL, as = NULL,
-                 to = NULL, after = NULL, bar = NULL, offset = NULL) {
+Line <- function(pitches = NULL, durations = NULL, tie = NULL, name = NULL,
+                 as = NULL, to = NULL, after = NULL, bar = NULL,
+                 offset = NULL) {
   # check `pitches` and `durations`
   check_pitches(pitches)
   check_durations(durations)
@@ -23,6 +24,9 @@ Line <- function(pitches = NULL, durations = NULL, name = NULL, as = NULL,
 
   check_bar(bar)
   check_offset(offset)
+
+  # deprecate `tie`
+  deprecate_tie(tie)
 
   # normalize `pitches` and `durations`
   . <- normalize_pitches_durations(pitches, durations)
@@ -65,6 +69,19 @@ check_pitches_durations <- function(pitches, durations) {
   )
 
   erify::throw(general, specifics, environment())
+}
+
+
+deprecate_tie <- function(tie) {
+  if (is.null(tie)) {
+    return(invisible())
+  }
+
+  warning(
+    "`tie` is deprecated, use `+ Tie()` instead.\n",
+    call. = FALSE,
+    immediate. = TRUE
+  )
 }
 
 
