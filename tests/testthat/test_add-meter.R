@@ -20,13 +20,14 @@ test_that("`as_symbol`", {
 test_that("Music + Meter", {
   m1 <- Meter(1, 4, actual_number = 3)
   m2 <- Meter(3, 8, bar = 11)
-  m <- Music() + m1 + m2
+  m3 <- Meter(5, 16, bar = 11) # will replace `m2`
+  m <- Music() + m1 + m2 + m3
   out <- m$global
 
   expected <- tibble::tibble(
-    object = list(m1, m2),
-    notation = c("1/4 (3/4)", "3/8"),
-    value = c(3, 1.5),
+    object = list(m1, m3),
+    notation = c("1/4 (3/4)", "5/16"),
+    value = c(3, 1.25),
     bar = c(1L, 11L),
     offset = c(NA_real_, NA_real_),
     line = c(NA_integer_, NA_integer_),

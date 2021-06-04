@@ -153,11 +153,24 @@ print.Meter <- function(x, ...) {
 #' @keywords internal
 #' @export
 add.Meter <- function(object, music) {
+  global <- music$global
+  bar <- object$bar
+
+  # remove the Meter with the same `$bar` in `music$global`
+  if (nrow(global) > 0) {
+    con <- sapply(global$object, function(x) inherits(x, "Meter")) &
+      global$bar == bar
+
+    global <- global[!con, ]
+  }
+
+  # add case
   notation <- signify(object)
   value <- quantify(object)
-  bar <- normalize_bar(object$bar)
+  bar <- normalize_bar(bar)
 
-  music$global %<>% tibble::add_case(
+  music$global <- tibble::add_case(
+    global,
     object = list(object),
     notation = notation,
     value = value,
