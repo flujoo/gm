@@ -2,7 +2,7 @@
 Tie <- function(to, position, above = NULL) {
   # check arguments
   check_to(to)
-  check_chord_position(position)
+  check_ij(position)
 
   if (!is.null(above)) {
     erify::check_bool(above)

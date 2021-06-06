@@ -1,4 +1,4 @@
-check_chord_position <- function(position) {
+check_ij <- function(position) {
   erify::check_type(position, c("double", "integer"))
   erify::check_length(position, c(1, 2))
 
