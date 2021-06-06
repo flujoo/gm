@@ -1,7 +1,14 @@
+# check `position` in `Tie()`
 check_ij <- function(position) {
-  erify::check_type(position, c("double", "integer"))
-  erify::check_length(position, c(1, 2))
+  general <-
+    "`position` must be a numeric vector of one or two positive integers."
 
-  general <- "Each item of `position` must be a positive integer."
-  erify::check_contents(position, erify::is_n, NULL, general)
+  erify::check_type(position, c("double", "integer"), NULL, general)
+  erify::check_length(position, c(1, 2), NULL, general)
+
+  if (length(position) == 1) {
+    erify::check_n(position, general = general)
+  } else {
+    erify::check_contents(position, erify::is_n, NULL, general)
+  }
 }
