@@ -10,7 +10,7 @@ add.Line <- function(object, music) {
   to <- object$to
 
   # check if the Line's `$to` refers to a Line in the Music
-  check_to_exist(to, lines)
+  check_to_exist(to, lines, "Line")
 
   l <- nrow(lines)
 

@@ -16,7 +16,7 @@ check_to <- function(to) {
 
 
 # check if `to` refers to a Line's name or row number in the Music
-check_to_exist <- function(to, lines) {
+check_to_exist <- function(to, lines, class) {
   if (is.null(to)) {
     return(invisible())
   }
@@ -31,7 +31,7 @@ check_to_exist <- function(to, lines) {
     return(invisible())
   }
 
-  general <- "`to` must refer to a Line in the Music."
+  general <- "`to` in `{class}()` must refer to a Line in the Music."
 
   if (is.character(to)) {
     specific <- 'Can\'t find Line of name "{to}".'

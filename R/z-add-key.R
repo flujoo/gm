@@ -104,7 +104,7 @@ add.Key <- function(object, music) {
   to <- object$to
   lines <- music$lines
 
-  check_to_exist(to, lines)
+  check_to_exist(to, lines, "Key")
 
   global <- music$global
   bar <- normalize_bar(object$bar)
