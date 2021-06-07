@@ -49,18 +49,35 @@ signify.Tie <- function(x, ...) {
 
 #' @export
 print.Tie <- function(x, ...) {
-  cat("Tie\n\n")
+  cat(signify(x), "\n")
 
-  # `$to`
-  cat("* to be added to Line", signify_to(x$to), "\n")
-
-  # `$position`
-  cat("* to be added at position", signify_position(x$position), "\n")
-
-  # `$above`
+  # unpack
+  to <- x$to
+  position <- x$position
   above <- x$above
 
-  if (!is.null(above)) {
+  # if to print each component
+  print_to <- !is.null(to)
+  print_position <- !is.null(position)
+  print_above <- !is.null(above)
+
+  # if to add enter
+  if (print_to || print_position || print_above) {
+    cat("\n")
+  }
+
+  # `$to`
+  if (print_to) {
+    cat("* to be added to Line", signify_to(to), "\n")
+  }
+
+  # `$position`
+  if (print_position) {
+    cat("* to be added at position", signify_position(position), "\n")
+  }
+
+  # `$above`
+  if (print_above) {
     cat("* to be placed", ifelse(above, "above", "below"), "the notes\n")
   }
 }
