@@ -33,6 +33,20 @@ check_ij <- function(position) {
 }
 
 
+#' @keywords internal
+#' @export
+signify.Tie <- function(x, ...) {
+  type <- x$type
+
+  if (!is.null(type)) {
+    paste0("Tie ", "(", type, ")")
+
+  } else {
+    "Tie"
+  }
+}
+
+
 #' @export
 print.Tie <- function(x, ...) {
   cat("Tie\n\n")
