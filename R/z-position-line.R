@@ -34,7 +34,7 @@ check_to_exist <- function(to, lines, class) {
   general <- "`to` in `{class}()` must refer to a Line in the Music."
 
   if (is.character(to)) {
-    specific <- 'Can\'t find Line of name "{to}".'
+    specifics <- 'Can\'t find Line of name "{to}".'
 
   } else if (is.numeric(to)) {
     if (l == 0) {
@@ -45,10 +45,13 @@ check_to_exist <- function(to, lines, class) {
       s_l <- glue::glue("only {l} Lines")
     }
 
-    specific <- 'Can\'t find Line {to}, the Music contains {s_l}.'
+    specifics <- c(
+      'Can\'t find Line {to}.',
+      i = "The Music contains {s_l}."
+    )
   }
 
-  erify::throw(general, specific, environment())
+  erify::throw(general, specifics, environment())
 }
 
 
