@@ -71,3 +71,13 @@ signify_to <- function(to) {
     as.character(to)
   }
 }
+
+
+signify_position <- function(position) {
+  if (length(position) == 1) {
+    as.character(position)
+
+  } else {
+    paste0("(", position[1], ", ", position[2], ")")
+  }
+}
