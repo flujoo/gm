@@ -2,7 +2,7 @@
 Tie <- function(to, position, above = NULL) {
   # check arguments
   check_to(to)
-  check_ij(position)
+  check_tie_position(position)
 
   if (!is.null(above)) {
     erify::check_bool(above)
@@ -17,8 +17,7 @@ Tie <- function(to, position, above = NULL) {
 }
 
 
-# check `position` in `Tie()`
-check_ij <- function(position) {
+check_tie_position <- function(position) {
   general <-
     "`position` must be a numeric vector of one or two positive integers."
 
