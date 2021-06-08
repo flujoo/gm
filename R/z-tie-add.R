@@ -32,8 +32,11 @@ add.Tie <- function(object, music) {
   # check if it's a rest at the tie's start position
   check_i_rest(notes_i, i, s_to)
 
+  # get the length of `notes_i`
+  chord_length <- nrow(notes_i)
+
   # check if the tie's start position is beyond the chord length
-  check_j_chord_length(j, notes_i, i, s_to)
+  check_j_chord_length(j, chord_length, i, s_to)
 
   # check if the tie's stop position is beyond the Line length
   check_stop_line_length(i, line_length, s_to)
@@ -79,14 +82,8 @@ check_i_rest <- function(notes_i, i, s_to) {
 
 
 # check if the tie's start position is beyond the chord length
-check_j_chord_length <- function(j, notes_i, i, s_to) {
-  if (is.na(j)) {
-    return(invisible())
-  }
-
-  chord_length <- nrow(notes_i)
-
-  if (j <= chord_length) {
+check_j_chord_length <- function(j, chord_length, i, s_to) {
+  if (is.na(j) || j <= chord_length) {
     return(invisible())
   }
 
