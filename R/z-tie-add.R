@@ -87,12 +87,14 @@ check_j_chord_length <- function(j, chord_length, i, s_to) {
     return(invisible())
   }
 
-  general <-
-    "`position[2]` in `Tie()` must not be larger than the chord length."
+  general <- paste(
+    "`position[2]` in `Tie()` must not be larger than",
+    "the number of notes at position `position[1]`."
+  )
 
   specific <- paste(
     "`position[2]` is {j},",
-    "but the length of the chord at position {i} in Line {s_to}",
+    "but the number of notes at position {i} in Line {s_to}",
     "is {chord_length}."
   )
 
