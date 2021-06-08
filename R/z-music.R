@@ -47,8 +47,8 @@ Music <- function() {
 
   # initialize `$meta`
   meta <- tibble::tibble(
-    item = character(),
-    content = character()
+    object = list(),
+    notation = character()
   )
 
   # create Music
