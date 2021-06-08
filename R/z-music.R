@@ -64,7 +64,7 @@ Music <- function() {
 
 #' @export
 `+.Music` <- function(music, object) {
-  cs <- c("Line", "Meter", "Key", "Clef", "Tempo", "Tie")
+  cs <- c("Line", "Meter", "Key", "Clef", "Tempo", "Tie", "Meta")
   erify::check_binary_classes(music, object, "Music", cs, "+")
 
   # normalize argument order
