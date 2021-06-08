@@ -46,6 +46,9 @@ add.Tie <- function(object, music) {
 
   # check if it's a rest at the tie's stop position
   check_stop_rest(notes_stop, i, s_to)
+
+  # expand `position` and put the output into a list
+  positions <- normalize_tie_position(i, j, chord_length, position)
 }
 
 
@@ -140,4 +143,16 @@ check_stop_rest <- function(notes_stop, i, s_to) {
   specific <- "It's a rest after position {i} in Line {s_to}."
   class <- "rest_at_stop_position"
   erify::throw(general, specific, environment(), class = class)
+}
+
+
+# expand `position` and put the output into a list
+normalize_tie_position <- function(i, j, chord_length, position) {
+  if (!is.na(j) && chord_length == 1) {
+    list(i)
+  } else if (is.na(j) && chord_length > 1) {
+    Map(c, i, 1:chord_length)
+  } else {
+    list(position)
+  }
 }
