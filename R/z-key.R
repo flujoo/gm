@@ -51,14 +51,11 @@ signify.Key <- function(x, short = FALSE, ...) {
   i <- which(x$key == -7:7)
 
   major <- Pitch(steps[i %% 7 + 1], i %/% 7 - 1) %>% signify()
-
-  if (short) {
-    return(major)
-  }
-
   minor <- Pitch(steps[(i + 3) %% 7 + 1], (i - 4) %/% 7) %>% signify()
 
-  glue::glue("{major} major ({minor} minor)") %>% unclass()
+  ifelse(short, "{major}/{minor}m", "{major} major ({minor} minor)") %>%
+    glue::glue() %>%
+    unclass()
 }
 
 
