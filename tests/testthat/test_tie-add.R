@@ -29,3 +29,9 @@ test_that("rest_at_stop_position", {
   e <- expect_error(Music() + Line(c(90, NA)) + Tie(1, 1), "1")
   expect_s3_class(e, "rest_at_stop_position")
 })
+
+
+test_that("no_equivalent_pitch", {
+  e <- expect_error(Music() + Line(c(90, 91)) + Tie(1, 1), "1")
+  expect_s3_class(e, "no_equivalent_pitch")
+})

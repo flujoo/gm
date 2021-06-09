@@ -47,6 +47,9 @@ add.Tie <- function(object, music) {
   # check if it's a rest at the tie's stop position
   check_stop_rest(notes_stop, i, s_to)
 
+  # check if any note at the stop position has equivalent pitch
+  check_equivalent_pitch(notes_i, notes_stop, chord_length, j, i, s_to)
+
   # expand `position` and put the output into a list
   positions <- normalize_tie_position(i, j, chord_length, position)
 }
@@ -155,4 +158,31 @@ normalize_tie_position <- function(i, j, chord_length, position) {
   } else {
     list(position)
   }
+}
+
+
+# check if any note at the stop position has equivalent pitch
+check_equivalent_pitch <- function(notes_i, notes_stop, chord_length, j,
+                                   i, s_to) {
+  if (chord_length > 1 && !is.na(j)) {
+    notes_i <- notes_i[notes_i$j == j, ]
+  }
+
+  pass <- intersect(notes_i$pv, notes_stop$pv) %>%
+    length() %>%
+    as.logical()
+
+  if (pass) {
+    return(invisible())
+  }
+
+  general <- "The notes a tie connects must have equivalent pitches."
+
+  specific <- paste(
+    "Can't find note with equivalent pitch after position {i}",
+    "in Line {s_to}."
+  )
+
+  class <- "no_equivalent_pitch"
+  erify::throw(general, specific, environment(), class = class)
 }
