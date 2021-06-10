@@ -20,12 +20,12 @@ test_that("add first Line", {
 
   expect_identical(m$lines, expected)
 
-  # check the Music's `$notes`
-  notes <- m$notes
+  # check the Music's `$pitches`
+  pitches <- m$pitches
 
-  expect_equal(nrow(notes), 1L)
-  expect_identical(notes$line[1], 1L)
-  expect_identical(notes$pn[1], "C4")
+  expect_equal(nrow(pitches), 1L)
+  expect_identical(pitches$line[1], 1L)
+  expect_identical(pitches$notation[1], "C4")
 })
 
 
