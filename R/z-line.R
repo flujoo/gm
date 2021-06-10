@@ -136,13 +136,18 @@ frame_pitches <- function(pitches) {
     pitch <- pitches[[i]]
     l <- len(pitch)
 
-    if (l == 1) {
+    if (l <= 1) {
+      # note that `pitch` can be `NULL`
+      j <- 1L
       pitch %<>% list()
+
+    } else {
+      j <- 1:l
     }
 
     tb %<>% tibble::add_case(
       i = i,
-      j = 1:l,
+      j = j,
       pitch = pitch,
       notation = signify(pitch),
       value = quantify(pitch)
