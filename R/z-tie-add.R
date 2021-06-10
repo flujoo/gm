@@ -50,6 +50,10 @@ add.Tie <- function(object, music) {
   # check if any note at the stop position has equivalent pitch
   check_equivalent_pitch(notes_i, notes_stop, chord_length, j, i, s_to)
 
+  local <- music$local
+
+  check_stop_used(i, j, chord_length, local, notes_i, notes_stop)
+
   # expand `position` and put the output into a list
   positions <- normalize_tie_position(i, j, chord_length, position)
 }
@@ -185,4 +189,58 @@ check_equivalent_pitch <- function(notes_i, notes_stop, chord_length, j,
 
   class <- "no_equivalent_pitch"
   erify::throw(general, specific, environment(), class = class)
+}
+
+
+# suppose you have two notes with the same pitch at the start position,
+# and only one note with the same pitch at the stop position,
+# then you can only add one tie to connect one of the notes at the start
+# position, with the note at the stop position
+check_stop_used <- function(i, j, chord_length, local, notes_i, notes_stop) {
+  # when this should be a concern
+  con <- chord_length > 1 && !is.na(j) &&
+    is.null(locate_tie(local, i, j, "start"))
+
+  if (!con) {
+    return(invisible())
+  }
+
+  pv_start <- notes_i[notes_i$j == j, ]$pv
+
+  for (k in seq_len(nrow(notes_stop))) {
+    pass <- notes_stop$pv[k] == pv_start &&
+      is.null(locate_tie(local, i + 1, notes_stop$j[k], "stop"))
+
+    if (pass) {
+      return(invisible())
+    }
+  }
+
+  general <- "Any note can be tied with only one note."
+
+  specific <- paste(
+    "Can't find note after position {i} that is untied",
+    "and has equivalent pitch."
+  )
+
+  class <- "stop_position_used"
+  erify::throw(general, specific, environment(), class = class)
+}
+
+
+locate_tie <- function(local, i, j, type) {
+  for (k in seq_len(nrow(local))) {
+    object <- local$object[[k]]
+
+    con <- inherits(object, "Tie") &&
+      object$type == type &&
+      local$i[k] == i &&
+      local$j[k] == j
+
+    if (con) {
+      return(k)
+    }
+  }
+
+  # `NULL` is returned otherwise
 }
