@@ -2,9 +2,15 @@
 print.Line <- function(x, ...) {
   cat("Line\n\n")
 
-  # `$notes`
-  cat("* of notes:\n\n")
-  print(x$notes)
+  # `$pitches`
+  cat("* of pitches:\n\n")
+  print(x$pitches)
+
+  cat("\n")
+
+  # `$durations`
+  cat("* of durations:\n\n")
+  print(x$durations)
 
   # unpack
   name <- x$name
