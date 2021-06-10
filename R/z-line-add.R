@@ -14,58 +14,15 @@ add.Line <- function(object, music) {
 
   # initialize `lines`
   if (is.null(lines)) {
-    lines <- tibble::tibble(
-      name = character(),
-      part = integer(),
-      staff = integer(),
-      voice = integer(),
-      segment = integer(),
-      bar = integer(),
-      offset = double()
-    )
-
+    lines <- initialize_lines()
     l <- 0L
 
   } else {
     l <- nrow(lines)
   }
 
-  # initialize `pitches`
-  pitches <- music$pitches
-
-  if (is.null(pitches)) {
-    pitches <- tibble::tibble(
-      line = integer(),
-      i = integer(),
-      j = integer(),
-      pitch = list(),
-      notation = character(),
-      value = integer()
-    )
-  }
-
-  # initialize `durations`
-  durations <- music$durations
-
-  if (is.null(durations)) {
-    durations <- tibble::tibble(
-      line = integer(),
-      i = integer(),
-      duration = list(),
-      notation = character(),
-      value = double()
-    )
-  }
-
-  # append the Line's `$pitches` to the Music's
-  music$pitches <-
-    tibble::add_column(object$pitches, line = l + 1L, .before = 1L) %>%
-    tibble::add_case(pitches, .)
-
-  # append the Line's `$durations`
-  music$durations <-
-    tibble::add_column(object$durations, line = l + 1L, .before = 1L) %>%
-    tibble::add_case(durations, .)
+  # append the Line's `$pitches` and `$durations` to the Music's
+  music %<>% append_notes(object, l)
 
   as <- object$as
   after <- object$after
@@ -116,6 +73,62 @@ check_line_name <- function(name, lines) {
   general <- "Each Line in a Music must have a unique name or no name."
   specific <- 'Name `"{name}"` has been used.'
   erify::throw(general, specific, list(name = name))
+}
+
+
+initialize_lines <- function() {
+  tibble::tibble(
+    name = character(),
+    part = integer(),
+    staff = integer(),
+    voice = integer(),
+    segment = integer(),
+    bar = integer(),
+    offset = double()
+  )
+}
+
+
+# append the Line's `$pitches` and `$durations` to the Music's
+append_notes <- function(music, object, l) {
+  # initialize `pitches`
+  pitches <- music$pitches
+
+  if (is.null(pitches)) {
+    pitches <- tibble::tibble(
+      line = integer(),
+      i = integer(),
+      j = integer(),
+      pitch = list(),
+      notation = character(),
+      value = integer()
+    )
+  }
+
+  # initialize `durations`
+  durations <- music$durations
+
+  if (is.null(durations)) {
+    durations <- tibble::tibble(
+      line = integer(),
+      i = integer(),
+      duration = list(),
+      notation = character(),
+      value = double()
+    )
+  }
+
+  # append the Line's `$pitches` to the Music's
+  music$pitches <-
+    tibble::add_column(object$pitches, line = l + 1L, .before = 1L) %>%
+    tibble::add_case(pitches, .)
+
+  # append the Line's `$durations`
+  music$durations <-
+    tibble::add_column(object$durations, line = l + 1L, .before = 1L) %>%
+    tibble::add_case(durations, .)
+
+  music
 }
 
 
