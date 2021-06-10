@@ -15,28 +15,24 @@ test_that("initialize and recycle `pitches`", {
 })
 
 
-test_that("notes", {
-  out <- Line(list(90, NA, c("C4", 64)), list(1, "q", tuplet("w")))$notes
+test_that("`$pitches` and `$durations` in Line", {
+  l <- Line(list(90, NA, c("C4", 64)), list(1, "q", tuplet("w")))
 
-  expected <- tibble::tribble(
-    ~i, ~j, ~pitch, ~pn, ~pv, ~duration, ~dn, ~dv,
-
-    1L, NA_integer_,
-    90L, NA_character_, 90L,
-    to_Duration(1), "quarter", 1,
-
-    2L, NA_integer_,
-    NULL, NA_character_, NA_integer_,
-    to_Duration("q"), "quarter", 1,
-
-    3L, 1L,
-    Pitch("C", 0, 4), "C4", 60L,
-    to_Duration(4), "whole", 4,
-
-    3L, 2L,
-    64L, NA_character_, 64L,
-    to_Duration(4), "whole", 4
+  expected_pitches <- tibble::tribble(
+    ~i, ~j, ~pitch, ~notation, ~value,
+    1L, 1L, 90L, NA_character_, 90L,
+    2L, 1L, NULL, NA_character_, NA_integer_,
+    3L, 1L, Pitch("C", 0, 4), "C4", 60L,
+    3L, 2L, 64L, NA_character_, 64L
   )
 
-  expect_identical(out, expected)
+  expected_durations <- tibble::tribble(
+    ~i, ~duration, ~notation, ~value,
+    1L, to_Duration(1), "quarter", 1,
+    2L, to_Duration("q"), "quarter", 1,
+    3L, to_Duration(4), "whole", 4
+  )
+
+  expect_identical(l$pitches, expected_pitches)
+  expect_identical(l$durations, expected_durations)
 })
