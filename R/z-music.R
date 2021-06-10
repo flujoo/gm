@@ -1,64 +1,6 @@
 #' @export
 Music <- function() {
-  # initialize `$lines`
-  lines <- tibble::tibble(
-    name = character(),
-    part = integer(),
-    staff = integer(),
-    voice = integer(),
-    segment = integer(),
-    bar = integer(),
-    offset = double()
-  )
-
-  # initialize `$notes`
-  notes <- tibble::tibble(
-    line = integer(),
-    i = integer(),
-    j = integer(),
-    pitch = list(),
-    pn = character(),
-    pv = integer(),
-    duration = list(),
-    dn = character(),
-    dv = double()
-  )
-
-  # initialize `$local`
-  local <- tibble::tibble(
-    line = integer(),
-    i = integer(),
-    j = integer(),
-    object = list(),
-    notation = character(),
-    value = double()
-  )
-
-  # initialize `$global`
-  global <- tibble::tibble(
-    object = list(),
-    notation = character(),
-    value = double(),
-    bar = integer(),
-    offset = double(),
-    line = integer(),
-    scope = character()
-  )
-
-  # initialize `$meta`
-  meta <- tibble::tibble(
-    object = list(),
-    notation = character()
-  )
-
-  # create Music
-  list(
-    lines = lines,
-    notes = notes,
-    local = local,
-    global = global,
-    meta = meta
-  ) %>% `class<-`("Music")
+  list() %>% `class<-`("Music")
 }
 
 
@@ -87,24 +29,15 @@ add <- function(object, music) {
 
 #' @export
 print.Music <- function(x, ...) {
-  cat("Music\n\n")
+  cat("Music", "\n")
 
-  cat("* of lines:\n\n")
-  print(x$lines)
-  cat("\n")
+  # arrange the order of printing the components of `x`
+  ordered_names <- c("lines", "pitches", "durations", "meters", "keys")
+  names <- names(x) %>% {.[order(match(., ordered_names))]}
 
-  cat("* of notes:\n\n")
-  print(x$notes)
-  cat("\n")
-
-  cat("* of objects added to notes:\n\n")
-  print(x$local)
-  cat("\n")
-
-  cat("* of global objects:\n\n")
-  print(x$global)
-  cat("\n")
-
-  cat("* of meta-information:\n\n")
-  print(x$meta)
+  for (name in names) {
+    cat("\n")
+    cat(paste0("$", name), "\n\n")
+    print(x[[name]])
+  }
 }
