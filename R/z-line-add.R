@@ -12,12 +12,60 @@ add.Line <- function(object, music) {
   # check if the Line's `$to` refers to a Line in the Music
   check_to_exist(to, lines, "Line")
 
-  l <- nrow(lines)
+  # initialize `lines`
+  if (is.null(lines)) {
+    lines <- tibble::tibble(
+      name = character(),
+      part = integer(),
+      staff = integer(),
+      voice = integer(),
+      segment = integer(),
+      bar = integer(),
+      offset = double()
+    )
 
-  # append the Line's `$notes` to the Music's
-  music$notes <- object$notes %>%
-    tibble::add_column(line = l + 1L, .before = 1L) %>%
-    tibble::add_case(music$notes, .)
+    l <- 0L
+
+  } else {
+    l <- nrow(lines)
+  }
+
+  # initialize `pitches`
+  pitches <- music$pitches
+
+  if (is.null(pitches)) {
+    pitches <- tibble::tibble(
+      line = integer(),
+      i = integer(),
+      j = integer(),
+      pitch = list(),
+      notation = character(),
+      value = integer()
+    )
+  }
+
+  # initialize `durations`
+  durations <- music$durations
+
+  if (is.null(durations)) {
+    durations <- tibble::tibble(
+      line = integer(),
+      i = integer(),
+      duration = list(),
+      notation = character(),
+      value = double()
+    )
+  }
+
+  # append the Line's `$pitches` to the Music's
+  music$pitches <-
+    tibble::add_column(object$pitches, line = l + 1L, .before = 1L) %>%
+    tibble::add_case(pitches, .)
+
+  # append the Line's `$durations`
+  music$durations <-
+    tibble::add_column(object$durations, line = l + 1L, .before = 1L) %>%
+    tibble::add_case(durations, .)
 
   as <- object$as
   after <- object$after
