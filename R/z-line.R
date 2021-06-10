@@ -37,13 +37,14 @@ Line <- function(pitches = NULL, durations = NULL, tie = NULL, name = NULL,
   check_tuplet_group(durations)
   mark_tuplets(durations)
 
-  # combine `pitches` and `durations`
-  notes <- combine_pitches_durations(pitches, durations)
-  notes %<>% describe_notes()
+  # convert `pitches` and `durations` to tibbles
+  pitches %<>% frame_pitches()
+  durations %<>% frame_durations()
 
   # create Line object
   list(
-    notes = notes,
+    pitches = pitches,
+    durations = durations,
     name = name,
     as = as,
     to = to,
@@ -120,50 +121,43 @@ normalize_pitches_durations <- function(pitches, durations) {
 }
 
 
-combine_pitches_durations <- function(pitches, durations) {
+frame_pitches <- function(pitches) {
   # initialize a tibble
-  notes <- tibble::tibble(
+  tb <- tibble::tibble(
     i = integer(),
     j = integer(),
     pitch = list(),
-    duration = list()
+    notation = character(),
+    value = integer()
   )
 
   # add cases
   for (i in seq_along(pitches)) {
-    # unpack
     pitch <- pitches[[i]]
-    duration <- durations[[i]]
     l <- len(pitch)
 
-    if (l <= 1) {
-      notes %<>% tibble::add_case(
-        i = i,
-        j = NA_integer_,
-        pitch = list(pitch),
-        duration = list(duration)
-      )
-
-    } else if (l > 1) {
-      # expand pitch chords
-      notes %<>% tibble::add_case(
-        i = rep(i, l),
-        j = 1:l,
-        pitch = pitch,
-        duration = rep(list(duration), l)
-      )
+    if (l == 1) {
+      pitch %<>% list()
     }
+
+    tb %<>% tibble::add_case(
+      i = i,
+      j = 1:l,
+      pitch = pitch,
+      notation = signify(pitch),
+      value = quantify(pitch)
+    )
   }
 
-  notes
+  tb
 }
 
 
-# add pitch/duration notation/value to `notes`
-describe_notes <- function(notes) {
-  notes$pn <- signify(notes$pitch)
-  notes$pv <- quantify(notes$pitch)
-  notes$dn <- signify(notes$duration, short = getOption("gm.shorten_dn"))
-  notes$dv <- quantify(notes$duration)
-  notes[c("i", "j", "pitch", "pn", "pv", "duration", "dn", "dv")]
+frame_durations <- function(durations) {
+  tibble::tibble(
+    i = seq_along(durations),
+    duration = durations,
+    notation = signify(duration),
+    value = quantify(duration)
+  )
 }
