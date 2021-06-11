@@ -16,7 +16,7 @@ test_that("Music + Key", {
     Key(0, to = 1, scope = "staff") +
     Key(-1, to = 1, scope = "staff", bar = 2)
 
-  out <- m$global$value
-  expected <- c(2, 3, 5, 4, 6, 0, -1)
-  expect_equal(out, expected)
+  out <- m$keys$value
+  expected <- c(2L, 3L, 5L, 6L, 0L, -1L)
+  expect_identical(out, expected)
 })

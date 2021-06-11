@@ -6,38 +6,48 @@ add.Key <- function(object, music) {
 
   check_to_exist(to, lines, "Key")
 
-  global <- music$global
+  keys <- music$keys
+
+  # initialize `keys`
+  if (is.null(keys)) {
+    keys <- tibble::tibble(
+      line = integer(),
+      scope = character(),
+      bar = integer(),
+      key = list(),
+      notation = character(),
+      value = integer()
+    )
+  }
+
   bar <- normalize_bar(object$bar)
   line <- locate_line(to, lines)
   scope <- ifelse(is.na(line), NA_character_, object$scope)
   number <- generate_key_number(line, scope, lines)
 
-  # remove the Key with the same `$bar` and number in `music$global`
-  for (i in seq_len(nrow(global))) {
-    if (!inherits(global$object[[i]], "Key") || global$bar[i] != bar) {
+  # remove the Key with the same `$bar` and number in `keys`
+  for (i in seq_len(nrow(keys))) {
+    if (keys$bar[i] != bar) {
       next
     }
 
-    number_i <- generate_key_number(global$line[i], global$scope[i], lines)
+    number_i <- generate_key_number(keys$line[i], keys$scope[i], lines)
 
     if (all(number_i == number)) {
-      global <- global[-i, ]
+      keys <- keys[-i, ]
       break
     }
   }
 
   # add case
-  notation <- signify(object, TRUE)
-  value <- quantify(object)
-
-  music$global <- tibble::add_case(
-    global,
-    object = list(object),
-    notation = notation,
-    value = value,
-    bar = bar,
+  music$keys <- tibble::add_case(
+    keys,
     line = line,
-    scope = scope
+    scope = scope,
+    bar = bar,
+    key = list(object),
+    notation = signify(object, TRUE),
+    value = quantify(object)
   )
 
   music
