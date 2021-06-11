@@ -9,8 +9,9 @@ Key <- function(key, bar = NULL, to = NULL, scope = NULL) {
     erify::check_content(scope, c("part", "staff"))
   }
 
-  # normalize `scope`
+  # normalize arguments
   scope <- normalize_key_scope(scope, to)
+  key %<>% as.integer()
 
   # create Key
   list(
