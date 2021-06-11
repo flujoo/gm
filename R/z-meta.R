@@ -72,7 +72,15 @@ print.Meta <- function(x, ...) {
 add.Meta <- function(object, music) {
   meta <- music$meta
 
-  # remove the object in `music$meta` which has the same classes with `object`
+  # initialize `meta`
+  if (is.null(meta)) {
+    meta <- tibble::tibble(
+      object = list(),
+      notation = character()
+    )
+  }
+
+  # remove the object in `meta` which has the same classes with `object`
   for (i in seq_len(nrow(meta))) {
     if (isa(meta$object[[i]], class(object))) {
       meta <- meta[-i, ]
@@ -80,12 +88,10 @@ add.Meta <- function(object, music) {
     }
   }
 
-  notation <- object$content
-
   music$meta <- tibble::add_case(
     meta,
     object = list(object),
-    notation = notation
+    notation = !!object$content
   )
 
   music
