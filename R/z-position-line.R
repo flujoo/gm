@@ -23,6 +23,10 @@ check_to_exist <- function(to, lines, class) {
 
   l <- nrow(lines)
 
+  if (is.null(l)) {
+    l <- 0L
+  }
+
   pass <- (is.character(to) && to %in% lines$name) ||
     # `to` has been checked in `check_to()` to be a positive integer
     (is.numeric(to) && to <= l)
