@@ -232,3 +232,65 @@ initialize_ties <- function() {
     tie = list()
   )
 }
+
+
+add_tie <- function(ties, chord_length, i, j, pitches_i, pitches_stop,
+                    object, line) {
+  # normalize `j`
+  if (is.null(j)) {
+    j <- 1L
+  }
+
+  # initialize `j_stop`
+  j_stop <- NA_integer_
+
+  # return if the start position is already in `ties`
+  if (any(ties$type == "start" & ties$i == i & ties$j == j)) {
+    return(ties)
+  }
+
+  value_start <- pitches_i[pitches_i$j == j, ]$value
+
+  # set `j_stop`
+  if (chord_length == 1) {
+    j_stop <- pitches_stop[pitches_stop$value == value_start, ]$j[1]
+
+  } else if (chord_length > 1) {
+    for (k in seq_len(nrow(pitches_stop))) {
+      value_stop <- pitches_stop$value[k]
+      j_k <- pitches_stop$j[k]
+
+      con <- (value_stop == value_start) &&
+        !any(ties$type == "stop" & ties$i == i + 1 & ties$j == j_k)
+
+      if (con) {
+        j_stop <- j_k
+        break
+      }
+    }
+  }
+
+  if (is.na(j_stop)) {
+    return(ties)
+  }
+
+  # add the start position
+  ties %<>% tibble::add_case(
+    line = line,
+    i = i,
+    j = j,
+    type = "start",
+    tie = list(object)
+  )
+
+  # add the stop position
+  ties %<>% tibble::add_case(
+    line = line,
+    i = i + 1L,
+    j = j_stop,
+    type = "stop",
+    tie = list(object)
+  )
+
+  ties
+}
