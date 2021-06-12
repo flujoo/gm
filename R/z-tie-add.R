@@ -50,10 +50,32 @@ add.Tie <- function(object, music) {
 
   ties <- music$ties
 
-  check_stop_used(i, j, chord_length, local, notes_i, notes_stop)
+  if (is.null(ties)) {
+    ties <- initialize_ties()
 
-  # expand `position` and put the output into a list
-  positions <- normalize_tie_position(i, j, chord_length, position)
+  } else {
+    # check competitive ties
+    check_stop_used(i, j, chord_length, ties, pitches_i, pitches_stop)
+  }
+
+  # update `ties`
+  if (chord_length == 1) {
+    ties <- add_tie(
+      ties, chord_length, i, j, pitches_i, pitches_stop, object, line)
+
+  } else if (!is.null(j)) {
+    ties <- add_tie(
+      ties, chord_length, i, j, pitches_i, pitches_stop, object, line)
+
+  } else {
+    for (j in seq_len(chord_length)) {
+      ties <- add_tie(
+        ties, chord_length, i, j, pitches_i, pitches_stop, object, line)
+    }
+  }
+
+  music$ties <- ties
+  music
 }
 
 
