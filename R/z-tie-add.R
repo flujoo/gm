@@ -147,18 +147,6 @@ check_stop_rest <- function(pitches_stop, i, s_to) {
 }
 
 
-# expand `position` and put the output into a list
-normalize_tie_position <- function(i, j, chord_length, position) {
-  if (!is.na(j) && chord_length == 1) {
-    list(i)
-  } else if (is.na(j) && chord_length > 1) {
-    Map(c, i, 1:chord_length)
-  } else {
-    list(position)
-  }
-}
-
-
 # check if any note at the stop position has equivalent pitch
 check_equivalent_pitch <- function(pitches_i, pitches_stop, chord_length, j,
                                    i, s_to) {
