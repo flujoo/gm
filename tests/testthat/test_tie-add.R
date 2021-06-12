@@ -35,3 +35,10 @@ test_that("no_equivalent_pitch", {
   e <- expect_error(Music() + Line(c(90, 91)) + Tie(1, 1), "1")
   expect_s3_class(e, "no_equivalent_pitch")
 })
+
+
+test_that("stop_position_used", {
+  e <- expect_error(
+    Music() + Line(list(c(90, 90), 90)) + Tie(1, 1) + Tie(1, 1, 2))
+  expect_s3_class(e, "stop_position_used")
+})
