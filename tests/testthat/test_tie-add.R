@@ -14,7 +14,7 @@ test_that("rest_at_start_position", {
 
 
 test_that("start_position_beyond_chord_length", {
-  e <- expect_error(Music() + Line(list(90:91)) + Tie(1, c(1, 9)), "9")
+  e <- expect_error(Music() + Line(list(90:91)) + Tie(1, 1, 9), "9")
   expect_s3_class(e, "start_position_beyond_chord_length")
 })
 
