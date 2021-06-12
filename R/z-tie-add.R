@@ -220,21 +220,3 @@ check_stop_used <- function(i, j, chord_length, local, notes_i, notes_stop) {
   class <- "stop_position_used"
   erify::throw(general, specific, environment(), class = class)
 }
-
-
-locate_tie <- function(local, i, j, type) {
-  for (k in seq_len(nrow(local))) {
-    object <- local$object[[k]]
-
-    con <- inherits(object, "Tie") &&
-      object$type == type &&
-      local$i[k] == i &&
-      local$j[k] == j
-
-    if (con) {
-      return(k)
-    }
-  }
-
-  # `NULL` is returned otherwise
-}
