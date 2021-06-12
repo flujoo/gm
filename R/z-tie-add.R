@@ -265,7 +265,14 @@ add_tie <- function(ties, chord_length, i, j, pitches_i, pitches_stop,
   j_stop <- NA_integer_
 
   # return if the start position is already in `ties`
-  if (any(ties$type == "start" & ties$i == i & ties$j == j)) {
+  skip <- any(
+    ties$line == line &
+      ties$type == "start" &
+      ties$i == i &
+      ties$j == j
+  )
+
+  if (skip) {
     return(ties)
   }
 
@@ -280,8 +287,12 @@ add_tie <- function(ties, chord_length, i, j, pitches_i, pitches_stop,
       value_stop <- pitches_stop$value[k]
       j_k <- pitches_stop$j[k]
 
-      con <- (value_stop == value_start) &&
-        !any(ties$type == "stop" & ties$i == i + 1 & ties$j == j_k)
+      con <- (value_stop == value_start) && !any(
+        ties$line == line &
+          ties$type == "stop" &
+          ties$i == i + 1 &
+          ties$j == j_k
+      )
 
       if (con) {
         j_stop <- j_k
