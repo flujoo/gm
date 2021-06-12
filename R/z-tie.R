@@ -42,7 +42,10 @@ print.Tie <- function(x, ...) {
   cat("* to be added to Line", signify_to(x$to), "\n")
 
   # `$i` and `$j`
-  cat("* to be added at position", signify_position(c(x$i, x$j)), "\n")
+  i <- x$i
+  j <- x$j
+  s_ij <- ifelse(is.null(j), i, paste0("(", i, ", ", j, ")"))
+  cat("* to be added at position", s_ij, "\n")
 
   # `$above`
   above <- x$above
