@@ -295,21 +295,27 @@ add_tie <- function(ties, chord_length, i, j, pitches_i, pitches_stop,
   }
 
   # add the start position
+  tie_start <- object
+  tie_start$type <- "start"
+
   ties %<>% tibble::add_case(
     line = line,
     i = i,
     j = j,
     type = "start",
-    tie = list(object)
+    tie = list(tie_start)
   )
 
   # add the stop position
+  tie_stop <- object
+  tie_stop$type <- "stop"
+
   ties %<>% tibble::add_case(
     line = line,
     i = i + 1L,
     j = j_stop,
     type = "stop",
-    tie = list(object)
+    tie = list(tie_stop)
   )
 
   ties
