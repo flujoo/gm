@@ -32,9 +32,9 @@ untie <- function(value, decreasing = FALSE, approximate = FALSE) {
     v <- values[k]
 
     if (decreasing) {
-      c(v, untie(value - v))
+      c(v, untie(value - v, decreasing, approximate))
     } else {
-      c(untie(value - v), v)
+      c(untie(value - v, decreasing, approximate), v)
     }
   }
 }
