@@ -48,7 +48,7 @@ add.Tie <- function(object, music) {
   # check if any note at the stop position has equivalent pitch
   check_equivalent_pitch(pitches_i, pitches_stop, chord_length, j, i, s_to)
 
-  local <- music$local
+  ties <- music$ties
 
   check_stop_used(i, j, chord_length, local, notes_i, notes_stop)
 
@@ -220,4 +220,15 @@ check_stop_used <- function(i, j, chord_length, ties, pitches_i,
 
   class <- "stop_position_used"
   erify::throw(general, specific, environment(), class = class)
+}
+
+
+initialize_ties <- function() {
+  tibble::tibble(
+    line = integer(),
+    i = integer(),
+    j = integer(),
+    type = character(),
+    tie = list()
+  )
 }
