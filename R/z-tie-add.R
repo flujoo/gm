@@ -59,18 +59,16 @@ add.Tie <- function(object, music) {
   }
 
   # update `ties`
-  if (chord_length == 1) {
-    ties <- add_tie(
-      ties, chord_length, i, j, pitches_i, pitches_stop, object, line)
+  recursive <- chord_length > 1 && is.null(j)
 
-  } else if (!is.null(j)) {
-    ties <- add_tie(
-      ties, chord_length, i, j, pitches_i, pitches_stop, object, line)
+  if (!recursive) {
+    ties %<>% add_tie(
+      chord_length, i, j, pitches_i, pitches_stop, object, line)
 
   } else {
     for (j in seq_len(chord_length)) {
-      ties <- add_tie(
-        ties, chord_length, i, j, pitches_i, pitches_stop, object, line)
+      ties %<>% add_tie(
+        chord_length, i, j, pitches_i, pitches_stop, object, line)
     }
   }
 
