@@ -12,6 +12,13 @@ Tie <- function(to, i, j = NULL, above = NULL) {
     erify::check_bool(above)
   }
 
+  # normalize arguments
+  i %<>% as.integer()
+
+  if (!is.null(j)) {
+    j %<>% as.integer()
+  }
+
   # create Tie
   list(
     to = to,
