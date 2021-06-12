@@ -178,20 +178,31 @@ check_equivalent_pitch <- function(pitches_i, pitches_stop, chord_length, j,
 # and only one note with the same pitch at the stop position,
 # then you can only add one tie to connect one of the notes at the start
 # position, with the note at the stop position
-check_stop_used <- function(i, j, chord_length, local, notes_i, notes_stop) {
-  # when this should be a concern
-  con <- chord_length > 1 && !is.na(j) &&
-    is.null(locate_tie(local, i, j, "start"))
+check_stop_used <- function(i, j, chord_length, ties, pitches_i,
+                            pitches_stop) {
+  # if it is a note at the start position,
+  # then there is no other note to compete with it
+  pass <- chord_length == 1 ||
+    # if `j` is not specified, then there is no other note to compete
+    # with the note or chord at position `i` as a whole
+    is.null(j) ||
+    # if the start position is already in `ties`, then no note can
+    # take its tied note at the stop position
+    any(ties$type == "start" & ties$i == i & ties$j == j)
 
-  if (!con) {
+  if (pass) {
     return(invisible())
   }
 
-  pv_start <- notes_i[notes_i$j == j, ]$pv
+  value_start <- pitches_i[pitches_i$j == j, ]$value
 
-  for (k in seq_len(nrow(notes_stop))) {
-    pass <- notes_stop$pv[k] == pv_start &&
-      is.null(locate_tie(local, i + 1, notes_stop$j[k], "stop"))
+  for (k in seq_len(nrow(pitches_stop))) {
+    # when there is some pitch at the stop position is equivalent to
+    # the pitch at the start position,
+    pass <- pitches_stop$value[k] == value_start &&
+      # and this pitch is not used
+      !any(ties$type == "stop" & ties$i == i + 1 &
+             ties$j == pitches_stop$j[k])
 
     if (pass) {
       return(invisible())
@@ -200,8 +211,10 @@ check_stop_used <- function(i, j, chord_length, local, notes_i, notes_stop) {
 
   general <- "Any note can be tied with only one note."
 
+  s_ij <- paste0("(", i, ", ", j, ")")
+
   specific <- paste(
-    "Can't find note after position {i} that is untied",
+    "Can't find note after position {s_ij} that is untied",
     "and has equivalent pitch."
   )
 
