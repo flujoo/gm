@@ -23,7 +23,10 @@ Line <- function(pitches = NULL, durations = NULL, tie = NULL, name = NULL,
   }
 
   check_bar(bar)
-  check_offset(offset)
+
+  if (!is.null(offset)) {
+    erify::check_positive(offset)
+  }
 
   # deprecate `tie`
   deprecate_tie(tie)
