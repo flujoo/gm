@@ -44,7 +44,8 @@ test_that("stop_position_used", {
 })
 
 
-m <- Music() + Line(list(c(90, 91), c(91, 90)))
+l <- Line(list(c(90, 91), c(91, 90)))
+m <- Music() + l
 
 
 test_that("tie a note in a chord", {
@@ -93,5 +94,24 @@ test_that("tie a chord", {
   expect_identical(out, expected)
 
   out <- (m + t + Tie(1, 1, 2))$ties
+  expect_identical(out, expected)
+})
+
+
+test_that("ties in two Lines", {
+  t1 <- Tie(2, 1, 1)
+  t2 <- Tie(1, 1, 2)
+  t3 <- Tie(1, 1, 1)
+  m <- m + l + t1 + t2 + t3
+  out <- m$ties[, c("line", "j")]
+
+  expected <- tibble::tibble(
+    line = c(2L, 2L, 1L, 1L, 1L, 1L),
+    j = c(1L, 2L, 2L, 1L, 1L, 2L)
+  )
+
+  expect_identical(out, expected)
+
+  out <- (m + Tie(1, 1))$ties[, c("line", "j")]
   expect_identical(out, expected)
 })
