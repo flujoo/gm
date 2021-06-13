@@ -5,7 +5,11 @@ Meta <- function(class, content, ...) {
   ns <- names(args)
 
   if ("size" %in% ns) {
-    check_meta_size(args$size)
+    size <- args$size
+
+    if (!is.null(size)) {
+      erify::check_positive(size)
+    }
   }
 
   list(
@@ -95,19 +99,4 @@ add.Meta <- function(object, music) {
   )
 
   music
-}
-
-
-check_meta_size <- function(size) {
-  if (is.null(size)) {
-    return(invisible())
-  }
-
-  general <- "`size` must be a positive number."
-
-  erify::check_type(size, c("double", "integer"), NULL, general)
-  erify::check_length(size, 1, NULL, general)
-
-  valid <- expression(!is.na(x) && x > 0)
-  erify::check_content(size, valid, NULL, general)
 }
