@@ -78,3 +78,8 @@ signify_to <- function(to) {
     as.character(to)
   }
 }
+
+
+normalize_bar <- function(bar) {
+  ifelse(is.null(bar), 1L, as.integer(bar))
+}
