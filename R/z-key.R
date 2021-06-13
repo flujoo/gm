@@ -2,7 +2,11 @@
 Key <- function(key, bar = NULL, to = NULL, scope = NULL) {
   # check arguments
   erify::check_content(key, -7:7)
-  check_bar(bar)
+
+  if (!is.null(bar)) {
+    erify::check_n(bar)
+  }
+
   check_to(to)
 
   if (!is.null(scope)) {

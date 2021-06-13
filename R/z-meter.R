@@ -4,7 +4,10 @@ Meter <- function(number, unit, bar = NULL, actual_number = NULL,
   # check arguments
   check_meter_number(number)
   erify::check_content(unit, 2^(0:6))
-  check_bar(bar)
+
+  if (!is.null(bar)) {
+    erify::check_n(bar)
+  }
 
   if (!is.null(actual_number)) {
     erify::check_n(actual_number)

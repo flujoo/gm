@@ -22,7 +22,9 @@ Line <- function(pitches = NULL, durations = NULL, tie = NULL, name = NULL,
     erify::check_bool(after)
   }
 
-  check_bar(bar)
+  if (!is.null(bar)) {
+    erify::check_n(bar)
+  }
 
   if (!is.null(offset)) {
     erify::check_positive(offset)
