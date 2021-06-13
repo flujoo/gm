@@ -1,5 +1,5 @@
 # untie sum of duration values
-untie <- function(value, decreasing = FALSE, approximate = FALSE) {
+untie <- function(value, decreasing = FALSE, approximate = TRUE) {
   value %<>% round_number()
 
   # all undotted duration values
@@ -12,7 +12,7 @@ untie <- function(value, decreasing = FALSE, approximate = FALSE) {
   } else if (value < values[length(values)]) {
     # stop if `value` is smaller than the smallest duration value
     if (approximate) {
-      return(quantify_duration_type("1024"))
+      return()
     } else {
       stop()
     }
