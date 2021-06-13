@@ -40,15 +40,6 @@ untie <- function(value, decreasing = FALSE, approximate = TRUE) {
 }
 
 
-# check if `value` is a duration notation or a sum of duration notations
-is_tied <- function(value) {
-  tryCatch(
-    { untie(value); TRUE },
-    error = function(e) FALSE
-  )
-}
-
-
 # https://stackoverflow.com/questions/9508518/
 # why-are-these-numbers-not-equal
 round_number <- function(x) {
