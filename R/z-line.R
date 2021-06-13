@@ -27,7 +27,7 @@ Line <- function(pitches = NULL, durations = NULL, tie = NULL, name = NULL,
   }
 
   if (!is.null(offset)) {
-    erify::check_positive(offset)
+    erify::check_positive(offset, zero = TRUE)
   }
 
   # deprecate `tie`
