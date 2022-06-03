@@ -1,3 +1,8 @@
+# gm 1.0.4
+
+* Recognize Shiny apps.
+
+
 # gm 1.0.3
 
 * Change default score margin to 0.

@@ -1,7 +1,7 @@
 Package: gm
 Type: Package
 Title: Generate Music Easily and Show Them Anywhere
-Version: 1.0.3
+Version: 1.0.4
 Author: Renfei Mao
 Maintainer: Renfei Mao <renfeimao@gmail.com>
 Description: Provides a simple and intuitive high-level language, with which
@@ -30,6 +30,7 @@ Imports:
     MASS,
     rlang,
     rstudioapi,
+    shiny,
     stringr,
     utils
 Roxygen: list(markdown = TRUE)

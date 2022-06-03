@@ -293,6 +293,8 @@ get_show_context <- function() {
   if (isTRUE(getOption('knitr.in.progress'))) {
     # check if knit to pdf or word
     ifelse(knitr::is_html_output(), "rmd", "rmd_other")
+  } else if (shiny::isRunning()) {
+    "shiny"
   } else if (rstudioapi::isAvailable()) {
     "rstudio"
   } else if (is_jupyter()) {
@@ -322,7 +324,7 @@ show_musicxml <- function(musicxml, to, musescore) {
   } else {
     content <- generate_show_content(name_path, to, context)
 
-    if (context %in% c("rmd", "jupyter")) {
+    if (context %in% c("rmd", "jupyter", "shiny")) {
       content
 
     } else {
@@ -401,8 +403,8 @@ generate_file_path <- function(name_path, format, context) {
     file_path %<>% basename()
   }
 
-  # use data URL in R Markdown documents and Jupyter Notebooks
-  if (context %in% c("jupyter", "rmd")) {
+  # use data URL in R Markdown documents, Jupyter Notebooks and Shiny apps
+  if (context %in% c("jupyter", "rmd", "shiny")) {
     file_path %<>% {base64enc::dataURI(file = .)}
   }
 
