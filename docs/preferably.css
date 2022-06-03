@@ -23,7 +23,13 @@ pre, code, pre.usage, code.sourceCode.r, .sourceCode, .examples, .downlit, .sour
     fill: #ea4aaa;
 }
 
+
+.preferably {
+    margin-top: -2px;
+}
+
 @media (prefers-color-scheme: dark) {
+
     .github-love {
         stroke: #db61a2;
         fill: #db61a2;

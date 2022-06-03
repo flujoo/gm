@@ -1,10 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://flujoo.github.io/gm/404.html</loc>
+  </url>
+  <url>
+    <loc>https://flujoo.github.io/gm/LICENSE-text.html</loc>
+  </url>
+  <url>
+    <loc>https://flujoo.github.io/gm/LICENSE.html</loc>
+  </url>
+  <url>
+    <loc>https://flujoo.github.io/gm/README.knit.html</loc>
+  </url>
+  <url>
+    <loc>https://flujoo.github.io/gm/articles/cn.html</loc>
+  </url>
+  <url>
+    <loc>https://flujoo.github.io/gm/articles/gm.html</loc>
+  </url>
+  <url>
+    <loc>https://flujoo.github.io/gm/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://flujoo.github.io/gm/authors.html</loc>
+  </url>
+  <url>
     <loc>https://flujoo.github.io/gm/index.html</loc>
   </url>
   <url>
+    <loc>https://flujoo.github.io/gm/news/index.html</loc>
+  </url>
+  <url>
+    <loc>https://flujoo.github.io/gm/notes.html</loc>
+  </url>
+  <url>
     <loc>https://flujoo.github.io/gm/reference/Clef.html</loc>
+  </url>
+  <url>
+    <loc>https://flujoo.github.io/gm/reference/Instrument.html</loc>
   </url>
   <url>
     <loc>https://flujoo.github.io/gm/reference/Key.html</loc>
@@ -25,6 +58,18 @@
     <loc>https://flujoo.github.io/gm/reference/Tupler.html</loc>
   </url>
   <url>
+    <loc>https://flujoo.github.io/gm/reference/add.html</loc>
+  </url>
+  <url>
+    <loc>https://flujoo.github.io/gm/reference/check_duration.html</loc>
+  </url>
+  <url>
+    <loc>https://flujoo.github.io/gm/reference/check_positions_content.html</loc>
+  </url>
+  <url>
+    <loc>https://flujoo.github.io/gm/reference/check_positions_length.html</loc>
+  </url>
+  <url>
     <loc>https://flujoo.github.io/gm/reference/export.html</loc>
   </url>
   <url>
@@ -34,7 +79,13 @@
     <loc>https://flujoo.github.io/gm/reference/gm.html</loc>
   </url>
   <url>
+    <loc>https://flujoo.github.io/gm/reference/index.html</loc>
+  </url>
+  <url>
     <loc>https://flujoo.github.io/gm/reference/inspect_errors.html</loc>
+  </url>
+  <url>
+    <loc>https://flujoo.github.io/gm/reference/normalize_pitch.html</loc>
   </url>
   <url>
     <loc>https://flujoo.github.io/gm/reference/plus-.Music.html</loc>
@@ -43,12 +94,18 @@
     <loc>https://flujoo.github.io/gm/reference/show.html</loc>
   </url>
   <url>
+    <loc>https://flujoo.github.io/gm/reference/to_Duration.html</loc>
+  </url>
+  <url>
+    <loc>https://flujoo.github.io/gm/reference/to_Element.html</loc>
+  </url>
+  <url>
+    <loc>https://flujoo.github.io/gm/reference/to_Pitch.html</loc>
+  </url>
+  <url>
+    <loc>https://flujoo.github.io/gm/reference/to_value.html</loc>
+  </url>
+  <url>
     <loc>https://flujoo.github.io/gm/reference/tuplet.html</loc>
-  </url>
-  <url>
-    <loc>https://flujoo.github.io/gm/articles/cn.html</loc>
-  </url>
-  <url>
-    <loc>https://flujoo.github.io/gm/articles/gm.html</loc>
   </url>
 </urlset>
