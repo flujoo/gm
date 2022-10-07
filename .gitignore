@@ -5,3 +5,7 @@
 inst/doc
 doc
 Meta
+
+# temporarily ignore:
+man/
+NAMESPACE
