@@ -16,23 +16,11 @@ Description: Provides a simple and intuitive high-level language, with which
 License: MIT + file LICENSE
 URL: https://github.com/flujoo/gm, https://flujoo.github.io/gm/
 Encoding: UTF-8
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.1
 Suggests: 
     rmarkdown,
     testthat
 Imports:
-    base64enc,
-    glue,
-    htmltools,
-    knitr,
-    magick,
-    magrittr,
-    MASS,
-    rlang,
-    rstudioapi,
-    shiny,
-    stringr,
-    utils
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
 SystemRequirements: MuseScore - https://musescore.org/
