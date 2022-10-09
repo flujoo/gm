@@ -19,3 +19,24 @@ is_pitch_value <- function(x) {
     FALSE
   }
 }
+
+
+#' Check If Object Is Pitch Notation
+#' @noRd
+is_pitch_notation <- function(x) {
+  if (!is.character(x)) return(FALSE)
+
+  reg <- paste0(
+    "^",
+    # a valid pitch notation always starts with a note name
+    # either in uppercase or lowercase
+    "([A-G]|[a-g])",
+    # maybe followed by an accidental
+    "(#{0,2}|-{0,2})",
+    # followed by an octave
+    "[0-9]",
+    "$"
+  )
+
+  grepl(reg, x)
+}
