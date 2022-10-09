@@ -21,6 +21,7 @@ Suggests:
     rmarkdown,
     testthat
 Imports:
+    erify
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
 SystemRequirements: MuseScore - https://musescore.org/
