@@ -40,3 +40,16 @@ is_pitch_notation <- function(x) {
 
   grepl(reg, x)
 }
+
+
+parse_pitch_notation <- function(notation) {
+  notation <- trimws(notation)
+  l <- nchar(notation)
+
+  step <- toupper(substr(notation, 1, 1))
+  accidental <- substr(notation, 2, l - 1)
+  alter <- (-2:2)[accidental == c("--", "-", "", "#", "##")]
+  octave <- as.integer(substr(notation, l, l))
+
+  list(step = step, alter = alter, octave = octave)
+}
