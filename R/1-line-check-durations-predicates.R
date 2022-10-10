@@ -1,4 +1,20 @@
 #' Check If Object Is Duration Notation
+#'
+#' @description A valid duration notation has two parts:
+#'
+#' 1. a base
+#' 2. zero or more tuplet notations
+#'
+#' A base has two parts:
+#'
+#' 1. a duration type or its abbreviation
+#' 2. zero to four dots
+#'
+#' A tuplet notation has two parts:
+#'
+#' 1. a "/" followed by a positive integer
+#' 2. an optional "* ({base} / {base})"
+#'
 #' @noRd
 is_duration_notation <- function(x) {
   if (!is.character(x)) return(FALSE)
