@@ -27,7 +27,7 @@ is_pitch_notation <- function(x) {
   if (!is.character(x)) return(FALSE)
 
   reg <- paste0(
-    "^",
+    "^", "\\s*",
     # a valid pitch notation always starts with a note name
     # either in uppercase or lowercase
     "([A-G]|[a-g])",
@@ -35,7 +35,7 @@ is_pitch_notation <- function(x) {
     "(#{0,2}|-{0,2})",
     # followed by an octave
     "[0-9]",
-    "$"
+    "\\s*", "$"
   )
 
   grepl(reg, x)
