@@ -45,7 +45,7 @@ is_duration_notation <- function(x) {
   )
   tuplet <- paste0(
     "(",
-    # the basic tuplet notation, e.g. "/3"
+    # the basic tuplet notation, e.g. "/ 3"
     "\\s*", "/", "\\s*", "[1-9][0-9]*", "\\s*",
     "(",
     # for complex tuplets, e.g. "* (h / q)"
@@ -61,5 +61,6 @@ is_duration_notation <- function(x) {
     "(", "\\s*", "-", "\\s*", base, tuplet, ")*",
     "\\s*", "$"
   )
+
   grepl(notation, x)
 }
