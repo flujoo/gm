@@ -42,3 +42,10 @@ to_string.Tuplet <- function(x, short = FALSE, ...) {
     paste0(n, space, "*", space, "(", take, space, "/", space, unit, ")")
   }
 }
+
+
+#' @keywords internal
+#' @export
+print.Tuplet <- function(x, ...) {
+  cat(to_string(x), "\n")
+}
