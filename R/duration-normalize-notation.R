@@ -37,10 +37,3 @@ parse_duration_base <- function(base) {
 
   list(type = type, dot = dot)
 }
-
-
-to_string_duration_base <- function(base, short = FALSE) {
-  type <- base$type
-  if (short) type <- duration_types$abbr[duration_types$name == type]
-  paste0(type, strrep(".", base$dot))
-}
