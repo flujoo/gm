@@ -20,3 +20,25 @@ Tuplet <- function(tuplet_notation) {
   class(tuplet) <- "Tuplet"
   tuplet
 }
+
+
+#' @keywords internal
+#' @export
+to_string.Tuplet <- function(x, short = FALSE, ...) {
+  take <- x$take
+  is_complex <- !is.null(take)
+
+  if (is_complex) {
+    take <- to_string_duration_base(take, short)
+    unit <- to_string_duration_base(x$unit, short)
+  }
+
+  space <- if (short) "" else " "
+  n <- paste0("/", space, x$n)
+
+  if (!is_complex) {
+    n
+  } else {
+    paste0(n, space, "*", space, "(", take, space, "/", space, unit, ")")
+  }
+}
