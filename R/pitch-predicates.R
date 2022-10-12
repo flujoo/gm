@@ -26,7 +26,7 @@ is_pitch_value <- function(x) {
 is_pitch_notation <- function(x) {
   if (!is.character(x)) return(FALSE)
 
-  reg <- paste0(
+  re <- paste0(
     "^", "\\s*",
     # a valid pitch notation always starts with a note name
     # either in uppercase or lowercase
@@ -38,5 +38,5 @@ is_pitch_notation <- function(x) {
     "\\s*", "$"
   )
 
-  grepl(reg, x)
+  grepl(re, x)
 }
