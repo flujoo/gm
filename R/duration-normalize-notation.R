@@ -11,7 +11,7 @@ parse_duration_notation <- function(notation) {
     base <- regmatches(atomic, regexpr(re_base, atomic))
     parsed_base <- parse_duration_base(base)
     tuplets <- regmatches(atomic, gregexpr(re_tuplet, atomic))[[1]]
-    parsed_tuplets <- lapply(tuplets, parse_tuplet_notation)
+    parsed_tuplets <- lapply(tuplets, Tuplet)
     parsed_atomic <- c(parsed_base, list(tuplets = parsed_tuplets))
     parsed <- c(parsed, list(parsed_atomic))
   }
@@ -33,22 +33,4 @@ parse_duration_base <- function(base) {
   if (length(dot) == 0) dot <- 0L
 
   list(type = type, dot = dot)
-}
-
-
-parse_tuplet_notation <- function(tuplet_notation) {
-  parts <- strsplit(tuplet_notation, "/|\\*|\\(|\\)|\\s")[[1]]
-  parts <- parts[parts != ""]
-
-  n = as.integer(parts[1])
-
-  if (length(parts) == 3) {
-    take <- parse_duration_base(parts[2])
-    unit <- parse_duration_base(parts[3])
-  } else {
-    take <- NULL
-    unit <- NULL
-  }
-
-  list(n = n, take = take, unit = unit)
 }
