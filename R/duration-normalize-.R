@@ -7,6 +7,9 @@ Duration <- function(x, ...) {
 }
 
 
+
+# Duration -> string -----------------------------------------------------
+
 #' @keywords internal
 #' @export
 to_string.Duration <- function(x, short = FALSE, ...) {
@@ -45,6 +48,9 @@ to_string_duration_base <- function(base, short = FALSE) {
   paste0(type, strrep(".", base$dot))
 }
 
+
+
+# Duration -> value ------------------------------------------------------
 
 #' @keywords internal
 #' @export
