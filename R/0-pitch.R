@@ -53,17 +53,3 @@ parse_pitch_notation <- function(notation) {
 
   list(step = step, alter = alter, octave = octave)
 }
-
-
-#' Convert Pitch Notation to MIDI Note Number
-#' @noRd
-to_value_pitch <- function(notation) {
-  pitch <- parse_pitch_notation(notation)
-
-  step_notations <- c("C", "D", "E", "F", "G", "A", "B")
-  step_values <- c(0, 2, 4, 5, 7, 9, 11)
-  step_value <- step_values[pitch$step == step_notations]
-
-  value <- step_value + pitch$alter + (pitch$octave + 1) * 12
-  as.integer(value)
-}
