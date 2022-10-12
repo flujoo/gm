@@ -1,6 +1,8 @@
-parse_duration_notation <- function(notation) {
-  notation <- gsub(" ", "", notation)
-  untied <- strsplit(notation, "-")[[1]]
+#' @keywords internal
+#' @export
+Duration.character <- function(x, ...) {
+  x <- gsub(" ", "", x)
+  untied <- strsplit(x, "-")[[1]]
   parsed <- list()
 
   re_type <- paste(c(duration_types$name, duration_types$abbr), collapse = "|")
@@ -16,6 +18,7 @@ parse_duration_notation <- function(notation) {
     parsed <- c(parsed, list(parsed_atomic))
   }
 
+  class(parsed) <- "Duration"
   parsed
 }
 
