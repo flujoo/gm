@@ -12,3 +12,11 @@ Pitch <- function(x, ...) {
 print.Pitch <- function(x, ...) {
   cat(to_string(x), "\n")
 }
+
+
+#' @keywords internal
+#' @export
+to_string.Pitch <- function(x, ...) {
+  accidental <- c("--", "-", "", "#", "##")[x$alter == -2:2]
+  paste0(x$step, accidental, x$octave)
+}
