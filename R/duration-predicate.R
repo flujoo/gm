@@ -22,7 +22,7 @@
 is_duration_notation <- function(x) {
   if (!is.character(x)) return(FALSE)
 
-  base <- paste0(
+  re_base <- paste0(
     # a duration type or its abbreviation
     "(",
     paste(c(duration_types$name, duration_types$abbr), collapse = "|"),
@@ -30,24 +30,24 @@ is_duration_notation <- function(x) {
     # 0-4 dots
     "\\.{0,4}"
   )
-  tuplet <- paste0(
+  re_tuplet <- paste0(
     "(",
     # the basic tuplet notation, e.g. "/ 3"
     "\\s*", "/", "\\s*", "[1-9][0-9]*", "\\s*",
     "(",
     # for complex tuplets, e.g. "* (h / q)"
-    "\\*", "\\s*", "\\(", "\\s*", base, "\\s*", "/",
-    "\\s*", base, "\\s*", "\\)",
+    "\\*", "\\s*", "\\(", "\\s*", re_base, "\\s*", "/",
+    "\\s*", re_base, "\\s*", "\\)",
     ")?",
     ")*"
   )
-  notation <- paste0(
+  re_notation <- paste0(
     "^", "\\s*",
-    base, tuplet,
+    re_base, re_tuplet,
     # tied duration notations
-    "(", "\\s*", "-", "\\s*", base, tuplet, ")*",
+    "(", "\\s*", "-", "\\s*", re_base, re_tuplet, ")*",
     "\\s*", "$"
   )
 
-  grepl(notation, x)
+  grepl(re_notation, x)
 }
