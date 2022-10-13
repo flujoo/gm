@@ -6,7 +6,7 @@ normalize_notes <- function(pitches, durations) {
   durations <- normalized$durations
   l <- normalized$length
 
-  notes <- data.frame(
+  notes <- data_frame(
     i = integer(),
     j = integer(),
     pitch = character(),
@@ -61,7 +61,7 @@ normalize_note <- function(i, pitch, duration) {
     if (l == 0) {
       j <<- NA_integer_
 
-      end <- data.frame(
+      end <- data_frame(
         i = integer(), j = integer(),
         pitch = character(), midi = integer(),
         duration = character(), length = double()
@@ -84,7 +84,7 @@ normalize_note <- function(i, pitch, duration) {
       pitch_value <- NA_integer_
     }
 
-    note <- data.frame(
+    note <- data_frame(
       i = i, j = j,
       pitch = pitch_notation, midi = pitch_value,
       duration = duration_notation, length = duration_value
