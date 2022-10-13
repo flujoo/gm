@@ -38,3 +38,52 @@ Line <- function(pitches = NULL,
   class(line) <- "Line"
   line
 }
+
+
+#' @export
+print.Line <- function(x, ...) {
+  cat("Line\n\n")
+  cat("* of notes:\n\n")
+  print(x$notes)
+
+  name <- x$name
+  as <- x$as
+  to <- x$to
+  after <- x$after
+  bar <- x$bar
+  offset <- x$offset
+
+  if (!(is.null(c(name, as, to, after, bar, offset)))) cat("\n")
+  if (!is.null(name)) cat(sprintf('* of name "%s"', name), "\n")
+  if (!is.null(as)) cat(sprintf("* as a %s", as), "\n")
+
+  s_after <- if (isFALSE(after)) "before" else "after"
+
+  if (is.character(to)) {
+    s_to <- '* to be inserted %s Line "%s"'
+    cat(sprintf(s_to, s_after, to), "\n")
+
+  } else if (is.numeric(to)) {
+    s_to <- "* to be inserted %s Line %s"
+    cat(sprintf(s_to, s_after, to), "\n")
+
+  } else if (!is.null(after)) {
+    s_to <- "* to be inserted %s the last Line in the score"
+    cat(sprintf(s_to, s_after), "\n")
+  }
+
+  s_bar <- "* to be inserted into bar %s"
+  s_offset <- "with offset %s"
+
+  if (!is.null(bar)) {
+    if (is.null(offset)) {
+      cat(sprintf(s_bar, bar), "\n")
+    } else {
+      cat(sprintf(paste(s_bar, s_offset, sep = " "), bar, offset), "\n")
+    }
+
+  } else if (!is.null(offset)) {
+    bar <- 1
+    cat(sprintf(paste(s_bar, s_offset, sep = " "), bar, offset), "\n")
+  }
+}
