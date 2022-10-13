@@ -19,7 +19,8 @@ Encoding: UTF-8
 RoxygenNote: 7.2.1
 Suggests: 
     rmarkdown,
-    testthat
+    testthat,
+    tibble
 Imports:
     erify
 Roxygen: list(markdown = TRUE)
