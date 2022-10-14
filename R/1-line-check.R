@@ -28,10 +28,6 @@ check_to <- function(to) {
 
   general <- "`to` must be a single character or a single positive integer."
   erify::check_type(to, c("character", "double", "integer"), NULL, general)
-
-  if (is.character(to)) {
-    erify::check_string(to, NULL, general)
-  } else if (is.numeric(to)) {
-    erify::check_n(to, NULL, general)
-  }
+  valid <- expression(erify::is_string(x) || erify::is_n(x))
+  erify::check_content(to, valid, NULL, general)
 }
