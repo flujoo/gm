@@ -68,7 +68,7 @@ print.Key <- function(x, ...) {
   if (print_bar || print_to) cat("\n")
   if (print_bar) cat(sprintf("* to be added at bar %s", bar), "\n")
   if (print_to) {
-    if (is.character(to)) to <- paste0('"', to, '"')
-    cat("* to be added only to the", scope, "containing Line", to, "\n")
+    s_to <- if (is.character(to)) paste0('"', to, '"') else to
+    cat("* to be added only to the", scope, "containing Line", s_to, "\n")
   }
 }
