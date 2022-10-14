@@ -59,7 +59,10 @@ print.Meter <- function(x, ...) {
   bar <- x$bar
   invisible <- x$invisible
 
-  if (!is.null(bar) || isTRUE(invisible)) cat("\n")
-  if (!is.null(bar)) cat(sprintf("* to be added at bar %s", bar), "\n")
-  if (isTRUE(invisible)) cat("* to be invisible on the score", "\n")
+  print_bar <- !is.null(bar)
+  print_invisible <- isTRUE(invisible)
+
+  if (print_bar || print_invisible) cat("\n")
+  if (print_bar) cat(sprintf("* to be added at bar %s", bar), "\n")
+  if (print_invisible) cat("* to be invisible on the score", "\n")
 }
