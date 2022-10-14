@@ -1,0 +1,64 @@
+#' @export
+Tempo <- function(tempo, unit = NULL, bar = NULL, offset = NULL) {
+  # validation
+  erify::check_positive(tempo)
+  check_tempo_unit(unit)
+  if (!is.null(bar)) erify::check_n(bar)
+  if (!is.null(offset)) erify::check_positive(offset, zero = TRUE)
+
+  # normalization
+  if (is.null(unit)) unit <- "quarter"
+  d <- Duration(unit)
+  unit <- to_string(Duration(unit))
+  bpm <- round(tempo / to_value(d))
+
+  # construction
+  tempo <- list(
+    tempo = tempo,
+    unit = unit,
+    bpm = bpm,
+    bar = bar,
+    offset = offset
+  )
+  class(tempo) <- "Tempo"
+  tempo
+}
+
+
+check_tempo_unit <- function(unit) {
+  if (is.null(unit)) return(invisible())
+
+  general <- "`unit` must be a duration notation."
+  erify::check_type(unit, "character", NULL, general)
+  erify::check_content(unit, is_duration_notation, NULL, general)
+}
+
+
+#' @export
+print.Tempo <- function(x, ...) {
+  cat("Tempo", x$unit, "=", x$bpm, "\n")
+
+  bar <- x$bar
+  offset <- x$offset
+
+  print_bar <- !is.null(bar)
+  print_offset <- !is.null(offset)
+
+  if (print_bar || print_offset) {
+    cat("\n")
+    s_bar <- "* to be added at bar %s"
+    s_offset <- "with offset %s"
+  }
+
+  if (print_bar) {
+    if (!print_offset) {
+      cat(sprintf(s_bar, bar), "\n")
+    } else {
+      cat(sprintf(paste(s_bar, s_offset, sep = " "), bar, offset), "\n")
+    }
+
+  } else if (print_offset) {
+    bar <- 1
+    cat(sprintf(paste(s_bar, s_offset, sep = " "), bar, offset), "\n")
+  }
+}
