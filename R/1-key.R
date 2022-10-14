@@ -10,14 +10,14 @@ Key <- function(key, bar = NULL, to = NULL, scope = NULL) {
   scope <- normalize_key_scope(scope, to)
 
   # construction
-  k <- list(
+  key <- list(
     key = key,
     bar = bar,
     to = to,
     scope = scope
   )
-  class(k) <- "Key"
-  k
+  class(key) <- "Key"
+  key
 }
 
 
