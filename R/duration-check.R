@@ -51,8 +51,6 @@ check_durations.character <- function(durations) {
 #' @keywords internal
 #' @export
 check_durations.list <- function(durations) {
-  erify::check_types(durations, c("integer", "double", "character"))
-
   general <- paste(
     "If `durations` is a list,",
     "each item of it must be a duration notation or a positive number."
@@ -68,32 +66,37 @@ specify_invalid_durations <- function(durations) {
   for (i in seq_along(durations)) {
     d <- durations[[i]]
     l <- length(d)
+    type <- typeof(d)
+    types <- c("integer", "double", "character")
+    specific <- NULL
 
-    # check if each item's length is 1
-    if (l != 1) {
+    if (is.null(d)) {
+      specific <- sprintf("`durations[[%s]]` is `NULL`.", i)
+
+    } else if (!(type %in% types)) {
+      specific <- sprintf("`durations[[%s]]` has type %s.", i, type)
+
+    } else if (l != 1) {
       specific <- sprintf("`durations[[%s]]` has length %s.", i, l)
-      specifics <- c(specifics, specific)
-      next
-    }
+
+    } else if (is.na(d)) {
+      specific <- sprintf("`durations[[%s]]` is `NA`.", i)
 
     # check if any number is positive
-    if (is.numeric(d) && d <= 0) {
-      specific <- sprintf(
-        "`durations[[%s]]` is `%s`, which is not postive.",
-        i, d
-      )
-      specifics <- c(specifics, specific)
-      next
-    }
+    } else if (is.numeric(d) && d <= 0) {
+      specific <- "`durations[[%s]]` is `%s`, which is not a postive number."
+      specific <- sprintf(specific, i, d)
 
     # check if any character is a duration notation
-    if (is.character(d) && !is_duration_notation(d)) {
-      specific <- sprintf(
-        '`durations[[%s]]` is `"%s"`, which is not a duration notation.',
-        i, d
+    } else if (is.character(d) && !is_duration_notation(d)) {
+      specific <- paste(
+        '`durations[[%s]]` is `"%s"`,',
+        "which is not a duration notation."
       )
-      specifics <- c(specifics, specific)
+      specific <- sprintf(specific, i, d)
     }
+
+    specifics <- c(specifics, specific)
   }
 
   specifics
