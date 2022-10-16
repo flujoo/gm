@@ -72,7 +72,12 @@ print.Line <- function(x, ...) {
     cat(sprintf(s_to, s_after), "\n")
   }
 
-  s_bar <- "* to be inserted into bar %s"
+  print_bar_offset(bar, offset, "inserted into")
+}
+
+
+print_bar_offset <- function(bar, offset, phrase = "added at") {
+  s_bar <- paste("* to be", phrase, "bar %s")
   s_offset <- "with offset %s"
 
   if (!is.null(bar)) {
