@@ -41,24 +41,6 @@ print.Tempo <- function(x, ...) {
   bar <- x$bar
   offset <- x$offset
 
-  print_bar <- !is.null(bar)
-  print_offset <- !is.null(offset)
-
-  if (print_bar || print_offset) {
-    cat("\n")
-    s_bar <- "* to be added at bar %s"
-    s_offset <- "with offset %s"
-  }
-
-  if (print_bar) {
-    if (!print_offset) {
-      cat(sprintf(s_bar, bar), "\n")
-    } else {
-      cat(sprintf(paste(s_bar, s_offset, sep = " "), bar, offset), "\n")
-    }
-
-  } else if (print_offset) {
-    bar <- 1
-    cat(sprintf(paste(s_bar, s_offset, sep = " "), bar, offset), "\n")
-  }
+  if (!is.null(bar) || !is.null(offset)) cat("\n")
+  print_bar_offset(bar, offset)
 }
