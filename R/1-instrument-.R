@@ -7,11 +7,12 @@ Instrument <- function(instrument, to = NULL, volume = NULL, pan = NULL) {
   if (!is.null(pan)) erify::check_interval(pan, c(0L, 127L))
 
   # normalization
-  name <- instruments[instrument]
+  number <- instrument
+  name <- instruments[number]
 
   # construction
   instrument <- list(
-    instrument = instrument,
+    number = number,
     name = name,
     to = to,
     volume = volume,
@@ -24,7 +25,7 @@ Instrument <- function(instrument, to = NULL, volume = NULL, pan = NULL) {
 
 #' @export
 print.Instrument <- function(x, ...) {
-  cat(x$instrument, x$name, "\n")
+  cat(x$number, x$name, "\n")
 
   to <- x$to
   volume <- x$volume
