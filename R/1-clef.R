@@ -46,8 +46,8 @@ check_clef_line <- function(line, sign) {
 check_clef_octave <- function(octave, sign, line) {
   if (is.null(octave)) return(invisible())
 
-  con <- (sign %in% c("g", "G") && line == 2) ||
-    (sign %in% c("f", "F") && line == 4)
+  con <- (sign %in% c("g", "G") && (line == 2 || is.null(line))) ||
+    (sign %in% c("f", "F") && (line == 4 || is.null(line)))
 
   if (con) {
     erify::check_content(octave, c(-1, 1))
