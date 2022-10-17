@@ -107,3 +107,25 @@ to_string.Clef <- function(x, ...) {
 
   s
 }
+
+
+#' @export
+print.Clef <- function(x, ...) {
+  cat(to_string(x), "\n")
+
+  to <- x$to
+  bar <- x$bar
+  offset <- x$offset
+
+  if (!is.null(c(to, bar, offset))) cat("\n")
+
+  if (!is.null(to)) {
+    s_to <- sprintf(
+      "* to be added to the staff containing Line %s",
+      if (is.character(to)) paste0('"', to, '"') else to
+    )
+    cat(s_to, "\n")
+  }
+
+  print_bar_offset(bar, offset)
+}
