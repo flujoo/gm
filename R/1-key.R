@@ -4,7 +4,7 @@ Key <- function(key, bar = NULL, to = NULL, scope = NULL) {
   erify::check_content(key, -7:7)
   if (!is.null(bar)) erify::check_n(bar)
   check_to(to)
-  if (!is.null(scope)) erify::check_content(scope, c("part", "staff"))
+  check_key_scope(scope, to)
 
   # normalization
   scope <- normalize_key_scope(scope, to)
@@ -18,6 +18,23 @@ Key <- function(key, bar = NULL, to = NULL, scope = NULL) {
   )
   class(key) <- "Key"
   key
+}
+
+
+check_key_scope <- function(scope, to) {
+  if (is.null(scope)) return(invisible())
+
+  if (is.null(to)) {
+    general <- paste0(
+      "`to` is unspecified.", " ",
+      "`scope` will be ignored.", "\n",
+      "The Key will be applied to the whole score.", "\n"
+    )
+    warning(general, call. = FALSE, immediate. = TRUE)
+
+  } else {
+    erify::check_content(scope, c("part", "staff"))
+  }
 }
 
 
