@@ -17,7 +17,7 @@ deprecate_tie <- function(tie) {
   if (is.null(tie)) return(invisible())
 
   warning(
-    "`tie` is deprecated. Use `Tie()` instead.",
+    "`tie` is deprecated. Use `Tie()` instead.", "\n",
     call. = FALSE,
     immediate. = TRUE
   )
