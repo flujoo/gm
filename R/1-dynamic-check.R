@@ -1,0 +1,49 @@
+check_dynamic_symbol <- function(symbol) {
+  if (is.null(symbol)) return(invisible())
+
+  symbols <- c(
+    sapply(6:1, strrep, x = "p"),
+    "mp", "mf",
+    sapply(1:6, strrep, x = "f")
+  )
+
+  erify::check_content(symbol, symbols)
+}
+
+
+check_dynamic_symbol_velocity <- function(symbol, velocity) {
+  if (!is.null(symbol) || !is.null(velocity)) return(invisible())
+  erify::throw("`symbol` and `velocity` must not both be `NULL`.")
+}
+
+
+check_dynamic_scope <- function(scope, to, i) {
+  if (is.null(scope)) return(invisible())
+
+  if (is.null(i)) {
+    if (is.null(to)) {
+      general <- paste0(
+        "`to` and `i` are unspecified.", " ",
+        "`scope` will be ignored.", "\n",
+        "The Dynamic will be applied to the whole score.", "\n"
+      )
+      warning(general, call. = FALSE, immediate. = TRUE)
+
+    } else {
+      valid <- c("voice", "staff", "part")
+      general <- sprintf(
+        "When only `to` is specified, `scope` must be %s.",
+        erify::join(erify::back_quote(valid))
+      )
+      erify::check_content(scope, valid, NULL, general)
+    }
+
+  } else {
+    valid <- c("note", "voice", "staff", "part", "score")
+    general <- sprintf(
+      "When `i` is specified, `scope` must be %s.",
+      erify::join(erify::back_quote(valid))
+    )
+    erify::check_content(scope, valid, NULL, general)
+  }
+}
