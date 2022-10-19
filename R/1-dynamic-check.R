@@ -31,6 +31,20 @@ check_dynamic_i <- function(i, to) {
 }
 
 
+check_dynamic_j <- function(j, i) {
+  if (is.null(j)) return(invisible())
+
+  if (is.null(i)) {
+    general <- "Only when `i` is specified, can `j` be set."
+    specifics <- "`i` is `NULL`."
+    erify::throw(general, specifics)
+
+  } else {
+    erify::check_n(j)
+  }
+}
+
+
 check_dynamic_scope <- function(scope, to, i) {
   if (is.null(scope)) return(invisible())
 
