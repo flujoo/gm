@@ -75,23 +75,20 @@ to_string.Clef <- function(x, ...) {
   octave <- x$octave
 
   if (sign == "G") {
-    s <- switch(
-      line,
+    s <- switch(line,
       "1" = "French Clef",
       "2" = "Treble Clef"
     )
 
   } else if (sign == "F") {
-    s <- switch(
-      line,
+    s <- switch(line,
       "3" = "Baritone F-Clef",
       "4" = "Bass Clef",
       "5" = "Subbass Clef"
     )
 
   } else if (sign == "C") {
-    s <- switch(
-      line,
+    s <- switch(line,
       "1" = "Soprano Clef",
       "2" = "Mezzo-Soprano Clef",
       "3" = "Alto Clef",
