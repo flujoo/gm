@@ -17,6 +17,20 @@ check_dynamic_symbol_velocity <- function(symbol, velocity) {
 }
 
 
+check_dynamic_i <- function(i, to) {
+  if (is.null(i)) return(invisible())
+
+  if (is.null(to)) {
+    general <- "Only when `to` is specified, can `i` be set."
+    specifics <- "`to` is `NULL`."
+    erify::throw(general, specifics)
+
+  } else {
+    erify::check_n(i)
+  }
+}
+
+
 check_dynamic_scope <- function(scope, to, i) {
   if (is.null(scope)) return(invisible())
 
