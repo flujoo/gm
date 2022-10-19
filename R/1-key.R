@@ -7,7 +7,7 @@ Key <- function(key, bar = NULL, to = NULL, scope = NULL) {
   check_key_scope(scope, to)
 
   # normalization
-  scope <- normalize_key_scope(scope, to)
+  if (!is.null(to) && is.null(scope)) scope <- "part"
 
   # construction
   key <- list(
@@ -25,26 +25,12 @@ check_key_scope <- function(scope, to) {
   if (is.null(scope)) return(invisible())
 
   if (is.null(to)) {
-    general <- paste0(
-      "`to` is unspecified.", " ",
-      "`scope` will be ignored.", "\n",
-      "The Key will be applied to the whole score.", "\n"
-    )
-    warning(general, call. = FALSE, immediate. = TRUE)
+    general <- "Only when `to` is specified, can `scope` be set."
+    specifics <- "`to` is `NULL`."
+    erify::throw(general, specifics)
 
   } else {
     erify::check_content(scope, c("part", "staff"))
-  }
-}
-
-
-normalize_key_scope <- function(scope, to) {
-  if (is.null(to)) {
-    NULL
-  } else if (is.null(scope)) {
-    "part"
-  } else {
-    scope
   }
 }
 
