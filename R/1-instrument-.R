@@ -1,5 +1,5 @@
 #' @export
-Instrument <- function(instrument, to = NULL, volume = NULL, pan = NULL) {
+Instrument <- function(instrument, to, volume = NULL, pan = NULL) {
   # validation
   erify::check_interval(instrument, c(1L, 128L))
   check_to(to)
@@ -25,18 +25,14 @@ Instrument <- function(instrument, to = NULL, volume = NULL, pan = NULL) {
 
 #' @export
 print.Instrument <- function(x, ...) {
-  cat(x$number, x$name, "\n")
+  cat(x$number, x$name, "\n\n")
 
   to <- x$to
   volume <- x$volume
   pan <- x$pan
 
-  if (!is.null(c(to, volume, pan))) cat("\n")
-
-  if (!is.null(to)) {
-    s_to <- if (is.character(to)) paste0('"', to, '"') else to
-    cat("* to be added to the part containing Line", s_to, "\n")
-  }
+  s_to <- if (is.character(to)) paste0('"', to, '"') else to
+  cat("* to be added to the part containing Line", s_to, "\n")
 
   if (!is.null(volume)) cat("* of volume", volume, "\n")
   if (!is.null(pan)) cat("* of pan", pan, "\n")
