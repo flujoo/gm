@@ -25,8 +25,6 @@ deprecate_tie <- function(tie) {
 
 
 check_to <- function(to) {
-  if (is.null(to)) return(invisible())
-
   general <- "`to` must be a single character or a single positive integer."
   erify::check_type(to, c("character", "double", "integer"), NULL, general)
   valid <- expression(erify::is_string(x) || erify::is_n(x))

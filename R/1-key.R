@@ -3,7 +3,7 @@ Key <- function(key, bar = NULL, to = NULL, scope = NULL) {
   # validation
   erify::check_content(key, -7:7)
   if (!is.null(bar)) erify::check_n(bar)
-  check_to(to)
+  if (!is.null(to)) check_to(to)
   check_key_scope(scope, to)
 
   # normalization

@@ -17,7 +17,7 @@ Line <- function(pitches = NULL,
   if (!is.null(as)) {
     erify::check_content(as, c("part", "staff", "voice", "segment"))
   }
-  check_to(to)
+  if (!is.null(to)) check_to(to)
   if (!is.null(after)) erify::check_bool(after)
   if (!is.null(bar)) erify::check_n(bar)
   if (!is.null(offset)) erify::check_positive(offset, zero = TRUE)
