@@ -21,3 +21,16 @@ normalize_dynamic_velocity <- function(velocity, symbol) {
 }
 
 
+normalize_dynamic_scope <- function(scope, to, i, j) {
+  if (!is.null(scope)) return(scope)
+
+  if (!is.null(j)) {
+    "note"
+  } else if (!is.null(i)) {
+    "part"
+  } else if (!is.null(to)) {
+    "part"
+  } else {
+    NULL
+  }
+}
