@@ -45,33 +45,36 @@ check_dynamic_j <- function(j, i) {
 }
 
 
-check_dynamic_scope <- function(scope, to, i) {
+check_dynamic_scope <- function(scope, to, i, j) {
   if (is.null(scope)) return(invisible())
 
-  if (is.null(i)) {
-    if (is.null(to)) {
-      general <- paste0(
-        "`to` and `i` are unspecified.", " ",
-        "`scope` will be ignored.", "\n",
-        "The Dynamic will be applied to the whole score.", "\n"
-      )
-      warning(general, call. = FALSE, immediate. = TRUE)
+  if (!is.null(j)) {
+    valid <- c("note", "chord", "voice", "staff", "part", "score")
+    general <- sprintf(
+      "When `j` is specified, `scope` must be %s.",
+      erify::join(erify::back_quote(valid))
+    )
+    erify::check_content(scope, valid, NULL, general)
 
-    } else {
-      valid <- c("voice", "staff", "part")
-      general <- sprintf(
-        "When only `to` is specified, `scope` must be %s.",
-        erify::join(erify::back_quote(valid))
-      )
-      erify::check_content(scope, valid, NULL, general)
-    }
-
-  } else {
-    valid <- c("note", "voice", "staff", "part", "score")
+  } else if (!is.null(i)) {
+    valid <- c("chord", "voice", "staff", "part", "score")
     general <- sprintf(
       "When `i` is specified, `scope` must be %s.",
       erify::join(erify::back_quote(valid))
     )
     erify::check_content(scope, valid, NULL, general)
+
+  } else if (!is.null(to)) {
+    valid <- c("voice", "staff", "part")
+    general <- sprintf(
+      "When only `to` is specified, `scope` must be %s.",
+      erify::join(erify::back_quote(valid))
+    )
+    erify::check_content(scope, valid, NULL, general)
+
+  } else {
+    general <- "Only when `to` is specified, can `scope` be set."
+    specifics <- "`to` is `NULL`."
+    erify::throw(general, specifics)
   }
 }
