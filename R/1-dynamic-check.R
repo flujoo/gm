@@ -65,7 +65,7 @@ check_dynamic_scope <- function(scope, to, i, j) {
     erify::check_content(scope, valid, NULL, general)
 
   } else if (!is.null(to)) {
-    valid <- c("voice", "staff", "part")
+    valid <- c("voice", "staff", "part", "score")
     general <- sprintf(
       "When only `to` is specified, `scope` must be %s.",
       erify::join(erify::back_quote(valid))
