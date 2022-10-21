@@ -12,6 +12,13 @@ to_value <- function(x, ...) {
 }
 
 
+#' @keywords internal
+#' @export
+add <- function(object, music) {
+  UseMethod("add")
+}
+
+
 data_frame <- if (requireNamespace("tibble", quietly = TRUE)) {
   tibble::tibble
 } else {
