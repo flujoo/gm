@@ -10,3 +10,49 @@ check_line_name <- function(name, lines) {
   specifics <- sprintf('Name "%s" has been used.', name)
   erify::throw(general, specifics)
 }
+
+
+#' Check If Line Exists in Music
+#'
+#' Check if `to` refers to an existing Line in a Music.
+#'
+#' @param class The class of the object to be added to the Music.
+#'
+#' @noRd
+check_to_exist <- function(to, lines, class) {
+  if (is.null(to)) return(invisible())
+
+  n_lines <- if (is.null(lines)) 0L else nrow(lines)
+
+  if (is.character(to)) {
+    if (to %in% lines$name) {
+      return(invisible())
+    } else {
+      specifics <- sprintf('Can not find Line "%s".', to)
+    }
+
+  } else if (is.numeric(to)) {
+    if (to <= n_lines) {
+      return(invisible())
+    } else {
+      if (n_lines == 0) {
+        s_l <- "no Line"
+      } else if (n_lines == 1) {
+        s_l <- "only one Line"
+      } else {
+        s_l <- sprintf("only %s Lines", n_lines)
+      }
+
+      specifics <- c(
+        sprintf("Can not find Line %s.", to),
+        i = sprintf("The Music contains %s.", s_l)
+      )
+    }
+  }
+
+  general <- sprintf(
+    "`to` in `%s()` must refer to an existing Line in the Music.",
+    class
+  )
+  erify::throw(general, specifics)
+}
