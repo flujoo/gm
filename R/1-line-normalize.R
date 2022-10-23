@@ -20,6 +20,10 @@ normalize_notes <- function(pitches, durations) {
     notes <- rbind(notes, note)
   }
 
+  if (requireNamespace("tibble", quietly = TRUE)) {
+    notes <- tibble::as_tibble(notes)
+  }
+
   notes
 }
 
