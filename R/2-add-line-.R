@@ -1,0 +1,28 @@
+#' @keywords internal
+#' @export
+add.Line <- function(object, music) {
+  lines <- music$lines
+
+  check_line_name(object$name, lines)
+  check_to_exist(object$to, lines, "Line")
+
+  music$notes <- append_notes(music$notes, object$notes, lines)
+  music$lines <- add_line(lines, object)
+  music
+}
+
+
+#' Append Notes from Line to Music
+#' @noRd
+append_notes <- function(music_notes, line_notes, lines) {
+  notes <- rbind(
+    music_notes,
+    cbind(line = NROW(lines) + 1L, line_notes)
+  )
+
+  if (requireNamespace("tibble", quietly = TRUE)) {
+    notes <- tibble::as_tibble(notes)
+  }
+
+  notes
+}
