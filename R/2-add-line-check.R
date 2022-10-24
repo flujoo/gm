@@ -60,7 +60,9 @@ check_to_exist <- function(to, lines, class) {
 
 #' Check Number Limit of Voices
 #' @noRd
-check_voice_limit <- function(lines, target, to) {
+check_voice_limit <- function(as, lines, target, to) {
+  if (as != "voice") return(invisible())
+
   filter <- lines$part == target$part & lines$staff == target$staff
   n_voices <- nrow(lines[filter, ])
   if (n_voices < 4) return(invisible())

@@ -14,7 +14,7 @@ add_line <- function(lines, object) {
     if (is.null(after)) after <- TRUE
 
     target <- locate_line(lines, to)
-    check_voice_limit(lines, target, to)
+    check_voice_limit(as, lines, target, to)
     location <- infer_location(target, as, after)
     lines <- update_lines(lines, target, as, after)
   }
