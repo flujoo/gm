@@ -24,6 +24,7 @@ Line <- function(pitches = NULL,
 
   # normalization
   notes <- normalize_notes(pitches, durations)
+  if (!is.null(bar)) bar <- as.integer(bar)
 
   # construction
   line <- list(
