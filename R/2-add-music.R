@@ -27,6 +27,10 @@ Music <- function() {
 
 #' @export
 print.Music <- function(x, ...) {
-  cat("Music", "\n\n")
-  print(unclass(x))
+  cat("Music", "\n")
+
+  if (length(x) > 0) {
+    cat("\n")
+    print(unclass(x))
+  }
 }
