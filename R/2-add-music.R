@@ -1,7 +1,7 @@
 #' @export
 Music <- function() {
   music <- list()
-  class(music) <- ("Music")
+  class(music) <- "Music"
   music
 }
 
