@@ -22,7 +22,7 @@ check_line_name <- function(name, lines) {
 check_to_exist <- function(to, lines, class) {
   if (is.null(to)) return(invisible())
 
-  n_lines <- if (is.null(lines)) 0L else nrow(lines)
+  n_lines <- NROW(lines)
 
   if (is.character(to)) {
     if (to %in% lines$name) {
