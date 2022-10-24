@@ -23,3 +23,10 @@ Music <- function() {
 
   add(object, music)
 }
+
+
+#' @export
+print.Music <- function(x, ...) {
+  cat("Music", "\n\n")
+  print(unclass(x))
+}
