@@ -7,6 +7,8 @@ Key <- function(key, bar = NULL, to = NULL, scope = NULL) {
   check_key_scope(scope, to)
 
   # normalization
+  key <- as.integer(key)
+  if (!is.null(bar)) bar <- as.integer(bar)
   if (!is.null(to) && is.null(scope)) scope <- "part"
 
   # construction
