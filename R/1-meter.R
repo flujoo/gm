@@ -14,8 +14,11 @@ Meter <- function(number,
   if (!is.null(invisible)) erify::check_bool(invisible)
 
   # normalization
-  if (is.null(actual_number)) actual_number <- number
-  if (is.null(actual_unit)) actual_unit <- unit
+  number <- as.integer(number)
+  unit <- as.integer(unit)
+  if (!is.null(bar)) bar <- as.integer(bar)
+  if (!is.null(actual_number)) actual_number <- as.integer(actual_number)
+  if (!is.null(actual_unit)) actual_unit <- as.integer(actual_unit)
 
   # construction
   meter <- list(
@@ -43,7 +46,10 @@ to_string.Meter <- function(x, ...) {
   s <- paste0(number, "/", unit)
 
   # the actual meter
-  if (actual_number != number || actual_unit != unit) {
+  print_actual <- (!is.null(actual_number) && actual_number != number) ||
+    (!is.null(actual_unit) && actual_unit != unit)
+
+  if (print_actual) {
     s_actual <- paste0("(", actual_number, "/", actual_unit, ")")
     s <- paste(s, s_actual)
   }
