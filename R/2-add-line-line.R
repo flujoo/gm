@@ -140,8 +140,8 @@ generate_line <- function(location, object) {
 
   # normalization
   if (is.null(name)) name <- NA_character_
-  if (is.null(bar)) bar <- 1L
-  if (is.null(offset)) offset <- 0
+  if (is.null(bar)) bar <- NA_integer_
+  if (is.null(offset)) offset <- NA_real_
 
   cbind(name = name, location, bar = bar, offset = offset)
 }
