@@ -20,19 +20,16 @@ add.Key <- function(object, music) {
 generate_key <- function(object, lines) {
   scope <- object$scope
   bar <- object$bar
-  offset <- object$offset
 
   # normalization
   if (is.null(scope)) scope <- NA_character_
   if (is.null(bar)) bar <- NA_integer_
-  if (is.null(offset)) offset <- NA_real_
 
   data.frame(
     key = object$key,
     line = get_line_row(object$to, lines),
     scope = scope,
-    bar = bar,
-    offset = offset
+    bar = bar
   )
 }
 
