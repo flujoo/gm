@@ -2,7 +2,7 @@
 #' @noRd
 add_line <- function(lines, object) {
   if (is.null(lines)) {
-    location <- initialize_location()
+    location <- initialize_line_location()
 
   } else {
     to <- object$to
@@ -15,7 +15,7 @@ add_line <- function(lines, object) {
 
     target <- locate_line(lines, to)
     check_voice_limit(as, lines, target, to)
-    location <- infer_location(target, as, after)
+    location <- infer_line_location(target, as, after)
     lines <- update_lines(lines, target, as, after)
   }
 
@@ -37,7 +37,7 @@ add_line <- function(lines, object) {
 #' A **location** is a Line's part, staff, voice, and segment in a score.
 #'
 #' @noRd
-initialize_location <- function() {
+initialize_line_location <- function() {
   data.frame(
     part = 1L,
     staff = 1L,
@@ -78,7 +78,7 @@ locate_line <- function(lines, to) {
 #' that `to` refers to.
 #'
 #' @noRd
-infer_location <- function(target, as, after) {
+infer_line_location <- function(target, as, after) {
   if (as == "segment") {
     if (after) target$segment <- target$segment + 1L
 
