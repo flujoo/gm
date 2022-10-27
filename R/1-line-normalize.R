@@ -53,7 +53,7 @@ normalize_note <- function(i, pitch, duration) {
 
   if (is.character(duration)) {
     duration_notation <- duration
-    duration_value <- to_value(Duration(duration))
+    duration_value <- NA_real_
   } else {
     duration_notation <- NA_character_
     duration_value <- duration
@@ -79,7 +79,7 @@ normalize_note <- function(i, pitch, duration) {
 
     if (is_pitch_notation(p)) {
       pitch_notation <- p
-      pitch_value <- to_value(Pitch(p))
+      pitch_value <- NA_integer_
     } else if (is_pitch_value(p)) {
       pitch_notation <- NA_character_
       pitch_value <- as.integer(p)
