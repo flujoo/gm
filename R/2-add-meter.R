@@ -34,6 +34,12 @@ generate_meter <- function(object) {
 }
 
 
+#' Update `meters` in Music
+#'
+#' Remove the case in `meters` that has the same `bar`
+#' as the incoming case.
+#'
+#' @noRd
 update_meters <- function(meters, meter) {
   bar <- meter$bar
   bars <- meters$bar
