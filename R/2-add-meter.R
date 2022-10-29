@@ -2,12 +2,8 @@
 #' @export
 add.Meter <- function(object, music) {
   meter <- generate_meter(object)
-  meters <- rbind(music$meters, meter)
-
-  if (requireNamespace("tibble", quietly = TRUE)) {
-    meters <- tibble::as_tibble(meters)
-  }
-
+  meters <- update_meters(music$meters, meter)
+  meters <- rbind(meters, meter)
   music$meters <- meters
   music
 }
@@ -35,4 +31,23 @@ generate_meter <- function(object) {
     bar = bar,
     invisible = invisible
   )
+}
+
+
+update_meters <- function(meters, meter) {
+  bar <- meter$bar
+
+  for (i in seq_len(NROW(meters))) {
+    bar_i <- meters$bar[i]
+
+    match <- (bar_i %in% c(1L, NA) && bar %in% c(1L, NA)) ||
+      identical(bar_i, bar)
+
+    if (match) {
+      meters <- meters[-i, ]
+      return(meters)
+    }
+  }
+
+  meters
 }
