@@ -23,7 +23,7 @@ generate_meter <- function(object) {
   if (is.null(actual_unit)) actual_unit <- NA_integer_
   if (is.null(invisible)) invisible <- NA
 
-  data.frame(
+  data_frame(
     number = object$number,
     unit = object$unit,
     actual_number = actual_number,

@@ -17,3 +17,10 @@ to_value <- function(x, ...) {
 add <- function(object, music) {
   UseMethod("add")
 }
+
+
+data_frame <- if (requireNamespace("tibble", quietly = TRUE)) {
+  tibble::tibble
+} else {
+  data.frame
+}
