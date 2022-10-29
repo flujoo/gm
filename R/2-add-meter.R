@@ -41,20 +41,19 @@ generate_meter <- function(object) {
 #'
 #' @noRd
 update_meters <- function(meters, meter) {
-  bar <- meter$bar
-  bars <- meters$bar
+  bar <- locate_meter(meter)
 
-  for (i in seq_along(bars)) {
-    bar_i <- bars[i]
-
-    match <- (bar_i %in% c(1L, NA) && bar %in% c(1L, NA)) ||
-      identical(bar_i, bar)
-
-    if (match) {
-      meters <- meters[-i, ]
-      return(meters)
-    }
+  for (i in seq_len(NROW(meters))) {
+    bar_i <- locate_meter(meters[i, ])
+    if (bar_i == bar) return(meters[-i, ])
   }
 
   meters
+}
+
+
+locate_meter <- function(meter) {
+  bar <- meter$bar
+  if (is.na(bar)) bar <- 1L
+  bar
 }
