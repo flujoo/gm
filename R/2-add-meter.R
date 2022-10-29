@@ -36,9 +36,10 @@ generate_meter <- function(object) {
 
 update_meters <- function(meters, meter) {
   bar <- meter$bar
+  bars <- meters$bar
 
-  for (i in seq_len(NROW(meters))) {
-    bar_i <- meters$bar[i]
+  for (i in seq_along(bars)) {
+    bar_i <- bars[i]
 
     match <- (bar_i %in% c(1L, NA) && bar %in% c(1L, NA)) ||
       identical(bar_i, bar)
