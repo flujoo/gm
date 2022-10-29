@@ -1,6 +1,21 @@
 #' @keywords internal
 #' @export
 add.Meter <- function(object, music) {
+  meter <- generate_meter(object)
+  meters <- rbind(music$meters, meter)
+
+  if (requireNamespace("tibble", quietly = TRUE)) {
+    meters <- tibble::as_tibble(meters)
+  }
+
+  music$meters <- meters
+  music
+}
+
+
+#' Generate Case for `meters` in Music
+#' @noRd
+generate_meter <- function(object) {
   bar <- object$bar
   actual_number <- object$actual_number
   actual_unit <- object$actual_unit
@@ -12,8 +27,7 @@ add.Meter <- function(object, music) {
   if (is.null(actual_unit)) actual_unit <- NA_integer_
   if (is.null(invisible)) invisible <- NA
 
-  # generate the case
-  meter <- data.frame(
+  data.frame(
     number = object$number,
     unit = object$unit,
     actual_number = actual_number,
@@ -21,13 +35,4 @@ add.Meter <- function(object, music) {
     bar = bar,
     invisible = invisible
   )
-
-  meters <- rbind(music$meters, meter)
-
-  if (requireNamespace("tibble", quietly = TRUE)) {
-    meters <- tibble::as_tibble(meters)
-  }
-
-  music$meters <- meters
-  music
 }
