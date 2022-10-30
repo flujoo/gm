@@ -6,7 +6,7 @@ add.Line <- function(object, music) {
   check_line_name(object$name, lines)
   check_to_exist(object$to, lines, "Line")
 
-  music$notes <- append_notes(music$notes, object$notes, lines)
+  music$notes <- update_notes(music$notes, object$notes, lines)
   music$lines <- add_line(lines, object)
   music
 }
@@ -14,7 +14,7 @@ add.Line <- function(object, music) {
 
 #' Append Notes from Line to Music
 #' @noRd
-append_notes <- function(music_notes, line_notes, lines) {
+update_notes <- function(music_notes, line_notes, lines) {
   notes <- rbind(
     music_notes,
     cbind(line = NROW(lines) + 1L, line_notes)
