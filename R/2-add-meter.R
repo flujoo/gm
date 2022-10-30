@@ -1,7 +1,7 @@
 #' @keywords internal
 #' @export
 add.Meter <- function(object, music) {
-  meter <- generate_meter(object)
+  meter <- to_case(object)
   meters <- update_meters(music$meters, meter)
   meters <- rbind(meters, meter)
   music$meters <- meters
@@ -9,9 +9,9 @@ add.Meter <- function(object, music) {
 }
 
 
-#' Generate Case for `meters` in Music
-#' @noRd
-generate_meter <- function(object) {
+#' @keywords internal
+#' @export
+to_case.Meter <- function(object, ...) {
   bar <- object$bar
   actual_number <- object$actual_number
   actual_unit <- object$actual_unit
