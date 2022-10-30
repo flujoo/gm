@@ -5,7 +5,7 @@ add.Key <- function(object, music) {
 
   check_to_exist(object$to, lines, "Key")
 
-  key <- generate_key(object, lines)
+  key <- to_case(object, lines)
   keys <- update_keys(music$keys, key, lines)
   keys <- rbind(keys, key)
   music$keys <- keys
@@ -13,9 +13,9 @@ add.Key <- function(object, music) {
 }
 
 
-#' Generate Case for `keys` in Music
-#' @noRd
-generate_key <- function(object, lines) {
+#' @keywords internal
+#' @export
+to_case.Key <- function(object, lines, ...) {
   scope <- object$scope
   bar <- object$bar
 
