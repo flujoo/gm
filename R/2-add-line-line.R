@@ -21,11 +21,6 @@ add_line <- function(lines, object) {
 
   line <- to_case(object, location)
   lines <- rbind(lines, line)
-
-  if (requireNamespace("tibble", quietly = TRUE)) {
-    lines <- tibble::as_tibble(lines)
-  }
-
   lines
 }
 
@@ -143,5 +138,11 @@ to_case.Line <- function(object, location, ...) {
   if (is.null(bar)) bar <- NA_integer_
   if (is.null(offset)) offset <- NA_real_
 
-  cbind(name = name, location, bar = bar, offset = offset)
+  line <- cbind(name = name, location, bar = bar, offset = offset)
+
+  if (requireNamespace("tibble", quietly = TRUE)) {
+    line <- tibble::as_tibble(line)
+  }
+
+  line
 }
