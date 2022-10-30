@@ -32,22 +32,6 @@ to_case.Key <- function(object, lines, ...) {
 }
 
 
-#' Get Line's Row in `lines` of Music
-#'
-#' Get the row number of the Line that `to` refers to.
-#'
-#' @noRd
-get_line_row <- function(to, lines) {
-  if (is.null(to) || is.null(lines)) {
-    NA_integer_
-  } else if (is.numeric(to)) {
-    as.integer(to)
-  } else if (is.character(to)) {
-    which(lines$name == to)
-  }
-}
-
-
 update_keys <- function(keys, key, lines) {
   location <- locate_key(key, lines)
 
