@@ -23,6 +23,7 @@ to_case.Key <- function(object, lines, ...) {
 
   key <- data_frame(
     key = object$key,
+    name = to_string(object, TRUE),
     line = get_line_row(object$to, lines),
     scope = scope,
     bar = bar
