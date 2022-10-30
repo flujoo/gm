@@ -25,6 +25,7 @@ Line <- function(pitches = NULL,
   # normalization
   notes <- normalize_notes(pitches, durations)
   if (!is.null(bar)) bar <- as.integer(bar)
+  if (!is.null(offset)) offset <- as.double(offset)
 
   # construction
   line <- list(
