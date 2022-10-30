@@ -19,7 +19,7 @@ add_line <- function(lines, object) {
     lines <- update_lines(lines, target, as, after)
   }
 
-  line <- generate_line(location, object)
+  line <- to_case(object, location)
   lines <- rbind(lines, line)
 
   if (requireNamespace("tibble", quietly = TRUE)) {
@@ -131,9 +131,9 @@ update_lines <- function(lines, target, as, after) {
 }
 
 
-#' Generate Case for `lines` in Music
-#' @noRd
-generate_line <- function(location, object) {
+#' @keywords internal
+#' @export
+to_case.Line <- function(object, location, ...) {
   name <- object$name
   bar <- object$bar
   offset <- object$offset
