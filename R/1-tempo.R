@@ -7,11 +7,13 @@ Tempo <- function(tempo, unit = NULL, bar = NULL, offset = NULL) {
   if (!is.null(offset)) erify::check_positive(offset, zero = TRUE)
 
   # normalization
+  tempo <- as.double(tempo)
   if (is.null(unit)) unit <- "quarter"
   d <- Duration(unit)
   unit <- to_string(Duration(unit))
   bpm <- tempo / to_value(d)
   if (!is.null(bar)) bar <- as.integer(bar)
+  if (!is.null(offset)) offset <- as.double(offset)
 
   # construction
   tempo <- list(
