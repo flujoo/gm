@@ -6,9 +6,7 @@ add.Key <- function(object, music) {
   check_to_exist(object, lines)
 
   key <- to_case(object, lines)
-  keys <- update_keys(music$keys, key, lines)
-  keys <- rbind(keys, key)
-  music$keys <- keys
+  music$keys <- update_cases(music$keys, key, lines)
   music
 }
 
@@ -23,24 +21,14 @@ to_case.Key <- function(object, lines, ...) {
   if (is.null(scope)) scope <- NA_character_
   if (is.null(bar)) bar <- NA_integer_
 
-  data_frame(
+  key <- data_frame(
     key = object$key,
     line = get_line_row(object$to, lines),
     scope = scope,
     bar = bar
   )
-}
-
-
-update_keys <- function(keys, key, lines) {
-  location <- locate_key(key, lines)
-
-  for (i in seq_len(NROW(keys))) {
-    location_i <- locate_key(keys[i, ], lines)
-    if (all(location_i == location)) return(keys[-i, ])
-  }
-
-  keys
+  class(key) <- c(class(key), "key")
+  key
 }
 
 
@@ -51,11 +39,12 @@ update_keys <- function(keys, key, lines) {
 #' If `line` is `NA`, the part and staff are indicated by `0`;
 #' If `scope` is `"part"`, the staff is indicated by `0`.
 #'
-#' @noRd
-locate_key <- function(key, lines) {
-  line <- key$line
-  scope <- key$scope
-  bar <- key$bar
+#' @keywords internal
+#' @export
+locate.key <- function(case, lines, ...) {
+  line <- case$line
+  scope <- case$scope
+  bar <- case$bar
 
   if (is.na(line)) {
     part <- 0L

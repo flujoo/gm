@@ -53,3 +53,26 @@ add <- function(object, music) {
 to_case <- function(object, ...) {
   UseMethod("to_case")
 }
+
+
+update_cases <- function(cases, case, ...) {
+  location <- locate(case, ...)
+
+  for (i in seq_len(NROW(cases))) {
+    location_i <- locate(cases[i, ], ...)
+
+    if (identical(location_i, location)) {
+      cases <- cases[-i, ]
+      break
+    }
+  }
+
+  rbind(cases, case)
+}
+
+
+#' @keywords internal
+#' @export
+locate <- function(case, ...) {
+  UseMethod("locate")
+}

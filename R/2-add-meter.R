@@ -2,9 +2,7 @@
 #' @export
 add.Meter <- function(object, music) {
   meter <- to_case(object)
-  meters <- update_meters(music$meters, meter)
-  meters <- rbind(meters, meter)
-  music$meters <- meters
+  music$meters <- update_cases(music$meters, meter)
   music
 }
 
@@ -23,7 +21,7 @@ to_case.Meter <- function(object, ...) {
   if (is.null(actual_unit)) actual_unit <- NA_integer_
   if (is.null(invisible)) invisible <- NA
 
-  data_frame(
+  meter <- data_frame(
     number = object$number,
     unit = object$unit,
     actual_number = actual_number,
@@ -31,29 +29,15 @@ to_case.Meter <- function(object, ...) {
     bar = bar,
     invisible = invisible
   )
+  class(meter) <- c(class(meter), "meter")
+  meter
 }
 
 
-#' Update `meters` in Music
-#'
-#' Remove the case in `meters` that has the same `bar`
-#' as the incoming case.
-#'
-#' @noRd
-update_meters <- function(meters, meter) {
-  bar <- locate_meter(meter)
-
-  for (i in seq_len(NROW(meters))) {
-    bar_i <- locate_meter(meters[i, ])
-    if (bar_i == bar) return(meters[-i, ])
-  }
-
-  meters
-}
-
-
-locate_meter <- function(meter) {
-  bar <- meter$bar
+#' @keywords internal
+#' @export
+locate.meter <- function(case, ...) {
+  bar <- case$bar
   if (is.na(bar)) bar <- 1L
   bar
 }
