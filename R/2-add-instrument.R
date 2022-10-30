@@ -46,5 +46,5 @@ update_instruments <- function(instruments, instrument, lines) {
 
 
 locate_instrument <- function(instrument, lines) {
-  locate_line(lines, instrument$line)$part
+  locate_line(instrument$line, lines)$part
 }

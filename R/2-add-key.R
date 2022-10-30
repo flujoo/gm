@@ -61,7 +61,7 @@ locate_key <- function(key, lines) {
     part <- 0L
     staff <- 0L
   } else {
-    line_location <- locate_line(lines, line)
+    line_location <- locate_line(line, lines)
     part <- line_location$part
     staff <- line_location$staff
     if (scope == "part") staff <- 0L
