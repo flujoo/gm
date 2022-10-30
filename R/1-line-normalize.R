@@ -5,23 +5,11 @@ normalize_notes <- function(pitches, durations) {
   pitches <- normalized$pitches
   durations <- normalized$durations
   l <- normalized$length
-
-  notes <- data.frame(
-    i = integer(),
-    j = integer(),
-    pitch = character(),
-    midi = integer(),
-    duration = character(),
-    length = double()
-  )
+  notes <- NULL
 
   for (i in 1:l) {
     note <- normalize_note(i, pitches[[i]], durations[[i]])
     notes <- rbind(notes, note)
-  }
-
-  if (requireNamespace("tibble", quietly = TRUE)) {
-    notes <- tibble::as_tibble(notes)
   }
 
   notes
@@ -64,13 +52,7 @@ normalize_note <- function(i, pitch, duration) {
 
     if (l == 0) {
       j <<- NA_integer_
-
-      end <- data.frame(
-        i = integer(), j = integer(),
-        pitch = character(), midi = integer(),
-        duration = character(), length = double()
-      )
-      return(end)
+      return(NULL)
     }
 
     if (l > 1 && is.na(j)) j <<- 1L
@@ -88,7 +70,7 @@ normalize_note <- function(i, pitch, duration) {
       pitch_value <- NA_integer_
     }
 
-    note <- data.frame(
+    note <- data_frame(
       i = i, j = j,
       pitch = pitch_notation, midi = pitch_value,
       duration = duration_notation, length = duration_value
