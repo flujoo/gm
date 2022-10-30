@@ -101,7 +101,7 @@ to_string.Clef <- function(x, ...) {
   }
 
   if (!is.null(octave)) {
-    s_octave <- if (octave == 1) "Octave up" else "Octave Down"
+    s_octave <- if (octave == 1) "Octave Up" else "Octave Down"
     s <- paste(s_octave, s)
   }
 
