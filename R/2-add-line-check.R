@@ -16,10 +16,10 @@ check_line_name <- function(name, lines) {
 #'
 #' Check if `to` refers to an existing Line in a Music.
 #'
-#' @param class The class of the object to be added to the Music.
-#'
 #' @noRd
-check_to_exist <- function(to, lines, class) {
+check_to_exist <- function(object, lines) {
+  to <- object$to
+
   if (is.null(to)) return(invisible())
 
   n_lines <- NROW(lines)
@@ -52,7 +52,7 @@ check_to_exist <- function(to, lines, class) {
 
   general <- sprintf(
     "`to` in `%s()` must refer to an existing Line in the Music.",
-    class
+    class(object)
   )
   erify::throw(general, specifics)
 }

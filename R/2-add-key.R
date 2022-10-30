@@ -3,7 +3,7 @@
 add.Key <- function(object, music) {
   lines <- music$lines
 
-  check_to_exist(object$to, lines, "Key")
+  check_to_exist(object, lines)
 
   key <- to_case(object, lines)
   keys <- update_keys(music$keys, key, lines)
