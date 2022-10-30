@@ -15,7 +15,10 @@ Clef <- function(sign,
 
   # normalization
   sign <- toupper(sign)
-  if (is.null(line)) line <- switch(sign, "G" = 2, "F" = 4, "C" = 3)
+  if (is.null(line)) line <- switch(sign, "G" = 2L, "F" = 4L, "C" = 3L)
+  if (!is.null(octave)) octave <- as.integer(octave)
+  if (!is.null(bar)) bar <- as.integer(bar)
+  if (!is.null(offset)) offset <- as.double(offset)
 
   # construction
   clef <- list(
