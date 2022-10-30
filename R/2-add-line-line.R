@@ -13,7 +13,7 @@ add_line <- function(lines, object) {
     if (is.null(as)) as <- "part"
     if (is.null(after)) after <- TRUE
 
-    target <- locate_line(to, lines)
+    target <- locate_to(to, lines)
     check_voice_limit(as, lines, target, to)
     location <- infer_line_location(target, as, after)
     lines <- update_lines(lines, target, as, after)
@@ -47,7 +47,7 @@ initialize_line_location <- function() {
 #' Get a Line's location in a score. The Line is referred to by `to`.
 #'
 #' @noRd
-locate_line <- function(to, lines) {
+locate_to <- function(to, lines) {
   if (is.numeric(to)) {
     line <- lines[to, ]
 
