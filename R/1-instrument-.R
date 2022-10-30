@@ -7,8 +7,10 @@ Instrument <- function(instrument, to, volume = NULL, pan = NULL) {
   if (!is.null(pan)) erify::check_interval(pan, c(0L, 127L))
 
   # normalization
-  midi <- instrument
+  midi <- as.integer(instrument)
   name <- instruments[midi]
+  if (!is.null(volume)) volume <- as.integer(volume)
+  if (!is.null(pan)) pan <- as.integer(pan)
 
   # construction
   instrument <- list(
