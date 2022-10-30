@@ -10,7 +10,8 @@ Tempo <- function(tempo, unit = NULL, bar = NULL, offset = NULL) {
   if (is.null(unit)) unit <- "quarter"
   d <- Duration(unit)
   unit <- to_string(Duration(unit))
-  bpm <- round(tempo / to_value(d))
+  bpm <- tempo / to_value(d)
+  if (!is.null(bar)) bar <- as.integer(bar)
 
   # construction
   tempo <- list(
