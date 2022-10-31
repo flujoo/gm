@@ -19,7 +19,7 @@ add_line <- function(lines, object) {
     lines <- update_lines(lines, target, as, after)
   }
 
-  line <- to_case(object, location)
+  line <- normalize(object, location)
   lines <- rbind(lines, line)
   lines
 }
@@ -103,17 +103,13 @@ update_lines <- function(lines, target, as, after) {
 
 #' @keywords internal
 #' @export
-to_case.Line <- function(object, location, ...) {
-  name <- object$name
-  bar <- object$bar
-  offset <- object$offset
-
-  # normalization
-  if (is.null(name)) name <- NA_character_
-  if (is.null(bar)) bar <- NA_integer_
-  if (is.null(offset)) offset <- NA_real_
-
-  line <- cbind(name = name, location, bar = bar, offset = offset)
+normalize.Line <- function(object, location, ...) {
+  line <- cbind(
+    name = object$name,
+    location,
+    bar = object$bar,
+    offset = object$offset
+  )
 
   if (requireNamespace("tibble", quietly = TRUE)) {
     line <- tibble::as_tibble(line)

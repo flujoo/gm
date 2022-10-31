@@ -8,24 +8,29 @@ Line <- function(pitches = NULL,
                  after = NULL,
                  bar = NULL,
                  offset = NULL) {
+  is_name <- !is.null(name)
+  is_bar <- !is.null(bar)
+  is_offset <- !is.null(offset)
+
   # validation
   check_pitches(pitches)
   check_durations(durations)
   check_pitches_durations(pitches, durations)
   deprecate_tie(tie)
-  if (!is.null(name)) erify::check_string(name)
+  if (is_name) erify::check_string(name)
   if (!is.null(as)) {
     erify::check_content(as, c("part", "staff", "voice", "segment"))
   }
   if (!is.null(to)) check_to(to)
   if (!is.null(after)) erify::check_bool(after)
-  if (!is.null(bar)) erify::check_n(bar)
-  if (!is.null(offset)) erify::check_positive(offset, zero = TRUE)
+  if (is_bar) erify::check_n(bar)
+  if (is_offset) erify::check_positive(offset, zero = TRUE)
 
   # normalization
   notes <- normalize_notes(pitches, durations)
-  if (!is.null(bar)) bar <- as.integer(bar)
-  if (!is.null(offset)) offset <- as.double(offset)
+  if (!is_name) name <- NA_character_
+  bar <- if (is_bar) as.integer(bar) else NA_integer_
+  offset <- if (is_offset) as.double(offset) else NA_real_
 
   # construction
   line <- list(
@@ -55,8 +60,11 @@ print.Line <- function(x, ...) {
   bar <- x$bar
   offset <- x$offset
 
-  if (!(is.null(c(name, as, to, after, bar, offset)))) cat("\n")
-  if (!is.null(name)) cat(sprintf('* of name "%s"', name), "\n")
+  if (!all(is.na(c(name, bar, offset))) || !is.null(c(as, to, after))) {
+    cat("\n")
+  }
+
+  if (!is.na(name)) cat(sprintf('* of name "%s"', name), "\n")
   if (!is.null(as)) cat(sprintf("* as a %s", as), "\n")
 
   s_after <- if (isFALSE(after)) "before" else "after"
@@ -82,14 +90,14 @@ print_bar_offset <- function(bar, offset, phrase = "added at") {
   s_bar <- paste("* to be", phrase, "bar %s")
   s_offset <- "with offset %s"
 
-  if (!is.null(bar)) {
-    if (is.null(offset)) {
+  if (!is.na(bar)) {
+    if (is.na(offset)) {
       cat(sprintf(s_bar, bar), "\n")
     } else {
       cat(sprintf(paste(s_bar, s_offset, sep = " "), bar, offset), "\n")
     }
 
-  } else if (!is.null(offset)) {
+  } else if (!is.na(offset)) {
     bar <- 1
     cat(sprintf(paste(s_bar, s_offset, sep = " "), bar, offset), "\n")
   }
