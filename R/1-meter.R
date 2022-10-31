@@ -5,28 +5,45 @@ Meter <- function(number,
                   actual_number = NULL,
                   actual_unit = NULL,
                   invisible = NULL) {
+  is_bar <- !is.null(bar)
+  is_actual_number <- !is.null(actual_number)
+  is_actual_unit <- !is.null(actual_unit)
+  is_invisible <- !is.null(invisible)
+
   # validation
   erify::check_n(number)
   erify::check_content(unit, 2^(0:6))
-  if (!is.null(bar)) erify::check_n(bar)
-  if (!is.null(actual_number)) erify::check_n(actual_number)
-  if (!is.null(actual_unit)) erify::check_content(actual_unit, 2^(0:6))
-  if (!is.null(invisible)) erify::check_bool(invisible)
+  if (is_bar) erify::check_n(bar)
+  if (is_actual_number) erify::check_n(actual_number)
+  if (is_actual_unit) erify::check_content(actual_unit, 2^(0:6))
+  if (is_invisible) erify::check_bool(invisible)
 
   # normalization
   number <- as.integer(number)
   unit <- as.integer(unit)
-  if (!is.null(bar)) bar <- as.integer(bar)
-  if (!is.null(actual_number)) actual_number <- as.integer(actual_number)
-  if (!is.null(actual_unit)) actual_unit <- as.integer(actual_unit)
+  bar <- if (is_bar) as.integer(bar) else NA_integer_
+
+  actual_number <- if (is_actual_number) {
+    as.integer(actual_number)
+  } else {
+    NA_integer_
+  }
+
+  actual_unit <- if (is_actual_unit) {
+    as.integer(actual_unit)
+  } else {
+    NA_integer_
+  }
+
+  if (!is_invisible) invisible <- NA
 
   # construction
   meter <- list(
     number = number,
     unit = unit,
-    bar = bar,
     actual_number = actual_number,
     actual_unit = actual_unit,
+    bar = bar,
     invisible = invisible
   )
   class(meter) <- "Meter"
@@ -46,8 +63,8 @@ to_string.Meter <- function(x, ...) {
   s <- paste0(number, "/", unit)
 
   # the actual meter
-  print_actual <- (!is.null(actual_number) && actual_number != number) ||
-    (!is.null(actual_unit) && actual_unit != unit)
+  print_actual <- (!is.na(actual_number) && actual_number != number) ||
+    (!is.na(actual_unit) && actual_unit != unit)
 
   if (print_actual) {
     s_actual <- paste0("(", actual_number, "/", actual_unit, ")")
@@ -65,10 +82,10 @@ print.Meter <- function(x, ...) {
   bar <- x$bar
   invisible <- x$invisible
 
-  print_bar <- !is.null(bar)
+  print_bar <- !is.na(bar)
   print_invisible <- isTRUE(invisible)
 
   if (print_bar || print_invisible) cat("\n")
-  if (print_bar) cat(sprintf("* to be added at bar %s", bar), "\n")
+  if (print_bar) cat("* to be added at bar", bar, "\n")
   if (print_invisible) cat("* to be invisible on the score", "\n")
 }
