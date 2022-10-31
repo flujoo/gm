@@ -1,10 +1,13 @@
 #' @export
 Tempo <- function(tempo, unit = NULL, bar = NULL, offset = NULL) {
+  is_bar <- !is.null(bar)
+  is_offset <- !is.null(offset)
+
   # validation
   erify::check_positive(tempo)
   check_tempo_unit(unit)
-  if (!is.null(bar)) erify::check_n(bar)
-  if (!is.null(offset)) erify::check_positive(offset, zero = TRUE)
+  if (is_bar) erify::check_n(bar)
+  if (is_offset) erify::check_positive(offset, zero = TRUE)
 
   # normalization
   tempo <- as.double(tempo)
@@ -12,8 +15,8 @@ Tempo <- function(tempo, unit = NULL, bar = NULL, offset = NULL) {
   d <- Duration(unit)
   unit <- to_string(Duration(unit))
   bpm <- tempo / to_value(d)
-  if (!is.null(bar)) bar <- as.integer(bar)
-  if (!is.null(offset)) offset <- as.double(offset)
+  bar <- if (is_bar) as.integer(bar) else NA_integer_
+  offset <- if (is_offset) as.double(offset) else NA_real_
 
   # construction
   tempo <- list(
@@ -44,6 +47,6 @@ print.Tempo <- function(x, ...) {
   bar <- x$bar
   offset <- x$offset
 
-  if (!is.null(bar) || !is.null(offset)) cat("\n")
+  if (!is.na(bar) || !is.na(offset)) cat("\n")
   print_bar_offset(bar, offset)
 }
