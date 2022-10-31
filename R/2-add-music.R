@@ -24,20 +24,10 @@ add <- function(object, music) {
 }
 
 
-#' Convert Object to Case in Component of Music
-#'
-#' For example, `to_case.Meter()` converts a Meter to a case in
-#' `meters` of a Music.
-#'
-#' @keywords internal
-#' @export
-to_case <- function(object, ...) {
-  UseMethod("to_case")
-}
-
-
-update_cases <- function(cases, case, ...) {
-  location <- locate(case, ...)
+#' Append Object to Component of Music
+#' @noRd
+update_cases <- function(cases, object, ...) {
+  location <- locate(object, ...)
 
   for (i in seq_len(NROW(cases))) {
     location_i <- locate(cases[i, ], ...)
@@ -48,12 +38,29 @@ update_cases <- function(cases, case, ...) {
     }
   }
 
-  rbind(cases, case)
+  rbind(cases, to_case(object))
+}
+
+
+#' Convert Object to Case in Component of Music
+#' @noRd
+to_case <- function(object) {
+  cls <- class(object)
+  object <- unclass(object)
+
+  if (requireNamespace("tibble", quietly = TRUE)) {
+    case <- tibble::as_tibble(object)
+  } else {
+    case <- as.data.frame(object)
+  }
+
+  class(case) <- c(cls, class(case))
+  case
 }
 
 
 #' @keywords internal
 #' @export
-locate <- function(case, ...) {
+locate <- function(object, ...) {
   UseMethod("locate")
 }

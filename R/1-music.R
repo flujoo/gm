@@ -9,9 +9,15 @@ Music <- function() {
 #' @export
 print.Music <- function(x, ...) {
   cat("Music", "\n")
+  if (length(x) == 0) return(invisible())
+  cat("\n")
 
-  if (length(x) > 0) {
-    cat("\n")
-    print(unclass(x))
-  }
+  cs <- c(
+    "Line", "Meter", "Key", "Clef", "Tempo",
+    "Tie", "Instrument", "Dynamic", "Pedal"
+  )
+
+  # show components as data frames
+  for (name in names(x)) class(x[[name]]) <- setdiff(class(x[[name]]), cs)
+  print(unclass(x))
 }
