@@ -5,20 +5,31 @@ Clef <- function(sign,
                  to = NULL,
                  bar = NULL,
                  offset = NULL) {
+  is_line <- !is.null(line)
+  is_octave <- !is.null(octave)
+  is_bar <- !is.null(bar)
+  is_offset <- !is.null(offset)
+
   # validation
   erify::check_content(sign, c("G", "F", "C", "g", "f", "c"))
-  check_clef_line(line, sign)
-  check_clef_octave(octave, sign, line)
+  if (is_line) check_clef_line(line, sign)
+  if (is_octave) check_clef_octave(octave, sign, line)
   if (!is.null(to)) check_to(to)
-  if (!is.null(bar)) erify::check_n(bar)
-  if (!is.null(offset)) erify::check_positive(offset, zero = TRUE)
+  if (is_bar) erify::check_n(bar)
+  if (is_offset) erify::check_positive(offset, zero = TRUE)
 
   # normalization
   sign <- toupper(sign)
-  if (is.null(line)) line <- switch(sign, "G" = 2L, "F" = 4L, "C" = 3L)
-  if (!is.null(octave)) octave <- as.integer(octave)
-  if (!is.null(bar)) bar <- as.integer(bar)
-  if (!is.null(offset)) offset <- as.double(offset)
+
+  line <- if (is_line) {
+    as.integer(line)
+  } else {
+    switch(sign, "G" = 2L, "F" = 4L, "C" = 3L)
+  }
+
+  octave <- if (is_octave) as.integer(octave) else NA_integer_
+  bar <- if (is_bar) as.integer(bar) else NA_integer_
+  offset <- if (is_offset) as.double(offset) else NA_real_
 
   # construction
   clef <- list(
@@ -35,8 +46,6 @@ Clef <- function(sign,
 
 
 check_clef_line <- function(line, sign) {
-  if (is.null(line)) return(invisible())
-
   valid <- switch(toupper(sign), "G" = 1:2, "F" = 3:5, "C" = 1:5)
   general <- sprintf(
     'When `sign` is `"%s"`, `line` must be %s.',
@@ -47,8 +56,6 @@ check_clef_line <- function(line, sign) {
 
 
 check_clef_octave <- function(octave, sign, line) {
-  if (is.null(octave)) return(invisible())
-
   con <- (sign %in% c("g", "G") && (line == 2 || is.null(line))) ||
     (sign %in% c("f", "F") && (line == 4 || is.null(line)))
 
@@ -100,7 +107,7 @@ to_string.Clef <- function(x, ...) {
     )
   }
 
-  if (!is.null(octave)) {
+  if (!is.na(octave)) {
     s_octave <- if (octave == 1) "Octave Up" else "Octave Down"
     s <- paste(s_octave, s)
   }
@@ -117,7 +124,7 @@ print.Clef <- function(x, ...) {
   bar <- x$bar
   offset <- x$offset
 
-  if (!is.null(c(to, bar, offset))) cat("\n")
+  if (!(is.null(to) && is.na(bar) && is.na(offset))) cat("\n")
 
   if (!is.null(to)) {
     s_to <- sprintf(
