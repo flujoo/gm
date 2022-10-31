@@ -24,6 +24,13 @@ add <- function(object, music) {
 }
 
 
+#' @keywords internal
+#' @export
+normalize <- function(object, ...) {
+  UseMethod("normalize")
+}
+
+
 #' Append Object to Component of Music
 #' @noRd
 update_cases <- function(cases, object, ...) {

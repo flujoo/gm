@@ -2,10 +2,8 @@
 #' @export
 add.Key <- function(object, music) {
   lines <- music$lines
-
   check_to_exist(object, lines)
-
-  key <- to_case(object, lines)
+  key <- normalize(object, lines)
   music$keys <- update_cases(music$keys, key, lines)
   music
 }
@@ -13,22 +11,15 @@ add.Key <- function(object, music) {
 
 #' @keywords internal
 #' @export
-to_case.Key <- function(object, lines, ...) {
-  scope <- object$scope
-  bar <- object$bar
-
-  # normalization
-  if (is.null(scope)) scope <- NA_character_
-  if (is.null(bar)) bar <- NA_integer_
-
-  key <- data_frame(
+normalize.Key <- function(object, lines, ...) {
+  key <- list(
     key = object$key,
     name = to_string(object, TRUE),
     line = get_line_row(object$to, lines),
-    scope = scope,
-    bar = bar
+    scope = object$scope,
+    bar = object$bar
   )
-  class(key) <- c(class(key), "key")
+  class(key) <- "Key"
   key
 }
 
@@ -42,10 +33,10 @@ to_case.Key <- function(object, lines, ...) {
 #'
 #' @keywords internal
 #' @export
-locate.key <- function(case, lines, ...) {
-  line <- case$line
-  scope <- case$scope
-  bar <- case$bar
+locate.Key <- function(object, lines, ...) {
+  line <- object$line
+  scope <- object$scope
+  bar <- object$bar
 
   if (is.na(line)) {
     part <- 0L

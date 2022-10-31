@@ -1,15 +1,17 @@
 #' @export
 Key <- function(key, bar = NULL, to = NULL, scope = NULL) {
+  is_bar <- !is.null(bar)
+
   # validation
   erify::check_content(key, -7:7)
-  if (!is.null(bar)) erify::check_n(bar)
+  if (is_bar) erify::check_n(bar)
   if (!is.null(to)) check_to(to)
   check_key_scope(scope, to)
 
   # normalization
   key <- as.integer(key)
-  if (!is.null(bar)) bar <- as.integer(bar)
-  if (!is.null(to) && is.null(scope)) scope <- "part"
+  bar <- if (is_bar) as.integer(bar) else NA_integer_
+  scope <- normalize_key_scope(scope, to)
 
   # construction
   key <- list(
@@ -34,6 +36,17 @@ check_key_scope <- function(scope, to) {
   } else {
     erify::check_content(scope, c("part", "staff"))
   }
+}
+
+
+normalize_key_scope <- function(scope, to) {
+  if (!is.null(to)) {
+    if (is.null(scope)) scope <- "part"
+  } else {
+    scope <- NA_character_
+  }
+
+  scope
 }
 
 
@@ -67,7 +80,7 @@ print.Key <- function(x, ...) {
   scope <- x$scope
 
   # if to print each component
-  print_bar <- !is.null(bar)
+  print_bar <- !is.na(bar)
   print_to <- !is.null(to)
 
   if (print_bar || print_to) cat("\n")
