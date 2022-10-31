@@ -8,7 +8,6 @@ Line <- function(pitches = NULL,
                  after = NULL,
                  bar = NULL,
                  offset = NULL) {
-  is_name <- !is.null(name)
   is_bar <- !is.null(bar)
   is_offset <- !is.null(offset)
 
@@ -17,7 +16,7 @@ Line <- function(pitches = NULL,
   check_durations(durations)
   check_pitches_durations(pitches, durations)
   deprecate_tie(tie)
-  if (is_name) erify::check_string(name)
+  if (!is.null(name)) erify::check_string(name)
   if (!is.null(as)) {
     erify::check_content(as, c("part", "staff", "voice", "segment"))
   }
@@ -28,7 +27,6 @@ Line <- function(pitches = NULL,
 
   # normalization
   notes <- normalize_notes(pitches, durations)
-  if (!is_name) name <- NA_character_
   bar <- if (is_bar) as.integer(bar) else NA_integer_
   offset <- if (is_offset) as.double(offset) else NA_real_
 
@@ -60,11 +58,11 @@ print.Line <- function(x, ...) {
   bar <- x$bar
   offset <- x$offset
 
-  if (!all(is.na(c(name, bar, offset))) || !is.null(c(as, to, after))) {
+  if (!all(is.na(c(bar, offset))) || !is.null(c(name, as, to, after))) {
     cat("\n")
   }
 
-  if (!is.na(name)) cat(sprintf('* of name "%s"', name), "\n")
+  if (!is.null(name)) cat(sprintf('* of name "%s"', name), "\n")
   if (!is.null(as)) cat(sprintf("* as a %s", as), "\n")
 
   s_after <- if (isFALSE(after)) "before" else "after"

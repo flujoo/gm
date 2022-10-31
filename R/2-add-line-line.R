@@ -104,8 +104,11 @@ update_lines <- function(lines, target, as, after) {
 #' @keywords internal
 #' @export
 normalize.Line <- function(object, location, ...) {
+  name <- object$name
+  if (is.null(name)) name <- NA_character_
+
   line <- cbind(
-    name = object$name,
+    name = name,
     location,
     bar = object$bar,
     offset = object$offset
