@@ -1,12 +1,4 @@
 #' @export
-Music <- function() {
-  music <- list()
-  class(music) <- "Music"
-  music
-}
-
-
-#' @export
 `+.Music` <- function(music, object) {
   cs <- c(
     "Line", "Meter", "Key", "Clef", "Tempo",
@@ -22,17 +14,6 @@ Music <- function() {
   }
 
   add(object, music)
-}
-
-
-#' @export
-print.Music <- function(x, ...) {
-  cat("Music", "\n")
-
-  if (length(x) > 0) {
-    cat("\n")
-    print(unclass(x))
-  }
 }
 
 
