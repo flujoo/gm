@@ -2,7 +2,7 @@
 #' @export
 add.Key <- function(object, music) {
   lines <- music$lines
-  check_to_exist(object, lines)
+  check_to_exist(object$to, lines)
   key <- normalize(object, lines)
   music$keys <- update_cases(music$keys, key, lines)
   music

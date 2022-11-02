@@ -4,7 +4,7 @@ add.Line <- function(object, music) {
   lines <- music$lines
 
   check_line_name(object$name, lines)
-  check_to_exist(object, lines)
+  check_to_exist(object$to, lines)
 
   music$notes <- update_notes(music$notes, object$notes, lines)
   music$lines <- add_line(lines, object)

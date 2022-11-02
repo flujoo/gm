@@ -2,7 +2,7 @@
 #' @export
 add.Instrument <- function(object, music) {
   lines <- music$lines
-  check_to_exist(object, lines)
+  check_to_exist(object$to, lines)
   instrument <- normalize(object, lines)
   music$instruments <- update_cases(music$instruments, instrument, lines)
   music

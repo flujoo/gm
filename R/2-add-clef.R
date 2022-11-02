@@ -2,8 +2,9 @@
 #' @export
 add.Clef <- function(object, music) {
   lines <- music$lines
-  check_to(object$to)
-  check_to_exist(object, lines)
+  to <- object$to
+  check_to(to)
+  check_to_exist(to, lines)
   clef <- normalize(object, lines)
   music$clefs <- update_cases(music$clefs, clef, lines)
   music
