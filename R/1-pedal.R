@@ -7,6 +7,7 @@ Pedal <- function(to, i, j) {
 
   # normalization
   . <- sort(c(i, j))
+  . <- as.integer(.)
   i <- .[1]
   j <- .[2]
 
