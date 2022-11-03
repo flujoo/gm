@@ -19,7 +19,7 @@ check_j <- function(j, line, i, notes) {
   if (is.na(j)) return(invisible())
 
   # the length of the chord
-  n <- max(notes[notes$line == line, ][notes$i == i, ]$j)
+  n <- max(notes[notes$line == line & notes$i == i, ]$j)
   if (is.na(n)) n <- 1L
   if (j <= n) return(invisible())
 
