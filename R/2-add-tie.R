@@ -1,3 +1,16 @@
+#' Check If Tie Is Added to Rest
+#' @noRd
+check_i_rest <- function(i, line, notes) {
+  chord <- notes[notes$line == line & notes$i == i, ]
+  pass <- nrow(chord) > 1 || !(is.na(chord$pitch) && is.na(chord$midi))
+  if (pass) return(invisible())
+
+  general <- "Can not add a tie to a rest."
+  specifics <- sprintf("It is a rest at position %s.", i)
+  erify::throw(general, specifics)
+}
+
+
 #' @keywords internal
 #' @export
 normalize.Tie <- function(object, line, ...) {
