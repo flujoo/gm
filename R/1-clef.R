@@ -66,7 +66,7 @@ check_clef_octave <- function(octave, sign, line) {
     general <- paste(
       'Only when `sign` is `"G"` and `line` is `2`,',
       'or `sign` is `"F"` and `line` is `4`,',
-      'can `octave` be set.'
+      "can `octave` be set."
     )
     specifics <- sprintf(
       '`sign` is `"%s"`, and `line` is `%s`.',
