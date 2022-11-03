@@ -1,13 +1,12 @@
 #' Check If Index Exceeds Line Length
 #' @noRd
-check_i <- function(i, line, notes) {
+check_i <- function(i, line, notes, name = "i") {
   if (is.na(i)) return(invisible())
 
   # the length of the Line
   n <- max(notes[notes$line == line, ]$i)
   if (i <= n) return(invisible())
 
-  name <- deparse(substitute(i))
   general <- sprintf("`%s` must not exceed the Line length.", name)
   specifics <- sprintf("`%s` is %s, while the Line length is %s.", name, i, n)
   erify::throw(general, specifics)
