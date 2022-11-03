@@ -6,7 +6,7 @@ Tuplet <- function(tuplet_notation) {
   parts <- strsplit(tuplet_notation, "/|\\*|\\(|\\)|\\s")[[1]]
   parts <- parts[parts != ""]
 
-  n = as.integer(parts[1])
+  n <- as.integer(parts[1])
 
   if (length(parts) == 3) {
     take <- parse_duration_base(parts[2])
@@ -58,7 +58,7 @@ to_value.Tuplet <- function(x, ...) {
   n <- x$n
 
   if (is.null(take)) {
-    1/n
+    1 / n
   } else {
     to_value_duration_base(take) / to_value_duration_base(x$unit) / n
   }
