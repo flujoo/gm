@@ -15,7 +15,10 @@ Dynamic <- function(symbol = NULL,
   check_dynamic_scope(scope, to, i, j)
 
   # normalization
+  if (is.null(symbol)) symbol <- NA_character_
   velocity <- normalize_dynamic_velocity(velocity, symbol)
+  i <- if (!is.null(i)) as.integer(i) else NA_integer_
+  j <- if (!is.null(j)) as.integer(j) else NA_integer_
   scope <- normalize_dynamic_scope(scope, to, i, j)
 
   # construction
@@ -41,6 +44,7 @@ print.Dynamic <- function(x, ...) {
   j <- x$j
   scope <- x$scope
 
+  if (is.na(symbol)) symbol <- ""
   cat("Dynamic", symbol, "\n\n")
   cat("* of velocity", velocity, "\n")
 
@@ -52,15 +56,13 @@ print.Dynamic <- function(x, ...) {
     )
   }
 
-  if (!is.null(j)) {
+  if (!is.na(j)) {
     cat("* to be added at position", paste0("(", i, ", ", j, ")"), "\n")
-  } else if (!is.null(i)) {
+  } else if (!is.na(i)) {
     cat("* to be added at position", i, "\n")
   }
 
-  if (is.null(scope)) {
-
-  } else if (scope == "note") {
+  if (scope == "note") {
     cat("* to be applied only to the note at the position", "\n")
   } else if (scope == "chord") {
     cat("* to be applied to the note(s) at position", i, "\n")

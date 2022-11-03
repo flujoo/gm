@@ -73,8 +73,10 @@ check_dynamic_scope <- function(scope, to, i, j) {
     erify::check_content(scope, valid, NULL, general)
 
   } else {
-    general <- "Only when `to` is specified, can `scope` be set."
-    specifics <- "`to` is `NULL`."
+    general <- 'When `to` is not specified, `scope` can only be `"score"`.'
+    erify::check_string(scope, NULL, general)
+    if (scope == "score") return(invisible())
+    specifics <- sprintf('`scope` is `"%s"`.', scope)
     erify::throw(general, specifics)
   }
 }
