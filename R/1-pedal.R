@@ -6,10 +6,8 @@ Pedal <- function(to, i, j) {
   erify::check_n(j)
 
   # normalization
-  . <- sort(c(i, j))
-  . <- as.integer(.)
-  i <- .[1]
-  j <- .[2]
+  i <- as.integer(i)
+  j <- as.integer(j)
 
   # construction
   pedal <- list(to = to, i = i, j = j)
