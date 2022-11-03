@@ -1,3 +1,26 @@
+#' @keywords internal
+#' @export
+add.Tie <- function(object, music) {
+  to <- object$to
+  lines <- music$lines
+  notes <- music$notes
+
+  check_to_exist(to, lines)
+
+  line <- get_line_row(to, lines)
+  i <- object$i
+  j <- object$j
+
+  check_i(i, line, notes)
+  check_j(j, line, i, notes)
+  check_i_rest(i, line, notes)
+
+  tie <- normalize(object, line)
+  music$ties <- update_ties(music$ties, tie)
+  music
+}
+
+
 #' Check If Tie Is Added to Rest
 #' @noRd
 check_i_rest <- function(i, line, notes) {
