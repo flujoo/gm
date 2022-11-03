@@ -7,8 +7,9 @@ check_i <- function(i, line, notes) {
   n <- max(notes[notes$line == line, ]$i)
   if (i <= n) return(invisible())
 
-  general <- "`i` must not exceed the Line length."
-  specifics <- sprintf("`i` is %s, while the Line length is %s.", i, n)
+  name <- deparse(substitute(i))
+  general <- sprintf("`%s` must not exceed the Line length.", name)
+  specifics <- sprintf("`%s` is %s, while the Line length is %s.", name, i, n)
   erify::throw(general, specifics)
 }
 
