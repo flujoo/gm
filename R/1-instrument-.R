@@ -1,19 +1,16 @@
 #' @export
 Instrument <- function(instrument, to, volume = NULL, pan = NULL) {
-  is_volume <- !is.null(volume)
-  is_pan <- !is.null(pan)
-
   # validation
   erify::check_interval(instrument, c(1L, 128L))
   check_to(to)
-  if (is_volume) erify::check_interval(volume, c(0L, 127L))
-  if (is_pan) erify::check_interval(pan, c(0L, 127L))
+  if (!is.null(volume)) erify::check_interval(volume, c(0L, 127L))
+  if (!is.null(pan)) erify::check_interval(pan, c(0L, 127L))
 
   # normalization
   midi <- as.integer(instrument)
   name <- instruments[midi]
-  volume <- if (is_volume) as.integer(volume) else NA_integer_
-  pan <- if (is_pan) as.integer(pan) else NA_integer_
+  volume <- if (!is.null(volume)) as.integer(volume) else NA_integer_
+  pan <- if (!is.null(pan)) as.integer(pan) else NA_integer_
 
   # construction
   instrument <- list(
