@@ -1,5 +1,6 @@
 check_to <- function(to) {
   general <- "`to` must be a string or a positive integer."
+  if (is.null(to)) erify::throw(general, "`to` is `NULL`.")
   erify::check_type(to, c("character", "double", "integer"), NULL, general)
   valid <- expression(erify::is_string(x) || erify::is_n(x))
   erify::check_content(to, valid, NULL, general)
