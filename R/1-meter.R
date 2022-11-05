@@ -5,37 +5,32 @@ Meter <- function(number,
                   actual_number = NULL,
                   actual_unit = NULL,
                   invisible = NULL) {
-  is_bar <- !is.null(bar)
-  is_actual_number <- !is.null(actual_number)
-  is_actual_unit <- !is.null(actual_unit)
-  is_invisible <- !is.null(invisible)
-
   # validation
   erify::check_n(number)
   erify::check_content(unit, 2^(0:6))
-  if (is_bar) erify::check_n(bar)
-  if (is_actual_number) erify::check_n(actual_number)
-  if (is_actual_unit) erify::check_content(actual_unit, 2^(0:6))
-  if (is_invisible) erify::check_bool(invisible)
+  if (!is.null(bar)) erify::check_n(bar)
+  if (!is.null(actual_number)) erify::check_n(actual_number)
+  if (!is.null(actual_unit)) erify::check_content(actual_unit, 2^(0:6))
+  if (!is.null(invisible)) erify::check_bool(invisible)
 
   # normalization
   number <- as.integer(number)
   unit <- as.integer(unit)
-  bar <- if (is_bar) as.integer(bar) else NA_integer_
+  bar <- if (!is.null(bar)) as.integer(bar) else NA_integer_
 
-  actual_number <- if (is_actual_number) {
+  actual_number <- if (!is.null(actual_number)) {
     as.integer(actual_number)
   } else {
     NA_integer_
   }
 
-  actual_unit <- if (is_actual_unit) {
+  actual_unit <- if (!is.null(actual_unit)) {
     as.integer(actual_unit)
   } else {
     NA_integer_
   }
 
-  if (!is_invisible) invisible <- NA
+  if (is.null(invisible)) invisible <- NA
 
   # construction
   meter <- list(
