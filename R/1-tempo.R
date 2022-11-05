@@ -75,16 +75,23 @@ print.Tempo <- function(x, ...) {
 
   s_tempo <- "Tempo"
   if (!is.na(marking)) s_tempo <- paste(s_tempo, marking)
+  if (!is.na(unit)) s_tempo <- paste(s_tempo, unit, "=", bpm)
 
-  if (!is.na(unit)) {
-    s_tempo <- paste(s_tempo, unit, "=", bpm)
-  } else {
+  if (is.na(marking) && is.na(unit)) {
     s_tempo <- paste(s_tempo, "quarter", "=", tempo)
   }
 
   cat(s_tempo, "\n")
 
-  if (!is.na(bar) || !is.na(offset) || !is.na(invisible)) cat("\n")
+  enter <- (is.na(unit) && !is.na(marking)) || !is.na(bar) ||
+    !is.na(offset) || !is.na(invisible)
+
+  if (enter) cat("\n")
+
+  if (is.na(unit) && !is.na(marking)) {
+    cat("*", tempo, "quarter notes per minute")
+  }
+
   print_bar_offset(bar, offset)
 
   if (!is.na(invisible)) {
