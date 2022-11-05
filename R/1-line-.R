@@ -8,9 +8,6 @@ Line <- function(pitches = NULL,
                  after = NULL,
                  bar = NULL,
                  offset = NULL) {
-  is_bar <- !is.null(bar)
-  is_offset <- !is.null(offset)
-
   # validation
   check_pitches(pitches)
   check_durations(durations)
@@ -22,13 +19,13 @@ Line <- function(pitches = NULL,
   }
   if (!is.null(to)) check_to(to)
   if (!is.null(after)) erify::check_bool(after)
-  if (is_bar) erify::check_n(bar)
-  if (is_offset) erify::check_positive(offset, zero = TRUE)
+  if (!is.null(bar)) erify::check_n(bar)
+  if (!is.null(offset)) erify::check_positive(offset, zero = TRUE)
 
   # normalization
   notes <- normalize_notes(pitches, durations)
-  bar <- if (is_bar) as.integer(bar) else NA_integer_
-  offset <- if (is_offset) as.double(offset) else NA_real_
+  bar <- if (!is.null(bar)) as.integer(bar) else NA_integer_
+  offset <- if (!is.null(offset)) as.double(offset) else NA_real_
 
   # construction
   line <- list(
