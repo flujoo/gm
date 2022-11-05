@@ -1,15 +1,13 @@
 #' @export
 Tie <- function(to, i, j = NULL) {
-  is_j <- !is.null(j)
-
   # validation
   check_to(to)
   erify::check_n(i)
-  if (is_j) erify::check_n(j)
+  if (!is.null(j)) erify::check_n(j)
 
   # normalization
   i <- as.integer(i)
-  j <- if (is_j) as.integer(j) else NA_integer_
+  j <- if (!is.null(j)) as.integer(j) else NA_integer_
 
   # construction
   tie <- list(to = to, i = i, j = j)
