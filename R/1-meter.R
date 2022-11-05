@@ -75,10 +75,11 @@ print.Meter <- function(x, ...) {
   bar <- x$bar
   invisible <- x$invisible
 
-  print_bar <- !is.na(bar)
-  print_invisible <- isTRUE(invisible)
+  if (!is.na(bar) || !is.na(invisible)) cat("\n")
+  if (!is.na(bar)) cat("* to be added at bar", bar, "\n")
 
-  if (print_bar || print_invisible) cat("\n")
-  if (print_bar) cat("* to be added at bar", bar, "\n")
-  if (print_invisible) cat("* to be invisible on the score", "\n")
+  if (!is.na(invisible)) {
+    s_invisible <- if (invisible) "invisible" else "visible"
+    cat("* to be", s_invisible, "on the score", "\n")
+  }
 }
