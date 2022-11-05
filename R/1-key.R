@@ -77,13 +77,9 @@ print.Key <- function(x, ...) {
   to <- x$to
   scope <- x$scope
 
-  # if to print each component
-  print_bar <- !is.na(bar)
-  print_to <- !is.null(to)
-
-  if (print_bar || print_to) cat("\n")
-  if (print_bar) cat(sprintf("* to be added at bar %s", bar), "\n")
-  if (print_to) {
+  if (!is.na(bar) || !is.null(to)) cat("\n")
+  if (!is.na(bar)) cat(sprintf("* to be added at bar %s", bar), "\n")
+  if (!is.null(to)) {
     s_to <- if (is.character(to)) paste0('"', to, '"') else to
     cat("* to be added only to the", scope, "containing Line", s_to, "\n")
   }
