@@ -111,30 +111,39 @@ specify_invalid_pitches <- function(pitches) {
 
     # check if the item contains valid pitch values or notations
     } else if (is.numeric(p) || is.character(p)) {
-      for (j in seq_len(l)) {
-        p_j <- p[j]
-        if (is_pitch_value(p_j) || is_pitch_notation(p_j)) next
-
-        # elaborate error messages
-        if (l == 1) {
-          s_name <- sprintf("`pitches[[%s]]`", i)
-        } else {
-          s_name <- sprintf("`pitches[[%s]][%s]`", i, j)
-        }
-
-        s_p <- erify::back_quote(p_j, as_double = FALSE)
-        s_which <- "which is not an integer between 12 and 127."
-
-        if (is.character(p_j) && suppressWarnings(is.na(as.numeric(p_j)))) {
-          s_which <- "which is not a pitch notation."
-        }
-
-        specific <- c(specific, paste0(s_name, " is ", s_p, ", ", s_which))
-      }
+      specific <- specify_invalid_chord(p, l, i)
     }
 
     specifics <- c(specifics, specific)
   }
 
   specifics
+}
+
+
+specify_invalid_chord <- function(chord, length, i) {
+  specific <- character(0)
+
+  for (j in seq_len(length)) {
+    pitch <- chord[j]
+    if (is_pitch_value(pitch) || is_pitch_notation(pitch)) next
+
+    # elaborate error messages
+    if (length == 1) {
+      s_name <- sprintf("`pitches[[%s]]`", i)
+    } else {
+      s_name <- sprintf("`pitches[[%s]][%s]`", i, j)
+    }
+
+    s_pitch <- erify::back_quote(pitch, as_double = FALSE)
+    s_which <- "which is not an integer between 12 and 127."
+
+    if (is.character(pitch) && suppressWarnings(is.na(as.numeric(pitch)))) {
+      s_which <- "which is not a pitch notation."
+    }
+
+    specific <- c(specific, paste0(s_name, " is ", s_pitch, ", ", s_which))
+  }
+
+  specific
 }
