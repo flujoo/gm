@@ -1,19 +1,19 @@
-check_dynamic_symbol <- function(symbol) {
-  if (is.null(symbol)) return(invisible())
+check_dynamic_marking <- function(marking) {
+  if (is.null(marking)) return(invisible())
 
-  symbols <- c(
+  markings <- c(
     sapply(6:1, strrep, x = "p"),
     "mp", "mf",
     sapply(1:6, strrep, x = "f")
   )
 
-  erify::check_content(symbol, symbols)
+  erify::check_content(marking, markings)
 }
 
 
-check_dynamic_symbol_velocity <- function(symbol, velocity) {
-  if (!is.null(symbol) || !is.null(velocity)) return(invisible())
-  erify::throw("`symbol` and `velocity` must not both be `NULL`.")
+check_dynamic_marking_velocity <- function(marking, velocity) {
+  if (!is.null(marking) || !is.null(velocity)) return(invisible())
+  erify::throw("`marking` and `velocity` must not both be `NULL`.")
 }
 
 

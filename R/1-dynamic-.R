@@ -1,29 +1,29 @@
 #' @export
-Dynamic <- function(symbol = NULL,
+Dynamic <- function(marking = NULL,
                     velocity = NULL,
                     to = NULL,
                     i = NULL,
                     j = NULL,
                     scope = NULL) {
   # validation
-  check_dynamic_symbol(symbol)
+  check_dynamic_marking(marking)
   if (!is.null(velocity)) erify::check_interval(velocity, c(0L, 127L))
-  check_dynamic_symbol_velocity(symbol, velocity)
+  check_dynamic_marking_velocity(marking, velocity)
   if (!is.null(to)) check_to(to)
   check_dynamic_i(i, to)
   check_dynamic_j(j, i)
   check_dynamic_scope(scope, to, i, j)
 
   # normalization
-  if (is.null(symbol)) symbol <- NA_character_
-  velocity <- normalize_dynamic_velocity(velocity, symbol)
+  if (is.null(marking)) marking <- NA_character_
+  velocity <- normalize_dynamic_velocity(velocity, marking)
   i <- if (!is.null(i)) as.integer(i) else NA_integer_
   j <- if (!is.null(j)) as.integer(j) else NA_integer_
   scope <- normalize_dynamic_scope(scope, to, i, j)
 
   # construction
   dynamic <- list(
-    symbol = symbol,
+    marking = marking,
     velocity = velocity,
     to = to,
     i = i,
@@ -37,15 +37,15 @@ Dynamic <- function(symbol = NULL,
 
 #' @export
 print.Dynamic <- function(x, ...) {
-  symbol <- x$symbol
+  marking <- x$marking
   velocity <- x$velocity
   to <- x$to
   i <- x$i
   j <- x$j
   scope <- x$scope
 
-  if (is.na(symbol)) symbol <- ""
-  cat("Dynamic", symbol, "\n\n")
+  if (is.na(marking)) marking <- ""
+  cat("Dynamic", marking, "\n\n")
   cat("* of velocity", velocity, "\n")
 
   if (!is.null(to)) {

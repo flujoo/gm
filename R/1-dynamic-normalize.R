@@ -1,8 +1,8 @@
-normalize_dynamic_velocity <- function(velocity, symbol) {
+normalize_dynamic_velocity <- function(velocity, marking) {
   if (!is.null(velocity)) return(as.integer(velocity))
 
   # according to MuseScore
-  switch(symbol,
+  switch(marking,
     "pppppp" = 1L,
     "ppppp" = 5L,
     "pppp" = 10L,
