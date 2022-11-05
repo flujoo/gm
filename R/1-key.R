@@ -1,16 +1,14 @@
 #' @export
 Key <- function(key, bar = NULL, to = NULL, scope = NULL) {
-  is_bar <- !is.null(bar)
-
   # validation
   erify::check_content(key, -7:7)
-  if (is_bar) erify::check_n(bar)
+  if (!is.null(bar)) erify::check_n(bar)
   if (!is.null(to)) check_to(to)
   check_key_scope(scope, to)
 
   # normalization
   key <- as.integer(key)
-  bar <- if (is_bar) as.integer(bar) else NA_integer_
+  bar <- if (!is.null(bar)) as.integer(bar) else NA_integer_
   scope <- normalize_key_scope(scope, to)
 
   # construction
