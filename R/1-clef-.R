@@ -6,7 +6,7 @@ Clef <- function(sign,
                  bar = NULL,
                  offset = NULL) {
   # validation
-  erify::check_content(sign, c("G", "F", "C", "g", "f", "c"))
+  check_clef_sign(sign)
   check_clef_line(line, sign)
   check_clef_octave(octave, sign, line)
   if (!is.null(to)) check_to(to)

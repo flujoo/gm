@@ -1,3 +1,13 @@
+check_clef_sign <- function(sign) {
+  valid <- c("G", "F", "C")
+  general <- sprintf(
+    "`sign` must be %s.",
+    erify::join(erify::back_quote(valid))
+  )
+  erify::check_content(sign, c(valid, tolower(valid)), NULL, general)
+}
+
+
 check_clef_line <- function(line, sign) {
   if (is.null(line)) return(invisible())
 
