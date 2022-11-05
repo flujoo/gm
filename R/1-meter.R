@@ -54,19 +54,17 @@ to_string.Meter <- function(x, ...) {
   actual_number <- x$actual_number
   actual_unit <- x$actual_unit
 
-  # the nominal meter
-  s <- paste0(number, "/", unit)
+  s_nominal <- paste0(number, "/", unit)
+  if (is.na(actual_number) && is.na(actual_unit)) return(s_nominal)
 
-  # the actual meter
-  print_actual <- (!is.na(actual_number) && actual_number != number) ||
-    (!is.na(actual_unit) && actual_unit != unit)
-
-  if (print_actual) {
-    s_actual <- paste0("(", actual_number, "/", actual_unit, ")")
-    s <- paste(s, s_actual)
+  if (is.na(actual_number)) {
+    actual_number <- number
+  } else if (is.na(actual_unit)) {
+    actual_unit <- unit
   }
 
-  s
+  s_actual <- paste0("(", actual_number, "/", actual_unit, ")")
+  paste(s_nominal, s_actual)
 }
 
 
