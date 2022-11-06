@@ -12,12 +12,16 @@ print.Music <- function(x, ...) {
   if (length(x) == 0) return(invisible())
   cat("\n")
 
-  cs <- c(
-    "Line", "Meter", "Key", "Clef", "Tempo",
-    "Tie", "Instrument", "Dynamic", "Pedal"
-  )
+  if (requireNamespace("tibble", quietly = TRUE)) {
+    cs <- class(tibble::tibble())
+  } else {
+    cs <- class(data.frame())
+  }
 
   # show components as data frames
-  for (name in names(x)) class(x[[name]]) <- setdiff(class(x[[name]]), cs)
+  for (name in names(x)) {
+    if (is.data.frame(x[[name]])) class(x[[name]]) <- cs
+  }
+
   print(unclass(x))
 }
