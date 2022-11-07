@@ -33,6 +33,7 @@ check_j <- function(j, line, i, notes) {
 #' @noRd
 check_i_rest <- function(object, line, notes) {
   i <- object$i
+  if (is.na(i)) return(invisible())
 
   chord <- notes[notes$line == line & notes$i == i, ]
   pass <- nrow(chord) > 1 || !(is.na(chord$pitch) && is.na(chord$midi))
