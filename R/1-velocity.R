@@ -46,10 +46,10 @@ print.Velocity <- function(x, ...) {
 
   if (!is.na(j)) {
     s_ij <- sprintf("(%s, %s)", i, j)
-    cat("* to be applied to position", s_ij, "of Line", s_to)
+    cat("* to be applied to position", s_ij, "of Line", s_to, "\n")
   } else if (!is.na(i)) {
-    cat("* to be applied to position", i, "of Line", s_to)
+    cat("* to be applied to position", i, "of Line", s_to, "\n")
   } else if (!is.null(to)) {
-    cat("* to be applied to Line", s_to)
+    cat("* to be applied to Line", s_to, "\n")
   }
 }
