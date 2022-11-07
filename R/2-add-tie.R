@@ -21,23 +21,6 @@ add.Tie <- function(object, music) {
 }
 
 
-#' Check If Object Is Added to Rest
-#' @noRd
-check_i_rest <- function(object, line, notes) {
-  i <- object$i
-
-  chord <- notes[notes$line == line & notes$i == i, ]
-  pass <- nrow(chord) > 1 || !(is.na(chord$pitch) && is.na(chord$midi))
-  if (pass) return(invisible())
-
-  class <- class(object)
-  article <- if (substr(class, 1, 1) %in% c("A", "O")) "an" else "a"
-  general <- sprintf("Can not add %s %s to a rest.", article, class)
-  specifics <- sprintf("It is a rest at position %s.", i)
-  erify::throw(general, specifics)
-}
-
-
 #' @keywords internal
 #' @export
 normalize.Tie <- function(object, line, ...) {
