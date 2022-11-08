@@ -6,8 +6,7 @@ Articulation <- function(name, to, i) {
   erify::check_n(i)
 
   # normalization
-  names <- articulations$name
-  if (!(name %in% names)) name <- names[which(articulations$abbr == name)]
+  name <- normalize_articulation_name(name)
   i <- as.integer(i)
 
   # construction
@@ -49,7 +48,20 @@ check_articulation_name <- function(name) {
 
   valid <- c(names, abbrs[!is.na(abbrs)])
   general <- sprintf("`name` must be %s.", erify::join(terms))
-  erify::check_content(name, valid, NULL, general)
+  specific <- sprintf('`name` is `"%s"`.', name)
+  erify::check_content(tolower(name), valid, NULL, general, specific)
+}
+
+
+normalize_articulation_name <- function(name) {
+  name <- tolower(name)
+  names <- articulations$name
+
+  if (name %in% names) {
+    name
+  } else {
+    names[which(articulations$abbr == name)]
+  }
 }
 
 
