@@ -3,7 +3,7 @@
   cs <- c(
     "Line", "Meter", "Key", "Clef", "Tempo",
     "Tie", "Instrument", "Dynamic", "Pedal",
-    "Velocity"
+    "Velocity", "Articulation"
   )
   erify::check_binary_classes(music, object, "Music", cs, "+")
 
