@@ -17,13 +17,9 @@ add.Articulation <- function(object, music) {
 #' @keywords internal
 #' @export
 normalize.Articulation <- function(object, line, ...) {
-  articulation <- list(
-    name = object$name,
-    line = line,
-    i = object$i
-  )
-  class(articulation) <- "Articulation"
-  articulation
+  names(object)[names(object) == "to"] <- "line"
+  object$line <- line
+  object
 }
 
 
