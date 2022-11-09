@@ -12,15 +12,9 @@ add.Instrument <- function(object, music) {
 #' @keywords internal
 #' @export
 normalize.Instrument <- function(object, lines, ...) {
-  instrument <- list(
-    midi = object$midi,
-    name = object$name,
-    line = get_line_row(object$to, lines),
-    volume = object$volume,
-    pan = object$pan
-  )
-  class(instrument) <- "Instrument"
-  instrument
+  object$to <- get_line_row(object$to, lines)
+  names(object)[names(object) == "to"] <- "line"
+  object
 }
 
 
