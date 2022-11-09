@@ -20,12 +20,13 @@ add.Pedal <- function(object, music) {
 #' @export
 normalize.Pedal <- function(object, line, ...) {
   . <- sort(c(object$i, object$j))
-  i <- .[1]
-  j <- .[2]
+  object$i <- .[1]
+  object$j <- .[2]
 
-  pedal <- list(line = line, i = i, j = j)
-  class(pedal) <- "Pedal"
-  pedal
+  names(object)[names(object) == "to"] <- "line"
+  object$line <- line
+
+  object
 }
 
 
