@@ -24,9 +24,9 @@ add.Tie <- function(object, music) {
 #' @keywords internal
 #' @export
 normalize.Tie <- function(object, line, ...) {
-  tie <- list(line = line, i = object$i, j = object$j)
-  class(tie) <- "Tie"
-  tie
+  names(object)[names(object) == "to"] <- "line"
+  object$line <- line
+  object
 }
 
 
