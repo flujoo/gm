@@ -23,14 +23,9 @@ add.Velocity <- function(object, music) {
 #' @keywords internal
 #' @export
 normalize.Velocity <- function(object, line, ...) {
-  velocity <- list(
-    velocity = object$velocity,
-    line = line,
-    i = object$i,
-    j = object$j
-  )
-  class(velocity) <- "Velocity"
-  velocity
+  names(object)[names(object) == "to"] <- "line"
+  object$line <- line
+  object
 }
 
 
