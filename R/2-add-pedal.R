@@ -2,13 +2,15 @@
 #' @export
 add.Pedal <- function(object, music) {
   to <- object$to
+  i <- object$i
+  j <- object$j
   lines <- music$lines
   notes <- music$notes
 
   check_to_exist(to, lines)
   line <- get_line_row(to, lines)
-  check_i(object$i, line, notes)
-  check_i(object$j, line, notes, "j")
+  check_i(i, line, notes)
+  check_i(j, line, notes)
 
   pedal <- normalize(object, line)
   music$pedals <- update_cases(music$pedals, pedal)
