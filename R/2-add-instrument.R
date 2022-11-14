@@ -1,8 +1,11 @@
 #' @keywords internal
 #' @export
 add.Instrument <- function(object, music) {
+  to <- object$to
   lines <- music$lines
-  check_to_exist(object$to, lines)
+
+  check_to_exist(to, lines)
+
   instrument <- normalize(object, lines)
   music$instruments <- update_cases(music$instruments, instrument, lines)
   music
