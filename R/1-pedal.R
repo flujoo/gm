@@ -23,10 +23,7 @@ print.Pedal <- function(x, ...) {
   j <- x$j
 
   cat("Pedal", "\n\n")
-  cat(
-    "* to be added to Line",
-    if (is.character(to)) paste0('"', to, '"') else to,
-    "\n"
-  )
-  cat("* from note", i, "to", j, "\n")
+  s_to <- if (is.character(to)) paste0('"', to, '"') else to
+  cat("* to be added to Line", s_to, "\n")
+  cat("* from position", i, "to", j, "\n")
 }
