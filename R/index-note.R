@@ -1,7 +1,8 @@
 #' Check If Index Exceeds Line Length
 #' @noRd
-check_i <- function(i, line, notes, name = "i") {
+check_i <- function(i, line, notes) {
   if (is.na(i)) return(invisible())
+  name <- deparse(substitute(i))
 
   # the length of the Line
   n <- max(notes[notes$line == line, ]$i)
