@@ -10,7 +10,6 @@ Slur <- function(to, i, j, to_j = NULL, above = NULL) {
   # normalization
   i <- as.integer(i)
   j <- as.integer(j)
-  if (is.null(to_j)) to_j <- NA_integer_
   if (is.null(above)) above <- NA
 
   # construction
@@ -32,7 +31,7 @@ print.Slur <- function(x, ...) {
 
   s_to <- if (is.character(to)) paste0('"', to, '"') else to
 
-  if (is.na(to_j)) {
+  if (is.null(to_j)) {
     cat("* to be added to Line", s_to, "\n")
     cat("* from position", i, "to", j, "\n")
 
