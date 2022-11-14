@@ -20,3 +20,30 @@ Slur <- function(to, i, j, to_j = NULL, above = NULL) {
 }
 
 
+#' @export
+print.Slur <- function(x, ...) {
+  to <- x$to
+  i <- x$i
+  j <- x$j
+  to_j <- x$to_j
+  above <- x$above
+
+  cat("Slur", "\n\n")
+
+  s_to <- if (is.character(to)) paste0('"', to, '"') else to
+
+  if (is.na(to_j)) {
+    cat("* to be added to Line", s_to, "\n")
+    cat("* from position", i, "to", j, "\n")
+
+  } else {
+    cat("* to start at position", i, "of Line", s_to, "\n")
+    s_to_j <- if (is.character(to_j)) paste0('"', to_j, '"') else to_j
+    cat("* to end at position", j, "of Line", s_to_j, "\n")
+  }
+
+  if (!is.na(above)) {
+    s_above <- if (above) "above" else "below"
+    cat("* to be placed", s_above, "the staff", "\n")
+  }
+}
