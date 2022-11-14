@@ -47,7 +47,11 @@ check_to_exist <- function(to, lines) {
     }
   }
 
-  general <- "`to` must refer to an existing Line in the Music."
+  general <- sprintf(
+    "`%s` must refer to an existing Line in the Music.",
+    deparse(substitute(to))
+  )
+
   erify::throw(general, specifics)
 }
 
