@@ -2,7 +2,8 @@
 `+.Music` <- function(music, object) {
   cs <- c(
     "Line", "Meter", "Key", "Clef", "Tempo", "Tie", "Instrument",
-    "Dynamic", "Pedal", "Velocity", "Articulation", "Slur", "Fermata"
+    "Dynamic", "Pedal", "Velocity", "Articulation", "Slur", "Fermata",
+    "Grace"
   )
   erify::check_binary_classes(music, object, "Music", cs, "+")
 
