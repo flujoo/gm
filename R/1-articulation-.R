@@ -29,9 +29,7 @@ print.Articulation <- function(x, ...) {
   to <- x$to
   i <- x$i
 
-  cat(capitalize(strsplit(name, " ")[[1]]), "\n")
-  cat("\n")
-
+  cat("Articulation", sprintf('"%s"', name), "\n\n")
   s_to <- if (is.character(to)) paste0('"', to, '"') else to
   cat("* to be added to Line", s_to, "\n")
   cat("* to be added at position", i, "\n")
