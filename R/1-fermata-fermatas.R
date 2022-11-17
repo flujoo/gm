@@ -1,10 +1,10 @@
 fermatas <- rbind(
-  data.frame(musescore = "fermata", musicxml = "normal"),
+  data.frame(musescore = NA_character_, musicxml = "normal"),
 
-  c("short fermata"        , "angled"       ),
-  c("long fermata"         , "square"       ),
-  c("very short fermata"   , "double-angled"),
-  c("very long fermata"    , "double-square"),
-  c("long fermata (Henze)" , "double-dot"   ),
-  c("short fermata (Henze)", "half-curve"   )
+  c("short"        , "angled"       ),
+  c("long"         , "square"       ),
+  c("very short"   , "double-angled"),
+  c("very long"    , "double-square"),
+  c("long (Henze)" , "double-dot"   ),
+  c("short (Henze)", "half-curve"   )
 )
