@@ -50,8 +50,7 @@ print.Dynamic <- function(x, ...) {
   i <- x$i
   above <- x$above
 
-  cat("Dynamic", marking, "\n")
-  cat("\n")
+  cat("Dynamic", sprintf('"%s"', marking), "\n\n")
   if (!is.na(velocity)) cat("* of velocity", velocity, "\n")
 
   s_to <- if (is.character(to)) paste0('"', to, '"') else to
