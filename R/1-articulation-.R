@@ -6,7 +6,7 @@ Articulation <- function(name, to, i) {
   erify::check_n(i)
 
   # normalization
-  name <- normalize_articulation_name(name)
+  name <- articulations$musescore[which(articulations == name, TRUE)[1]]
   i <- as.integer(i)
 
   # construction
@@ -20,12 +20,6 @@ check_articulation_name <- function(name) {
   valid <- unique(unlist(articulations))
   valid <- valid[!is.na(valid)]
   erify::check_content(name, valid)
-}
-
-
-normalize_articulation_name <- function(name) {
-  i <- which(articulations == name, arr.ind = TRUE)[1]
-  articulations$musescore[i]
 }
 
 
