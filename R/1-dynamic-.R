@@ -32,44 +32,13 @@ Dynamic <- function(marking, to, i, velocity = NULL, above = NULL) {
 normalize_dynamic_velocity <- function(velocity, marking) {
   if (!is.null(velocity)) return(as.integer(velocity))
 
-  # according to MuseScore
-  switch(marking,
-    "pppppp" = 1L,
-    "ppppp" = 5L,
-    "pppp" = 10L,
-    "ppp" = 16L,
-    "pp" = 33L,
-    "p" = 49L,
-    "mp" = 64L,
+  markings <- dynamics$marking
 
-    "mf" = 80L,
-    "f" = 96L,
-    "ff" = 112L,
-    "fff" = 126L,
-    "ffff" = 127L,
-    "fffff" = 127L,
-    "ffffff" = 127L,
-
-    "fp" = 96L,
-    "pf" = 49L,
-    "sf" = 112L,
-    "sfz" = 112L,
-    "sff" = 126L,
-    "sffz" = 126L,
-    "sfp" = 112L,
-    "sfpp" = 112L,
-    "rfz" = 112L,
-    "rf" = 112L,
-    "fz" = 112L,
-
-    "m" = 96L,
-    "r" = 112L,
-    "s" = 112L,
-    "z" = 80L,
-    "n" = 49L,
-
+  if (marking %in% markings) {
+    (dynamics$velocity)[which(markings == marking)]
+  } else {
     NA_integer_
-  )
+  }
 }
 
 
