@@ -17,22 +17,13 @@ Articulation <- function(name, to, i) {
 
 
 check_articulation_name <- function(name) {
-  erify::check_string(name)
-
-  pass <- any(!is.na(articulations) & articulations == tolower(name))
-  if (pass) return(invisible())
-
-  general <- sprintf(
-    'Can not create an Articulation with `name = "%s"`.',
-    name
-  )
-
-  erify::throw(general)
+  valid <- unique(unlist(articulations))
+  valid <- valid[!is.na(valid)]
+  erify::check_content(name, valid)
 }
 
 
 normalize_articulation_name <- function(name) {
-  name <- tolower(name)
   i <- which(articulations == name, arr.ind = TRUE)[1]
   articulations$musescore[i]
 }
