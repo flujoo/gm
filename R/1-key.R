@@ -8,7 +8,7 @@ Key <- function(key, bar = NULL, to = NULL, scope = NULL) {
 
   # normalization
   key <- as.integer(key)
-  bar <- if (!is.null(bar)) as.integer(bar) else NA_integer_
+  if (!is.null(bar)) bar <- as.integer(bar)
   scope <- normalize_key_scope(scope, to)
 
   # construction
@@ -77,8 +77,8 @@ print.Key <- function(x, ...) {
   to <- x$to
   scope <- x$scope
 
-  if (!is.na(bar) || !is.null(to)) cat("\n")
-  if (!is.na(bar)) cat(sprintf("* to be added at bar %s", bar), "\n")
+  if (!is.null(bar) || !is.null(to)) cat("\n")
+  if (!is.null(bar)) cat(sprintf("* to be added at bar %s", bar), "\n")
   if (!is.null(to)) {
     s_to <- if (is.character(to)) paste0('"', to, '"') else to
     cat("* to be added only to the", scope, "containing Line", s_to, "\n")

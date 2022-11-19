@@ -15,13 +15,17 @@ add.Key <- function(object, music) {
 #' @keywords internal
 #' @export
 normalize.Key <- function(object, lines, ...) {
+  bar <- object$bar
+  if (is.null(bar)) bar <- 1L
+
   key <- list(
     key = object$key,
     name = to_string(object, TRUE),
+    bar = bar,
     line = get_line_row(object$to, lines),
-    scope = object$scope,
-    bar = object$bar
+    scope = object$scope
   )
+
   class(key) <- "Key"
   key
 }
@@ -39,7 +43,6 @@ normalize.Key <- function(object, lines, ...) {
 locate.Key <- function(object, lines, ...) {
   line <- object$line
   scope <- object$scope
-  bar <- object$bar
 
   if (is.na(line)) {
     part <- 0L
@@ -51,7 +54,5 @@ locate.Key <- function(object, lines, ...) {
     if (scope == "part") staff <- 0L
   }
 
-  if (is.na(bar)) bar <- 1L
-
-  c(part, staff, bar)
+  c(part, staff, object$bar)
 }
