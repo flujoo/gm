@@ -104,15 +104,15 @@ update_lines <- function(lines, target, as, after) {
 #' @keywords internal
 #' @export
 normalize.Line <- function(object, location, ...) {
+  bar <- object$bar
+  offset <- object$offset
   name <- object$name
+
+  if (is.null(bar)) bar <- 1L
+  if (is.null(offset)) offset <- 0
   if (is.null(name)) name <- NA_character_
 
-  line <- cbind(
-    name = name,
-    location,
-    bar = object$bar,
-    offset = object$offset
-  )
+  line <- cbind(location, bar = bar, offset = offset, name = name)
 
   if (requireNamespace("tibble", quietly = TRUE)) {
     line <- tibble::as_tibble(line)

@@ -24,8 +24,8 @@ Line <- function(pitches = NULL,
 
   # normalization
   notes <- normalize_notes(pitches, durations)
-  bar <- if (!is.null(bar)) as.integer(bar) else NA_integer_
-  offset <- if (!is.null(offset)) as.double(offset) else NA_real_
+  if (!is.null(bar)) bar <- as.integer(bar)
+  if (!is.null(offset)) offset <- as.double(offset)
 
   # construction
   line <- list(
@@ -55,9 +55,7 @@ print.Line <- function(x, ...) {
   bar <- x$bar
   offset <- x$offset
 
-  if (!all(is.na(c(bar, offset))) || !is.null(c(name, as, to, after))) {
-    cat("\n")
-  }
+  if (!is.null(c(name, as, to, after, bar, offset))) cat("\n")
 
   if (!is.null(name)) cat(sprintf('* of name "%s"', name), "\n")
   if (!is.null(as)) cat(sprintf("* as a %s", as), "\n")
@@ -85,14 +83,14 @@ print_bar_offset <- function(bar, offset, phrase = "added at") {
   s_bar <- paste("* to be", phrase, "bar %s")
   s_offset <- "with offset %s"
 
-  if (!is.na(bar)) {
-    if (is.na(offset)) {
+  if (!is.null(bar)) {
+    if (is.null(offset)) {
       cat(sprintf(s_bar, bar), "\n")
     } else {
       cat(sprintf(paste(s_bar, s_offset, sep = " "), bar, offset), "\n")
     }
 
-  } else if (!is.na(offset)) {
+  } else if (!is.null(offset)) {
     bar <- 1
     cat(sprintf(paste(s_bar, s_offset, sep = " "), bar, offset), "\n")
   }
