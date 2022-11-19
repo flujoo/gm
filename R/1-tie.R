@@ -20,12 +20,12 @@ Tie <- function(to, i, j = NULL, above = NULL) {
 
 #' @export
 print.Tie <- function(x, ...) {
-  cat("Tie", "\n\n")
-
   to <- x$to
   i <- x$i
   j <- x$j
   above <- x$above
+
+  cat("Tie", "\n\n")
 
   s_to <- if (is.character(to)) paste0('"', to, '"') else to
   cat("* to be added to Line", s_to, "\n")
