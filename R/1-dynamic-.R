@@ -14,7 +14,6 @@ Dynamic <- function(marking, to, i, velocity = NULL, above = NULL) {
   # normalization
   i <- as.integer(i)
   velocity <- normalize_dynamic_velocity(velocity, marking)
-  if (is.null(above)) above <- NA
 
   # construction
   dynamic <- list(
@@ -57,7 +56,7 @@ print.Dynamic <- function(x, ...) {
   cat("* to be added to Line", s_to, "\n")
   cat("* to be added at position", i, "\n")
 
-  if (!is.na(above)) {
+  if (!is.null(above)) {
     s_above <- if (above) "above" else "below"
     cat("* to be placed", s_above, "the staff", "\n")
   }
