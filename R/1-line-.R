@@ -44,16 +44,17 @@ Line <- function(pitches = NULL,
 
 #' @export
 print.Line <- function(x, ...) {
-  cat("Line\n\n")
-  cat("* of notes:\n\n")
-  print(x$notes)
-
+  notes <- x$notes
   name <- x$name
   as <- x$as
   to <- x$to
   after <- x$after
   bar <- x$bar
   offset <- x$offset
+
+  cat("Line", "\n\n")
+  cat("* of notes:", "\n\n")
+  print(notes)
 
   if (!is.null(c(name, as, to, after, bar, offset))) cat("\n")
 
