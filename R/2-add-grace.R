@@ -18,8 +18,11 @@ add.Grace <- function(object, music) {
 #' @keywords internal
 #' @export
 normalize.Grace <- function(object, line, ...) {
+  if (is.null(object$slash)) object$slash <- TRUE
+
   names(object)[names(object) == "to"] <- "line"
   object$line <- line
+
   object
 }
 

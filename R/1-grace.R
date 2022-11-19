@@ -7,7 +7,6 @@ Grace <- function(to, i, slash = NULL) {
 
   # normalization
   i <- as.integer(i)
-  if (is.null(slash)) slash <- NA
 
   # construction
   grace <- list(to = to, i = i, slash = slash)
@@ -28,5 +27,5 @@ print.Grace <- function(x, ...) {
   cat("* to be applied to Line", s_to, "\n")
   cat("* to be applied to position", i, "\n")
 
-  if (!is.na(slash)) cat("*", if (slash) "slashed" else "not slashed", "\n")
+  if (!is.null(slash)) cat("*", if (slash) "slashed" else "not slashed", "\n")
 }
