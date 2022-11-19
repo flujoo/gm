@@ -16,21 +16,9 @@ Meter <- function(number,
   # normalization
   number <- as.integer(number)
   unit <- as.integer(unit)
-  bar <- if (!is.null(bar)) as.integer(bar) else NA_integer_
-
-  actual_number <- if (!is.null(actual_number)) {
-    as.integer(actual_number)
-  } else {
-    NA_integer_
-  }
-
-  actual_unit <- if (!is.null(actual_unit)) {
-    as.integer(actual_unit)
-  } else {
-    NA_integer_
-  }
-
-  if (is.null(invisible)) invisible <- NA
+  if (!is.null(bar)) bar <- as.integer(bar)
+  if (!is.null(actual_number)) actual_number <- as.integer(actual_number)
+  if (!is.null(actual_unit)) actual_unit <- as.integer(actual_unit)
 
   # construction
   meter <- list(
@@ -55,11 +43,11 @@ to_string.Meter <- function(x, ...) {
   actual_unit <- x$actual_unit
 
   s_nominal <- paste0(number, "/", unit)
-  if (is.na(actual_number) && is.na(actual_unit)) return(s_nominal)
+  if (is.null(actual_number) && is.null(actual_unit)) return(s_nominal)
 
-  if (is.na(actual_number)) {
+  if (is.null(actual_number)) {
     actual_number <- number
-  } else if (is.na(actual_unit)) {
+  } else if (is.null(actual_unit)) {
     actual_unit <- unit
   }
 
@@ -75,10 +63,10 @@ print.Meter <- function(x, ...) {
   bar <- x$bar
   invisible <- x$invisible
 
-  if (!is.na(bar) || !is.na(invisible)) cat("\n")
-  if (!is.na(bar)) cat("* to be added at bar", bar, "\n")
+  if (!is.null(bar) || !is.null(invisible)) cat("\n")
+  if (!is.null(bar)) cat("* to be added at bar", bar, "\n")
 
-  if (!is.na(invisible)) {
+  if (!is.null(invisible)) {
     s_invisible <- if (invisible) "invisible" else "visible"
     cat("* to be", s_invisible, "on the score", "\n")
   }
