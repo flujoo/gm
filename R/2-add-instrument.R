@@ -17,6 +17,10 @@ add.Instrument <- function(object, music) {
 normalize.Instrument <- function(object, lines, ...) {
   object$to <- get_line_row(object$to, lines)
   names(object)[names(object) == "to"] <- "line"
+
+  if (is.null(object$volume)) object$volume <- 100L
+  if (is.null(object$pan)) object$pan <- 64L
+
   object
 }
 
