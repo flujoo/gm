@@ -15,38 +15,39 @@ add.Tie <- function(object, music) {
   check_j(j, line, i, notes)
   check_i_rest(object, line, notes)
 
-  tie <- normalize(object, line)
-  music$ties <- update_ties(music$ties, tie)
+  tie <- normalize(object, line, notes)
+  ties <- music$ties
+
+  for (j in tie$j) {
+    tie$j <- j
+    ties <- update_cases(ties, tie)
+  }
+
+  music$ties <- ties
   music
 }
 
 
 #' @keywords internal
 #' @export
-normalize.Tie <- function(object, line, ...) {
+normalize.Tie <- function(object, line, notes, ...) {
+  l <- nrow(notes[notes$line == line & notes$i == object$i, ])
+
+  if (l == 1) {
+    object$j <- NA_integer_
+  } else if (is.na(object$j)) {
+    object$j <- 1:l
+  }
+
   names(object)[names(object) == "to"] <- "line"
   object$line <- line
+
   object
 }
 
 
-update_ties <- function(ties, tie) {
-  if (is.null(ties)) {
-    ties <- to_case(tie)
-    return(ties)
-  }
-
-  if (is.na(tie$j)) {
-    ties <- ties[!(ties$line == tie$line & ties$i == tie$i), ]
-    ties <- rbind(ties, to_case(tie))
-    return(ties)
-  }
-
-  cover <- ties[ties$line == tie$line & ties$i == tie$i & is.na(ties$j), ]
-
-  if (nrow(cover) == 0) {
-    rbind(ties, to_case(tie))
-  } else {
-    ties
-  }
+#' @keywords internal
+#' @export
+locate.Tie <- function(object, ...) {
+  c(object$line, object$i, object$j)
 }
