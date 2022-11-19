@@ -23,8 +23,8 @@ Clef <- function(sign,
   }
 
   octave <- if (!is.null(octave)) as.integer(octave) else NA_integer_
-  bar <- if (!is.null(bar)) as.integer(bar) else NA_integer_
-  offset <- if (!is.null(offset)) as.double(offset) else NA_real_
+  if (!is.null(bar)) bar <- as.integer(bar)
+  if (!is.null(offset)) offset <- as.double(offset)
 
   # construction
   clef <- list(
@@ -87,7 +87,7 @@ print.Clef <- function(x, ...) {
   bar <- x$bar
   offset <- x$offset
 
-  if (!(is.null(to) && is.na(bar) && is.na(offset))) cat("\n")
+  if (!(is.null(to) && is.null(bar) && is.null(offset))) cat("\n")
 
   if (!is.null(to)) {
     s_to <- sprintf(
