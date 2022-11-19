@@ -18,8 +18,11 @@ add.Fermata <- function(object, music) {
 #' @keywords internal
 #' @export
 normalize.Fermata <- function(object, line, ...) {
+  if (is.null(object$above)) object$above <- TRUE
+
   names(object)[names(object) == "to"] <- "line"
   object$line <- line
+
   object
 }
 

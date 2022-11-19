@@ -9,7 +9,6 @@ Fermata <- function(to, i, type = NULL, above = NULL) {
   # normalization
   i <- as.integer(i)
   if (is.null(type)) type <- NA_character_
-  if (is.null(above)) above <- NA
 
   # construction
   fermata <- list(to = to, i = i, type = type, above = above)
@@ -33,7 +32,7 @@ print.Fermata <- function(x, ...) {
 
   if (!is.na(type)) cat(sprintf('* of type "%s"', type), "\n")
 
-  if (!is.na(above)) {
+  if (!is.null(above)) {
     s_above <- if (above) "above" else "below"
     cat("* to be placed", s_above, "the staff", "\n")
   }
