@@ -16,14 +16,13 @@ Tempo <- function(tempo,
   # normalization
   tempo <- as.double(tempo)
 
-  . <- normalize_tempo_unit(unit, tempo)
+  . <- normalize_tempo_unit(unit, tempo, marking)
   unit <- .$unit
   bpm <- .$bpm
 
-  bar <- if (!is.null(bar)) as.integer(bar) else NA_integer_
-  offset <- if (!is.null(offset)) as.double(offset) else NA_real_
+  if (!is.null(bar)) bar <- as.integer(bar)
+  if (!is.null(offset)) offset <- as.double(offset)
   if (is.null(marking)) marking <- NA_character_
-  if (is.null(invisible)) invisible <- NA
 
   # construction
   tempo <- list(
@@ -49,14 +48,19 @@ check_tempo_unit <- function(unit) {
 }
 
 
-normalize_tempo_unit <- function(unit, tempo) {
-  if (is.null(unit)) {
+normalize_tempo_unit <- function(unit, tempo, marking) {
+  if (!is.null(unit)) {
+    . <- Duration(unit)
+    unit <- to_string(.)
+    bpm <- tempo / to_value(.)
+
+  } else if (is.null(marking)) {
+    unit <- "quarter"
+    bpm <- tempo
+
+  } else {
     unit <- NA_character_
     bpm <- NA_real_
-  } else {
-    d <- Duration(unit)
-    unit <- to_string(Duration(unit))
-    bpm <- tempo / to_value(d)
   }
 
   list(unit = unit, bpm = bpm)
@@ -76,15 +80,10 @@ print.Tempo <- function(x, ...) {
   s_tempo <- "Tempo"
   if (!is.na(marking)) s_tempo <- paste(s_tempo, marking)
   if (!is.na(unit)) s_tempo <- paste(s_tempo, unit, "=", bpm)
-
-  if (is.na(marking) && is.na(unit)) {
-    s_tempo <- paste(s_tempo, "quarter", "=", tempo)
-  }
-
   cat(s_tempo, "\n")
 
-  enter <- (is.na(unit) && !is.na(marking)) || !is.na(bar) ||
-    !is.na(offset) || !is.na(invisible)
+  enter <- (is.na(unit) && !is.na(marking)) || !is.null(bar) ||
+    !is.null(offset) || !is.null(invisible)
 
   if (enter) cat("\n")
 
@@ -94,7 +93,7 @@ print.Tempo <- function(x, ...) {
 
   print_bar_offset(bar, offset)
 
-  if (!is.na(invisible)) {
+  if (!is.null(invisible)) {
     s_invisible <- if (invisible) "invisible" else "visible"
     cat("* to be", s_invisible, "on the score", "\n")
   }
