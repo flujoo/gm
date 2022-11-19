@@ -44,7 +44,6 @@ Line <- function(pitches = NULL,
 
 #' @export
 print.Line <- function(x, ...) {
-  notes <- x$notes
   name <- x$name
   as <- x$as
   to <- x$to
@@ -54,7 +53,7 @@ print.Line <- function(x, ...) {
 
   cat("Line", "\n\n")
   cat("* of notes:", "\n\n")
-  print(notes)
+  print(x$notes)
 
   if (!is.null(c(name, as, to, after, bar, offset))) cat("\n")
 
