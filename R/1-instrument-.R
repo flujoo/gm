@@ -27,13 +27,11 @@ Instrument <- function(instrument, to, volume = NULL, pan = NULL) {
 
 #' @export
 print.Instrument <- function(x, ...) {
-  midi <- x$midi
-  name <- x$name
   to <- x$to
   volume <- x$volume
   pan <- x$pan
 
-  cat(midi, name, "\n\n")
+  cat(x$name, "\n\n")
 
   s_to <- if (is.character(to)) paste0('"', to, '"') else to
   cat("* to be added to the part containing Line", s_to, "\n")
