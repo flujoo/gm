@@ -1,10 +1,11 @@
 #' Normalize `pitches` and `durations` in `Line()` to Notes
 #' @noRd
 normalize_notes <- function(pitches, durations) {
-  normalized <- normalize_pitches_durations(pitches, durations)
-  pitches <- normalized$pitches
-  durations <- normalized$durations
-  l <- normalized$length
+  . <- normalize_pitches_durations(pitches, durations)
+  pitches <- .$pitches
+  durations <- .$durations
+  l <- .$length
+
   notes <- NULL
 
   for (i in 1:l) {
