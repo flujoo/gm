@@ -11,8 +11,7 @@ add.Tie <- function(object, music) {
   i <- object$i
   j <- object$j
 
-  check_i(i, line, notes)
-  check_j(j, line, i, notes)
+  check_tie(i, j, line, notes)
 
   tie <- normalize(object, line, notes)
   ties <- music$ties
