@@ -14,7 +14,6 @@ Duration <- function(x, ...) {
 #' @export
 to_string.Duration <- function(x, short = FALSE, ...) {
   s_atomics <- character()
-  space <- if (short) "" else " "
 
   for (atomic in x) {
     s_base <- to_string_duration_base(atomic, short)
@@ -24,13 +23,13 @@ to_string.Duration <- function(x, short = FALSE, ...) {
       s_atomic <- s_base
     } else {
       s_tuplets <- sapply(tuplets, to_string, short = short)
-      s_atomic <- paste0(c(s_base, s_tuplets), collapse = space)
+      s_atomic <- paste0(c(s_base, s_tuplets), collapse = "")
     }
 
     s_atomics <- c(s_atomics, s_atomic)
   }
 
-  s_tie <- paste0(space, "-", space)
+  s_tie <- if (short) "-" else " - "
   paste(s_atomics, collapse = s_tie)
 }
 

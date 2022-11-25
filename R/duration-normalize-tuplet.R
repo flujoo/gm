@@ -33,13 +33,12 @@ to_string.Tuplet <- function(x, short = FALSE, ...) {
     unit <- to_string_duration_base(x$unit, short)
   }
 
-  space <- if (short) "" else " "
-  n <- paste0("/", space, x$n)
+  n <- paste0("/", x$n)
 
   if (!is_complex) {
     n
   } else {
-    paste0(n, space, "*", space, "(", take, space, "/", space, unit, ")")
+    paste0(n, "*", "(", take, "/", unit, ")")
   }
 }
 
