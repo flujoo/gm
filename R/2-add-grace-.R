@@ -7,7 +7,7 @@ add.Grace <- function(object, music) {
 
   check_to_exist(to, lines)
   line <- get_line_row(to, lines)
-  check_i(i, line, music$notes)
+  check_grace(i, line, music$notes)
 
   grace <- normalize(object, line)
   music$graces <- update_cases(music$graces, grace)
