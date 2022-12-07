@@ -12,11 +12,13 @@ update_ornaments <- function(music, ornament) {
   for (name in names) {
     ornaments <- music[[name]]
 
-    to_remove <- ornaments$line == line & ornaments$i == i
+    is <- ornaments$i
+    to_remove <- ornaments$line == line & is == i
 
     # only "point" ornaments are dealt with
     if (name %in% c("trills", "tremolos")) {
-      to_remove <- to_remove | is.na(ornaments$j)
+      js <- ornaments$j
+      to_remove <- to_remove | (is.na(js) | js == is)
     }
 
     if (!any(to_remove)) next
