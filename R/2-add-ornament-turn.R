@@ -22,10 +22,3 @@ normalize.Turn <- function(object, line, ...) {
 
   object
 }
-
-
-#' @keywords internal
-#' @export
-locate.Turn <- function(object, ...) {
-  c(object$line, object$i)
-}
