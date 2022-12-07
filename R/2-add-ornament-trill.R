@@ -14,12 +14,9 @@ add.Trill <- function(object, music) {
 
   trill <- normalize(object, line)
 
-  if (is.na(j) || j == i) {
-    update_ornaments(music, trill)
-  } else {
-    music$trills <- update_trills(music$trills, trill)
-    music
-  }
+  if (is.na(j) || j == i) music <- remove_ornaments(music, trill)
+  music$trills <- update_trills(music$trills, trill)
+  music
 }
 
 
