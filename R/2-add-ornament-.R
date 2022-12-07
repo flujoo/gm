@@ -1,4 +1,14 @@
 update_ornaments <- function(music, ornament) {
+  music <- remove_ornaments(music, ornament)
+
+  name <- paste0(tolower(class(ornament)), "s")
+  music[[name]] <- rbind(music[[name]], to_case(ornament))
+
+  music
+}
+
+
+remove_ornaments <- function(music, ornament) {
   line <- ornament$line
   i <- ornament$i
 
@@ -10,6 +20,9 @@ update_ornaments <- function(music, ornament) {
 
   # remove the ornaments that have the same location
   for (name in names) {
+    # let `update_trills()` do the job
+    if (name == "trills" && inherits(ornament, "Trill")) next
+
     ornaments <- music[[name]]
 
     is <- ornaments$i
@@ -27,10 +40,6 @@ update_ornaments <- function(music, ornament) {
     if (NROW(updated) == 0) updated <- NULL
     music[[name]] <- updated
   }
-
-  # add the incoming ornament
-  name <- paste0(tolower(class(ornament)), "s")
-  music[[name]] <- rbind(music[[name]], to_case(ornament))
 
   music
 }
