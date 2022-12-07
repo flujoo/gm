@@ -10,8 +10,7 @@ add.Turn <- function(object, music) {
   check_i(i, line, music$notes)
 
   turn <- normalize(object, line)
-  music$turns <- update_cases(music$turns, turn)
-  music
+  update_ornaments(music, turn)
 }
 
 
