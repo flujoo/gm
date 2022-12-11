@@ -16,3 +16,24 @@ Tremolo <- function(to, i, number, between = NULL) {
   class(tremolo) <- "Tremolo"
   tremolo
 }
+
+
+#' @export
+print.Tremolo <- function(x, ...) {
+  to <- x$to
+  i <- x$i
+  number <- x$number
+  between <- x$between
+
+  cat("Tremolo", "\n\n")
+  cat("* with", number, if (number == 1) "stroke" else "strokes", "\n")
+
+  s_to <- if (is.character(to)) paste0('"', to, '"') else to
+  cat("* to be added to Line", s_to, "\n")
+
+  if (between) {
+    cat("* to be added between position", i, "and", i + 1, "\n")
+  } else {
+    cat("* to be added at position", i, "\n")
+  }
+}
