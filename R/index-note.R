@@ -30,6 +30,20 @@ check_j <- function(j, line, i, notes) {
 }
 
 
+#' Check If Object Is Added to Rest
+#' @noRd
+check_i_rest <- function(object, line, notes) {
+  i <- object$i
+
+  if (is_not_rest(i, line, notes)) return(invisible())
+
+  article <- if (inherits(object, "Articulation")) "an" else "a"
+  general <- sprintf("Can not add %s %s to a rest.", article, class(object))
+  specifics <- sprintf("It is a rest at position %s of Line %s.", i, line)
+  erify::throw(general, specifics)
+}
+
+
 is_not_rest <- function(i, line, notes) {
   chord <- notes[notes$line == line & notes$i == i, ]
   nrow(chord) > 1 || !(is.na(chord$pitch) && is.na(chord$midi))

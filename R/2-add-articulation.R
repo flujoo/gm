@@ -9,20 +9,11 @@ add.Articulation <- function(object, music) {
   check_to_exist(to, lines)
   line <- get_line_row(to, lines)
   check_i(i, line, notes)
-  check_articulation_rest(i, line, notes)
+  check_i_rest(object, line, notes)
 
   articulation <- normalize(object, line)
   music$articulations <- update_cases(music$articulations, articulation)
   music
-}
-
-
-check_articulation_rest <- function(i, line, notes) {
-  if (is_not_rest(i, line, notes)) return(invisible())
-
-  general <- "Can not add an Articulation to a rest."
-  specifics <- sprintf("It is a rest at position %s of Line %s.", i, line)
-  erify::throw(general, specifics)
 }
 
 
