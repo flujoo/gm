@@ -1,18 +1,18 @@
 #' @export
-Tremolo <- function(to, i, number, between = NULL) {
+Tremolo <- function(number, to, i, between = NULL) {
   # validation
+  erify::check_content(number, 1:4)
   check_to(to)
   erify::check_n(i)
-  erify::check_content(number, 1:4)
   if (!is.null(between)) erify::check_bool(between)
 
   # normalization
-  i <- as.integer(i)
   number <- as.integer(number)
+  i <- as.integer(i)
   if (is.null(between)) between <- FALSE
 
   # construction
-  tremolo <- list(to = to, i = i, number = number, between = between)
+  tremolo <- list(number = number, to = to, i = i, between = between)
   class(tremolo) <- "Tremolo"
   tremolo
 }
@@ -20,9 +20,9 @@ Tremolo <- function(to, i, number, between = NULL) {
 
 #' @export
 print.Tremolo <- function(x, ...) {
+  number <- x$number
   to <- x$to
   i <- x$i
-  number <- x$number
   between <- x$between
 
   cat("Tremolo", "\n\n")
