@@ -29,7 +29,7 @@ remove_ornaments <- function(music, ornament) {
     to_remove <- ornaments$line == line & is == i
 
     # only "point" ornaments are dealt with
-    if (name %in% c("trills", "tremolos")) {
+    if (name == "trills") {
       js <- ornaments$j
       to_remove <- to_remove & (is.na(js) | js == is)
     }
