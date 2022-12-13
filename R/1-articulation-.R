@@ -10,7 +10,7 @@ Articulation <- function(name, to, i) {
   i <- as.integer(i)
 
   # construction
-  articulation <- list(name = name, to = to, i = i)
+  articulation <- list(to = to, i = i, name = name)
   class(articulation) <- "Articulation"
   articulation
 }
