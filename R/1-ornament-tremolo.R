@@ -12,7 +12,7 @@ Tremolo <- function(number, to, i, between = NULL) {
   if (is.null(between)) between <- FALSE
 
   # construction
-  tremolo <- list(number = number, to = to, i = i, between = between)
+  tremolo <- list(to = to, i = i, number = number, between = between)
   class(tremolo) <- "Tremolo"
   tremolo
 }
