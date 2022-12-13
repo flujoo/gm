@@ -18,19 +18,12 @@ add.Dynamic <- function(object, music) {
 #' @keywords internal
 #' @export
 normalize.Dynamic <- function(object, line, ...) {
-  above <- object$above
-  if (is.null(above)) above <- FALSE
+  names(object)[names(object) == "to"] <- "line"
+  object$line <- line
 
-  dynamic <- list(
-    marking = object$marking,
-    velocity = object$velocity,
-    line = line,
-    i = object$i,
-    above = above
-  )
+  if (is.null(object$above)) object$above <- FALSE
 
-  class(dynamic) <- "Dynamic"
-  dynamic
+  object
 }
 
 
