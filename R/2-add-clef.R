@@ -16,24 +16,15 @@ add.Clef <- function(object, music) {
 #' @keywords internal
 #' @export
 normalize.Clef <- function(object, lines, ...) {
-  bar <- object$bar
-  offset <- object$offset
+  names(object)[names(object) == "line"] <- "staff"
 
-  if (is.null(bar)) bar <- 1L
-  if (is.null(offset)) offset <- 0
+  names(object)[names(object) == "to"] <- "line"
+  object$line <- get_line_row(object$line, lines)
 
-  clef <- list(
-    sign = object$sign,
-    staff_line = object$line,
-    octave = object$octave,
-    name = to_string(object),
-    line = get_line_row(object$to, lines),
-    bar = bar,
-    offset = offset
-  )
+  if (is.null(object$bar)) object$bar <- 1L
+  if (is.null(object$offset)) object$offset <- 0
 
-  class(clef) <- "Clef"
-  clef
+  object
 }
 
 
