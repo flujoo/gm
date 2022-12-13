@@ -28,12 +28,12 @@ Clef <- function(sign,
 
   # construction
   clef <- list(
-    sign = sign,
-    line = line,
-    octave = octave,
     to = to,
     bar = bar,
-    offset = offset
+    offset = offset,
+    sign = sign,
+    line = line,
+    octave = octave
   )
   class(clef) <- "Clef"
   clef
