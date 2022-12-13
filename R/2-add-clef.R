@@ -16,6 +16,8 @@ add.Clef <- function(object, music) {
 #' @keywords internal
 #' @export
 normalize.Clef <- function(object, lines, ...) {
+  object$name <- to_string(object)
+
   names(object)[names(object) == "line"] <- "staff"
 
   names(object)[names(object) == "to"] <- "line"
