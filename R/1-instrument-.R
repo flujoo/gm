@@ -14,9 +14,9 @@ Instrument <- function(instrument, to, volume = NULL, pan = NULL) {
 
   # construction
   instrument <- list(
+    to = to,
     midi = midi,
     name = name,
-    to = to,
     volume = volume,
     pan = pan
   )
