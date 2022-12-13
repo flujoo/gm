@@ -17,9 +17,9 @@ Dynamic <- function(marking, to, i, velocity = NULL, above = NULL) {
 
   # construction
   dynamic <- list(
-    marking = marking,
     to = to,
     i = i,
+    marking = marking,
     velocity = velocity,
     above = above
   )
