@@ -22,11 +22,11 @@ Meter <- function(number,
 
   # construction
   meter <- list(
+    bar = bar,
     number = number,
     unit = unit,
     actual_number = actual_number,
     actual_unit = actual_unit,
-    bar = bar,
     invisible = invisible
   )
   class(meter) <- "Meter"
