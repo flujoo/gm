@@ -12,7 +12,7 @@ Velocity <- function(velocity, to = NULL, i = NULL, j = NULL) {
   j <- if (!is.null(j)) as.integer(j) else NA_integer_
 
   # construction
-  velocity <- list(velocity = velocity, to = to, i = i, j = j)
+  velocity <- list(to = to, i = i, j = j, velocity = velocity)
   class(velocity) <- "Velocity"
   velocity
 }
