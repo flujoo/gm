@@ -15,19 +15,12 @@ add.Key <- function(object, music) {
 #' @keywords internal
 #' @export
 normalize.Key <- function(object, lines, ...) {
-  bar <- object$bar
-  if (is.null(bar)) bar <- 1L
+  names(object)[names(object) == "to"] <- "line"
+  object$line <- get_line_row(object$line, lines)
 
-  key <- list(
-    key = object$key,
-    name = to_string(object, TRUE),
-    bar = bar,
-    line = get_line_row(object$to, lines),
-    scope = object$scope
-  )
+  if (is.null(object$bar)) object$bar <- 1L
 
-  class(key) <- "Key"
-  key
+  object
 }
 
 
