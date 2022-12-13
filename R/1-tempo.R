@@ -26,11 +26,11 @@ Tempo <- function(tempo,
 
   # construction
   tempo <- list(
+    bar = bar,
+    offset = offset,
     tempo = tempo,
     unit = unit,
     bpm = bpm,
-    bar = bar,
-    offset = offset,
     marking = marking,
     invisible = invisible
   )
