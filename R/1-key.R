@@ -13,10 +13,10 @@ Key <- function(key, bar = NULL, to = NULL, scope = NULL) {
 
   # construction
   key <- list(
-    key = key,
-    bar = bar,
     to = to,
-    scope = scope
+    scope = scope,
+    bar = bar,
+    key = key
   )
   class(key) <- "Key"
   key
