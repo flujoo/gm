@@ -19,6 +19,7 @@ normalize.Key <- function(object, lines, ...) {
   object$line <- get_line_row(object$line, lines)
 
   if (is.null(object$bar)) object$bar <- 1L
+  object$name <- to_string(object, TRUE)
 
   object
 }
