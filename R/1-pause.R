@@ -9,7 +9,7 @@ Pause <- function(type, to, i) {
   i <- as.integer(i)
 
   # construction
-  pause <- list(type = type, to = to, i = i)
+  pause <- list(to = to, i = i, type = type)
   class(pause) <- "Pause"
   pause
 }
