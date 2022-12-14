@@ -12,7 +12,12 @@ check_notehead_color <- function(color) {
   )
 
   if (grepl(re, color)) return(invisible())
-  general <- "`color` must be represented as hexadecimal RGB or ARGB values."
+
+  general <- paste(
+    "`color` must be represented in",
+    "the hexadecimal RGB or ARGB format."
+  )
+
   specifics <- sprintf('`color` is "%s".', color)
   erify::throw(general, specifics)
 }
