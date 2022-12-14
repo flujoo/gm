@@ -11,7 +11,7 @@ Notehead <- function(to,
   erify::check_n(i)
   if (!is.null(j)) erify::check_n(j)
   if (!is.null(shape)) erify::check_content(shape, noteheads)
-  check_notehead_color(color)
+  check_color(color)
   if (!is.null(filled)) erify::check_bool(filled)
   if (!is.null(bracketed)) erify::check_bool(bracketed)
 
@@ -47,7 +47,7 @@ noteheads <- c(
 )
 
 
-check_notehead_color <- function(color) {
+check_color <- function(color) {
   if (is.null(color)) return(invisible())
   erify::check_string(color)
 
