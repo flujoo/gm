@@ -10,7 +10,7 @@ Notehead <- function(to,
   check_to(to)
   erify::check_n(i)
   if (!is.null(j)) erify::check_n(j)
-  check_notehead_shape(shape)
+  if (!is.null(shape)) erify::check_content(shape, noteheads)
   check_notehead_color(color)
   if (!is.null(filled)) erify::check_bool(filled)
   if (!is.null(bracketed)) erify::check_bool(bracketed)
@@ -36,3 +36,12 @@ Notehead <- function(to,
   class(notehead) <- "Notehead"
   notehead
 }
+
+
+noteheads <- c(
+  "normal", "diamond",
+  "x", "cross", "circle-x",
+  "triangle", "inverted triangle",
+  "slash", "slashed", "back slashed",
+  "do", "re", "mi", "fa", "so", "la", "ti"
+)
