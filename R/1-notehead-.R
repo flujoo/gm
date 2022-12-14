@@ -19,7 +19,7 @@ Notehead <- function(to,
   i <- as.integer(i)
   j <- if (is.null(j)) NA_integer_ else as.integer(j)
   if (is.null(shape)) shape <- NA_character_
-  if (is.null(color)) color <- NA_character_
+  color <- if (is.null(color)) NA_character_ else toupper(color)
   if (is.null(filled)) filled <- NA
   if (is.null(bracketed)) bracketed <- NA
 
