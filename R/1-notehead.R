@@ -70,3 +70,28 @@ check_color <- function(color) {
   specifics <- sprintf('`color` is "%s".', color)
   erify::throw(general, specifics)
 }
+
+
+#' @export
+print.Notehead <- function(x, ...) {
+  to <- x$to
+  i <- x$i
+  j <- x$j
+  shape <- x$shape
+  color <- x$color
+  filled <- x$filled
+  bracketed <- x$bracketed
+
+  cat("Notehead", "\n\n")
+
+  if (!is.na(shape)) cat(sprintf('* of shape "%s"', shape), "\n")
+  if (!is.na(color)) cat(sprintf('* of color "%s"', color), "\n")
+  if (isTRUE(filled)) cat("* filled", "\n")
+  if (isTRUE(bracketed)) cat("* bracketed", "\n")
+
+  s_to <- if (is.character(to)) paste0('"', to, '"') else to
+  cat("* to be added to Line", s_to, "\n")
+
+  s_ij <- if (is.na(j)) i else paste0("(", i, ", ", j, ")")
+  cat("* to be added at position", s_ij, "\n")
+}
