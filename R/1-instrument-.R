@@ -32,10 +32,7 @@ print.Instrument <- function(x, ...) {
   pan <- x$pan
 
   cat(x$name, "\n\n")
-
-  s_to <- if (is.character(to)) paste0('"', to, '"') else to
-  cat("* to be added to the part containing Line", s_to, "\n")
-
+  print_to_ij(to, scope = "part")
   if (!is.null(volume)) cat("* of volume", volume, "\n")
   if (!is.null(pan)) cat("* of pan", pan, "\n")
 }
