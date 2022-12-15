@@ -62,7 +62,5 @@ print.Mordent <- function(x, ...) {
     cat("* with", s_vertical, "ornament on the", .[1], "\n")
   }
 
-  s_to <- if (is.character(to)) paste0('"', to, '"') else to
-  cat("* to be added to Line", s_to, "\n")
-  cat("* to be added at position", i, "\n")
+  print_to_ij(to, i)
 }
