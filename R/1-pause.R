@@ -17,18 +17,7 @@ Pause <- function(type, to, i) {
 
 #' @export
 print.Pause <- function(x, ...) {
-  type <- x$type
-  to <- x$to
-  i <- x$i
-
-  s_type <- switch(type,
-    "breath" = "Breath Mark",
-    "caesura" = "Caesura"
-  )
-
-  cat(s_type, "\n\n")
-
-  s_to <- if (is.character(to)) paste0('"', to, '"') else to
-  cat("* to be added to Line", s_to, "\n")
-  cat("* to be added at position", i, "\n")
+  cat(switch(x$type, "breath" = "Breath Mark", "caesura" = "Caesura"))
+  cat("\n\n")
+  print_to_ij(x$to, x$i)
 }
