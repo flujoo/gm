@@ -23,9 +23,7 @@ print.Trill <- function(x, ...) {
   j <- x$j
 
   cat(if (is.na(j)) "Trill" else "Trill Line", "\n\n")
-
-  s_to <- if (is.character(to)) paste0('"', to, '"') else to
-  cat("* to be added to Line", s_to, "\n")
+  print_to_ij(to)
 
   if (is.na(j) || j == i) {
     cat("* to be added at position", i, "\n")
