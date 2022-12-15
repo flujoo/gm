@@ -86,13 +86,7 @@ print.Clef <- function(x, ...) {
   offset <- x$offset
 
   cat(to_string(x), "\n")
-
   if (!(is.null(to) && is.null(bar) && is.null(offset))) cat("\n")
-
-  if (!is.null(to)) {
-    s_to <- if (is.character(to)) paste0('"', to, '"') else to
-    cat("* to be added to the staff containing Line", s_to, "\n")
-  }
-
+  print_to_ij(to, scope = "staff")
   print_bar_offset(bar, offset)
 }
