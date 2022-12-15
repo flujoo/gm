@@ -26,12 +26,7 @@ print.Tie <- function(x, ...) {
   above <- x$above
 
   cat("Tie", "\n\n")
-
-  s_to <- if (is.character(to)) paste0('"', to, '"') else to
-  cat("* to be added to Line", s_to, "\n")
-
-  s_ij <- if (is.na(j)) i else paste0("(", i, ", ", j, ")")
-  cat("* to be added at position", s_ij, "\n")
+  print_to_ij(to, i, j)
 
   if (!is.na(above)) {
     s_above <- if (above) "above" else "below"
