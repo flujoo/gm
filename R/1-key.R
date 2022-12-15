@@ -71,16 +71,12 @@ to_string.Key <- function(x, short = FALSE, ...) {
 
 #' @export
 print.Key <- function(x, ...) {
-  cat("Key", to_string(x), "\n")
-
   bar <- x$bar
   to <- x$to
   scope <- x$scope
 
+  cat("Key", to_string(x), "\n")
   if (!is.null(bar) || !is.null(to)) cat("\n")
   if (!is.null(bar)) cat(sprintf("* to be added at bar %s", bar), "\n")
-  if (!is.null(to)) {
-    s_to <- if (is.character(to)) paste0('"', to, '"') else to
-    cat("* to be added only to the", scope, "containing Line", s_to, "\n")
-  }
+  print_to_ij(to, scope = scope)
 }
