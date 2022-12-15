@@ -25,12 +25,7 @@ check_articulation_name <- function(name) {
 
 #' @export
 print.Articulation <- function(x, ...) {
-  name <- x$name
-  to <- x$to
-  i <- x$i
-
-  cat("Articulation", sprintf('"%s"', name), "\n\n")
-  s_to <- if (is.character(to)) paste0('"', to, '"') else to
-  cat("* to be added to Line", s_to, "\n")
-  cat("* to be added at position", i, "\n")
+  cat("Articulation", "\n\n")
+  cat("*", x$name, "\n")
+  print_to_ij(x$to, x$i)
 }
