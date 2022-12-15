@@ -25,11 +25,7 @@ print.Fermata <- function(x, ...) {
   above <- x$above
 
   cat("Fermata", "\n\n")
-
-  s_to <- if (is.character(to)) paste0('"', to, '"') else to
-  cat("* to be added to Line", s_to, "\n")
-  cat("* to be added at position", i, "\n")
-
+  print_to_ij(to, i)
   if (!is.na(type)) cat(sprintf('* of type "%s"', type), "\n")
 
   if (!is.null(above)) {
