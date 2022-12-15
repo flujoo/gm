@@ -18,12 +18,7 @@ Pedal <- function(to, i, j) {
 
 #' @export
 print.Pedal <- function(x, ...) {
-  to <- x$to
-  i <- x$i
-  j <- x$j
-
   cat("Pedal", "\n\n")
-  s_to <- if (is.character(to)) paste0('"', to, '"') else to
-  cat("* to be added to Line", s_to, "\n")
-  cat("* from position", i, "to", j, "\n")
+  print_to_ij(x$to)
+  cat("* from position", x$i, "to", x$j, "\n")
 }
