@@ -51,10 +51,7 @@ print.Dynamic <- function(x, ...) {
 
   cat("Dynamic", sprintf('"%s"', marking), "\n\n")
   if (!is.na(velocity)) cat("* of velocity", velocity, "\n")
-
-  s_to <- if (is.character(to)) paste0('"', to, '"') else to
-  cat("* to be added to Line", s_to, "\n")
-  cat("* to be added at position", i, "\n")
+  print_to_ij(to, i)
 
   if (!is.null(above)) {
     s_above <- if (above) "above" else "below"
