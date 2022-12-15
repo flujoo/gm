@@ -48,3 +48,17 @@ is_not_rest <- function(i, line, notes) {
   chord <- notes[notes$line == line & notes$i == i, ]
   nrow(chord) > 1 || !(is.na(chord$pitch) && is.na(chord$midi))
 }
+
+
+print_to_ij <- function(to = NULL, i = NULL, j = NULL, scope = NULL) {
+  if (is.null(to)) return(invisible())
+
+  if (!is.null(scope)) scope <- sprintf("the %s containing", scope)
+  if (is.character(to)) to <- sprintf('"%s"', to)
+  cat("* to be added to", scope, "Line", to, "\n")
+
+  if (is.null(i)) return(invisible())
+
+  if (!is.null(j) && !is.na(j)) i <- sprintf("(%s, %s)", i, j)
+  cat("* to be added at position", i, "\n")
+}
