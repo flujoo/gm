@@ -88,10 +88,5 @@ print.Notehead <- function(x, ...) {
   if (!is.na(color)) cat(sprintf('* of color "%s"', color), "\n")
   if (isTRUE(filled)) cat("* filled", "\n")
   if (isTRUE(bracketed)) cat("* bracketed", "\n")
-
-  s_to <- if (is.character(to)) paste0('"', to, '"') else to
-  cat("* to be added to Line", s_to, "\n")
-
-  s_ij <- if (is.na(j)) i else paste0("(", i, ", ", j, ")")
-  cat("* to be added at position", s_ij, "\n")
+  print_to_ij(to, i, j)
 }
