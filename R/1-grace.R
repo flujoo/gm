@@ -22,10 +22,6 @@ print.Grace <- function(x, ...) {
   slash <- x$slash
 
   cat("Grace Note", "\n\n")
-
-  s_to <- if (is.character(to)) paste0('"', to, '"') else to
-  cat("* to be applied to Line", s_to, "\n")
-  cat("* to be applied to position", i, "\n")
-
+  print_to_ij(to, i)
   if (!is.null(slash)) cat("*", if (slash) "slashed" else "not slashed", "\n")
 }
