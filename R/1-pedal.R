@@ -19,6 +19,5 @@ Pedal <- function(to, i, j) {
 #' @export
 print.Pedal <- function(x, ...) {
   cat("Pedal", "\n\n")
-  print_to_ij(x$to)
-  cat("* from position", x$i, "to", x$j, "\n")
+  print_to_ij(x$to, x$i, x$j, line = TRUE)
 }
