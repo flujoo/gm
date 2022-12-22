@@ -48,3 +48,12 @@ accidentals <- c(
   "slash-flat", "double-slash-flat",
   "sori", "koron"
 )
+
+
+#' @export
+print.Accidental <- function(x, ...) {
+  cat("Accidental", "\n\n")
+  cat("*", x$name, "\n")
+  if (isTRUE(x$bracketed)) cat("* bracketed", "\n")
+  print_to_ij(x$to, x$i, x$j)
+}
