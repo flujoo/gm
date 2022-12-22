@@ -29,13 +29,11 @@ print.Slur <- function(x, ...) {
 
   cat("Slur", "\n\n")
 
-  s_to <- if (is.character(to)) paste0('"', to, '"') else to
-
   if (is.null(to_j)) {
-    cat("* to be added to Line", s_to, "\n")
-    cat("* from position", i, "to", j, "\n")
+    print_to_ij(to, i, j, line = TRUE)
 
   } else {
+    s_to <- if (is.character(to)) paste0('"', to, '"') else to
     cat("* to start at position", i, "of Line", s_to, "\n")
     s_to_j <- if (is.character(to_j)) paste0('"', to_j, '"') else to_j
     cat("* to end at position", j, "of Line", s_to_j, "\n")
