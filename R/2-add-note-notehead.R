@@ -11,6 +11,9 @@ add.Notehead <- function(object, music) {
   i <- object$i
   j <- object$j
 
+  check_i(i, line, notes)
+  check_j(j, line, i, notes)
+
   notehead <- normalize(object, line, notes)
   noteheads <- music$noteheads
 
