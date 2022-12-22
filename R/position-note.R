@@ -50,7 +50,11 @@ is_not_rest <- function(i, line, notes) {
 }
 
 
-print_to_ij <- function(to = NULL, i = NULL, j = NULL, scope = NULL) {
+print_to_ij <- function(to = NULL,
+                        i = NULL,
+                        j = NULL,
+                        scope = NULL,
+                        line = FALSE) {
   if (is.null(to)) return(invisible())
 
   if (!is.null(scope)) scope <- sprintf("the %s containing", scope)
@@ -59,6 +63,11 @@ print_to_ij <- function(to = NULL, i = NULL, j = NULL, scope = NULL) {
 
   if (is.null(i)) return(invisible())
 
-  if (!is.null(j) && !is.na(j)) i <- sprintf("(%s, %s)", i, j)
-  cat("* to be added at position", i, "\n")
+  if (line) {
+    cat("* from position", i, "to", j, "\n")
+
+  } else {
+    if (!is.null(j) && !is.na(j)) i <- sprintf("(%s, %s)", i, j)
+    cat("* to be added at position", i, "\n")
+  }
 }
