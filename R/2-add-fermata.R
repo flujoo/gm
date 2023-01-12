@@ -5,25 +5,19 @@ add.Fermata <- function(object, music) {
   i <- object$i
   lines <- music$lines
 
+  # validation
   check_to_exist(to, lines)
   line <- get_line_row(to, lines)
   check_i(i, line, music$notes)
 
-  fermata <- normalize(object, line)
-  music$fermatas <- update_cases(music$fermatas, fermata)
-  music
-}
-
-
-#' @keywords internal
-#' @export
-normalize.Fermata <- function(object, line, ...) {
+  # normalization
   if (is.null(object$above)) object$above <- TRUE
-
   names(object)[names(object) == "to"] <- "line"
   object$line <- line
 
-  object
+  # construction
+  music$fermatas <- update_cases(music$fermatas, object)
+  music
 }
 
 
