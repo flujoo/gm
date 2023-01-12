@@ -4,24 +4,18 @@ add.Key <- function(object, music) {
   to <- object$to
   lines <- music$lines
 
+  # validation
   check_to_exist(to, lines)
 
-  key <- normalize(object, lines)
-  music$keys <- update_cases(music$keys, key, lines)
-  music
-}
-
-
-#' @keywords internal
-#' @export
-normalize.Key <- function(object, lines, ...) {
+  # normalization
   names(object)[names(object) == "to"] <- "line"
   object$line <- get_line_row(object$line, lines)
-
   if (is.null(object$bar)) object$bar <- 1L
   object$name <- to_string(object, TRUE)
 
-  object
+  # construction
+  music$keys <- update_cases(music$keys, object, lines)
+  music
 }
 
 
