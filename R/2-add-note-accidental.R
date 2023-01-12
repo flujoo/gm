@@ -5,6 +5,7 @@ add.Accidental <- function(object, music) {
   lines <- music$lines
   notes <- music$notes
 
+  # validation -------------------------------------------------
   check_to_exist(to, lines)
 
   line <- get_line_row(to, lines)
@@ -14,22 +15,7 @@ add.Accidental <- function(object, music) {
   check_i(i, line, notes)
   check_j(j, line, i, notes)
 
-  accidental <- normalize(object, line, notes)
-  accidentals <- music$accidentals
-
-  for (j in accidental$j) {
-    accidental$j <- j
-    accidentals <- update_cases(accidentals, accidental)
-  }
-
-  music$accidentals <- accidentals
-  music
-}
-
-
-#' @keywords internal
-#' @export
-normalize.Accidental <- function(object, line, notes, ...) {
+  # normalization ----------------------------------------------
   l <- nrow(notes[notes$line == line & notes$i == object$i, ])
 
   if (l == 1) {
@@ -41,7 +27,16 @@ normalize.Accidental <- function(object, line, notes, ...) {
   names(object)[names(object) == "to"] <- "line"
   object$line <- line
 
-  object
+  # construction -----------------------------------------------
+  accidentals <- music$accidentals
+
+  for (j in object$j) {
+    object$j <- j
+    accidentals <- update_cases(accidentals, object)
+  }
+
+  music$accidentals <- accidentals
+  music
 }
 
 
