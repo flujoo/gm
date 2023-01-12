@@ -4,24 +4,18 @@ add.Instrument <- function(object, music) {
   to <- object$to
   lines <- music$lines
 
+  # validation
   check_to_exist(to, lines)
 
-  instrument <- normalize(object, lines)
-  music$instruments <- update_cases(music$instruments, instrument, lines)
-  music
-}
-
-
-#' @keywords internal
-#' @export
-normalize.Instrument <- function(object, lines, ...) {
+  # normalization
   object$to <- get_line_row(object$to, lines)
   names(object)[names(object) == "to"] <- "line"
-
   if (is.null(object$volume)) object$volume <- 100L
   if (is.null(object$pan)) object$pan <- 64L
 
-  object
+  # construction
+  music$instruments <- update_cases(music$instruments, object, lines)
+  music
 }
 
 
