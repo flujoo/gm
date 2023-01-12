@@ -5,25 +5,19 @@ add.Dynamic <- function(object, music) {
   i <- object$i
   lines <- music$lines
 
+  # validation
   check_to_exist(to, lines)
   line <- get_line_row(to, lines)
   check_i(i, line, music$notes)
 
-  dynamic <- normalize(object, line)
-  music$dynamics <- update_cases(music$dynamics, dynamic)
-  music
-}
-
-
-#' @keywords internal
-#' @export
-normalize.Dynamic <- function(object, line, ...) {
+  # normalization
   names(object)[names(object) == "to"] <- "line"
   object$line <- line
-
   if (is.null(object$above)) object$above <- FALSE
 
-  object
+  # construction
+  music$dynamics <- update_cases(music$dynamics, object)
+  music
 }
 
 
