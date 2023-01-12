@@ -5,25 +5,19 @@ add.Grace <- function(object, music) {
   i <- object$i
   lines <- music$lines
 
+  # validation
   check_to_exist(to, lines)
   line <- get_line_row(to, lines)
   check_grace(i, line, music$notes)
 
-  grace <- normalize(object, line)
-  music$graces <- update_cases(music$graces, grace)
-  music
-}
-
-
-#' @keywords internal
-#' @export
-normalize.Grace <- function(object, line, ...) {
+  # normalization
   if (is.null(object$slash)) object$slash <- TRUE
-
   names(object)[names(object) == "to"] <- "line"
   object$line <- line
 
-  object
+  # construction
+  music$graces <- update_cases(music$graces, object)
+  music
 }
 
 
