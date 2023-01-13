@@ -5,6 +5,7 @@ add.Notehead <- function(object, music) {
   lines <- music$lines
   notes <- music$notes
 
+  # validation -------------------------------------------------
   check_to_exist(to, lines)
 
   line <- get_line_row(to, lines)
@@ -14,34 +15,28 @@ add.Notehead <- function(object, music) {
   check_i(i, line, notes)
   check_j(j, line, i, notes)
 
-  notehead <- normalize(object, line, notes)
+  # normalization ----------------------------------------------
+  names(object)[names(object) == "to"] <- "line"
+  object$line <- line
+
+  chord_length <- nrow(notes[notes$line == line & notes$i == i, ])
+
+  if (chord_length == 1) {
+    j <- NA_integer_
+  } else if (is.na(j)) {
+    j <- 1:chord_length
+  }
+
+  # construction -----------------------------------------------
   noteheads <- music$noteheads
 
-  for (j in notehead$j) {
-    notehead$j <- j
-    noteheads <- update_cases(noteheads, notehead)
+  for (j_i in j) {
+    object$j <- j_i
+    noteheads <- update_cases(noteheads, object)
   }
 
   music$noteheads <- noteheads
   music
-}
-
-
-#' @keywords internal
-#' @export
-normalize.Notehead <- function(object, line, notes, ...) {
-  l <- nrow(notes[notes$line == line & notes$i == object$i, ])
-
-  if (l == 1) {
-    object$j <- NA_integer_
-  } else if (is.na(object$j)) {
-    object$j <- 1:l
-  }
-
-  names(object)[names(object) == "to"] <- "line"
-  object$line <- line
-
-  object
 }
 
 
