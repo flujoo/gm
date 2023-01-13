@@ -29,14 +29,10 @@ Hairpin <- function(symbol, to, i, j, text = NULL, above = NULL) {
 
 #' @export
 print.Hairpin <- function(x, ...) {
-  to <- x$to
-  i <- x$i
-  j <- x$j
-  symbol <- x$symbol
   text <- x$text
   above <- x$above
 
-  cat(switch(symbol, "<" = "Crescendo", ">" = "Diminuendo"), "\n\n")
+  cat(switch(x$symbol, "<" = "Crescendo", ">" = "Diminuendo"), "\n\n")
   if (!is.na(text)) cat(sprintf('* as text "%s"', text), "\n")
 
   if (!is.null(above)) {
@@ -44,5 +40,5 @@ print.Hairpin <- function(x, ...) {
     cat("* to be placed", s_above, "the staff", "\n")
   }
 
-  print_to_ij(to, i, j, line = TRUE)
+  print_to_ij(x$to, x$i, x$j, line = TRUE)
 }
