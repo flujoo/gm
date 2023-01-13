@@ -31,13 +31,11 @@ fermatas <- rbind(
 
 #' @export
 print.Fermata <- function(x, ...) {
-  to <- x$to
-  i <- x$i
   type <- x$type
   above <- x$above
 
   cat("Fermata", "\n\n")
-  print_to_ij(to, i)
+  print_to_ij(x$to, x$i)
   if (!is.na(type)) cat(sprintf('* of type "%s"', type), "\n")
 
   if (!is.null(above)) {
