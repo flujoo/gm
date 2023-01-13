@@ -16,22 +16,22 @@ add.Accidental <- function(object, music) {
   check_j(j, line, i, notes)
 
   # normalization ----------------------------------------------
-  l <- nrow(notes[notes$line == line & notes$i == object$i, ])
-
-  if (l == 1) {
-    object$j <- NA_integer_
-  } else if (is.na(object$j)) {
-    object$j <- 1:l
-  }
-
   names(object)[names(object) == "to"] <- "line"
   object$line <- line
+
+  chord_length <- nrow(notes[notes$line == line & notes$i == i, ])
+
+  if (chord_length == 1) {
+    j <- NA_integer_
+  } else if (is.na(j)) {
+    j <- 1:chord_length
+  }
 
   # construction -----------------------------------------------
   accidentals <- music$accidentals
 
-  for (j in object$j) {
-    object$j <- j
+  for (j_i in j) {
+    object$j <- j_i
     accidentals <- update_cases(accidentals, object)
   }
 
