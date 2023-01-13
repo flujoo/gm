@@ -5,22 +5,18 @@ add.Stem <- function(object, music) {
   i <- object$i
   lines <- music$lines
 
+  # validation
   check_to_exist(to, lines)
   line <- get_line_row(to, lines)
   check_i(i, line, music$notes)
 
-  stem <- normalize(object, line)
-  music$stems <- update_cases(music$stems, stem)
-  music
-}
-
-
-#' @keywords internal
-#' @export
-normalize.Stem <- function(object, line, ...) {
+  # normalization
   names(object)[names(object) == "to"] <- "line"
   object$line <- line
-  object
+
+  # construction
+  music$stems <- update_cases(music$stems, object)
+  music
 }
 
 
