@@ -17,11 +17,9 @@ Grace <- function(to, i, slash = NULL) {
 
 #' @export
 print.Grace <- function(x, ...) {
-  to <- x$to
-  i <- x$i
   slash <- x$slash
 
   cat("Grace Note", "\n\n")
-  print_to_ij(to, i)
+  print_to_ij(x$to, x$i)
   if (!is.null(slash)) cat("*", if (slash) "slashed" else "not slashed", "\n")
 }
