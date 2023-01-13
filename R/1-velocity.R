@@ -34,12 +34,11 @@ check_velocity_j <- function(j, i) {
 
 #' @export
 print.Velocity <- function(x, ...) {
-  velocity <- x$velocity
   to <- x$to
   i <- x$i
   j <- x$j
 
-  cat("Velocity", velocity, "\n")
+  cat("Velocity", x$velocity, "\n")
   if (!is.null(to)) cat("\n")
 
   s_to <- if (is.character(to)) paste0('"', to, '"') else to
