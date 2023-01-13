@@ -43,15 +43,12 @@ normalize_dynamic_velocity <- function(velocity, marking) {
 
 #' @export
 print.Dynamic <- function(x, ...) {
-  marking <- x$marking
   velocity <- x$velocity
-  to <- x$to
-  i <- x$i
   above <- x$above
 
-  cat("Dynamic", sprintf('"%s"', marking), "\n\n")
+  cat("Dynamic", sprintf('"%s"', x$marking), "\n\n")
   if (!is.na(velocity)) cat("* of velocity", velocity, "\n")
-  print_to_ij(to, i)
+  print_to_ij(x$to, x$i)
 
   if (!is.null(above)) {
     s_above <- if (above) "above" else "below"
