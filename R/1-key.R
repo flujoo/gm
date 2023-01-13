@@ -73,10 +73,9 @@ to_string.Key <- function(x, short = FALSE, ...) {
 print.Key <- function(x, ...) {
   bar <- x$bar
   to <- x$to
-  scope <- x$scope
 
   cat("Key", to_string(x), "\n")
   if (!is.null(bar) || !is.null(to)) cat("\n")
   if (!is.null(bar)) cat(sprintf("* to be added at bar %s", bar), "\n")
-  print_to_ij(to, scope = scope)
+  print_to_ij(to, scope = x$scope)
 }
