@@ -46,14 +46,10 @@ normalize_mordent_long <- function(long, ornament) {
 
 #' @export
 print.Mordent <- function(x, ...) {
-  to <- x$to
-  i <- x$i
-  inverted <- x$inverted
-  long <- x$long
   ornament <- x$ornament
 
-  if (long) cat("Long ")
-  if (inverted) cat("Inverted ")
+  if (x$long) cat("Long ")
+  if (x$inverted) cat("Inverted ")
   cat("Mordent", "\n\n")
 
   if (!is.na(ornament)) {
@@ -62,5 +58,5 @@ print.Mordent <- function(x, ...) {
     cat("* with", s_vertical, "ornament on the", .[1], "\n")
   }
 
-  print_to_ij(to, i)
+  print_to_ij(x$to, x$i)
 }
