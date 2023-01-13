@@ -27,12 +27,11 @@ Instrument <- function(instrument, to, volume = NULL, pan = NULL) {
 
 #' @export
 print.Instrument <- function(x, ...) {
-  to <- x$to
   volume <- x$volume
   pan <- x$pan
 
   cat(x$name, "\n\n")
-  print_to_ij(to, scope = "part")
+  print_to_ij(x$to, scope = "part")
   if (!is.null(volume)) cat("* of volume", volume, "\n")
   if (!is.null(pan)) cat("* of pan", pan, "\n")
 }
