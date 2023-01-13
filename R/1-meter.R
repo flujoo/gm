@@ -58,11 +58,10 @@ to_string.Meter <- function(x, ...) {
 
 #' @export
 print.Meter <- function(x, ...) {
-  cat("Meter", to_string(x), "\n")
-
   bar <- x$bar
   invisible <- x$invisible
 
+  cat("Meter", to_string(x), "\n")
   if (!is.null(bar) || !is.null(invisible)) cat("\n")
   if (!is.null(bar)) cat("* to be added at bar", bar, "\n")
 
