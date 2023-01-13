@@ -20,13 +20,10 @@ Tie <- function(to, i, j = NULL, above = NULL) {
 
 #' @export
 print.Tie <- function(x, ...) {
-  to <- x$to
-  i <- x$i
-  j <- x$j
   above <- x$above
 
   cat("Tie", "\n\n")
-  print_to_ij(to, i, j)
+  print_to_ij(x$to, x$i, x$j)
 
   if (!is.na(above)) {
     s_above <- if (above) "above" else "below"
