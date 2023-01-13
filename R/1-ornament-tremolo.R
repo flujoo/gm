@@ -21,15 +21,13 @@ Tremolo <- function(number, to, i, between = NULL) {
 #' @export
 print.Tremolo <- function(x, ...) {
   number <- x$number
-  to <- x$to
   i <- x$i
-  between <- x$between
 
   cat("Tremolo", "\n\n")
   cat("* with", number, if (number == 1) "stroke" else "strokes", "\n")
-  print_to_ij(to)
+  print_to_ij(x$to)
 
-  if (between) {
+  if (x$between) {
     cat("* to be added between position", i, "and", i + 1, "\n")
   } else {
     cat("* to be added at position", i, "\n")
