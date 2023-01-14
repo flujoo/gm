@@ -7,28 +7,23 @@ add.Pedal <- function(object, music) {
   lines <- music$lines
   notes <- music$notes
 
+  # validation
   check_to_exist(to, lines)
   line <- get_line_row(to, lines)
   check_i(i, line, notes)
   check_i(j, line, notes)
 
-  pedal <- normalize(object, line)
-  music$pedals <- update_pedals(music$pedals, pedal)
-  music
-}
-
-
-#' @keywords internal
-#' @export
-normalize.Pedal <- function(object, line, ...) {
-  . <- sort(c(object$i, object$j))
-  object$i <- .[1]
-  object$j <- .[2]
-
+  # normalization
   names(object)[names(object) == "to"] <- "line"
   object$line <- line
 
-  object
+  . <- sort(c(i, j))
+  object$i <- .[1]
+  object$j <- .[2]
+
+  # construction
+  music$pedals <- update_pedals(music$pedals, object)
+  music
 }
 
 
