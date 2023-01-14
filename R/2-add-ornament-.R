@@ -1,3 +1,43 @@
+add_ornament <- function(object, music) {
+  to <- object$to
+  i <- object$i
+  lines <- music$lines
+  notes <- music$notes
+
+  # validation
+  check_to_exist(to, lines)
+  line <- get_line_row(to, lines)
+  check_i(i, line, notes)
+
+  # normalization
+  names(object)[names(object) == "to"] <- "line"
+  object$line <- line
+
+  # construction
+  update_ornaments(music, object)
+}
+
+
+#' @keywords internal
+#' @export
+add.Mordent <- add_ornament
+
+
+#' @keywords internal
+#' @export
+add.Schleifer <- add_ornament
+
+
+#' @keywords internal
+#' @export
+add.Tremolo <- add_ornament
+
+
+#' @keywords internal
+#' @export
+add.Turn <- add_ornament
+
+
 update_ornaments <- function(music, ornament) {
   music <- remove_ornaments(music, ornament)
 
