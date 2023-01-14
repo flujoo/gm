@@ -19,7 +19,7 @@ add_line <- function(lines, object) {
     lines <- update_lines(lines, target, as, after)
   }
 
-  line <- normalize(object, location)
+  line <- normalize_line(object, location)
   lines <- rbind(lines, line)
   lines
 }
@@ -101,9 +101,7 @@ update_lines <- function(lines, target, as, after) {
 }
 
 
-#' @keywords internal
-#' @export
-normalize.Line <- function(object, location, ...) {
+normalize_line <- function(object, location) {
   bar <- object$bar
   offset <- object$offset
   name <- object$name
