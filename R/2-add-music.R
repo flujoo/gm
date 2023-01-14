@@ -44,6 +44,13 @@ update_cases <- function(cases, object, ...) {
 }
 
 
+#' @keywords internal
+#' @export
+locate <- function(object, ...) {
+  UseMethod("locate")
+}
+
+
 #' Convert Object to Case in Component of Music
 #' @noRd
 to_case <- function(object) {
@@ -58,11 +65,4 @@ to_case <- function(object) {
 
   class(case) <- c(cls, class(case))
   case
-}
-
-
-#' @keywords internal
-#' @export
-locate <- function(object, ...) {
-  UseMethod("locate")
 }
