@@ -8,6 +8,7 @@ add.Slur <- function(object, music) {
   lines <- music$lines
   notes <- music$notes
 
+  # validation -------------------------------------------------
   check_to_exist(to, lines)
   check_to_exist(to_j, lines)
 
@@ -22,15 +23,7 @@ add.Slur <- function(object, music) {
     check_i(j, line_j, notes)
   }
 
-  slur <- normalize(object, line, line_j)
-  music$slurs <- update_cases(music$slurs, slur)
-  music
-}
-
-
-#' @keywords internal
-#' @export
-normalize.Slur <- function(object, line, line_j, ...) {
+  # normalization ----------------------------------------------
   if (!is.na(line_j) && line_j == line) line_j <- NA_integer_
 
   if (is.na(line_j)) {
@@ -53,7 +46,9 @@ normalize.Slur <- function(object, line, line_j, ...) {
   object$line <- line
   object$line_j <- line_j
 
-  object
+  # construction -----------------------------------------------
+  music$slurs <- update_cases(music$slurs, object)
+  music
 }
 
 
