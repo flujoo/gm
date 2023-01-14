@@ -5,6 +5,7 @@ add.Tie <- function(object, music) {
   lines <- music$lines
   notes <- music$notes
 
+  # validation -------------------------------------------------
   check_to_exist(to, lines)
 
   line <- get_line_row(to, lines)
@@ -13,34 +14,28 @@ add.Tie <- function(object, music) {
 
   check_tie(i, j, line, notes)
 
-  tie <- normalize(object, line, notes)
+  # normalization ----------------------------------------------
+  names(object)[names(object) == "to"] <- "line"
+  object$line <- line
+
+  chord_length <- nrow(notes[notes$line == line & notes$i == i, ])
+
+  if (chord_length == 1) {
+    j <- NA_integer_
+  } else if (is.na(j)) {
+    j <- 1:chord_length
+  }
+
+  # construction -----------------------------------------------
   ties <- music$ties
 
-  for (j in tie$j) {
-    tie$j <- j
-    ties <- update_cases(ties, tie)
+  for (j_i in j) {
+    object$j <- j_i
+    ties <- update_cases(ties, object)
   }
 
   music$ties <- ties
   music
-}
-
-
-#' @keywords internal
-#' @export
-normalize.Tie <- function(object, line, notes, ...) {
-  l <- nrow(notes[notes$line == line & notes$i == object$i, ])
-
-  if (l == 1) {
-    object$j <- NA_integer_
-  } else if (is.na(object$j)) {
-    object$j <- 1:l
-  }
-
-  names(object)[names(object) == "to"] <- "line"
-  object$line <- line
-
-  object
 }
 
 
