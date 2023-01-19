@@ -7,23 +7,23 @@ add.Trill <- function(object, music) {
   lines <- music$lines
   notes <- music$notes
 
-  # validation -------------------------------------------------
+  # validation
   check_to_exist(to, lines)
   line <- get_line_row(to, lines)
   check_i(i, line, notes)
   check_i(j, line, notes)
 
-  # normalization ----------------------------------------------
+  # normalization
+  names(object)[names(object) == "to"] <- "line"
+  object$line <- line
+
   if (!is.na(j)) {
     . <- sort(c(i, j))
     object$i <- .[1]
     object$j <- .[2]
   }
 
-  names(object)[names(object) == "to"] <- "line"
-  object$line <- line
-
-  # construction -----------------------------------------------
+  # construction
   if (is.na(j) || j == i) music <- remove_ornaments(music, object)
   music$trills <- update_trills(music$trills, object)
   music
