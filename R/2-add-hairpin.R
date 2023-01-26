@@ -23,6 +23,6 @@ add.Hairpin <- function(object, music) {
   object$j <- .[2]
 
   # construction
-  music$hairpins <- update_hairpins(music$hairpins, object)
+  music$hairpins <- update_cases(music$hairpins, object)
   music
 }
