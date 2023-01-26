@@ -19,7 +19,7 @@ add.Notehead <- function(object, music) {
   object$line <- line
 
   # construction
-  music$noteheads <- update_chordal_cases(music$noteheads, object, notes)
+  music$noteheads <- update_chordal(music$noteheads, object, notes)
   music
 }
 

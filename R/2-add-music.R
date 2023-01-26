@@ -75,7 +75,7 @@ to_case <- function(object) {
 #' each note in the chord.
 #'
 #' @noRd
-update_chordal_cases <- function(cases, object, notes) {
+update_chordal <- function(cases, object, notes) {
   j <- object$j
 
   # chord length

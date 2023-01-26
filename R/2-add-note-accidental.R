@@ -19,7 +19,7 @@ add.Accidental <- function(object, music) {
   object$line <- line
 
   # construction
-  music$accidentals <- update_chordal_cases(music$accidentals, object, notes)
+  music$accidentals <- update_chordal(music$accidentals, object, notes)
   music
 }
 

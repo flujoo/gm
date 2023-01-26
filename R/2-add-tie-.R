@@ -15,7 +15,7 @@ add.Tie <- function(object, music) {
   object$line <- line
 
   # construction
-  music$ties <- update_chordal_cases(music$ties, object, notes)
+  music$ties <- update_chordal(music$ties, object, notes)
   music
 }
 
