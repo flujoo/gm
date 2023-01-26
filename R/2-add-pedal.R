@@ -22,6 +22,6 @@ add.Pedal <- function(object, music) {
   object$j <- .[2]
 
   # construction
-  music$pedals <- update_2d_cases(music$pedals, object)
+  music$pedals <- update_2d(music$pedals, object)
   music
 }

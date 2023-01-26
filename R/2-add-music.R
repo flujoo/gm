@@ -98,7 +98,7 @@ update_chordal <- function(cases, object, notes) {
 
 #' Append Pedal, Trill, ... to Component of Music
 #' @noRd
-update_2d_cases <- function(cases, object) {
+update_2d <- function(cases, object) {
   line <- object$line
   i <- object$i
   j <- object$j

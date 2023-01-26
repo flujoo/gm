@@ -25,6 +25,6 @@ add.Trill <- function(object, music) {
 
   # construction
   if (is.na(j) || j == i) music <- remove_ornaments(music, object)
-  music$trills <- update_2d_cases(music$trills, object)
+  music$trills <- update_2d(music$trills, object)
   music
 }
