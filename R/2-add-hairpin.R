@@ -26,3 +26,10 @@ add.Hairpin <- function(object, music) {
   music$hairpins <- update_cases(music$hairpins, object)
   music
 }
+
+
+#' @keywords internal
+#' @export
+locate.Hairpin <- function(object, ...) {
+  c(object$line, object$i, object$j)
+}
