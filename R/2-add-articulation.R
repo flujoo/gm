@@ -10,6 +10,7 @@ add.Articulation <- function(object, music) {
   check_to_exist(to, lines)
   line <- get_line_row(to, lines)
   check_i(i, line, notes)
+  check_i_rest(object, line, notes)
 
   # normalization
   names(object)[names(object) == "to"] <- "line"
