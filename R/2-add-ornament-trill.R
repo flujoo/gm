@@ -11,6 +11,7 @@ add.Trill <- function(object, music) {
   check_to_exist(to, lines)
   line <- get_line_row(to, lines)
   check_i(i, line, notes)
+  if (is.na(j)) check_i_rest(object, line, notes)
   check_i(j, line, notes)
 
   # normalization
