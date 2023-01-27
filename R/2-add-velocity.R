@@ -13,6 +13,7 @@ add.Velocity <- function(object, music) {
   j <- object$j
 
   check_i(i, line, notes)
+  check_i_rest(object, line, notes)
   check_j(j, line, i, notes)
 
   # normalization
