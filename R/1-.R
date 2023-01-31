@@ -1,16 +1,11 @@
-print_bar_offset <- function(bar, offset, phrase = "added at") {
-  s_bar <- paste("* to be", phrase, "bar %s")
-  s_offset <- "with offset %s"
+print_bar_offset <- function(bar, offset) {
+  if (is.null(bar) && is.null(offset)) return(invisible())
 
-  if (!is.null(bar)) {
-    if (is.null(offset)) {
-      cat(sprintf(s_bar, bar), "\n")
-    } else {
-      cat(sprintf(paste(s_bar, s_offset, sep = " "), bar, offset), "\n")
-    }
+  if (is.null(offset)) {
+    cat(sprintf("* to be added at bar %s", bar), "\n")
 
-  } else if (!is.null(offset)) {
-    bar <- 1
-    cat(sprintf(paste(s_bar, s_offset, sep = " "), bar, offset), "\n")
+  } else {
+    if (is.null(bar)) bar <- 1L
+    cat(sprintf("* to be added at bar %s with offset %s", bar, offset), "\n")
   }
 }

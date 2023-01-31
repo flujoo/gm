@@ -75,5 +75,5 @@ print.Line <- function(x, ...) {
     cat(sprintf(s_to, s_after), "\n")
   }
 
-  print_bar_offset(bar, offset, "inserted into")
+  print_bar_offset(bar, offset)
 }
