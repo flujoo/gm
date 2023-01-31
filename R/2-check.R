@@ -2,41 +2,57 @@
 #'
 #' Check if `to` refers to an existing Line in a Music.
 #'
-#' @noRd
+#' @keywords internal
+#' @export
 check_to_exist <- function(to, lines) {
-  if (is.null(to)) return(invisible())
+  UseMethod("check_to_exist")
+}
 
-  n_lines <- NROW(lines)
 
-  if (is.character(to)) {
-    if (to %in% lines$name) {
-      return(invisible())
-    } else {
-      specifics <- sprintf('Can not find Line "%s".', to)
-    }
+#' @keywords internal
+#' @export
+check_to_exist.default <- function(to, lines) {
+  # after `check_to()`, there can be only `NULL`
+  return(invisible())
+}
 
-  } else if (is.numeric(to)) {
-    if (to <= n_lines) {
-      return(invisible())
-    } else {
-      if (n_lines == 0) {
-        s_l <- "no Line"
-      } else if (n_lines == 1) {
-        s_l <- "only one Line"
-      } else {
-        s_l <- sprintf("only %s Lines", n_lines)
-      }
 
-      specifics <- c(
-        sprintf("Can not find Line %s.", to),
-        i = sprintf("The Music contains %s.", s_l)
-      )
-    }
+#' @keywords internal
+#' @export
+check_to_exist.character <- function(to, lines) {
+  if (to %in% lines$name) return(invisible())
+  specifics <- sprintf('Can not find Line "%s".', to)
+  abort_to_exist(to, general, specifics)
+}
+
+
+#' @keywords internal
+#' @export
+check_to_exist.numeric <- function(to, lines) {
+  n <- NROW(lines)
+  if (to <= n) return(invisible())
+
+  if (n == 0) {
+    s_l <- "no Line"
+  } else if (n == 1) {
+    s_l <- "only one Line"
+  } else {
+    s_l <- sprintf("only %s Lines", n)
   }
 
+  specifics <- c(
+    sprintf("Can not find Line %s.", to),
+    i = sprintf("The Music contains %s.", s_l)
+  )
+
+  abort_to_exist(to, general, specifics)
+}
+
+
+abort_to_exist <- function(to, general, specifics) {
   general <- sprintf(
     "`%s` must refer to an existing Line in the Music.",
-    deparse(substitute(to))
+    deparse(substitute(to)) # for `to_j`
   )
 
   erify::throw(general, specifics)
