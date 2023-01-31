@@ -1,3 +1,48 @@
+#' Check If Line Exists in Music
+#'
+#' Check if `to` refers to an existing Line in a Music.
+#'
+#' @noRd
+check_to_exist <- function(to, lines) {
+  if (is.null(to)) return(invisible())
+
+  n_lines <- NROW(lines)
+
+  if (is.character(to)) {
+    if (to %in% lines$name) {
+      return(invisible())
+    } else {
+      specifics <- sprintf('Can not find Line "%s".', to)
+    }
+
+  } else if (is.numeric(to)) {
+    if (to <= n_lines) {
+      return(invisible())
+    } else {
+      if (n_lines == 0) {
+        s_l <- "no Line"
+      } else if (n_lines == 1) {
+        s_l <- "only one Line"
+      } else {
+        s_l <- sprintf("only %s Lines", n_lines)
+      }
+
+      specifics <- c(
+        sprintf("Can not find Line %s.", to),
+        i = sprintf("The Music contains %s.", s_l)
+      )
+    }
+  }
+
+  general <- sprintf(
+    "`%s` must refer to an existing Line in the Music.",
+    deparse(substitute(to))
+  )
+
+  erify::throw(general, specifics)
+}
+
+
 #' Check If Index Exceeds Line Length
 #' @noRd
 check_i <- function(i, line, notes) {
@@ -48,27 +93,4 @@ check_i_rest <- function(object, line, notes) {
 is_not_rest <- function(i, line, notes) {
   chord <- notes[notes$line == line & notes$i == i, ]
   nrow(chord) > 1 || !(is.na(chord$pitch) && is.na(chord$midi))
-}
-
-
-print_to_ij <- function(to = NULL,
-                        i = NULL,
-                        j = NULL,
-                        scope = NULL,
-                        line = FALSE) {
-  if (is.null(to)) return(invisible())
-
-  if (!is.null(scope)) scope <- sprintf("the %s containing", scope)
-  if (is.character(to)) to <- sprintf('"%s"', to)
-  cat("* to be added to", scope, "Line", to, "\n")
-
-  if (is.null(i)) return(invisible())
-
-  if (line) {
-    cat("* from position", i, "to", j, "\n")
-
-  } else {
-    if (!is.null(j) && !is.na(j)) i <- sprintf("(%s, %s)", i, j)
-    cat("* to be added at position", i, "\n")
-  }
 }
