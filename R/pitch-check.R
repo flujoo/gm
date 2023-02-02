@@ -31,7 +31,7 @@ check_pitches.default <- function(pitches) {
 check_pitches.logical <- function(pitches) {
   general <- paste(
     "If `pitches` is a logical vector,",
-    "each item of it must be `NA`."
+    "it must contain only `NA`s."
   )
   erify::check_contents(pitches, is.na, NULL, general)
 }
@@ -43,7 +43,7 @@ check_pitches.numeric <- function(pitches) {
   valid <- expression(is.na(x_i) || is_pitch_value(x_i))
   general <- paste(
     "If `pitches` is a numeric vector,",
-    "each item of it must be `NA` or a MIDI note number between 12 and 127."
+    "it must contain only `NA`s or MIDI note numbers between 12 and 127."
   )
   erify::check_contents(pitches, valid, NULL, general, as_double = FALSE)
 }
@@ -57,8 +57,8 @@ check_pitches.character <- function(pitches) {
   )
   general <- paste(
     "If `pitches` is a character vector,",
-    "each item of it must be `NA`, a pitch notation,",
-    "or a MIDI note number between 12 and 127."
+    "it must contain only `NA`s, pitch notations,",
+    "or MIDI note numbers between 12 and 127."
   )
   erify::check_contents(pitches, valid, NULL, general)
 }
@@ -69,8 +69,8 @@ check_pitches.character <- function(pitches) {
 check_pitches.list <- function(pitches) {
   general <- paste(
     "If `pitches` is a list,",
-    "each item of it must be a single `NA`,",
-    "or a vector of pitch notations",
+    "it must contain only single `NA`s,",
+    "or vectors of pitch notations",
     "or MIDI note numbers between 12 and 127."
   )
   specifics <- specify_invalid_pitches(pitches)
