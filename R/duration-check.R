@@ -29,7 +29,7 @@ check_durations.default <- function(durations) {
 check_durations.numeric <- function(durations) {
   general <- paste(
     "If `durations` is a numeric vector,",
-    "each item of it must be a positive number."
+    "it must contain only positive numbers."
   )
   erify::check_contents(
     durations, "x_i > 0", NULL, general, as_double = FALSE
@@ -42,7 +42,7 @@ check_durations.numeric <- function(durations) {
 check_durations.character <- function(durations) {
   general <- paste(
     "If `durations` is a character vector,",
-    "each item of it must be a duration notation."
+    "it must contain only duration notations."
   )
   erify::check_contents(durations, is_duration_notation, NULL, general)
 }
@@ -53,7 +53,7 @@ check_durations.character <- function(durations) {
 check_durations.list <- function(durations) {
   general <- paste(
     "If `durations` is a list,",
-    "each item of it must be a duration notation or a positive number."
+    "it must contain only duration notations or positive numbers."
   )
   specifics <- specify_invalid_durations(durations)
   erify::throw(general, specifics, environment())
