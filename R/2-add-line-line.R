@@ -2,7 +2,8 @@
 #' @noRd
 add_line <- function(lines, object) {
   if (is.null(lines)) {
-    location <- initialize_line_location()
+    # initialization
+    location <- data.frame(part = 1L, staff = 1L, voice = 1L, segment = 1L)
 
   } else {
     to <- object$to
@@ -22,23 +23,6 @@ add_line <- function(lines, object) {
   line <- normalize_line(object, location)
   lines <- rbind(lines, line)
   lines
-}
-
-
-#' Initialize Line's Location
-#'
-#' Initialize the incoming Line's location when there is no Line in the Music.
-#'
-#' A **location** is a Line's part, staff, voice, and segment in a score.
-#'
-#' @noRd
-initialize_line_location <- function() {
-  data.frame(
-    part = 1L,
-    staff = 1L,
-    voice = 1L,
-    segment = 1L
-  )
 }
 
 
