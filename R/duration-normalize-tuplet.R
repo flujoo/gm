@@ -48,17 +48,3 @@ to_string.Tuplet <- function(x, short = FALSE, ...) {
 print.Tuplet <- function(x, ...) {
   cat(to_string(x), "\n")
 }
-
-
-#' @keywords internal
-#' @export
-to_value.Tuplet <- function(x, ...) {
-  take <- x$take
-  n <- x$n
-
-  if (is.null(take)) {
-    1 / n
-  } else {
-    to_value_duration_base(take) / to_value_duration_base(x$unit) / n
-  }
-}
