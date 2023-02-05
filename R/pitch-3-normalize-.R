@@ -41,7 +41,7 @@ to_string.Pitch <- function(x, ...) {
 
 #' @keywords internal
 #' @export
-to_value.Pitch <- function(x, ...) {
+to_value.Pitch <- function(x) {
   steps <- c("C", "D", "E", "F", "G", "A", "B")
   step_values <- c(0, 2, 4, 5, 7, 9, 11)
   step_value <- step_values[x$step == steps]

@@ -7,7 +7,7 @@ to_string <- function(x, ...) {
 
 #' @keywords internal
 #' @export
-to_value <- function(x, ...) {
+to_value <- function(x) {
   UseMethod("to_value")
 }
 
