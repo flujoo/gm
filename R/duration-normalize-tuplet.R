@@ -24,27 +24,6 @@ Tuplet <- function(tuplet_notation) {
 
 #' @keywords internal
 #' @export
-to_string.Tuplet <- function(x, short = FALSE, ...) {
-  take <- x$take
-  is_complex <- !is.null(take)
-
-  if (is_complex) {
-    take <- to_string_duration_base(take, short)
-    unit <- to_string_duration_base(x$unit, short)
-  }
-
-  n <- paste0("/", x$n)
-
-  if (!is_complex) {
-    n
-  } else {
-    paste0(n, "*", "(", take, "/", unit, ")")
-  }
-}
-
-
-#' @keywords internal
-#' @export
 print.Tuplet <- function(x, ...) {
   cat(to_string(x), "\n")
 }
