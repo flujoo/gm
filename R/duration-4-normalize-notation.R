@@ -1,70 +1,81 @@
 #' @keywords internal
 #' @export
 Duration.character <- function(x, ...) {
+  # convert the duration notation to a list of simple notations
   x <- gsub(" ", "", x)
-  untied <- strsplit(x, "-")[[1]]
-  parsed <- list()
+  x <- strsplit(x, "-")[[1]]
+  x <- as.list(x)
 
-  re_type <- paste(c(duration_types$name, duration_types$abbr), collapse = "|")
+  # regular expressions
+  re_type <- paste(
+    c(duration_types$name, duration_types$abbr),
+    collapse = "|"
+  )
+
   re_base <- paste0("(", re_type, ")", "\\.{0,4}")
-  re_tuplet <- paste0("/[1-9][0-9]*(\\*\\(", re_base, "/", re_base, "\\))?")
+  re_ratio <- paste0("/[1-9][0-9]*(\\*\\(", re_base, "/", re_base, "\\))?")
 
-  for (atomic in untied) {
-    base <- regmatches(atomic, regexpr(re_base, atomic))
+  # parse each simple duration
+  for (i in seq_along(x)) {
+    simple <- x[[i]]
+
+    # the duration base
+    base <- regmatches(simple, regexpr(re_base, simple))
     parsed_base <- parse_duration_base(base)
-    tuplets <- regmatches(atomic, gregexpr(re_tuplet, atomic))[[1]]
-    parsed_tuplets <- lapply(tuplets, Tuplet)
-    parsed_atomic <- c(parsed_base, list(tuplets = parsed_tuplets))
-    parsed <- c(parsed, list(parsed_atomic))
+
+    # the tuplet ratios
+    ratios <- regmatches(simple, gregexpr(re_ratio, simple))[[1]]
+    parsed_ratios <- lapply(ratios, parse_tuplet_ratio)
+
+    # the simple duration
+    x[[i]] <- c(parsed_base, list(ratios = parsed_ratios))
   }
 
-  class(parsed) <- "Duration"
-  parsed
+  # construction
+  class(x) <- "Duration"
+  x
 }
 
 
 parse_duration_base <- function(base) {
-  re_type <- paste(c(duration_types$name, duration_types$abbr), collapse = "|")
+  # extract the duration type
+  re_type <- paste(
+    c(duration_types$name, duration_types$abbr),
+    collapse = "|"
+  )
+
   type <- regmatches(base, regexpr(re_type, base))
 
-  # use full names instead of abbreviations
+  # convert abbreviation to duration type
   if (type %in% duration_types$abbr) {
     type <- duration_types$name[duration_types$abbr == type]
   }
 
+  # extract the number of dots
   dot <- nchar(regmatches(base, regexpr("\\.{1,4}", base)))
   if (length(dot) == 0) dot <- 0L
 
+  # construction
   list(type = type, dot = dot)
 }
 
 
-#' Normalize Tuplet Notation to `Tuplet` Object
-#'
-#' @keywords internal
-#' @export
-Tuplet <- function(tuplet_notation) {
-  parts <- strsplit(tuplet_notation, "/|\\*|\\(|\\)|\\s")[[1]]
+parse_tuplet_ratio <- function(ratio) {
+  # extraction
+  parts <- strsplit(ratio, "/|\\*|\\(|\\)|\\s")[[1]]
   parts <- parts[parts != ""]
 
+  # normalization
   n <- as.integer(parts[1])
 
-  if (length(parts) == 3) {
-    take <- parse_duration_base(parts[2])
-    unit <- parse_duration_base(parts[3])
-  } else {
+  if (length(parts) == 1) {
     take <- NULL
     unit <- NULL
+  } else {
+    take <- parse_duration_base(parts[2])
+    unit <- parse_duration_base(parts[3])
   }
 
-  tuplet <- list(n = n, take = take, unit = unit)
-  class(tuplet) <- "Tuplet"
-  tuplet
-}
-
-
-#' @keywords internal
-#' @export
-print.Tuplet <- function(x, ...) {
-  cat(to_string(x), "\n")
+  # construction
+  list(n = n, take = take, unit = unit)
 }
