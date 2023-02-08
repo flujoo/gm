@@ -1,7 +1,9 @@
-test_that("tied complex tuplets", {
+test_that("normalize tied complex tuplets", {
   notation <- "w./3 - h/4*(8./q)/5"
 
-  duration <- list(
+  out <- Duration(notation)
+
+  expected <- list(
     # "w./3"
     list(
       type = "whole",
@@ -27,7 +29,7 @@ test_that("tied complex tuplets", {
     )
   )
 
-  class(duration) <- "Duration"
+  class(expected) <- "Duration"
 
-  expect_identical(Duration(notation), duration)
+  expect_identical(out, expected)
 })
