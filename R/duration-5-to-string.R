@@ -10,12 +10,9 @@ print.Duration <- function(x, ...) {
 to_string.Duration <- function(x, short = FALSE, ...) {
   for (i in seq_along(x)) {
     duration <- x[[i]]
-
-    x[[i]] <- paste0(
-      to_string_duration_base(duration, short),
-      # convert the tuplet ratios to a string
-      sapply(duration$ratios, to_string_tuplet_ratio, short = short)
-    )
+    s_base <- to_string_duration_base(duration, short)
+    s_ratios <- sapply(duration$ratios, to_string_tuplet_ratio, short = short)
+    x[[i]] <- paste0(c(s_base, s_ratios), collapse = "")
   }
 
   paste(x, collapse = if (short) "-" else " - ")
