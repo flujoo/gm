@@ -1,10 +1,7 @@
 #' @keywords internal
 #' @export
 Duration.character <- function(x, ...) {
-  # convert the duration notation to a list of simple notations
   x <- gsub(" ", "", x)
-  x <- strsplit(x, "-")[[1]]
-  x <- as.list(x)
 
   # regular expressions
   re_type <- paste(
@@ -15,30 +12,23 @@ Duration.character <- function(x, ...) {
   re_base <- paste0("(", re_type, ")", "\\.{0,4}")
   re_ratio <- paste0("/[1-9][0-9]*(\\*\\(", re_base, "/", re_base, "\\))?")
 
-  # parse each simple duration
-  for (i in seq_along(x)) {
-    simple <- x[[i]]
+  # extraction
+  base <- regmatches(x, regexpr(re_base, x))
+  ratios <- regmatches(x, gregexpr(re_ratio, x))[[1]]
 
-    # the duration base
-    base <- regmatches(simple, regexpr(re_base, simple))
-    parsed_base <- parse_duration_base(base)
-
-    # the tuplet ratios
-    ratios <- regmatches(simple, gregexpr(re_ratio, simple))[[1]]
-    parsed_ratios <- lapply(ratios, parse_tuplet_ratio)
-
-    # the simple duration
-    x[[i]] <- c(parsed_base, list(ratios = parsed_ratios))
-  }
+  # parsing
+  parsed_base <- parse_duration_base(base)
+  parsed_ratios <- lapply(ratios, parse_tuplet_ratio)
 
   # construction
-  class(x) <- "Duration"
-  x
+  duration <- c(parsed_base, list(ratios = parsed_ratios))
+  class(duration) <- "Duration"
+  duration
 }
 
 
 parse_duration_base <- function(base) {
-  # extract the duration type
+  # extract duration type
   re_type <- paste(
     c(duration_types$name, duration_types$abbr),
     collapse = "|"
@@ -51,7 +41,7 @@ parse_duration_base <- function(base) {
     type <- duration_types$name[duration_types$abbr == type]
   }
 
-  # extract the number of dots
+  # extract number of dots
   dot <- nchar(regmatches(base, regexpr("\\.{1,4}", base)))
   if (length(dot) == 0) dot <- 0L
 

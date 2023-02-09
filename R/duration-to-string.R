@@ -8,14 +8,13 @@ print.Duration <- function(x, ...) {
 #' @keywords internal
 #' @export
 to_string.Duration <- function(x, short = FALSE, ...) {
-  for (i in seq_along(x)) {
-    duration <- x[[i]]
-    s_base <- to_string_duration_base(duration, short)
-    s_ratios <- sapply(duration$ratios, to_string_tuplet_ratio, short = short)
-    x[[i]] <- paste0(c(s_base, s_ratios), collapse = "")
-  }
-
-  paste(x, collapse = if (short) "-" else " - ")
+  paste(
+    c(
+      to_string_duration_base(x, short),
+      sapply(x$ratios, to_string_tuplet_ratio, short = short)
+    ),
+    collapse = ""
+  )
 }
 
 
@@ -23,9 +22,9 @@ to_string_duration_base <- function(base, short = FALSE) {
   type <- base$type
 
   paste0(
-    # convert the duration type to a string
+    # convert duration type to string
     if (short) duration_types$abbr[duration_types$name == type] else type,
-    # convert the number of dots to a string
+    # convert number of dots to string
     strrep(".", base$dot)
   )
 }
@@ -33,13 +32,12 @@ to_string_duration_base <- function(base, short = FALSE) {
 
 to_string_tuplet_ratio <- function(ratio, short = FALSE) {
   take <- ratio$take
-  n <- ratio$n
 
   if (is.null(take)) {
-    sprintf("/%s", n)
+    sprintf("/%s", ratio$n)
 
   } else {
-    sprintf("/%s*(%s/%s)", n, to_string_duration_base(take, short),
+    sprintf("/%s*(%s/%s)", ratio$n, to_string_duration_base(take, short),
       to_string_duration_base(ratio$unit, short))
   }
 }

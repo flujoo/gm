@@ -1,9 +1,6 @@
 #' Check If Object Is Duration Notation
 #'
-#' @description A **duration notation** can be a string of tied
-#' simple durations, e.g. "q/3 - w - half..".
-#'
-#' A **simple duration** has two parts:
+#' @description A **duration notation** has two parts:
 #'
 #' 1. a base
 #' 2. zero or more tuplet ratios
@@ -22,6 +19,8 @@
 is_duration_notation <- function(x) {
   if (!is.character(x)) return(FALSE)
 
+  x <- gsub(" ", "", x)
+
   re_type <- paste(
     c(duration_types$name, duration_types$abbr),
     collapse = "|"
@@ -32,22 +31,12 @@ is_duration_notation <- function(x) {
   re_ratio <- paste0(
     "(",
     # divisor
-    "\\s*", "/", "\\s*", "[1-9][0-9]*", "\\s*",
-    "(",
+    "/", "[1-9][0-9]*",
     # multiplier
-    "\\*", "\\s*", "\\(", "\\s*", re_base, "\\s*", "/",
-    "\\s*", re_base, "\\s*", "\\)",
-    ")?",
+    "(", "\\*", "\\(", re_base, "/", re_base, "\\)", ")?",
     ")*"
   )
 
-  re <- paste0(
-    "^", "\\s*",
-    re_base, re_ratio,
-    # tied durations
-    "(", "\\s*", "-", "\\s*", re_base, re_ratio, ")*",
-    "\\s*", "$"
-  )
-
+  re <- paste0("^", re_base, re_ratio, "$")
   grepl(re, x)
 }
