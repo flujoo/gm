@@ -76,3 +76,10 @@ parse_tuplet_ratio <- function(ratio) {
   # construction
   list(n = n, take = take, unit = unit)
 }
+
+
+divide_duration_type <- function(type, n) {
+  types <- duration_types$name
+  k <- floor(log2(n)) + which(types == type)
+  types[k]
+}
