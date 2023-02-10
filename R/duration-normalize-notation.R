@@ -1,7 +1,14 @@
 #' @keywords internal
 #' @export
 Duration.character <- function(x, ...) {
-  x <- gsub(" ", "", x)
+  duration <- parse_duration_notation(x)
+  class(duration) <- "Duration"
+  duration
+}
+
+
+parse_duration_notation <- function(duration) {
+  duration <- gsub(" ", "", duration)
 
   # regular expressions
   re_type <- paste(
@@ -13,17 +20,15 @@ Duration.character <- function(x, ...) {
   re_ratio <- paste0("/[1-9][0-9]*(\\*\\(", re_base, "/", re_base, "\\))?")
 
   # extraction
-  base <- regmatches(x, regexpr(re_base, x))
-  ratios <- regmatches(x, gregexpr(re_ratio, x))[[1]]
+  base <- regmatches(duration, regexpr(re_base, duration))
+  ratios <- regmatches(duration, gregexpr(re_ratio, duration))[[1]]
 
   # parsing
   parsed_base <- parse_duration_base(base)
   parsed_ratios <- lapply(ratios, parse_tuplet_ratio)
 
   # construction
-  duration <- c(parsed_base, list(ratios = parsed_ratios))
-  class(duration) <- "Duration"
-  duration
+  c(parsed_base, list(ratios = parsed_ratios))
 }
 
 
