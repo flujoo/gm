@@ -28,22 +28,24 @@ Duration.character <- function(x, ...) {
 
 
 parse_duration_base <- function(base) {
-  # extract duration type
+  # regular expressions
   re_type <- paste(
     c(duration_types$name, duration_types$abbr),
     collapse = "|"
   )
 
-  type <- regmatches(base, regexpr(re_type, base))
+  re_dot <- "\\.{1,4}"
 
-  # convert abbreviation to duration type
+  # extraction
+  type <- regmatches(base, regexpr(re_type, base))
+  dot <- regmatches(base, regexpr(re_dot, base))
+
+  # normalization
   if (type %in% duration_types$abbr) {
     type <- duration_types$name[duration_types$abbr == type]
   }
 
-  # extract number of dots
-  dot <- nchar(regmatches(base, regexpr("\\.{1,4}", base)))
-  if (length(dot) == 0) dot <- 0L
+  dot <- if (length(dot) == 0) 0L else nchar(dot)
 
   # construction
   list(type = type, dot = dot)
