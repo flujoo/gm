@@ -17,8 +17,6 @@
 #'
 #' @noRd
 is_duration_notation <- function(x) {
-  if (!is.character(x)) return(FALSE)
-
   x <- gsub(" ", "", x)
 
   re_type <- paste(
