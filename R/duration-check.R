@@ -3,9 +3,9 @@
 #' @description The argument `durations` can be
 #'
 #' 1. `NULL`,
-#' 2. a numeric vector of positive numbers,
+#' 2. a numeric vector of numbers not less than the 1024th note,
 #' 3. a character vector of duration notations, or
-#' 4. a list of positive numbers or duration notations.
+#' 4. a list of duration notations or numbers not less than the 1024th note.
 #'
 #' @keywords internal
 #' @export
@@ -29,10 +29,10 @@ check_durations.default <- function(durations) {
 check_durations.numeric <- function(durations) {
   general <- paste(
     "If `durations` is a numeric vector,",
-    "it must contain only positive numbers."
+    "it must contain only numbers not less than the 1024th note."
   )
   erify::check_contents(
-    durations, "x_i > 0", NULL, general, as_double = FALSE
+    durations, "x_i >= 0.00390625", NULL, general, as_double = FALSE
   )
 }
 
@@ -53,7 +53,8 @@ check_durations.character <- function(durations) {
 check_durations.list <- function(durations) {
   general <- paste(
     "If `durations` is a list,",
-    "it must contain only duration notations or positive numbers."
+    "it must contain only duration notations",
+    "or numbers not less than the 1024th note."
   )
   specifics <- specify_invalid_durations(durations)
   erify::throw(general, specifics, environment())
@@ -82,9 +83,11 @@ specify_invalid_durations <- function(durations) {
     } else if (is.na(d)) {
       specific <- sprintf("`durations[[%s]]` is `NA`.", i)
 
-    # check if any number is positive
-    } else if (is.numeric(d) && d <= 0) {
-      specific <- "`durations[[%s]]` is `%s`, which is not a postive number."
+    } else if (is.numeric(d) && d < 0.00390625) {
+      specific <- paste(
+        "`durations[[%s]]` is `%s`,",
+        "which is less than the 1024th note."
+      )
       specific <- sprintf(specific, i, d)
 
     # check if any character is a duration notation
