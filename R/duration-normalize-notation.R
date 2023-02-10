@@ -83,3 +83,28 @@ divide_duration_type <- function(type, n) {
   k <- floor(log2(n)) + which(types == type)
   types[k]
 }
+
+
+complete_tuplet <- function(duration) {
+  type <- duration$type
+  dot <- duration$dot
+  ratios <- duration$ratios
+
+  for (i in seq_along(ratios)) {
+    ratio <- ratios[[i]]
+    take <- ratio$take
+
+    if (is.null(take)) {
+      type <- divide_duration_type(type, ratio$n)
+      unit <- list(type = type, dot = dot)
+      duration$ratios[[i]]$unit <- unit
+      duration$ratios[[i]]$take <- unit
+
+    } else {
+      type <- take$type
+      dot <- take$dot
+    }
+  }
+
+  duration
+}
