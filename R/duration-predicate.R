@@ -40,3 +40,13 @@ is_duration_notation <- function(x) {
   re <- paste0("^", re_base, re_ratio, "$")
   grepl(re, x)
 }
+
+
+#' Check If Object Is Duration Value
+#'
+#' A **duration value** is a number not less than the 1024th note.
+#'
+#' @noRd
+is_duration_value <- function(x) {
+  x >= 0.00390625
+}

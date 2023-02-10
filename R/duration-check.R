@@ -32,7 +32,7 @@ check_durations.numeric <- function(durations) {
     "it must contain only numbers not less than the 1024th note."
   )
   erify::check_contents(
-    durations, "x_i >= 0.00390625", NULL, general, as_double = FALSE
+    durations, is_duration_value, NULL, general, as_double = FALSE
   )
 }
 
@@ -83,7 +83,7 @@ specify_invalid_durations <- function(durations) {
     } else if (is.na(d)) {
       specific <- sprintf("`durations[[%s]]` is `NA`.", i)
 
-    } else if (is.numeric(d) && d < 0.00390625) {
+    } else if (is.numeric(d) && !is_duration_value(d)) {
       specific <- paste(
         "`durations[[%s]]` is `%s`,",
         "which is less than the 1024th note."
