@@ -57,8 +57,9 @@ check_durations.list <- function(durations) {
     "it must contain only duration notations",
     "or numbers not less than the 1024th note."
   )
+
   specifics <- specify_invalid_durations(durations)
-  erify::throw(general, specifics, environment())
+  erify::throw(general, specifics)
 }
 
 
