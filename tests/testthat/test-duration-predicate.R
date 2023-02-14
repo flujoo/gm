@@ -15,3 +15,42 @@ test_that("1024th note is the smallest valid duration value", {
   out <- is_duration_value(value * 0.99)
   expect_false(out)
 })
+
+
+test_that("tuplets should not imply types shorter than the 1024th note", {
+  notation <- "1024th/3"
+
+  # syntactically valid
+  out <- is_duration_notation(notation)
+  expect_true(out)
+
+  # semantically invalid
+  out <- is_tuplet(notation)
+  expect_false(out)
+})
+
+
+test_that("tuplet ratios should not have values larger than 1", {
+  notation <- "w/3*(w/16)"
+
+  # syntactically valid
+  out <- is_duration_notation(notation)
+  expect_true(out)
+
+  # semantically invalid
+  out <- is_tuplet(notation)
+  expect_false(out)
+})
+
+
+test_that("units should divide their previous bases", {
+  notation <- "h/3*(q./q.)"
+
+  # syntactically valid
+  out <- is_duration_notation(notation)
+  expect_true(out)
+
+  # semantically invalid
+  out <- is_tuplet(notation)
+  expect_false(out)
+})
