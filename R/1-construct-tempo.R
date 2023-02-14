@@ -42,9 +42,25 @@ Tempo <- function(tempo,
 check_tempo_unit <- function(unit) {
   if (is.null(unit)) return(invisible())
 
-  general <- "`unit` must be a duration notation."
-  erify::check_type(unit, "character", NULL, general)
-  erify::check_content(unit, is_duration_notation, NULL, general)
+  general <- paste(
+    "`unit` must be a duration notation or value",
+    "which represents the half, quarter, or eighth note,",
+    "or their corresponding dotted note."
+  )
+
+  types <- c("half", "quarter", "eighth")
+
+  if (is.numeric(unit)) {
+    values <- duration_types[duration_types$name %in% types, "value"]
+    valid <- c(values, values * 1.5)
+
+  } else {
+    abbrs <- duration_types[duration_types$name %in% types, "abbr"]
+    notations <- c(types, abbrs)
+    valid <- c(notations, paste0(notations, "."))
+  }
+
+  erify::check_content(unit, valid, NULL, general)
 }
 
 
