@@ -1,10 +1,10 @@
-#' Check If Object Is Duration Value
+#' Check If Number Is Duration Value
 #'
 #' A **duration value** is a number not less than the 1024th note.
 #'
 #' @noRd
-is_duration_value <- function(x) {
-  x >= 0.00390625
+is_duration_value <- function(number) {
+  number >= 0.00390625
 }
 
 
