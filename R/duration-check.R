@@ -31,6 +31,7 @@ check_durations.numeric <- function(durations) {
     "If `durations` is a numeric vector,",
     "it must contain only numbers not less than the 1024th note."
   )
+
   erify::check_contents(
     durations, is_duration_value, NULL, general, as_double = FALSE
   )
