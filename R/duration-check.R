@@ -3,9 +3,9 @@
 #' @description The argument `durations` can be
 #'
 #' 1. `NULL`,
-#' 2. a numeric vector of numbers not less than the 1024th note,
+#' 2. a numeric vector of duration values,
 #' 3. a character vector of duration notations, or
-#' 4. a list of duration notations or numbers not less than the 1024th note.
+#' 4. a list of duration values or notations.
 #'
 #' @keywords internal
 #' @export
