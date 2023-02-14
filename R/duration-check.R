@@ -45,6 +45,7 @@ check_durations.character <- function(durations) {
     "If `durations` is a character vector,",
     "it must contain only duration notations."
   )
+
   erify::check_contents(durations, is_duration_notation, NULL, general)
 }
 
@@ -92,7 +93,6 @@ specify_invalid_durations <- function(durations) {
       )
       specific <- sprintf(specific, i, d)
 
-    # check if any character is a duration notation
     } else if (is.character(d) && !is_duration_notation(d)) {
       specific <- paste(
         '`durations[[%s]]` is `"%s"`,',
