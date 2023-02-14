@@ -72,17 +72,10 @@ is_tuplet <- function(notation) {
   if (!grepl("/", notation)) return(TRUE)
 
   duration <- parse_duration_notation(notation)
-
   type <- duration$type
   dot <- duration$dot
-  ratios <- duration$ratios
 
-  for (i in seq_along(ratios)) {
-    ratio <- ratios[[i]]
-
-    # validation of ratio value
-    if (to_value_tuplet_ratio(ratio) > 1) return(FALSE)
-
+  for (ratio in duration$ratios) {
     take <- ratio$take
 
     if (is.null(take)) {
@@ -92,6 +85,9 @@ is_tuplet <- function(notation) {
       if (is.na(type)) return(FALSE)
 
     } else {
+      # validation of ratio value
+      if (to_value_tuplet_ratio(ratio) > 1) return(FALSE)
+
       # validation of divisibility
       remainder <- to_value_duration_base(list(type = type, dot = dot)) %%
         to_value_duration_base(ratio$unit)
