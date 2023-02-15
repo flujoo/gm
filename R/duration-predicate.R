@@ -4,7 +4,7 @@
 #'
 #' @noRd
 is_duration_value <- function(number) {
-  number >= 0.00390625
+  number >= 1/256
 }
 
 
