@@ -17,6 +17,31 @@ test_that("syntactically valid complex tuplets", {
 })
 
 
+test_that("duration bases should be multiples of the 1024th note", {
+  notation <- "1024."
+
+  # syntactically valid
+  out <- has_duration_notation_syntax(notation)
+  expect_true(out)
+
+  # semantically invalid
+  out <- has_duration_notation_semantics(notation)
+  expect_false(out)
+
+  # however, duration bases in tuplet ratios do not have to
+  # be multiples of the 1024th note
+  notation <- "512./3*(1024./1024.)"
+
+  # syntactically valid
+  out <- has_duration_notation_syntax(notation)
+  expect_true(out)
+
+  # also semantically valid
+  out <- has_duration_notation_semantics(notation)
+  expect_true(out)
+})
+
+
 test_that("tuplets should not imply types shorter than the 1024th note", {
   notation <- "1024th/3"
 
