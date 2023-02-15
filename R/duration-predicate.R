@@ -104,7 +104,6 @@ has_duration_notation_semantics <- function(string) {
       # validation of divisibility
       remainder <- to_value_duration_base(list(type = type, dot = dot)) %%
         to_value_duration_base(ratio$unit)
-
       if (remainder != 0) return(FALSE)
 
       type <- take$type
