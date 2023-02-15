@@ -10,7 +10,7 @@ is_duration_value <- function(number) {
 
 is_duration_notation <- function(string) {
   has_duration_notation_syntax(string) &&
-    (!grepl("/", string) || is_tuplet_notation(string))
+    has_duration_notation_semantics(string)
 }
 
 
@@ -56,26 +56,34 @@ has_duration_notation_syntax <- function(string) {
 }
 
 
-#' Check If Tuplet Notation Is Valid
+#' Check If String Has Duration Notation Semantics
 #'
-#' @description `has_duration_notation_syntax()` only checks the syntax of
-#' a duration notation. This is not enough for tuplet notations.
+#' @description `has_duration_notation_syntax()` only checks if a string
+#' is syntactically a duration notation. This is not enough.
 #' For example, the syntactically valid tuplet notation "1024th/3"
 #' implies a duration type shorter than the 1024th note,
 #' which is not semantically valid.
 #'
-#' `is_tuplet_notation()` checks further
+#' Therefore, `has_duration_notation_semantics()` checks further
 #'
-#' 1. if any duration type shorter than the 1024th note is implied,
-#' 2. if any ratio has a value larger than 1, and
-#' 3. if any unit can not divide its previous duration base.
+#' 1. if the duration base is a multiple of the 1024th note,
+#' 2. if any duration type shorter than the 1024th note is implied,
+#' 3. if any ratio has a value larger than 1, and
+#' 4. if any unit can not divide its previous duration base.
 #'
-#' @param notation A duration notation validated by
-#' `has_duration_notation_syntax()`.
+#' Please note that the duration bases in tuplet ratios do not have to
+#' be multiples of the 1024th note. For example, "512./3*(1024./1024.)"
+#' is valid, although it contains "1024.".
+#'
+#' @param string A string validated by `has_duration_notation_syntax()`.
 #'
 #' @noRd
-is_tuplet_notation <- function(notation) {
-  duration <- parse_duration_notation(notation)
+has_duration_notation_semantics <- function(string) {
+  duration <- parse_duration_notation(string)
+
+  # validation of being a multiple of the 1024th note
+  if (to_value_duration_base(duration) %% (1/256) != 0) return(FALSE)
+
   type <- duration$type
   dot <- duration$dot
 

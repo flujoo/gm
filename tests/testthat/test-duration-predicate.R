@@ -25,7 +25,7 @@ test_that("tuplets should not imply types shorter than the 1024th note", {
   expect_true(out)
 
   # semantically invalid
-  out <- is_tuplet_notation(notation)
+  out <- has_duration_notation_semantics(notation)
   expect_false(out)
 })
 
@@ -38,7 +38,7 @@ test_that("tuplet ratios should not have values larger than 1", {
   expect_true(out)
 
   # semantically invalid
-  out <- is_tuplet_notation(notation)
+  out <- has_duration_notation_semantics(notation)
   expect_false(out)
 })
 
@@ -51,6 +51,6 @@ test_that("units should divide their previous bases", {
   expect_true(out)
 
   # semantically invalid
-  out <- is_tuplet_notation(notation)
+  out <- has_duration_notation_semantics(notation)
   expect_false(out)
 })
