@@ -88,13 +88,14 @@ has_duration_notation_semantics <- function(string) {
   dot <- duration$dot
 
   for (ratio in duration$ratios) {
+    # validation of implied duration type
+    implied_type <- divide_duration_type(type, ratio$n)
+    if (is.na(implied_type)) return(FALSE)
+
     take <- ratio$take
 
     if (is.null(take)) {
-      type <- divide_duration_type(type, ratio$n)
-
-      # validation of implied duration type
-      if (is.na(type)) return(FALSE)
+      type <- implied_type
 
     } else {
       # validation of ratio value
