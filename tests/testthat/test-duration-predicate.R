@@ -52,6 +52,17 @@ test_that("tuplets should not imply types shorter than the 1024th note", {
   # semantically invalid
   out <- has_duration_notation_semantics(notation)
   expect_false(out)
+
+  # implied types are always checked even multipliers are specified
+  notation <- "512./4*(1024./1024.)"
+
+  # syntactically valid
+  out <- has_duration_notation_syntax(notation)
+  expect_true(out)
+
+  # semantically invalid
+  out <- has_duration_notation_semantics(notation)
+  expect_false(out)
 })
 
 
