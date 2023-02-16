@@ -16,6 +16,23 @@ update_cases <- function(cases, object, ...) {
 }
 
 
+#' Convert Object to Case in Component of Music
+#' @noRd
+to_case <- function(object) {
+  cls <- class(object)
+  object <- unclass(object)
+
+  if (requireNamespace("tibble", quietly = TRUE)) {
+    case <- tibble::as_tibble(object)
+  } else {
+    case <- as.data.frame(object)
+  }
+
+  class(case) <- c(cls, class(case))
+  case
+}
+
+
 #' Append Tie, Accidental, and Notehead to Component of Music
 #'
 #' If the chord length is 1, `j` will be normalized to `NA`.
@@ -91,21 +108,4 @@ update_2d <- function(cases, object) {
 
   if (!is.null(ks)) cases <- cases[-ks, ]
   rbind(cases, to_case(object))
-}
-
-
-#' Convert Object to Case in Component of Music
-#' @noRd
-to_case <- function(object) {
-  cls <- class(object)
-  object <- unclass(object)
-
-  if (requireNamespace("tibble", quietly = TRUE)) {
-    case <- tibble::as_tibble(object)
-  } else {
-    case <- as.data.frame(object)
-  }
-
-  class(case) <- c(cls, class(case))
-  case
 }
