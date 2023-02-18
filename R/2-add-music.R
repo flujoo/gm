@@ -1,14 +1,9 @@
 #' @export
 `+.Music` <- function(music, object) {
-  cs <- c(
-    "Line", "Meter", "Key", "Clef", "Tempo", "Tie", "Instrument",
-    "Dynamic", "Pedal", "Velocity", "Articulation", "Slur", "Fermata",
-    "Grace", "Trill", "Turn", "Mordent", "Schleifer", "Tremolo", "Pause",
-    "Notehead", "Stem", "Accidental", "Hairpin", "Lyric"
-  )
-  erify::check_binary_classes(music, object, "Music", cs, "+")
+  # validation
+  erify::check_binary_classes(music, object, "Music", components, "+")
 
-  # normalize the argument order
+  # normalization
   if (inherits(object, "Music")) {
     . <- music
     music <- object
@@ -17,6 +12,23 @@
 
   add(object, music)
 }
+
+
+components <- c(
+  "Line",
+  # score
+  "Meter", "Key", "Tempo",
+  # line
+  "Clef", "Instrument",
+  # segment
+  "Pedal", "Slur", "Hairpin",
+  # i
+  "Dynamic", "Grace", "Stem", "Lyric", "Tie",
+  "Articulation", "Fermata", "Pause",
+  "Trill", "Turn", "Mordent", "Schleifer", "Tremolo",
+  # j
+  "Notehead", "Accidental", "Velocity"
+)
 
 
 #' @keywords internal
