@@ -70,3 +70,10 @@ print.Meter <- function(x, ...) {
     cat("* to be", s_invisible, "on the score", "\n")
   }
 }
+
+
+#' @keywords internal
+#' @export
+to_value.Meter <- function(x) {
+  x$actual_number * (4 / x$actual_unit)
+}
