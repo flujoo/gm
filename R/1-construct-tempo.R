@@ -45,7 +45,7 @@ check_tempo_unit <- function(unit) {
   general <- paste(
     "`unit` must be a duration notation or value",
     "which represents the half, quarter, or eighth note,",
-    "or their corresponding dotted note."
+    "or their corresponding single-dotted note."
   )
 
   types <- c("half", "quarter", "eighth")
