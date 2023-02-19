@@ -9,8 +9,8 @@ add.Slur <- function(object, music) {
   notes <- music$notes
 
   # validation -------------------------------------------------
-  check_to_exist(to, lines)
-  check_to_exist(to_j, lines)
+  check_add_to(to, lines)
+  check_add_to(to_j, lines)
 
   line <- get_line_row(to, lines)
   line_j <- get_line_row(to_j, lines)

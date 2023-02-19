@@ -4,14 +4,14 @@
 #'
 #' @keywords internal
 #' @export
-check_to_exist <- function(to, lines) {
-  UseMethod("check_to_exist")
+check_add_to <- function(to, lines) {
+  UseMethod("check_add_to")
 }
 
 
 #' @keywords internal
 #' @export
-check_to_exist.default <- function(to, lines) {
+check_add_to.default <- function(to, lines) {
   # after `check_to()`, there can be only `NULL`
   return(invisible())
 }
@@ -19,16 +19,16 @@ check_to_exist.default <- function(to, lines) {
 
 #' @keywords internal
 #' @export
-check_to_exist.character <- function(to, lines) {
+check_add_to.character <- function(to, lines) {
   if (to %in% lines$name) return(invisible())
   specifics <- sprintf('Can not find Line "%s".', to)
-  abort_to_exist(to, general, specifics)
+  abort_add_to(to, general, specifics)
 }
 
 
 #' @keywords internal
 #' @export
-check_to_exist.numeric <- function(to, lines) {
+check_add_to.numeric <- function(to, lines) {
   n <- NROW(lines)
   if (to <= n) return(invisible())
 
@@ -45,11 +45,11 @@ check_to_exist.numeric <- function(to, lines) {
     i = sprintf("The Music contains %s.", s_l)
   )
 
-  abort_to_exist(to, general, specifics)
+  abort_add_to(to, general, specifics)
 }
 
 
-abort_to_exist <- function(to, general, specifics) {
+abort_add_to <- function(to, general, specifics) {
   general <- sprintf(
     "`%s` must refer to an existing Line in the Music.",
     deparse(substitute(to)) # for `to_j`

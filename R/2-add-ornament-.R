@@ -5,7 +5,7 @@ add_ornament <- function(object, music) {
   notes <- music$notes
 
   # validation
-  check_to_exist(to, lines)
+  check_add_to(to, lines)
   line <- get_line_row(to, lines)
   check_i(i, line, notes)
   check_i_rest(object, line, notes)

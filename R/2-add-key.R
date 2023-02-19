@@ -5,7 +5,7 @@ add.Key <- function(object, music) {
   lines <- music$lines
 
   # validation
-  check_to_exist(to, lines)
+  check_add_to(to, lines)
 
   # normalization
   names(object)[names(object) == "to"] <- "line"

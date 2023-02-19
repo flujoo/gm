@@ -6,7 +6,7 @@ add.Tie <- function(object, music) {
   notes <- music$notes
 
   # validation
-  check_to_exist(to, lines)
+  check_add_to(to, lines)
   line <- get_line_row(to, lines)
   check_tie(object$i, object$j, line, notes)
 

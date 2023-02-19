@@ -6,7 +6,7 @@ add.Grace <- function(object, music) {
   lines <- music$lines
 
   # validation
-  check_to_exist(to, lines)
+  check_add_to(to, lines)
   line <- get_line_row(to, lines)
   check_grace(i, line, music$notes)
 
