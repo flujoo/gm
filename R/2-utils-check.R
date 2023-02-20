@@ -104,6 +104,6 @@ check_i_rest <- function(object, line, notes) {
   article <- if (inherits(object, vowels)) "an" else "a"
 
   general <- sprintf("Can not add %s %s to a rest.", article, class(object))
-  specifics <- sprintf("It is a rest at position %s of Line %s.", i, line)
+  specifics <- sprintf("It is a rest at position %s.", i)
   erify::throw(general, specifics)
 }
