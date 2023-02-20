@@ -1,10 +1,11 @@
 check_to <- function(to) {
-  name <- deparse(substitute(to)) # for `to_j` in `Slur()`
+  if (is.null(to)) return(invisible())
+
+  # for `to_j` in `Slur()`
+  name <- deparse(substitute(to))
+
   general <- sprintf("`%s` must be a string or a positive integer.", name)
-
-  if (is.null(to)) erify::throw(general, sprintf("`%s` is `NULL`.", name))
   erify::check_type(to, c("character", "double", "integer"), name, general)
-
   valid <- expression(erify::is_string(x) || erify::is_n(x))
   erify::check_content(to, valid, name, general)
 }
