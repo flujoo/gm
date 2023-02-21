@@ -11,7 +11,7 @@ locate <- function(object, ...) {
 #'
 #' @noRd
 locate_to <- function(to, lines) {
-  if (is.numeric(to)) {
+  if (is.numeric(to) && !is.na(to)) {
     line <- lines[to, ]
 
   } else if (is.character(to)) {
