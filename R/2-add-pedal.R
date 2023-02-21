@@ -8,7 +8,7 @@ add.Pedal <- function(object, music) {
   notes <- music$notes
 
   # validation
-  check_add_to(to, lines)
+  check_add_to(to, lines, object)
   line <- normalize_to(to, lines)
   check_i(i, line, notes)
   check_i(j, line, notes)

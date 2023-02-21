@@ -1,5 +1,5 @@
 #' @export
-Fermata <- function(to, i, type = NULL, above = NULL) {
+Fermata <- function(i, to = NULL, type = NULL, above = NULL) {
   # validation
   check_to(to)
   erify::check_n(i)

@@ -7,7 +7,7 @@ add.Lyric <- function(object, music) {
   lyrics <- music$lyrics
 
   # validation
-  check_add_to(to, lines)
+  check_add_to(to, lines, object)
   line <- normalize_to(to, lines)
   check_i(i, line, music$notes)
 

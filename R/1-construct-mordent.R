@@ -1,5 +1,9 @@
 #' @export
-Mordent <- function(to, i, inverted = NULL, long = NULL, ornament = NULL) {
+Mordent <- function(i,
+                    to = NULL,
+                    inverted = NULL,
+                    long = NULL,
+                    ornament = NULL) {
   # validation
   check_to(to)
   erify::check_n(i)

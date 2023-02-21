@@ -1,5 +1,5 @@
 #' @export
-Schleifer <- function(to, i) {
+Schleifer <- function(i, to = NULL) {
   # validation
   check_to(to)
   erify::check_n(i)

@@ -5,7 +5,7 @@ add.Instrument <- function(object, music) {
   lines <- music$lines
 
   # validation
-  check_add_to(to, lines)
+  check_add_to(to, lines, object)
 
   # normalization
   object$to <- normalize_to(object$to, lines)

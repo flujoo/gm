@@ -1,5 +1,5 @@
 #' @export
-Tie <- function(to, i, j = NULL, above = NULL) {
+Tie <- function(i, j = NULL, to = NULL, above = NULL) {
   # validation
   check_to(to)
   erify::check_n(i)

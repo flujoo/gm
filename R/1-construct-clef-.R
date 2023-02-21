@@ -9,7 +9,7 @@ Clef <- function(sign,
   check_clef_sign(sign)
   check_clef_line(line, sign)
   check_clef_octave(octave, sign, line)
-  if (!is.null(to)) check_to(to)
+  check_to(to)
   if (!is.null(bar)) erify::check_n(bar)
   if (!is.null(offset)) erify::check_positive(offset, zero = TRUE)
 

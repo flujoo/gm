@@ -1,5 +1,5 @@
 #' @export
-Accidental <- function(name, to, i, j = NULL, bracketed = NULL) {
+Accidental <- function(name, i, j = NULL, to = NULL, bracketed = NULL) {
   # validation
   erify::check_content(name, accidentals)
   check_to(to)

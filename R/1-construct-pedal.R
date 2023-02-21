@@ -1,5 +1,5 @@
 #' @export
-Pedal <- function(to, i, j) {
+Pedal <- function(i, j, to = NULL) {
   # validation
   check_to(to)
   erify::check_n(i)

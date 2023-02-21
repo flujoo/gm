@@ -1,16 +1,17 @@
 #' @export
-Slur <- function(to, i, j, to_j = NULL, above = NULL) {
+Slur <- function(i, j, to = NULL, to_j = NULL, above = NULL) {
   # validation
   check_to(to)
   erify::check_n(i)
   erify::check_n(j)
-  if (!is.null(to_j)) check_to(to_j)
+  check_to(to_j)
   if (!is.null(above)) erify::check_bool(above)
 
   # normalization
   i <- as.integer(i)
   j <- as.integer(j)
   if (is.null(above)) above <- NA
+  if (is.null(to_j)) to_j <- NA_integer_
 
   # construction
   slur <- list(to = to, i = i, j = j, to_j = to_j, above = above)
@@ -29,7 +30,7 @@ print.Slur <- function(x, ...) {
 
   cat("Slur", "\n\n")
 
-  if (is.null(to_j)) {
+  if (is.na(to_j)) {
     print_to_ij(to, i, j, line = TRUE)
 
   } else {

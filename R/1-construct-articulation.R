@@ -1,5 +1,5 @@
 #' @export
-Articulation <- function(name, to, i) {
+Articulation <- function(name, i, to = NULL) {
   # validation
   check_articulation_name(name)
   check_to(to)

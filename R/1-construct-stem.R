@@ -1,5 +1,5 @@
 #' @export
-Stem <- function(direction, to, i) {
+Stem <- function(direction, i, to = NULL) {
   # validation
   erify::check_content(direction, c("down", "up", "double", "none"))
   check_to(to)

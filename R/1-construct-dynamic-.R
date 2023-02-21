@@ -1,5 +1,5 @@
 #' @export
-Dynamic <- function(marking, to, i, velocity = NULL, above = NULL) {
+Dynamic <- function(marking, i, to = NULL, velocity = NULL, above = NULL) {
   # validation
   erify::check_string(marking)
   check_to(to)

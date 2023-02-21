@@ -1,5 +1,5 @@
 #' @export
-Turn <- function(to, i, inverted = NULL) {
+Turn <- function(i, to = NULL, inverted = NULL) {
   # validation
   check_to(to)
   erify::check_n(i)

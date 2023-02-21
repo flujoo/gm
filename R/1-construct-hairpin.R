@@ -1,5 +1,5 @@
 #' @export
-Hairpin <- function(symbol, to, i, j, text = NULL, above = NULL) {
+Hairpin <- function(symbol, i, j, to = NULL, text = NULL, above = NULL) {
   # validation
   erify::check_content(symbol, c("<", ">"))
   check_to(to)

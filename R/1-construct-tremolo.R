@@ -1,5 +1,5 @@
 #' @export
-Tremolo <- function(number, to, i, between = NULL) {
+Tremolo <- function(number, i, to = NULL, between = NULL) {
   # validation
   erify::check_content(number, 1:4)
   check_to(to)

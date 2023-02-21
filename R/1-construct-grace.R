@@ -1,5 +1,5 @@
 #' @export
-Grace <- function(to, i, slash = NULL) {
+Grace <- function(i, to = NULL, slash = NULL) {
   # validation
   check_to(to)
   erify::check_n(i)

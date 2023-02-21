@@ -9,7 +9,7 @@ add.Slur <- function(object, music) {
   notes <- music$notes
 
   # validation -------------------------------------------------
-  check_add_to(to, lines)
+  check_add_to(to, lines, object)
   check_add_to(to_j, lines)
 
   line <- normalize_to(to, lines)

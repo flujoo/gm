@@ -1,5 +1,5 @@
 #' @export
-Trill <- function(to, i, j = NULL) {
+Trill <- function(i, j = NULL, to = NULL) {
   # validation
   check_to(to)
   erify::check_n(i)

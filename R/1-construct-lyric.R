@@ -1,5 +1,5 @@
 #' @export
-Lyric <- function(text, to, i, special = NULL, layer = NULL) {
+Lyric <- function(text, i, to = NULL, special = NULL, layer = NULL) {
   # validation
   erify::check_type(text, "character")
   check_to(to)

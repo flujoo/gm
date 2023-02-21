@@ -2,7 +2,7 @@
 Velocity <- function(velocity, to = NULL, i = NULL, j = NULL) {
   # validation
   erify::check_interval(velocity, c(0L, 127L))
-  if (!is.null(to)) check_to(to)
+  check_to(to)
   check_velocity_i(i, to)
   check_velocity_j(j, i)
 
@@ -10,6 +10,7 @@ Velocity <- function(velocity, to = NULL, i = NULL, j = NULL) {
   velocity <- as.integer(velocity)
   i <- if (!is.null(i)) as.integer(i) else NA_integer_
   j <- if (!is.null(j)) as.integer(j) else NA_integer_
+  if (is.null(to)) to <- NA_integer_
 
   # construction
   velocity <- list(to = to, i = i, j = j, velocity = velocity)

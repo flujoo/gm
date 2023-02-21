@@ -1,7 +1,7 @@
 #' @export
-Notehead <- function(to,
-                     i,
+Notehead <- function(i,
                      j = NULL,
+                     to = NULL,
                      shape = NULL,
                      color = NULL,
                      filled = NULL,

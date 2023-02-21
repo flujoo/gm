@@ -5,8 +5,7 @@ add.Clef <- function(object, music) {
   lines <- music$lines
 
   # validation
-  check_to(to)
-  check_add_to(to, lines)
+  check_add_to(to, lines, object)
 
   # normalization
   object$name <- to_string(object)

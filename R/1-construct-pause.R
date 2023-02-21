@@ -1,5 +1,5 @@
 #' @export
-Pause <- function(type, to, i) {
+Pause <- function(type, i, to = NULL) {
   # validation
   erify::check_content(type, c("breath", "caesura"))
   check_to(to)
