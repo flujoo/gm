@@ -76,11 +76,13 @@ abort_add_to <- function(to, general, specifics) {
 #'
 #' @noRd
 normalize_to <- function(to, lines) {
-  if (is.null(to) || is.null(lines)) {
-    NA_integer_
-  } else if (is.numeric(to)) {
+  if (is.numeric(to)) {
     as.integer(to)
+
   } else if (is.character(to)) {
     which(lines$name == to)
+
+  } else if (is.null(to)) {
+    nrow(lines)
   }
 }
