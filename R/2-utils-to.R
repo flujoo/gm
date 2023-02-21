@@ -13,10 +13,11 @@ check_add_to <- function(to, lines, ...) {
 #' @export
 check_add_to.default <- function(to, lines, object, ...) {
   if (!is.null(lines)) return(invisible())
+  vowels <- c("Articulation", "Accidental", "Instrument")
 
   general <- sprintf(
     "Can not add %s %s to an empty Music.",
-    if (inherits(object, c("Articulation", "Accidental"))) "an" else "a",
+    if (inherits(object, vowels)) "an" else "a",
     class(object)
   )
 
