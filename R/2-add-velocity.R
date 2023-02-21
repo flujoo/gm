@@ -8,7 +8,7 @@ add.Velocity <- function(object, music) {
   # validation
   check_add_to(to, lines)
 
-  line <- get_line_row(to, lines)
+  line <- normalize_to(to, lines)
   i <- object$i
   j <- object$j
 

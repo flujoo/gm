@@ -74,7 +74,7 @@ abort_add_to <- function(to, general, specifics) {
 #' Get the row number of the Line that `to` refers to.
 #'
 #' @noRd
-get_line_row <- function(to, lines) {
+normalize_to <- function(to, lines) {
   if (is.null(to) || is.null(lines)) {
     NA_integer_
   } else if (is.numeric(to)) {

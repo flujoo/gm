@@ -8,7 +8,7 @@ add.Stem <- function(object, music) {
 
   # validation
   check_add_to(to, lines)
-  line <- get_line_row(to, lines)
+  line <- normalize_to(to, lines)
   check_i(i, line, notes)
   check_i_rest(object, line, notes)
 

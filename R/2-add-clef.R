@@ -12,7 +12,7 @@ add.Clef <- function(object, music) {
   object$name <- to_string(object)
   names(object)[names(object) == "line"] <- "staff"
   names(object)[names(object) == "to"] <- "line"
-  object$line <- get_line_row(object$line, lines)
+  object$line <- normalize_to(object$line, lines)
   if (is.null(object$bar)) object$bar <- 1L
   if (is.null(object$offset)) object$offset <- 0
 

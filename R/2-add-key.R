@@ -9,7 +9,7 @@ add.Key <- function(object, music) {
 
   # normalization
   names(object)[names(object) == "to"] <- "line"
-  object$line <- get_line_row(object$line, lines)
+  object$line <- normalize_to(object$line, lines)
   if (is.null(object$bar)) object$bar <- 1L
   object$name <- to_string(object, TRUE)
 

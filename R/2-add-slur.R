@@ -12,8 +12,8 @@ add.Slur <- function(object, music) {
   check_add_to(to, lines)
   check_add_to(to_j, lines)
 
-  line <- get_line_row(to, lines)
-  line_j <- get_line_row(to_j, lines)
+  line <- normalize_to(to, lines)
+  line_j <- normalize_to(to_j, lines)
 
   check_i(i, line, notes)
 
