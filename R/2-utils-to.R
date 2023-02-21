@@ -4,22 +4,29 @@
 #'
 #' @keywords internal
 #' @export
-check_add_to <- function(to, lines) {
+check_add_to <- function(to, lines, ...) {
   UseMethod("check_add_to")
 }
 
 
 #' @keywords internal
 #' @export
-check_add_to.default <- function(to, lines) {
-  # after `check_to()`, there can be only `NULL`
-  return(invisible())
+check_add_to.default <- function(to, lines, object, ...) {
+  if (!is.null(lines)) return(invisible())
+
+  general <- sprintf(
+    "Can not add %s %s to an empty Music.",
+    if (inherits(object, c("Articulation", "Accidental"))) "an" else "a",
+    class(object)
+  )
+
+  erify::throw(general)
 }
 
 
 #' @keywords internal
 #' @export
-check_add_to.character <- function(to, lines) {
+check_add_to.character <- function(to, lines, ...) {
   if (to %in% lines$name) return(invisible())
   specifics <- sprintf('Can not find Line "%s".', to)
   abort_add_to(to, general, specifics)
@@ -28,7 +35,10 @@ check_add_to.character <- function(to, lines) {
 
 #' @keywords internal
 #' @export
-check_add_to.numeric <- function(to, lines) {
+check_add_to.numeric <- function(to, lines, ...) {
+  # for Keys and Lines
+  if (is.na(to)) return(invisible())
+
   n <- NROW(lines)
   if (to <= n) return(invisible())
 
