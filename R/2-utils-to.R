@@ -29,8 +29,15 @@ check_add_to.default <- function(to, lines, object, ...) {
 #' @export
 check_add_to.character <- function(to, lines, ...) {
   if (to %in% lines$name) return(invisible())
+
+  general <- sprintf(
+    "`%s` must refer to an existing Line in the Music.",
+    # for `to_j`
+    deparse(substitute(to))
+  )
+
   specifics <- sprintf('Can not find Line "%s".', to)
-  abort_add_to(to, general, specifics)
+  erify::throw(general, specifics)
 }
 
 
@@ -53,19 +60,15 @@ check_add_to.numeric <- function(to, lines, ...) {
     s_l <- sprintf("only %s Lines", n)
   }
 
+  general <- sprintf(
+    "`%s` must refer to an existing Line in the Music.",
+    # for `to_j`
+    deparse(substitute(to))
+  )
+
   specifics <- c(
     sprintf("Can not find Line %s.", to),
     i = sprintf("The Music contains %s.", s_l)
-  )
-
-  abort_add_to(to, general, specifics)
-}
-
-
-abort_add_to <- function(to, general, specifics) {
-  general <- sprintf(
-    "`%s` must refer to an existing Line in the Music.",
-    deparse(substitute(to)) # for `to_j`
   )
 
   erify::throw(general, specifics)
