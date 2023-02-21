@@ -13,12 +13,7 @@ Key <- function(key, bar = NULL, to = NULL, scope = NULL) {
   scope <- normalize_key_scope(scope, to)
 
   # construction
-  key <- list(
-    to = to,
-    scope = scope,
-    bar = bar,
-    key = key
-  )
+  key <- list(to = to, scope = scope, bar = bar, key = key)
   class(key) <- "Key"
   key
 }
