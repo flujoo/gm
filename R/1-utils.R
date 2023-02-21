@@ -16,11 +16,12 @@ print_to_ij <- function(to = NULL,
                         j = NULL,
                         scope = NULL,
                         line = FALSE) {
-  if (is.null(to) || is.na(to)) return(invisible())
-
-  if (!is.null(scope)) scope <- sprintf("the %s containing", scope)
-  if (is.character(to)) to <- sprintf('"%s"', to)
-  cat("* to be added to", scope, "Line", to, "\n")
+  if (!is.null(to)) {
+    if (is.na(to)) return(invisible())
+    if (!is.null(scope)) scope <- sprintf("the %s containing", scope)
+    if (is.character(to)) to <- sprintf('"%s"', to)
+    cat("* to be added to", scope, "Line", to, "\n")
+  }
 
   if (is.null(i)) return(invisible())
 
