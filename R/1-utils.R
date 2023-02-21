@@ -16,7 +16,7 @@ print_to_ij <- function(to = NULL,
                         j = NULL,
                         scope = NULL,
                         line = FALSE) {
-  if (is.null(to)) return(invisible())
+  if (is.null(to) || is.na(to)) return(invisible())
 
   if (!is.null(scope)) scope <- sprintf("the %s containing", scope)
   if (is.character(to)) to <- sprintf('"%s"', to)

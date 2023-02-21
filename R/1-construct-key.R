@@ -3,12 +3,13 @@ Key <- function(key, bar = NULL, to = NULL, scope = NULL) {
   # validation
   erify::check_content(key, -7:7)
   if (!is.null(bar)) erify::check_n(bar)
-  if (!is.null(to)) check_to(to)
+  check_to(to)
   check_key_scope(scope, to)
 
   # normalization
   key <- as.integer(key)
   if (!is.null(bar)) bar <- as.integer(bar)
+  if (is.null(to)) to <- NA_integer_
   scope <- normalize_key_scope(scope, to)
 
   # construction
@@ -38,7 +39,7 @@ check_key_scope <- function(scope, to) {
 
 
 normalize_key_scope <- function(scope, to) {
-  if (!is.null(to)) {
+  if (!is.na(to)) {
     if (is.null(scope)) scope <- "part"
   } else {
     scope <- NA_character_
@@ -75,7 +76,7 @@ print.Key <- function(x, ...) {
   to <- x$to
 
   cat("Key", to_string(x), "\n")
-  if (!is.null(bar) || !is.null(to)) cat("\n")
+  if (!is.null(bar) || !is.na(to)) cat("\n")
   if (!is.null(bar)) cat(sprintf("* to be added at bar %s", bar), "\n")
   print_to_ij(to, scope = x$scope)
 }
