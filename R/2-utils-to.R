@@ -36,7 +36,8 @@ check_add_to.character <- function(to, lines, ...) {
 #' @keywords internal
 #' @export
 check_add_to.numeric <- function(to, lines, ...) {
-  # for Keys and Lines
+  # in `Key()` and `Line()`, `to` is not mandatory
+  # it is normalized to `NA_integer_` to escape this validation
   if (is.na(to)) return(invisible())
 
   n <- NROW(lines)
