@@ -1,8 +1,5 @@
 #' @export
 `+.Music` <- function(music, object) {
-  # validation
-  erify::check_binary_classes(music, object, "Music", components, "+")
-
   # normalization
   if (inherits(object, "Music")) {
     . <- music
@@ -10,25 +7,45 @@
     object <- .
   }
 
+  # validation
+  check_object_class(object)
+
+  # construction
   add(object, music)
 }
 
 
-components <- c(
-  "Line",
-  # score
-  "Meter", "Key", "Tempo",
-  # line
-  "Clef", "Instrument",
-  # segment
-  "Pedal", "Slur", "Hairpin",
-  # i
-  "Dynamic", "Grace", "Stem", "Lyric", "Tie",
-  "Articulation", "Fermata", "Pause",
-  "Trill", "Turn", "Mordent", "Schleifer", "Tremolo",
-  # j
-  "Notehead", "Accidental", "Velocity"
-)
+check_object_class <- function(object) {
+  classes <- c(
+    "Line",
+    # score
+    "Meter", "Key", "Tempo",
+    # line
+    "Clef", "Instrument",
+    # segment
+    "Pedal", "Slur", "Hairpin",
+    # i
+    "Dynamic", "Grace", "Stem", "Lyric", "Tie",
+    "Articulation", "Fermata", "Pause",
+    "Trill", "Turn", "Mordent", "Schleifer", "Tremolo",
+    # j
+    "Notehead", "Accidental", "Velocity"
+  )
+
+  if (inherits(object, classes)) return(invisible())
+
+  general <- sprintf(
+    "The object added to a Music must have class %s.",
+    erify::join(classes)
+  )
+
+  specifics <- sprintf(
+    "The object has class %s.",
+    erify::join(class(object), "and")
+  )
+
+  erify::throw(general, specifics)
+}
 
 
 #' @keywords internal
