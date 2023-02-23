@@ -1,7 +1,7 @@
 test_that("round up offsets in Music", {
   music <-
     Music() +
-    Meter(3, 4, 4) + Meter(4, 4, 5) + Meter(2, 4, 1) +
+    Meter(3, 4, 4) + Meter(4, 4, 5) + Meter(3, 4, 1, 2) +
     Line(90, bar = 3, offset = 10) +
     Clef("g", bar = 4, offset = 3) +
     Tempo(90, bar = 10, offset = 1)
