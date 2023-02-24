@@ -28,7 +28,7 @@ normalize_bar_offset <- function(bar, offset, meters) {
   bars <- meters$bar
 
   repeat {
-    # get the Meter for current bar
+    # get the Meter for the current bar
     k <- which(bars <= bar)[1]
     meter <- meters[k, ]
     value <- to_value(meter)
