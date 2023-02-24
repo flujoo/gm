@@ -1,4 +1,4 @@
-normalize_bars_offsets <- function(music) {
+round_offsets <- function(music) {
   meters <- music$meters
   meters <- meters[order(meters$bar, decreasing = TRUE), ]
 
@@ -8,7 +8,7 @@ normalize_bars_offsets <- function(music) {
 
     for (i in seq_len(NROW(component))) {
       case <- component[i, ]
-      . <- normalize_bar_offset(case$bar, case$offset, meters)
+      . <- round_offset(case$bar, case$offset, meters)
       music[[name]][i, ]$bar <- .$bar
       music[[name]][i, ]$offset <- .$offset
     }
@@ -23,7 +23,7 @@ normalize_bars_offsets <- function(music) {
 #' @param meters Sorted by `$bar` in descending order.
 #'
 #' @noRd
-normalize_bar_offset <- function(bar, offset, meters) {
+round_offset <- function(bar, offset, meters) {
   offset <- round_duration_value(offset)
   bars <- meters$bar
 

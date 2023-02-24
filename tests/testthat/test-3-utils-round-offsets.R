@@ -6,7 +6,7 @@ test_that("round up offsets in Music", {
     Clef("g", bar = 4, offset = 3) +
     Tempo(90, bar = 10, offset = 1)
 
-  music <- normalize_bars_offsets(music)
+  music <- round_offsets(music)
   lines <- music$lines
   clefs <- music$clefs
   tempos <- music$tempos
