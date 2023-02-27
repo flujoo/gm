@@ -6,9 +6,16 @@ round_offsets <- function(music) {
     component <- music[[name]]
     if (!("offset" %in% names(component))) next
 
+    # the remainder is dropped rather than rounded up
+    # to prevent some Clefs and Tempos passing their target positions
+    method <- if (name %in% c("clefs", "tempos")) floor else round
+
     for (i in seq_len(NROW(component))) {
       case <- component[i, ]
-      . <- round_offset(case$bar, case$offset, meters)
+
+      offset <- round_duration_value(case$offset, method)
+      . <- round_offset(case$bar, offset, meters)
+
       music[[name]][i, ]$bar <- .$bar
       music[[name]][i, ]$offset <- .$offset
     }
@@ -18,13 +25,7 @@ round_offsets <- function(music) {
 }
 
 
-#' Round Up Offset
-#'
-#' @param meters Sorted by `$bar` in descending order.
-#'
-#' @noRd
 round_offset <- function(bar, offset, meters) {
-  offset <- round_duration_value(offset)
   bars <- meters$bar
 
   repeat {
@@ -34,6 +35,7 @@ round_offset <- function(bar, offset, meters) {
     value <- to_value(meter)
 
     if (offset < value) break
+
     bar <- bar + 1L
     offset <- offset - value
   }
