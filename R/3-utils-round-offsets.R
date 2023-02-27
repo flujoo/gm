@@ -1,3 +1,5 @@
+#' Round Up Overflowed Offsets
+#' @noRd
 round_offsets <- function(music) {
   meters <- music$meters
   meters <- meters[order(meters$bar, decreasing = TRUE), ]
@@ -25,6 +27,8 @@ round_offsets <- function(music) {
 }
 
 
+#' @param meters Already sorted by `$bar` in descending order.
+#' @noRd
 round_offset <- function(bar, offset, meters) {
   bars <- meters$bar
 
