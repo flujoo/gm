@@ -1,12 +1,10 @@
 #' Approximate Duration Value As Multiple of 1024th Note
 #'
-#' The remainder is dropped rather than rounded up,
-#' or some Clefs and Tempos would pass the target positions,
-#' because of their rounded up offsets.
+#' @param method `round()` or `floor()`.
 #'
 #' @noRd
-round_duration_value <- function(value) {
+round_duration_value <- function(value, method = round) {
   value_1024 <- 1/256
-  remainder <- value %% value_1024
-  value - remainder
+  n <- value / value_1024
+  value_1024 * method(n)
 }
