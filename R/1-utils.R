@@ -46,3 +46,10 @@ print_bar_offset <- function(bar, offset) {
     cat(sprintf("* to be added at bar %s with offset %s", bar, offset), "\n")
   }
 }
+
+
+data_frame <- if (requireNamespace("tibble", quietly = TRUE)) {
+  tibble::tibble
+} else {
+  data.frame
+}
