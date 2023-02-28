@@ -16,7 +16,7 @@ test_that("round up offsets in Music", {
   expect_identical(out, expected)
 
   out <- lines$offset
-  expected <- round_duration_value(1.0111, round)
+  expected <- round_duration_value(1.0111, "round")
   expect_equal(out, expected)
 
   out <- clefs$bar
@@ -32,6 +32,6 @@ test_that("round up offsets in Music", {
   expect_identical(out, expected)
 
   out <- tempos$offset
-  expected <- round_duration_value(1.0111, floor)
+  expected <- round_duration_value(1.0111, "floor")
   expect_equal(out, expected)
 })

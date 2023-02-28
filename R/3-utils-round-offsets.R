@@ -10,7 +10,7 @@ round_offsets <- function(music) {
 
     # the remainder is dropped rather than rounded up
     # to prevent some Clefs and Tempos passing their target positions
-    method <- if (name %in% c("clefs", "tempos")) floor else round
+    method <- if (name %in% c("clefs", "tempos")) "floor" else "round"
 
     for (i in seq_len(NROW(component))) {
       case <- component[i, ]
