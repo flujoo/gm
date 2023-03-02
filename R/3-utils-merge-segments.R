@@ -26,3 +26,35 @@ accumulate_bars <- function(lines, meters) {
 
   lines
 }
+
+
+#' Add Cumulative Note Lengths
+#' @noRd
+accumulate_lengths <- function(notes) {
+  notes$accumulation <- NA_real_
+
+  line <- 0
+  i <- 0
+  accumulation <- 0
+
+  for (k in seq_len(NROW(notes))) {
+    note_k <- notes[k, ]
+    line_k <- note_k$line
+    i_k <- note_k$i
+    length_k <- note_k$length
+
+    if (line_k != line) {
+      line <- line_k
+      i <- 1
+      accumulation <- length_k
+
+    } else if (i_k != i) {
+      i <- i_k
+      accumulation <- accumulation + length_k
+    }
+
+    notes[k, "accumulation"] <- accumulation
+  }
+
+  notes
+}
