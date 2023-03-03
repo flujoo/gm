@@ -30,7 +30,7 @@ accumulate_bars <- function(lines, meters) {
 
 #' Add Cumulative Note Lengths
 #' @noRd
-accumulate_lengths <- function(notes) {
+accumulate_lengths <- function(notes, graces) {
   notes$accumulation <- NA_real_
 
   line <- 0
@@ -42,6 +42,9 @@ accumulate_lengths <- function(notes) {
     line_k <- note_k$line
     i_k <- note_k$i
     length_k <- note_k$length
+
+    # skip grace notes
+    if (any(graces$line == line_k & graces$i == i_k)) next
 
     if (line_k != line) {
       line <- line_k
