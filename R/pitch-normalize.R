@@ -10,17 +10,22 @@ Pitch <- function(x, ...) {
 #' @keywords internal
 #' @export
 Pitch.character <- function(x, ...) {
-  x <- trimws(x)
-  l <- nchar(x)
-
-  step <- toupper(substr(x, 1, 1))
-  accidental <- substr(x, 2, l - 1)
-  alter <- (-2:2)[accidental == c("--", "-", "", "#", "##")]
-  octave <- as.integer(substr(x, l, l))
-
-  pitch <- list(step = step, alter = alter, octave = octave)
+  pitch <- parse_pitch_notation(x)
   class(pitch) <- "Pitch"
   pitch
+}
+
+
+parse_pitch_notation <- function(pitch) {
+  pitch <- trimws(pitch)
+  l <- nchar(pitch)
+
+  step <- toupper(substr(pitch, 1, 1))
+  accidental <- substr(pitch, 2, l - 1)
+  alter <- (-2:2)[accidental == c("--", "-", "", "#", "##")]
+  octave <- as.integer(substr(pitch, l, l))
+
+  list(step = step, alter = alter, octave = octave)
 }
 
 
