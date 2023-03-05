@@ -22,7 +22,7 @@ round_duration_value <- function(value, method = "round") {
   # deal with "round to even" issue
   # https://stackoverflow.com/questions/12688717/round-up-from-5/12688836
   n <- floor(m)
-  if (method == "round" && m - n >= 0.5) n <- n + 1
+  n <- ifelse(method == "round" & m - n >= 0.5, n + 1, n)
 
   value_1024 * n
 }
