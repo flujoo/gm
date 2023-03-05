@@ -11,10 +11,19 @@ initialize_first_bar_meter <- function(music) {
 }
 
 
+#' Fill Empty Music With Rest
+#'
+#' To show rather than abort an empty Music, fill it with a rest of duration
+#' the duration of the first bar.
+#'
+#' @noRd
 initialize_notes_lines <- function(music) {
   if (!is.null(music$lines)) return(music)
+
+  # get the Meter at the first bar
   meters <- music$meters
   meter_bar_1 <- meters[meters$bar == 1, ]
+
   music + Line(durations = to_value(meter_bar_1))
 }
 
