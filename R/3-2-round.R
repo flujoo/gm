@@ -29,6 +29,9 @@ round_duration_value <- function(value, method = "round") {
 
 
 #' Round Up Overflowed Offsets
+#'
+#' Round up offsets that exceed the durations of their target bars.
+#'
 #' @noRd
 round_offsets <- function(music) {
   meters <- music$meters
