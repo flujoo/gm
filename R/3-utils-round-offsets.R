@@ -1,6 +1,7 @@
 #' Round Up Overflowed Offsets
 #'
-#' Round up offsets that exceed the durations of their target bars.
+#' Round up the offsets of Lines, Clefs, and Tempos,
+#' which exceed the durations of their target bars.
 #'
 #' @noRd
 round_offsets <- function(music) {
