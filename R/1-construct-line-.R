@@ -14,9 +14,11 @@ Line <- function(pitches = NULL,
   check_pitches_durations(pitches, durations)
   deprecate_tie(tie)
   if (!is.null(name)) erify::check_string(name)
+
   if (!is.null(as)) {
     erify::check_content(as, c("part", "staff", "voice", "segment"))
   }
+
   check_to(to)
   if (!is.null(after)) erify::check_bool(after)
   if (!is.null(bar)) erify::check_n(bar)
@@ -38,6 +40,7 @@ Line <- function(pitches = NULL,
     bar = bar,
     offset = offset
   )
+
   class(line) <- "Line"
   line
 }
