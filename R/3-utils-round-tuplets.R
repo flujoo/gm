@@ -119,8 +119,8 @@ is_compatible <- function(current, last) {
     current$ratios[(depth_last + 1):depth_current] <- NULL
   }
 
-  current$ratio[[depth_last]]$take <- NULL
-  last$ratio[[depth_last]]$take <- NULL
+  current$ratios[[depth_last]]$take <- NULL
+  last$ratios[[depth_last]]$take <- NULL
 
   identical(current, last)
 }
