@@ -85,9 +85,10 @@ group_tuplets <- function(music) {
     if (is.list(reduced)) {
       tuplets <- reduced
 
-    } else {
-      # the undecided tuplets can not be reduced
-      if (isFALSE(reduced)) music$notes$group[ks] <- -3L
+    } else if (isFALSE(reduced)) {
+      music$notes$group[ks[-length(ks)]] <- -3L
+      tuplets <- list(duration)
+      ks <- k
 
     } else if (is.null(reduced)) {
       music$notes$group[ks] <- group
