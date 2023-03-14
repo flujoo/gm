@@ -100,3 +100,27 @@ group_tuplets <- function(music) {
 }
 
 
+#' @description Check if the current tuplet is compatible with
+#' the last tuplet.
+#'
+#' @noRd
+is_compatible <- function(current, last) {
+  if (is.null(last)) return(TRUE)
+
+  depth_current <- length(current$ratios)
+  depth_last <- length(last$ratios)
+
+  # the undecided tuplets are stopped by the current tuplet
+  # from forming a complete group
+  if (depth_current < depth_last) return(FALSE)
+
+  # for the convenience of comparison
+  if (depth_current > depth_last) {
+    current$ratios[(depth_last + 1):depth_current] <- NULL
+  }
+
+  current$ratio[[depth_last]]$take <- NULL
+  last$ratio[[depth_last]]$take <- NULL
+
+  identical(current, last)
+}
