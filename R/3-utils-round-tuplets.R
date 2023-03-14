@@ -24,6 +24,8 @@ group_tuplets <- function(music) {
   ks <- NULL
   # the number of the current Line
   line <- 0L
+  # the tuplet group number
+  group <- 1L
 
   notes <- music$notes
   graces <- music$graces
@@ -87,6 +89,9 @@ group_tuplets <- function(music) {
       # the undecided tuplets can not be reduced
       if (isFALSE(reduced)) music$notes$group[ks] <- -3L
 
+    } else if (is.null(reduced)) {
+      music$notes$group[ks] <- group
+      group <- group + 1L
       tuplets <- NULL
       ks <- NULL
     }
