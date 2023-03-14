@@ -124,3 +124,36 @@ is_compatible <- function(current, last) {
 
   identical(current, last)
 }
+
+
+#' @description If the tuplets at the deepest level form a group at that
+#' level, reduce that level. Repeat this process until no tuplet is left.
+#'
+#' @returns `NULL`, `FALSE`, or a list.
+#'
+#' @noRd
+reduce_tuplets <- function(tuplets) {
+  repeat {
+    depths <- sapply(tuplets, function(tuplet) length(tuplet$ratios))
+    depth_max <- max(depths)
+
+    # the tuplets has been reduced completely
+    if (depth_max == 0) return(NULL)
+
+    # the tuplets that reach the deepest level
+    ks <- which(depths == depth_max)
+
+    # the total ratio at the deepest level
+    ratio <- sum(sapply(
+      tuplets[ks],
+      function(tuplet) to_value_tuplet_ratio(tuplet$ratios[[depth_max]])
+    ))
+
+    if (ratio > 1) return(FALSE)
+    if (ratio < 1) return(tuplets)
+
+    # reduce the deepest level
+    tuplets[[ks[1]]]$ratios[[depth_max]] <- NULL
+    tuplets[ks[-1]] <- NULL
+  }
+}
