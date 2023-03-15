@@ -6,7 +6,6 @@ prepare <- function(music) {
 
   # round durations
   music <- round_offsets(music)
-  music <- degenerate_grace_durations(music)
   music <- round_duration_values(music)
 
   music
