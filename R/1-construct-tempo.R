@@ -9,7 +9,7 @@ Tempo <- function(tempo,
   erify::check_positive(tempo)
   check_tempo_unit(unit)
   if (!is.null(bar)) erify::check_n(bar)
-  if (!is.null(offset)) erify::check_positive(offset, zero = TRUE)
+  check_offset(offset)
   if (!is.null(marking)) erify::check_string(marking)
   if (!is.null(invisible)) erify::check_bool(invisible)
 

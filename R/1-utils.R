@@ -11,6 +11,21 @@ check_to <- function(to) {
 }
 
 
+check_offset <- function(offset) {
+  if (is.null(offset)) return(invisible())
+  erify::check_type(offset, c("double", "integer"))
+  erify::check_length(offset, 1)
+
+  general <- paste(
+    "`offset` must be a non-negative multiple of 1/256",
+    "which is the shortest valid duration."
+  )
+
+  valid <- expression(x == 0 || is_duration_value(x))
+  erify::check_content(offset, valid, NULL, general)
+}
+
+
 print_to_ij <- function(to = NULL,
                         i = NULL,
                         j = NULL,

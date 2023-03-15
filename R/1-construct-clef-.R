@@ -11,7 +11,7 @@ Clef <- function(sign,
   check_clef_octave(octave, sign, line)
   check_to(to)
   if (!is.null(bar)) erify::check_n(bar)
-  if (!is.null(offset)) erify::check_positive(offset, zero = TRUE)
+  check_offset(offset)
 
   # normalization
   sign <- toupper(sign)

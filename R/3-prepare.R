@@ -4,9 +4,5 @@ prepare <- function(music) {
   music <- initialize_notes_lines(music)
   music <- initialize_global_key(music)
 
-  # round durations
-  music <- round_offsets(music)
-  music <- round_duration_values(music)
-
   music
 }
