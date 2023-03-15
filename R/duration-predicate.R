@@ -1,10 +1,15 @@
 #' Check If Number Is Duration Value
 #'
-#' A **duration value** is a number not less than the 1024th note.
+#' A **duration value** is a positive number that is a multiple of
+#' the 1024th note.
 #'
 #' @noRd
 is_duration_value <- function(number) {
-  number >= 1/256
+  value_1024 <- 1/256
+
+  is.finite(number) &
+    number >= value_1024 &
+    number %% value_1024 == 0
 }
 
 
