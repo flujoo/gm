@@ -1,11 +1,18 @@
-test_that("1024th note is the smallest valid duration value", {
-  value <- duration_types[duration_types$abbr == "1024", "value"]
-
-  out <- is_duration_value(value)
-  expect_true(out)
-
-  out <- is_duration_value(value * 0.99)
+test_that("check if a number is a duration value", {
+  out <- is_duration_value(Inf)
   expect_false(out)
+
+  out <- is_duration_value(NA_integer_)
+  expect_false(out)
+
+  out <- is_duration_value(1/256/2)
+  expect_false(out)
+
+  out <- is_duration_value(1/3)
+  expect_false(out)
+
+  out <- is_duration_value(1)
+  expect_true(out)
 })
 
 
