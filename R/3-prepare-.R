@@ -1,5 +1,5 @@
 prepare <- function(music) {
-  check_empty(music)
+  check_music_empty(music)
   check_first_bar_meter(music)
 
   music <- initialize_global_key(music)
@@ -8,7 +8,7 @@ prepare <- function(music) {
 }
 
 
-check_empty <- function(music) {
+check_music_empty <- function(music) {
   if (!is.null(music$lines)) return(invisible())
   erify::throw("`music` can not be empty.")
 }
