@@ -7,102 +7,47 @@
 #' 3. a character vector of duration notations, or
 #' 4. a list of duration values or notations.
 #'
-#' @keywords internal
-#' @export
+#' @noRd
 check_durations <- function(durations) {
-  UseMethod("check_durations")
-}
-
-
-#' @keywords internal
-#' @export
-check_durations.default <- function(durations) {
   if (is.null(durations)) return(invisible())
+  erify::check_type(durations, c("integer", "double", "character", "list"))
 
-  valid <- c("integer", "numeric", "character", "list")
-  erify::check_type(durations, valid)
-}
-
-
-#' @keywords internal
-#' @export
-check_durations.numeric <- function(durations) {
   general <- paste(
-    "If `durations` is a numeric vector,",
-    "it must contain only numbers not less than the 1024th note."
+    "`durations` must contain only valid duration notations,",
+    "or positive numbers that are multiples of 1/256",
+    "which is the shortest valid duration."
   )
 
-  erify::check_contents(
-    durations, is_duration_value, NULL, general, as_double = FALSE
-  )
-}
-
-
-#' @keywords internal
-#' @export
-check_durations.character <- function(durations) {
-  general <- paste(
-    "If `durations` is a character vector,",
-    "it must contain only duration notations."
-  )
-
-  erify::check_contents(durations, is_duration_notation, NULL, general)
-}
-
-
-#' @keywords internal
-#' @export
-check_durations.list <- function(durations) {
-  general <- paste(
-    "If `durations` is a list,",
-    "it must contain only duration notations",
-    "or numbers not less than the 1024th note."
-  )
-
-  specifics <- specify_invalid_durations(durations)
-  erify::throw(general, specifics)
-}
-
-
-specify_invalid_durations <- function(durations) {
   specifics <- character(0)
+  item <- if (is.list(durations)) "`durations[[%s]]`" else "`durations[%s]`"
 
   for (i in seq_along(durations)) {
-    d <- durations[[i]]
-    l <- length(d)
-    type <- typeof(d)
-    types <- c("integer", "double", "character")
     specific <- NULL
+    duration <- durations[[i]]
+    type <- typeof(duration)
+    l <- length(duration)
 
-    if (is.null(d)) {
-      specific <- sprintf("`durations[[%s]]` is `NULL`.", i)
+    if (is.null(duration)) {
+      specific <- sprintf("%s is `NULL`.", sprintf(item, i))
 
-    } else if (!(type %in% types)) {
-      specific <- sprintf("`durations[[%s]]` has type %s.", i, type)
+    } else if (!(type %in% c("integer", "double", "character"))) {
+      specific <- sprintf("%s has type %s.", sprintf(item, i), type)
 
     } else if (l != 1) {
-      specific <- sprintf("`durations[[%s]]` has length %s.", i, l)
+      specific <- sprintf("%s has length %s.", sprintf(item, i), l)
 
-    } else if (is.na(d)) {
-      specific <- sprintf("`durations[[%s]]` is `NA`.", i)
+    } else if (is.na(duration)) {
+      specific <- sprintf("%s is `NA`.", sprintf(item, i))
 
-    } else if (is.numeric(d) && !is_duration_value(d)) {
-      specific <- paste(
-        "`durations[[%s]]` is `%s`,",
-        "which is less than the 1024th note."
-      )
-      specific <- sprintf(specific, i, d)
+    } else if (is.numeric(duration) && !is_duration_value(duration)) {
+      specific <- sprintf("%s is `%s`.", sprintf(item, i), duration)
 
-    } else if (is.character(d) && !is_duration_notation(d)) {
-      specific <- paste(
-        '`durations[[%s]]` is `"%s"`,',
-        "which is not a duration notation."
-      )
-      specific <- sprintf(specific, i, d)
+    } else if (is.character(duration) && !is_duration_notation(duration)) {
+      specific <- sprintf('%s is `"%s"`.', sprintf(item, i), duration)
     }
 
     specifics <- c(specifics, specific)
   }
 
-  specifics
+  erify::throw(general, specifics)
 }
