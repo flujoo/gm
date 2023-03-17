@@ -1,3 +1,29 @@
+#' Check If Tuplets Form Groups
+#'
+#' @param music The output of `group_tuplets()`.
+#'
+#' @noRd
+check_tuplet_groups <- function(music) {
+  general <- "The tuplets in `music` must form complete groups."
+  specifics <- character()
+  notes <- music$notes
+
+  for (k in seq_len(NROW(notes))) {
+    note <- notes[k, ]
+    if (note$group >= 0) next
+
+    specific <- sprintf(
+      "The tuplet at position %s of Line %s is not in a complete group.",
+      note$i, note$line
+    )
+
+    specifics <- c(specifics, specific)
+  }
+
+  erify::throw(general, specifics)
+}
+
+
 #' Indicate Tuplet Groups With Integers
 #'
 #' @description Tuplet groups are indicated with positive integers.
