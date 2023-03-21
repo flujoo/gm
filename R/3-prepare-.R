@@ -1,9 +1,11 @@
 prepare <- function(music) {
   check_music_empty(music)
   check_first_bar_meter(music)
-  music <- initialize_global_key(music)
+
   music <- group_tuplets(music)
   check_tuplet_groups(music)
+
+  music <- initialize_global_key(music)
 
   music
 }
