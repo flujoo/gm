@@ -1,12 +1,3 @@
-merge_segments <- function(music) {
-  meters <- music$meters
-
-  meters <- meters[order(meters$bar, decreasing = TRUE), ]
-  music$lines <- accumulate_bars(music$lines, meters)
-  music$notes <- accumulate_lengths(music$notes, music$graces)
-}
-
-
 #' Accumulate Bar Durations Up to Given Bar and Offset
 #'
 #' @param meters Already sorted by `$bar` in descending order.
