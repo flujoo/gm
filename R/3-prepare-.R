@@ -6,6 +6,7 @@ prepare <- function(music) {
   check_tuplet_groups(music)
 
   music <- order_meters(music)
+  music <- round_offsets(music)
 
   music <- initialize_global_key(music)
 
