@@ -5,6 +5,8 @@ prepare <- function(music) {
   music <- group_tuplets(music)
   check_tuplet_groups(music)
 
+  music <- order_meters(music)
+
   music <- initialize_global_key(music)
 
   music
@@ -20,6 +22,15 @@ check_music_empty <- function(music) {
 check_first_bar_meter <- function(music) {
   if (1 %in% music$meters$bar) return(invisible())
   erify::throw("`music` must have a Meter at the first bar.")
+}
+
+
+#' Order Meters by Bar
+#' @noRd
+order_meters <- function(music, decreasing = TRUE) {
+  meters <- music$meters
+  music$meters <- meters[order(meters$bar, decreasing = decreasing), ]
+  music
 }
 
 
