@@ -22,8 +22,12 @@ round_offsets <- function(music) {
 
 
 #' @param meters Already sorted by `bar` in descending order.
+#'
+#' @param up Whether to round up an offset to the next bar,
+#' when it is equal to the length of the current bar.
+#'
 #' @noRd
-round_offset <- function(bar, offset, meters) {
+round_offset <- function(bar, offset, meters, up = TRUE) {
   bars <- meters$bar
 
   repeat {
@@ -32,7 +36,12 @@ round_offset <- function(bar, offset, meters) {
     meter <- meters[k, ]
 
     value <- to_value(meter)
-    if (offset < value) break
+
+    if (up) {
+      if (offset < value) break
+    } else {
+      if (offset <= value) break
+    }
 
     bar <- bar + 1L
     offset <- offset - value
