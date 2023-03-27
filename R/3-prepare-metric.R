@@ -15,10 +15,14 @@ locate_notes <- function(music) {
   notes <- music$notes
   lines <- music$lines
   meters <- music$meters
+  graces <- music$graces
 
   for (k in seq_len(NROW(notes))) {
     note <- notes[k, ]
     line_k <- note$line
+
+    # skip grace notes
+    if (any(graces$line == line_k & graces$i == note$i)) next
 
     # reset the initial bar and offset
     if (line_k != line) {
