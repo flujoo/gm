@@ -7,6 +7,7 @@ prepare <- function(music) {
 
   music <- order_meters(music)
   music <- round_offsets(music)
+  music <- locate_notes(music)
 
   music <- initialize_global_key(music)
 
