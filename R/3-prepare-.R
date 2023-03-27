@@ -26,8 +26,6 @@ check_first_bar_meter <- function(music) {
 }
 
 
-#' Order Meters by Bar
-#' @noRd
 order_meters <- function(music, decreasing = TRUE) {
   meters <- music$meters
   music$meters <- meters[order(meters$bar, decreasing = decreasing), ]
