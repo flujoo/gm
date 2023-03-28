@@ -83,12 +83,7 @@ round_offset <- function(bar, offset, meters, up = TRUE) {
     meter <- meters[k, ]
 
     value <- to_value(meter)
-
-    if (up) {
-      if (offset < value) break
-    } else {
-      if (offset <= value) break
-    }
+    if ((up && offset < value) || (!up && offset <= value)) break
 
     bar <- bar + 1L
     offset <- offset - value
