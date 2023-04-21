@@ -38,6 +38,9 @@ normalize_pitches_durations <- function(pitches, durations) {
 
 
 normalize_note <- function(i, pitch, duration) {
+  # `pitch` can be `NULL` or an empty vector
+  if (length(pitch) == 0) pitch <- NA
+
   j <- NA_integer_
 
   if (is.character(duration)) {
