@@ -18,7 +18,7 @@ check_pitches <- function(pitches) {
   )
 
   general <- paste(
-    "`pitches` must contain only single `NA`s, single `NULL`s",
+    "`pitches` must contain only single `NA`s, single `NULL`s,",
     "or vectors of pitch notations",
     "or MIDI note numbers between 12 and 127."
   )
