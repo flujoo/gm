@@ -1,5 +1,8 @@
 #' Check If Tuplets Form Groups
 #'
+#' This can not be done in `Line()`, because you would not know which
+#' are grace notes then.
+#'
 #' @param music The output of `group_tuplets()`.
 #'
 #' @noRd
