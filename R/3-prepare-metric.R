@@ -1,4 +1,8 @@
 #' Infer End Bar and Offset for Each Note
+#'
+#' Note that the end location of the last note is the start location of
+#' the current note.
+#'
 #' @noRd
 locate_notes <- function(music) {
   # initialization
