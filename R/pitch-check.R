@@ -41,13 +41,16 @@ check_pitches <- function(pitches) {
     } else if (l == 0) {
       next
 
+    } else if (l == 1 && anyNA(pitch)) {
+      next
+
     # check if any logical vector is a single `NA`
-    } else if (is.logical(pitch) && (l != 1 || !is.na(pitch))) {
+    } else if (is.logical(pitch)) {
       specific <- "%s is a logical, but is not a single `NA`."
       specific <- sprintf(specific, sprintf(item, i))
 
     # check if any chord contains `NA`
-    } else if (anyNA(pitch) && l > 1) {
+    } else if (anyNA(pitch)) {
       specific <- "%s contains `NA`, but has length %s."
       specific <- sprintf(specific, sprintf(item, i), l)
 
