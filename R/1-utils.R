@@ -1,7 +1,7 @@
 check_to <- function(to) {
   if (is.null(to)) return(invisible())
 
-  # for `to_j` in `Slur()`
+  # For `to_j` in `Slur()`
   name <- deparse(substitute(to))
 
   general <- sprintf("`%s` must be a string or a positive integer.", name)
