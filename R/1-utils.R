@@ -1,3 +1,9 @@
+#' Check Argument `to`
+#'
+#' `to` is used in most of the constructor functions.
+#' It indicates a line, where an object will be added, by its number or name.
+#'
+#' @noRd
 check_to <- function(to) {
   if (is.null(to)) return(invisible())
 
