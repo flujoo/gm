@@ -1,4 +1,50 @@
+#' Create `Accidental` Object
+#'
+#' @description Create an `Accidental` object to represent an accidental
+#' symbol.
+#'
+#' In musical notation, accidentals are the symbols that appear before notes.
+#' The pitches of these notes are usually affected. Common accidentals
+#' include flat (♭), natural (♮) and sharp (♯).
+#'
+#' @details For a complete list of accidentals, please refer to
+#' [the MusicXML specification](`r accidental_value_url`).
+#' However, not all accidentals are supported in MuseScore.
+#'
+#' @param name A single character, which represents the name of the
+#' accidental. `"flat"` and `"sharp"` are two common examples. See details.
+#'
+#' @param i A single integer number, which represents the position of the
+#' accidental in a musical line.
+#'
+#' @param j Optional. A single integer number, which represents the position
+#' of the accidental in a chord.
+#'
+#' @param to Optional. A single character or a single integer number,
+#' which indicates the musical line where to add the accidental.
+#'
+#' @param bracket Optional. A single logical, which indicate if the
+#' accidental is enclosed in brackets.
+#'
+#' @returns A list of class `Accidental`.
+#'
+#' @seealso [gm::+.Music()] for adding an `Accidental` to a `Music` object.
+#'
 #' @export
+#'
+#' @examples
+#' # Create an `Accidental`
+#' accidental <- Accidental("flat", 2, bracket = TRUE)
+#' accidental
+#'
+#' # Add an `Accidental` to a `Music`
+#' music <- Music() + Line(c("C4", "D4")) + accidental
+#' music
+#'
+#' # Generate the music score
+#' if (interactive()) {
+#'   show(music)
+#' }
 Accidental <- function(name, i, j = NULL, to = NULL, bracket = NULL) {
   # Validation
   erify::check_content(name, accidentals)
@@ -42,6 +88,12 @@ accidentals <- c(
   "slash-quarter-sharp", "slash-sharp",
   "slash-flat", "double-slash-flat",
   "sori", "koron"
+)
+
+
+accidental_value_url <- paste0(
+  "https://w3c.github.io/musicxml/musicxml-reference/",
+  "data-types/accidental-value/"
 )
 
 
