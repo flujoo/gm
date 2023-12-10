@@ -37,6 +37,16 @@ print_to_i_j <- function(to = NULL,
                         j = NULL,
                         scope = NULL,
                         line = FALSE) {
+#' Print Component `to`, `i`, and `j`
+#'
+#' `to`, `i`, and `j` are components of most objects.
+#'
+#' @param scope For `Key`s.
+#'
+#' @param line A bool that indicates if `j` indicates the end position of
+#' objects like `Hairpin`s, or the position in a chord.
+#'
+#' @noRd
   if (!is.null(to)) {
     if (is.na(to)) return(invisible())
     if (!is.null(scope)) scope <- sprintf("the %s containing", scope)
