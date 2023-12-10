@@ -49,6 +49,6 @@ accidentals <- c(
 print.Accidental <- function(x, ...) {
   cat("Accidental", "\n\n")
   cat("*", x$name, "\n")
-  if (isTRUE(x$bracket)) cat("* bracketed", "\n")
+  if (isTRUE(x$bracket)) cat("* enclosed in brackets", "\n")
   print_to_ij(x$to, x$i, x$j)
 }
