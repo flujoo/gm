@@ -5,7 +5,7 @@
 #'
 #' In musical notation, accidentals are the symbols that appear before notes.
 #' The pitches of these notes are usually affected. Common accidentals
-#' include flat (♭), natural (♮) and sharp (♯).
+#' include flat (♭), natural (♮), and sharp (♯).
 #'
 #' @details For a complete list of accidentals, please refer to
 #' [the MusicXML specification](`r accidental_value_url`).
