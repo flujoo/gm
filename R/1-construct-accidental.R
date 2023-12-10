@@ -21,12 +21,12 @@ Accidental <- function(name, i, j = NULL, to = NULL, bracketed = NULL) {
 
 
 accidentals <- c(
-  # not supported
-  # "sharp-sharp", "natural-sharp", "natural-flat",
-  # "sharp-1", "sharp-2", "sharp-3", "sharp-5",
-  # "flat-1", "flat-2", "flat-3", "flat-4",
+  # Not supported in MuseScore:
+  "sharp-sharp", "natural-sharp", "natural-flat",
+  "sharp-1", "sharp-2", "sharp-3", "sharp-5",
+  "flat-1", "flat-2", "flat-3", "flat-4",
 
-  # only in Finale
+  # Only in Finale:
   "triple-sharp", "triple-flat",
 
   "sharp", "natural", "flat",
