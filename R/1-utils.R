@@ -32,11 +32,6 @@ check_offset <- function(offset) {
 }
 
 
-print_to_i_j <- function(to = NULL,
-                        i = NULL,
-                        j = NULL,
-                        scope = NULL,
-                        line = FALSE) {
 #' Print Component `to`, `i`, and `j`
 #'
 #' `to`, `i`, and `j` are components of most objects.
@@ -47,6 +42,13 @@ print_to_i_j <- function(to = NULL,
 #' objects like `Hairpin`s, or the position in a chord.
 #'
 #' @noRd
+print_to_i_j <- function(
+    to = NULL,
+    i = NULL,
+    j = NULL,
+    scope = NULL,
+    line = FALSE) {
+
   if (!is.null(to)) {
     if (is.na(to)) return(invisible())
     if (!is.null(scope)) scope <- sprintf("the %s containing", scope)
