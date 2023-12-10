@@ -9,7 +9,7 @@
 #'
 #' @details For a complete list of accidentals, please refer to
 #' [the MusicXML specification](`r accidental_value_url`).
-#' However, not all accidentals are supported in MuseScore.
+#' Unfortunately, not all accidentals are supported in MuseScore.
 #'
 #' @param name A single character, which represents the name of the
 #' accidental. `"flat"` and `"sharp"` are two common examples. See details.
