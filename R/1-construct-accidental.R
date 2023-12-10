@@ -1,27 +1,22 @@
 #' @export
 Accidental <- function(name, i, j = NULL, to = NULL, bracketed = NULL) {
-  # validation
+  # Validation
   erify::check_content(name, accidentals)
-  check_to(to)
   erify::check_n(i)
+  check_to(to)
   if (!is.null(j)) erify::check_n(j)
   if (!is.null(bracketed)) erify::check_bool(bracketed)
 
-  # normalization
+  # Normalization
   i <- as.integer(i)
   j <- if (is.null(j)) NA_integer_ else as.integer(j)
   if (is.null(bracketed)) bracketed <- NA
 
-  # construction
-  accidental <- list(
-    to = to,
-    i = i,
-    j = j,
-    name = name,
-    bracketed = bracketed
+  # Construction
+  structure(
+    list(to = to, i = i, j = j, name = name, bracketed = bracketed),
+    class = "Accidental"
   )
-  class(accidental) <- "Accidental"
-  accidental
 }
 
 
