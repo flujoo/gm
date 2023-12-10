@@ -26,5 +26,5 @@ print.Stem <- function(x, ...) {
   )
 
   cat(s_direction, "Stem", "\n\n")
-  print_to_ij(x$to, x$i)
+  print_to_i_j(x$to, x$i)
 }

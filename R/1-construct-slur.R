@@ -31,7 +31,7 @@ print.Slur <- function(x, ...) {
   cat("Slur", "\n\n")
 
   if (is.na(to_j)) {
-    print_to_ij(to, i, j, line = TRUE)
+    print_to_i_j(to, i, j, line = TRUE)
 
   } else {
     s_to <- if (is.character(to)) paste0('"', to, '"') else to

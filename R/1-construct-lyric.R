@@ -62,6 +62,6 @@ print.Lyric <- function(x, ...) {
     cat("*", s_special, "\n")
   }
 
-  print_to_ij(x$to, x$i)
+  print_to_i_j(x$to, x$i)
   if (!is.null(layer)) cat("* to be added to layer", layer, "\n")
 }

@@ -87,6 +87,6 @@ print.Clef <- function(x, ...) {
 
   cat(to_string(x), "\n")
   if (!(is.null(to) && is.null(bar) && is.null(offset))) cat("\n")
-  print_to_ij(to, scope = "staff")
+  print_to_i_j(to, scope = "staff")
   print_bar_offset(bar, offset)
 }

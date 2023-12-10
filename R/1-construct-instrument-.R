@@ -34,7 +34,7 @@ print.Instrument <- function(x, ...) {
   cat(x$name, "\n")
   if (!is.null(c(to, volume, pan))) cat("\n")
 
-  print_to_ij(x$to, scope = "part")
+  print_to_i_j(x$to, scope = "part")
   if (!is.null(volume)) cat("* of volume", volume, "\n")
   if (!is.null(pan)) cat("* of pan", pan, "\n")
 }

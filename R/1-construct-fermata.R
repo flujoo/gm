@@ -35,7 +35,7 @@ print.Fermata <- function(x, ...) {
   above <- x$above
 
   cat("Fermata", "\n\n")
-  print_to_ij(x$to, x$i)
+  print_to_i_j(x$to, x$i)
   if (!is.na(type)) cat(sprintf('* of type "%s"', type), "\n")
 
   if (!is.null(above)) {

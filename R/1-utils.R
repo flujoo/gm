@@ -32,7 +32,7 @@ check_offset <- function(offset) {
 }
 
 
-print_to_ij <- function(to = NULL,
+print_to_i_j <- function(to = NULL,
                         i = NULL,
                         j = NULL,
                         scope = NULL,

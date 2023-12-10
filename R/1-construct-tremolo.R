@@ -25,7 +25,7 @@ print.Tremolo <- function(x, ...) {
 
   cat("Tremolo", "\n\n")
   cat("* with", number, if (number == 1) "stroke" else "strokes", "\n")
-  print_to_ij(x$to)
+  print_to_i_j(x$to)
 
   if (x$between) {
     cat("* to be added between position", i, "and", i + 1, "\n")

@@ -40,5 +40,5 @@ print.Hairpin <- function(x, ...) {
     cat("* to be placed", s_above, "the staff", "\n")
   }
 
-  print_to_ij(x$to, x$i, x$j, line = TRUE)
+  print_to_i_j(x$to, x$i, x$j, line = TRUE)
 }

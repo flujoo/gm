@@ -82,5 +82,5 @@ print.Notehead <- function(x, ...) {
   if (!is.na(color)) cat(sprintf('* of color "%s"', color), "\n")
   if (isTRUE(x$filled)) cat("* filled", "\n")
   if (isTRUE(x$bracketed)) cat("* bracketed", "\n")
-  print_to_ij(x$to, x$i, x$j)
+  print_to_i_j(x$to, x$i, x$j)
 }

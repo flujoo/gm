@@ -19,5 +19,5 @@ Pause <- function(type, i, to = NULL) {
 print.Pause <- function(x, ...) {
   cat(switch(x$type, "breath" = "Breath Mark", "caesura" = "Caesura"))
   cat("\n\n")
-  print_to_ij(x$to, x$i)
+  print_to_i_j(x$to, x$i)
 }

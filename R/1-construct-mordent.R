@@ -62,5 +62,5 @@ print.Mordent <- function(x, ...) {
     cat("* with", s_vertical, "ornament on the", .[1], "\n")
   }
 
-  print_to_ij(x$to, x$i)
+  print_to_i_j(x$to, x$i)
 }

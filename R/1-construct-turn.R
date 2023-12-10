@@ -20,5 +20,5 @@ Turn <- function(i, to = NULL, inverted = NULL) {
 print.Turn <- function(x, ...) {
   if (x$inverted) cat("Inverted ")
   cat("Turn", "\n\n")
-  print_to_ij(x$to, x$i)
+  print_to_i_j(x$to, x$i)
 }
