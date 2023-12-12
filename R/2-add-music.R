@@ -45,6 +45,10 @@ check_object_class <- function(object) {
 }
 
 
+#' Add Object to Music
+#'
+#' `to` will be normalized to `line`.
+#'
 #' @keywords internal
 #' @export
 add <- function(object, music) {
