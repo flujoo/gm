@@ -1,18 +1,19 @@
 #' @export
 Articulation <- function(name, i, to = NULL) {
-  # validation
+  # Validation
   check_articulation_name(name)
-  check_to(to)
   erify::check_n(i)
+  check_to(to)
 
-  # normalization
+  # Normalization
   name <- articulations$musescore[which(articulations == name, TRUE)[1]]
   i <- as.integer(i)
 
-  # construction
-  articulation <- list(to = to, i = i, name = name)
-  class(articulation) <- "Articulation"
-  articulation
+  # Construction
+  structure(
+    list(to = to, i = i, name = name),
+    class = "Articulation"
+  )
 }
 
 
