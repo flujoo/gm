@@ -17,6 +17,11 @@
 #' locate
 #' locate.Accidental
 #'
+#' check_add_to
+#' check_add_to.default
+#' check_add_to.character
+#' check_add_to.numeric
+#'
 #' @keywords internal
 #' @name gm-internal
 NULL
