@@ -1,16 +1,13 @@
 #' @export
 `+.Music` <- function(music, object) {
-  # normalization
+  # Normalize order
   if (inherits(object, "Music")) {
     . <- music
     music <- object
     object <- .
   }
 
-  # validation
   check_object_class(object)
-
-  # construction
   add(object, music)
 }
 
