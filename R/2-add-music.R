@@ -37,28 +37,34 @@
 }
 
 
-check_object_class <- function(object) {
-  classes <- c(
-    "Line",
-    # score
-    "Meter", "Key", "Tempo",
-    # line
-    "Clef", "Instrument",
-    # segment
-    "Pedal", "Slur", "Hairpin",
-    # i
-    "Dynamic", "Grace", "Stem", "Lyric", "Tie",
-    "Articulation", "Fermata", "Pause",
-    "Trill", "Turn", "Mordent", "Schleifer", "Tremolo",
-    # j
-    "Notehead", "Accidental", "Velocity"
-  )
+classes <- c(
+  "Line",
+
+  # Score level
+  "Meter", "Key", "Tempo",
+
+  # Line level
+  "Clef", "Instrument",
+
+  # Segment level
+  "Pedal", "Slur", "Hairpin",
+
+  # Chord level
+  "Notehead", "Accidental", "Velocity",
+
+  # Note level
+  "Dynamic", "Grace", "Stem", "Lyric", "Tie",
+  "Articulation", "Fermata", "Pause",
+  "Trill", "Turn", "Mordent", "Schleifer", "Tremolo"
+)
+
 
 list_classes <- function() {
   erify::join(paste0("`", classes, "`"))
 }
 
 
+check_object_class <- function(object) {
   if (inherits(object, classes)) return(invisible())
 
   general <- sprintf(
