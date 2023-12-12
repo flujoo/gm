@@ -1,6 +1,4 @@
-#' Check If Line Exists in Music
-#'
-#' Check if `to` refers to an existing Line in a Music.
+#' Check If `to` Refers to Existing Line in Music
 #'
 #' @keywords internal
 #' @export
@@ -9,6 +7,8 @@ check_add_to <- function(to, lines, ...) {
 }
 
 
+#' Check If Music Is Empty When `to` Is `NULL`
+#'
 #' @keywords internal
 #' @export
 check_add_to.default <- function(to, lines, object, ...) {
@@ -32,8 +32,7 @@ check_add_to.character <- function(to, lines, ...) {
 
   general <- sprintf(
     "`%s` must refer to an existing Line in the Music.",
-    # for `to_j`
-    deparse(substitute(to))
+    deparse(substitute(to)) # For `to_j`
   )
 
   specifics <- sprintf('Can not find Line "%s".', to)
@@ -44,9 +43,9 @@ check_add_to.character <- function(to, lines, ...) {
 #' @keywords internal
 #' @export
 check_add_to.numeric <- function(to, lines, ...) {
-  # in `Key()`, `Line()` and `Velocity()`, `to` is not mandatory
-  # in `Slur()`, `to_j` is not mandatory
-  # they are normalized to `NA_integer_` to escape this validation
+  # In `Key()`, `Line()` and `Velocity()`, `to` is not mandatory,
+  # while in `Slur()`, `to_j` is not mandatory,
+  # they are normalized to `NA_integer_` to escape this validation.
   if (is.na(to)) return(invisible())
 
   n <- NROW(lines)
@@ -62,8 +61,7 @@ check_add_to.numeric <- function(to, lines, ...) {
 
   general <- sprintf(
     "`%s` must refer to an existing Line in the Music.",
-    # for `to_j`
-    deparse(substitute(to))
+    deparse(substitute(to)) # For `to_j`
   )
 
   specifics <- c(
@@ -81,7 +79,7 @@ check_i <- function(i, line, notes) {
   if (is.na(i)) return(invisible())
   name <- deparse(substitute(i))
 
-  # the length of the Line
+  # Line length
   n <- max(notes[notes$line == line, ]$i)
   if (i <= n) return(invisible())
 
@@ -96,7 +94,7 @@ check_i <- function(i, line, notes) {
 check_j <- function(j, line, i, notes) {
   if (is.na(j)) return(invisible())
 
-  # the length of the chord
+  # Chord length
   n <- max(notes[notes$line == line & notes$i == i, ]$j)
   if (is.na(n)) n <- 1L
   if (j <= n) return(invisible())

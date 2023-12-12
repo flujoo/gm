@@ -1,6 +1,5 @@
-#' Get Line's Row in `lines` of Music
-#'
-#' Get the row number of the Line that `to` refers to.
+#' @description Get the row number of the Line that `to` refers to.
+#' if `to` is `NULL`, the number of the last Line is returned.
 #'
 #' @noRd
 normalize_to <- function(to, lines) {
@@ -23,9 +22,8 @@ locate <- function(object, ...) {
 }
 
 
-#' Get Line's Location in Score
-#'
-#' Get a Line's location in a score. The Line is referred to by `to`.
+#' @description Get a Line's location in a score.
+#' The Line is referred to by `to`.
 #'
 #' @noRd
 locate_to <- function(to, lines) {
@@ -36,8 +34,7 @@ locate_to <- function(to, lines) {
     line <- lines[!is.na(lines$name) & lines$name == to, ]
 
   } else {
-    # get the last Line in the score
-    # rather than the last case in `lines`
+    # Get the last Line in the score rather than the last case in `lines`
     lines <- lines[lines$part == max(lines$part), ]
     lines <- lines[lines$staff == max(lines$staff), ]
     lines <- lines[lines$voice == max(lines$voice), ]

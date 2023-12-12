@@ -43,7 +43,7 @@ to_case <- function(object) {
 update_chordal <- function(cases, object, notes) {
   j <- object$j
 
-  # chord length
+  # Chord length
   l <- nrow(notes[notes$line == object$line & notes$i == object$i, ])
 
   if (l == 1) {
