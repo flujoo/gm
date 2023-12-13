@@ -14,13 +14,13 @@
 #' @param name A single character, which represents the name of the
 #' accidental. `"flat"` and `"sharp"` are two common examples. See details.
 #'
-#' @param i A single integer number, which represents the position of the
-#' accidental in a musical line.
+#' @param i A single positive integer, which represents the position
+#' of the accidental in a musical line.
 #'
-#' @param j Optional. A single integer number, which represents the position
-#' of the accidental in a chord.
+#' @param j Optional. A single positive integer, which represents the
+#' position of the accidental in a chord.
 #'
-#' @param to Optional. A single character or a single integer number,
+#' @param to Optional. A single character or a single positive integer,
 #' which indicates the musical line where to add the accidental.
 #'
 #' @param bracket Optional. A single logical, which indicate if the
