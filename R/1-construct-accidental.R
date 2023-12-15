@@ -8,7 +8,7 @@
 #' include flat (♭), natural (♮), and sharp (♯).
 #'
 #' @details For a complete list of accidentals, please refer to
-#' [the MusicXML specification](`r accidental_value_url`).
+#' [the MusicXML specification](`r url_musicxml_accidental_value`).
 #' Unfortunately, not all accidentals are supported in MuseScore.
 #'
 #' @param name A single character, which represents the name of the
@@ -91,8 +91,8 @@ accidentals <- c(
 )
 
 
-accidental_value_url <- paste0(
-  "https://w3c.github.io/musicxml/musicxml-reference/",
+url_musicxml_accidental_value <- paste0(
+  url_musicxml,
   "data-types/accidental-value/"
 )
 
