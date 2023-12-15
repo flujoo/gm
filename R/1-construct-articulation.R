@@ -1,3 +1,28 @@
+#' Create `Articulation` Object
+#'
+#' Create an `Articulation` object to represent an articulation mark.
+#'
+#' @details Supported articulation names and symbols:
+#' `r document_articulations()`
+#' The names are from
+#' [the MusicXML specification](`r url_musicxml_articulations`) and MuseScore.
+#'
+#' @param name A single character, which represents the name or symbol
+#' of the articulation. For example, to create a staccato dot, `name` can
+#' be `"staccato"` or `"."`, which looks like a staccato. See details for
+#' supported articulations.
+#'
+#' @param i A single positive integer, which represents the position
+#' of the articulation in a musical line.
+#'
+#' @param to Optional. A single character or a single positive integer,
+#' which indicates the musical line where to add the articulation.
+#'
+#' @returns A list of class `Articulation`.
+#'
+#' @seealso [gm::+.Music()] for adding an `Articulation` to
+#' a `Music` object.
+#'
 #' @export
 Articulation <- function(name, i, to = NULL) {
   # Validation
