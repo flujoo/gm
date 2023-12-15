@@ -59,7 +59,7 @@ classes <- c(
 )
 
 
-list_classes <- function() {
+documemnt_classes <- function() {
   erify::join(paste0("`", classes, "`"))
 }
 
