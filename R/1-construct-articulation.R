@@ -24,6 +24,21 @@ check_articulation_name <- function(name) {
 }
 
 
+document_articulations <- function() {
+  doc <- ""
+
+  for (i in seq_len(nrow(articulations))) {
+    names <- as.character(articulations[i, ])
+    names <- unique(names[!is.na(names)])
+    names <- paste0('`"', names, '"`')
+    doc_i <- sprintf("- %s\n", erify::join(names))
+    doc <- paste0(doc, doc_i)
+  }
+
+  doc
+}
+
+
 articulations <- rbind(
   data.frame(musescore = "accent", musicxml = "accent", symbol = ">"),
 
