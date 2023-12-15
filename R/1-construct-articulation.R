@@ -57,6 +57,12 @@ articulations <- rbind(
 )
 
 
+url_musicxml_articulations <- paste0(
+  url_musicxml,
+  "elements/articulations/"
+)
+
+
 #' @export
 print.Articulation <- function(x, ...) {
   cat("Articulation", "\n\n")
