@@ -14,10 +14,12 @@
 #' add
 #' add.Accidental
 #' add.Articulation
+#' add.Clef
 #'
 #' locate
 #' locate.Accidental
 #' locate.Articulation
+#' locate.Clef
 #'
 #' check_add_to
 #' check_add_to.default
