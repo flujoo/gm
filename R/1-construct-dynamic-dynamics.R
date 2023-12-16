@@ -1,4 +1,4 @@
-# according to MuseScore
+# According to MuseScore
 dynamics <- rbind(
   data.frame(marking = character(), velocity = integer()),
 
