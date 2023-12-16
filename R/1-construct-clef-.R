@@ -1,4 +1,53 @@
+#' Create `Clef` Object
+#'
+#' Create a `Clef` object to represent a clef.
+#'
+#' See [Wikipedia](https://en.wikipedia.org/wiki/Clef) for more details.
+#'
+#' @param sign A single character, which can be `"G"`, `"F"` or `"C"`.
+#' Case insensitive.
+#'
+#' @param line Optional. A single integer, which depends on `sign`:
+#'
+#' - `1` or `2`, if `sign` is `"G"`;
+#' - an integer between `3` and `5`, if `sign` is `"F"`;
+#' - an integer between `1` and `5`, if `sign` is `"C"`.
+#'
+#' @param octave Optional. A single integer, which can be `-1` or `1`.
+#' `octave` can be specified only when
+#'
+#' - `sign` is `"G"` and `line` is `2`, or
+#' - `sign` is `"F"` and `line` is `4`.
+#'
+#' @param to Optional. A single character or a single positive integer,
+#' which indicates the musical line where to add the clef.
+#'
+#' @param bar Optional. A positive integer, which indicates the number of
+#' the measure where to add the clef. By default, the clef will be added at
+#' the first measure.
+#'
+#' @param offset Optional. A non-negative number,
+#' which indicates the clef's position in a measure. The default value is `0`.
+#'
+#' @return A list of class `Clef`.
+#'
+#' @seealso [gm::+.Music()] for adding a `Clef` to a `Music` object.
+#'
 #' @export
+#'
+#' @examples
+#' # Create a G-clef or treble clef
+#' clef <- Clef("G")
+#' clef
+#'
+#' # Add the clef to a `Music`
+#' music <- Music() + Line(c("C4", "D4")) + clef
+#' music
+#'
+#' # Generate the music score
+#' if (interactive()) {
+#'   show(music)
+#' }
 Clef <- function(
     sign,
     line = NULL,
