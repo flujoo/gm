@@ -24,6 +24,20 @@
 #' a `Music` object.
 #'
 #' @export
+#'
+#' @examples
+#' # Create a staccato
+#' staccato <- Articulation(".", 1)
+#' staccato
+#'
+#' # Add it to a `Music`
+#' music <- Music() + Line(c("C4", "D4")) + staccato
+#' music
+#'
+#' # Generate the music score
+#' if (interactive()) {
+#'   show(music)
+#' }
 Articulation <- function(name, i, to = NULL) {
   # Validation
   check_articulation_name(name)
