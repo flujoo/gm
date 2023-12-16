@@ -1,11 +1,13 @@
 #' @export
-Clef <- function(sign,
-                 line = NULL,
-                 octave = NULL,
-                 to = NULL,
-                 bar = NULL,
-                 offset = NULL) {
-  # validation
+Clef <- function(
+    sign,
+    line = NULL,
+    octave = NULL,
+    to = NULL,
+    bar = NULL,
+    offset = NULL) {
+
+  # Validation
   check_clef_sign(sign)
   check_clef_line(line, sign)
   check_clef_octave(octave, sign, line)
@@ -13,7 +15,7 @@ Clef <- function(sign,
   if (!is.null(bar)) erify::check_n(bar)
   check_offset(offset)
 
-  # normalization
+  # Normalization
   sign <- toupper(sign)
 
   line <- if (!is.null(line)) {
@@ -26,17 +28,19 @@ Clef <- function(sign,
   if (!is.null(bar)) bar <- as.integer(bar)
   if (!is.null(offset)) offset <- as.double(offset)
 
-  # construction
-  clef <- list(
-    to = to,
-    bar = bar,
-    offset = offset,
-    sign = sign,
-    line = line,
-    octave = octave
+  # Construction
+  structure(
+    list(
+      to = to,
+      bar = bar,
+      offset = offset,
+      sign = sign,
+      line = line,
+      octave = octave
+    ),
+
+    class = "Clef"
   )
-  class(clef) <- "Clef"
-  clef
 }
 
 
