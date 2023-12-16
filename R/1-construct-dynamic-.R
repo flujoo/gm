@@ -1,6 +1,12 @@
 #' @export
-Dynamic <- function(marking, i, to = NULL, velocity = NULL, above = NULL) {
-  # validation
+Dynamic <- function(
+    marking,
+    i,
+    to = NULL,
+    velocity = NULL,
+    above = NULL) {
+
+  # Validation
   erify::check_string(marking)
   check_to(to)
   erify::check_n(i)
@@ -11,20 +17,22 @@ Dynamic <- function(marking, i, to = NULL, velocity = NULL, above = NULL) {
 
   if (!is.null(above)) erify::check_bool(above)
 
-  # normalization
+  # Normalization
   i <- as.integer(i)
   velocity <- normalize_dynamic_velocity(velocity, marking)
 
-  # construction
-  dynamic <- list(
-    to = to,
-    i = i,
-    marking = marking,
-    velocity = velocity,
-    above = above
+  # Construction
+  structure(
+    list(
+      to = to,
+      i = i,
+      marking = marking,
+      velocity = velocity,
+      above = above
+    ),
+
+    class = "Dynamic"
   )
-  class(dynamic) <- "Dynamic"
-  dynamic
 }
 
 
