@@ -25,6 +25,7 @@
 #' check_add_to.numeric
 #'
 #' to_string
+#' to_string.Clef
 #'
 #' to_value
 #'
