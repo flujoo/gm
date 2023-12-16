@@ -5,17 +5,17 @@ add.Dynamic <- function(object, music) {
   i <- object$i
   lines <- music$lines
 
-  # validation
+  # Validation
   check_add_to(to, lines, object)
   line <- normalize_to(to, lines)
   check_i(i, line, music$notes)
 
-  # normalization
+  # Normalization
   names(object)[names(object) == "to"] <- "line"
   object$line <- line
   if (is.null(object$above)) object$above <- FALSE
 
-  # construction
+  # Construction
   music$dynamics <- update_cases(music$dynamics, object)
   music
 }
