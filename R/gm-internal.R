@@ -15,11 +15,13 @@
 #' add.Accidental
 #' add.Articulation
 #' add.Clef
+#' add.Dynamic
 #'
 #' locate
 #' locate.Accidental
 #' locate.Articulation
 #' locate.Clef
+#' locate.Dynamic
 #'
 #' check_add_to
 #' check_add_to.default
