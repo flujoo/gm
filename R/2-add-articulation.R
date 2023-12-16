@@ -6,17 +6,17 @@ add.Articulation <- function(object, music) {
   lines <- music$lines
   notes <- music$notes
 
-  # validation
+  # Validation
   check_add_to(to, lines, object)
   line <- normalize_to(to, lines)
   check_i(i, line, notes)
   check_i_rest(object, line, notes)
 
-  # normalization
+  # Normalization
   names(object)[names(object) == "to"] <- "line"
   object$line <- line
 
-  # construction
+  # Construction
   music$articulations <- update_cases(music$articulations, object)
   music
 }
