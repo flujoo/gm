@@ -88,3 +88,10 @@ normalize_note <- function(i, pitch, duration) {
 
   core(i, pitch)
 }
+
+
+data_frame <- if (requireNamespace("tibble", quietly = TRUE)) {
+  tibble::tibble
+} else {
+  data.frame
+}
