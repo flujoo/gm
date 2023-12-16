@@ -4,10 +4,10 @@ add.Clef <- function(object, music) {
   to <- object$to
   lines <- music$lines
 
-  # validation
+  # Validation
   check_add_to(to, lines, object)
 
-  # normalization
+  # Normalization
   object$name <- to_string(object)
   names(object)[names(object) == "line"] <- "staff"
   names(object)[names(object) == "to"] <- "line"
@@ -15,7 +15,7 @@ add.Clef <- function(object, music) {
   if (is.null(object$bar)) object$bar <- 1L
   if (is.null(object$offset)) object$offset <- 0
 
-  # construction
+  # Construction
   music$clefs <- update_cases(music$clefs, object, lines)
   music
 }
