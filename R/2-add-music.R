@@ -3,7 +3,7 @@
 #' Add a component to a `Music` object.
 #'
 #' @param music A `Music` object.
-#' @param object An object of class `r documemnt_classes()`.
+#' @param object An object of class `r document_classes()`.
 #' @return A list of class `Music`.
 #' @seealso [gm::Music()] for initialization of a `Music` object.
 #' @export
@@ -59,7 +59,7 @@ classes <- c(
 )
 
 
-documemnt_classes <- function() {
+document_classes <- function() {
   erify::join(paste0("`", classes, "`"))
 }
 
