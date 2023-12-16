@@ -13,14 +13,20 @@
 #' @aliases
 #' add
 #' add.Accidental
+#' add.Articulation
 #'
 #' locate
 #' locate.Accidental
+#' locate.Articulation
 #'
 #' check_add_to
 #' check_add_to.default
 #' check_add_to.character
 #' check_add_to.numeric
+#'
+#' to_string
+#'
+#' to_value
 #'
 #' @keywords internal
 #' @name gm-internal
