@@ -1,19 +1,20 @@
 #' @export
 Fermata <- function(i, to = NULL, type = NULL, above = NULL) {
-  # validation
-  check_to(to)
+  # Validation
   erify::check_n(i)
+  check_to(to)
   if (!is.null(type)) erify::check_content(type, unlist(fermatas))
   if (!is.null(above)) erify::check_bool(above)
 
-  # normalization
+  # Normalization
   i <- as.integer(i)
   if (is.null(type)) type <- NA_character_
 
-  # construction
-  fermata <- list(to = to, i = i, type = type, above = above)
-  class(fermata) <- "Fermata"
-  fermata
+  # Construction
+  structure(
+    list(to = to, i = i, type = type, above = above),
+    class = "Fermata"
+  )
 }
 
 

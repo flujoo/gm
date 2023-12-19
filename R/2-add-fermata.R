@@ -5,17 +5,17 @@ add.Fermata <- function(object, music) {
   i <- object$i
   lines <- music$lines
 
-  # validation
+  # Validation
   check_add_to(to, lines, object)
   line <- normalize_to(to, lines)
   check_i(i, line, music$notes)
 
-  # normalization
+  # Normalization
   if (is.null(object$above)) object$above <- TRUE
   names(object)[names(object) == "to"] <- "line"
   object$line <- line
 
-  # construction
+  # Construction
   music$fermatas <- update_cases(music$fermatas, object)
   music
 }
