@@ -17,6 +17,7 @@
 #' add.Clef
 #' add.Dynamic
 #' add.Fermata
+#' add.Grace
 #'
 #' locate
 #' locate.Accidental
@@ -24,6 +25,7 @@
 #' locate.Clef
 #' locate.Dynamic
 #' locate.Fermata
+#' locate.Grace
 #'
 #' check_add_to
 #' check_add_to.default
