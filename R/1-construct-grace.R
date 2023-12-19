@@ -1,17 +1,18 @@
 #' @export
 Grace <- function(i, to = NULL, slash = NULL) {
-  # validation
+  # Validation
   check_to(to)
   erify::check_n(i)
   if (!is.null(slash)) erify::check_bool(slash)
 
-  # normalization
+  # Normalization
   i <- as.integer(i)
 
-  # construction
-  grace <- list(to = to, i = i, slash = slash)
-  class(grace) <- "Grace"
-  grace
+  # Construction
+  structure(
+    list(to = to, i = i, slash = slash),
+    class = "Grace"
+  )
 }
 
 
