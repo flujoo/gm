@@ -1,4 +1,44 @@
+#' Create `Fermata` Object
+#'
+#' Create a `Fermata` object to represent a fermata symbol.
+#'
+#' Supported fermata types:
+#' `r document_fermatas()`
+#' The types are from
+#' [the MusicXML specification](`r url_musicxml_fermata_shape`) and MuseScore.
+#'
+#' @param i A single positive integer, which represents the position
+#' of the fermata in a musical line.
+#'
+#' @param to Optional. A single character or a single positive integer,
+#' which indicates the musical line where to add the fermata.
+#'
+#' @param type Optional. A single character, which indicates the shape of
+#' the fermata. The default value is `"normal"`. See the *Details* section.
+#'
+#' @param above Optional. A single logical, which indicates whether the
+#' fermata symbol should appear above or below the staff.
+#'
+#' @returns A list of class `Fermata`.
+#'
+#' @seealso [gm::+.Music()] for adding a `Fermata` to
+#' a `Music` object.
+#'
 #' @export
+#'
+#' @examples
+#' # Create a fermata
+#' fermata <- Fermata(1)
+#' fermata
+#'
+#' # Add it to a `Music`
+#' music <- Music() + Line(c("C4", "D4")) + fermata
+#' music
+#'
+#' # Generate the music score
+#' if (interactive()) {
+#'   show(music)
+#' }
 Fermata <- function(i, to = NULL, type = NULL, above = NULL) {
   # Validation
   erify::check_n(i)
@@ -44,3 +84,24 @@ print.Fermata <- function(x, ...) {
     cat("* to be placed", s_above, "the staff", "\n")
   }
 }
+
+
+document_fermatas <- function() {
+  doc <- ""
+
+  for (i in seq_len(nrow(fermatas))) {
+    names <- as.character(fermatas[i, ])
+    names <- unique(names[!is.na(names)])
+    names <- paste0('"', names, '"')
+    doc_i <- sprintf("- %s\n", erify::join(names))
+    doc <- paste0(doc, doc_i)
+  }
+
+  doc
+}
+
+
+url_musicxml_fermata_shape <- paste0(
+  url_musicxml,
+  "data-types/fermata-shape/"
+)
