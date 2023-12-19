@@ -9,8 +9,8 @@
 #'
 #' @param name A single character, which represents the name or symbol
 #' of the articulation. For example, to create a staccato dot, `name` can
-#' be `"staccato"` or `"."`, which looks like a staccato. See details for
-#' supported articulations.
+#' be `"staccato"` or `"."`, which looks like a staccato. See the
+#' *Details* section for supported articulations.
 #'
 #' @param i A single positive integer, which represents the position
 #' of the articulation in a musical line.
