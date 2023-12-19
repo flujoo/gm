@@ -3,7 +3,7 @@
 #' Create a `Fermata` object to represent a fermata symbol.
 #'
 #' Supported fermata types:
-#' `r document_fermatas()`
+#' `r document_data_frame(fermatas)`
 #' The types are from
 #' [the MusicXML specification](`r url_musicxml_fermata_shape`) and MuseScore.
 #'
@@ -83,21 +83,6 @@ print.Fermata <- function(x, ...) {
     s_above <- if (above) "above" else "below"
     cat("* to be placed", s_above, "the staff", "\n")
   }
-}
-
-
-document_fermatas <- function() {
-  doc <- ""
-
-  for (i in seq_len(nrow(fermatas))) {
-    names <- as.character(fermatas[i, ])
-    names <- unique(names[!is.na(names)])
-    names <- paste0('"', names, '"')
-    doc_i <- sprintf("- %s\n", erify::join(names))
-    doc <- paste0(doc, doc_i)
-  }
-
-  doc
 }
 
 

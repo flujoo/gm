@@ -3,7 +3,7 @@
 #' Create an `Articulation` object to represent an articulation mark.
 #'
 #' @details Supported articulation names and symbols:
-#' `r document_articulations()`
+#' `r document_data_frame(articulations)`
 #' The names are from
 #' [the MusicXML specification](`r url_musicxml_articulations`) and MuseScore.
 #'
@@ -60,21 +60,6 @@ check_articulation_name <- function(name) {
   valid <- unique(unlist(articulations))
   valid <- valid[!is.na(valid)]
   erify::check_content(name, valid)
-}
-
-
-document_articulations <- function() {
-  doc <- ""
-
-  for (i in seq_len(nrow(articulations))) {
-    names <- as.character(articulations[i, ])
-    names <- unique(names[!is.na(names)])
-    names <- paste0('`"', names, '"`')
-    doc_i <- sprintf("- %s\n", erify::join(names))
-    doc <- paste0(doc, doc_i)
-  }
-
-  doc
 }
 
 
