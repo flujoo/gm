@@ -16,12 +16,14 @@
 #' add.Articulation
 #' add.Clef
 #' add.Dynamic
+#' add.Fermata
 #'
 #' locate
 #' locate.Accidental
 #' locate.Articulation
 #' locate.Clef
 #' locate.Dynamic
+#' locate.Fermata
 #'
 #' check_add_to
 #' check_add_to.default
