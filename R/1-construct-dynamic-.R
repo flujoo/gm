@@ -30,7 +30,7 @@
 #' @export
 #'
 #' @examples
-#' # Create an `Dynamic`
+#' # Create a `Dynamic`
 #' f <- Dynamic("f", 1)
 #' f
 #'
