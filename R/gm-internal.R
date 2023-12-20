@@ -18,6 +18,7 @@
 #' add.Dynamic
 #' add.Fermata
 #' add.Grace
+#' add.Hairpin
 #'
 #' locate
 #' locate.Accidental
@@ -26,6 +27,7 @@
 #' locate.Dynamic
 #' locate.Fermata
 #' locate.Grace
+#' locate.Hairpin
 #'
 #' check_add_to
 #' check_add_to.default
