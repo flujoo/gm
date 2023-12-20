@@ -1,29 +1,31 @@
 #' @export
 Hairpin <- function(symbol, i, j, to = NULL, text = NULL, above = NULL) {
-  # validation
+  # Validation
   erify::check_content(symbol, c("<", ">"))
-  check_to(to)
   erify::check_n(i)
   erify::check_n(j)
+  check_to(to)
   if (!is.null(text)) erify::check_string(text)
   if (!is.null(above)) erify::check_bool(above)
 
-  # normalization
+  # Normalization
   i <- as.integer(i)
   j <- as.integer(j)
   if (is.null(text)) text <- NA_character_
 
-  # construction
-  hairpin <- list(
-    to = to,
-    i = i,
-    j = j,
-    symbol = symbol,
-    text = text,
-    above = above
+  # Construction
+  structure(
+    list(
+      to = to,
+      i = i,
+      j = j,
+      symbol = symbol,
+      text = text,
+      above = above
+    ),
+
+    class = "Hairpin"
   )
-  class(hairpin) <- "Hairpin"
-  hairpin
 }
 
 

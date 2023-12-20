@@ -7,13 +7,13 @@ add.Hairpin <- function(object, music) {
   lines <- music$lines
   notes <- music$notes
 
-  # validation
+  # Validation
   check_add_to(to, lines, object)
   line <- normalize_to(to, lines)
   check_i(i, line, notes)
   check_i(j, line, notes)
 
-  # normalization
+  # Normalization
   names(object)[names(object) == "to"] <- "line"
   object$line <- line
   if (is.null(object$above)) object$above <- FALSE
@@ -22,7 +22,7 @@ add.Hairpin <- function(object, music) {
   object$i <- .[1]
   object$j <- .[2]
 
-  # construction
+  # Construction
   music$hairpins <- update_cases(music$hairpins, object)
   music
 }
