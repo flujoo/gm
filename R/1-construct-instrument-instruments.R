@@ -1,6 +1,6 @@
 # https://en.wikipedia.org/wiki/General_MIDI#Program_change_events
 instruments <- c(
-  # piano
+  # Piano
   "Acoustic Grand Piano",
   "Bright Acoustic Piano",
   "Electric Grand Piano",
@@ -10,7 +10,7 @@ instruments <- c(
   "Harpsichord",
   "Clavinet",
 
-  # chromatic percussion
+  # Chromatic percussion
   "Celesta",
   "Glockenspiel",
   "Music Box",
@@ -20,7 +20,7 @@ instruments <- c(
   "Tubular Bells",
   "Dulcimer",
 
-  # organ
+  # Organ
   "Drawbar Organ",
   "Percussive Organ",
   "Rock Organ",
@@ -30,7 +30,7 @@ instruments <- c(
   "Harmonica",
   "Tango Accordion",
 
-  # guitar
+  # Guitar
   "Acoustic Guitar (Nylon)",
   "Acoustic Guitar (Steel)",
   "Electric Guitar (Jazz)",
@@ -40,7 +40,7 @@ instruments <- c(
   "Distortion Guitar",
   "Guitar Harmonics",
 
-  # bass
+  # Bass
   "Acoustic Bass",
   "Electric Bass (Finger)",
   "Electric Bass (Pick)",
@@ -50,7 +50,7 @@ instruments <- c(
   "Synth Bass 1",
   "Synth Bass 2",
 
-  # strings
+  # Strings
   "Violin",
   "Viola",
   "Cello",
@@ -60,7 +60,7 @@ instruments <- c(
   "Orchestral Harp",
   "Timpani",
 
-  # ensemble
+  # Ensemble
   "String Ensemble 1",
   "String Ensemble 2",
   "Synth Strings 1",
@@ -70,7 +70,7 @@ instruments <- c(
   "Synth Voice",
   "Orchestra Hit",
 
-  # brass
+  # Brass
   "Trumpet",
   "Trombone",
   "Tuba",
@@ -80,7 +80,7 @@ instruments <- c(
   "Synth Brass 1",
   "Synth Brass 2",
 
-  # reed
+  # Reed
   "Soprano Sax",
   "Alto Sax",
   "Tenor Sax",
@@ -90,7 +90,7 @@ instruments <- c(
   "Bassoon",
   "Clarinet",
 
-  # pipe
+  # Pipe
   "Piccolo",
   "Flute",
   "Recorder",
@@ -100,7 +100,7 @@ instruments <- c(
   "Whistle",
   "Ocarina",
 
-  # synth lead
+  # Synth lead
   "Lead 1 (Square)",
   "Lead 2 (Sawtooth)",
   "Lead 3 (Calliope)",
@@ -110,7 +110,7 @@ instruments <- c(
   "Lead 7 (Fifths)",
   "Lead 8 (Bass + Lead)",
 
-  # synth pad
+  # Synth pad
   "Pad 1 (New Age)",
   "Pad 2 (Warm)",
   "Pad 3 (Polysynth)",
@@ -120,7 +120,7 @@ instruments <- c(
   "Pad 7 (Halo)",
   "Pad 8 (Sweep)",
 
-  # synth effects
+  # Synth effects
   "FX 1 (Rain)",
   "FX 2 (Soundtrack)",
   "FX 3 (Crystal)",
@@ -130,7 +130,7 @@ instruments <- c(
   "FX 7 (Echoes)",
   "FX 8 (Sci-Fi)",
 
-  # ethnic
+  # Ethnic
   "Sitar",
   "Banjo",
   "Shamisen",
@@ -140,7 +140,7 @@ instruments <- c(
   "Fiddle",
   "Shanai",
 
-  # percussive
+  # Percussive
   "Tinkle Bell",
   "Agogo",
   "Steel Drums",
@@ -150,7 +150,7 @@ instruments <- c(
   "Synth Drum",
   "Reverse Cymbal",
 
-  # sound effects
+  # Sound effects
   "Guitar Fret Noise",
   "Breath Noise",
   "Seashore",
