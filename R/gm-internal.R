@@ -19,6 +19,7 @@
 #' add.Fermata
 #' add.Grace
 #' add.Hairpin
+#' add.Instrument
 #'
 #' locate
 #' locate.Accidental
@@ -28,6 +29,7 @@
 #' locate.Fermata
 #' locate.Grace
 #' locate.Hairpin
+#' locate.Instrument
 #'
 #' check_add_to
 #' check_add_to.default
