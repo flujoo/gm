@@ -95,7 +95,7 @@ instruments <- c(
   "Flute",
   "Recorder",
   "Pan Flute",
-  "Blown bottle",
+  "Blown Bottle",
   "Shakuhachi",
   "Whistle",
   "Ocarina",
