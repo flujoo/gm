@@ -1,3 +1,5 @@
+#' Add Global C Major at First Bar
+#' @noRd
 add_global_key <- function(music) {
   # Check if there is already a global Key
   keys <- music$keys
