@@ -6,7 +6,7 @@ test_that("round up offsets in Music", {
     Clef("g", bar = 4, offset = 3) +
     Tempo(90, bar = 10, offset = 5)
 
-  music <- order_meters(music)
+  music <- sort_meters(music)
   music <- round_offsets(music)
 
   lines <- music$lines
