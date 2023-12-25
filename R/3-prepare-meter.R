@@ -13,7 +13,7 @@ add_first_bar_meter <- function(music) {
 }
 
 
-order_meters <- function(music, decreasing = TRUE) {
+sort_meters <- function(music, decreasing = TRUE) {
   meters <- music$meters
   music$meters <- meters[order(meters$bar, decreasing = decreasing), ]
   music

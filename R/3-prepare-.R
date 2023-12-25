@@ -6,7 +6,7 @@ prepare <- function(music) {
   music <- group_tuplets(music)
   check_tuplet_groups(music)
 
-  music <- order_meters(music)
+  music <- sort_meters(music)
   music <- round_offsets(music)
   music <- locate_notes(music)
 
