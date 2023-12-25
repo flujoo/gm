@@ -1,7 +1,6 @@
 prepare <- function(music) {
   music <- add_first_bar_meter(music)
-
-  if (is.null(music$lines)) return(fill_empty_music(music))
+  music <- fill_empty_music(music)
 
   music <- group_tuplets(music)
   check_tuplet_groups(music)
