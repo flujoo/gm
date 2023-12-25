@@ -10,7 +10,7 @@ prepare <- function(music) {
   music <- round_offsets(music)
   music <- locate_notes(music)
 
-  music <- initialize_global_key(music)
+  music <- add_global_key(music)
 
   music
 }
