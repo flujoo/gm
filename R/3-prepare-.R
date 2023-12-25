@@ -24,13 +24,6 @@ fill_empty_music <- function(music) {
 }
 
 
-order_meters <- function(music, decreasing = TRUE) {
-  meters <- music$meters
-  music$meters <- meters[order(meters$bar, decreasing = decreasing), ]
-  music
-}
-
-
 initialize_global_key <- function(music) {
   # check if there is already a global Key
   keys <- music$keys

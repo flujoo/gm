@@ -11,3 +11,10 @@ add_first_bar_meter <- function(music) {
   if (1 %in% music$meters$bar) return(music)
   music + Meter(4, 4)
 }
+
+
+order_meters <- function(music, decreasing = TRUE) {
+  meters <- music$meters
+  music$meters <- meters[order(meters$bar, decreasing = decreasing), ]
+  music
+}
