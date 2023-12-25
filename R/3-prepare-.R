@@ -1,5 +1,5 @@
 prepare <- function(music) {
-  music <- initialize_first_bar_meter(music)
+  music <- add_first_bar_meter(music)
 
   if (is.null(music$lines)) return(fill_empty_music(music))
 
