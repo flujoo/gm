@@ -1,4 +1,4 @@
-test_that("round up offsets in Music", {
+test_that("all components that contain `offset` work", {
   music <-
     Music() +
     Meter(3, 4, 4) + Meter(4, 4, 5) + Meter(3, 4, 1, 2) +
