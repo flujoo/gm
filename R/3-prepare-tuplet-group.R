@@ -1,13 +1,15 @@
 #' Check If Tuplets Form Groups
 #'
-#' This can not be done in `Line()`, because you would not know which
-#' are grace notes then.
+#' @details This can not be done in `Line()`, because there can be
+#' non-tuplet grace notes between tuplets, but at the `Line()` stage,
+#' the grace notes have not been indicated. These grace notes would make the
+#' tuplet groups incomplete.
 #'
 #' @param music The output of `group_tuplets()`.
 #'
 #' @noRd
 check_tuplet_groups <- function(music) {
-  general <- "The tuplets in `music` must form complete groups."
+  general <- "Tuplets in `music` must form complete groups."
   specifics <- character()
   notes <- music$notes
 
