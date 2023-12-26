@@ -1,4 +1,4 @@
-test_that("group tuplets", {
+test_that("tuplet grouping works", {
   durations_1 <- list(
     1, # 0
     "q/3", "q/3", # 1
