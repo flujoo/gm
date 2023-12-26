@@ -1,18 +1,16 @@
-#' Infer End Bar and Offset for Each Note
-#'
-#' Note that the end location of the last note is the start location of
-#' the current note.
-#'
+#' Infer Start and End Bar and Offset for Each Note
 #' @noRd
 locate_notes <- function(music) {
   # Initialization
-  music$notes$bar <- NA_integer_
-  music$notes$offset <- NA_real_
+  music$notes$start_bar <- NA_integer_
+  music$notes$start_offset <- NA_real_
+  music$notes$end_bar <- NA_integer_
+  music$notes$end_offset <- NA_real_
 
   # Current Line number
   line <- 0L
 
-  # Last or initial bar and offset
+  # Initial or last bar and offset
   bar <- NULL
   offset <- NULL
 
@@ -28,7 +26,7 @@ locate_notes <- function(music) {
     # Skip grace notes
     if (any(graces$line == line_k & graces$i == note$i)) next
 
-    # Reset the initial bar and offset
+    # Reset bar and offset
     if (line_k != line) {
       line <- line_k
 
@@ -38,13 +36,20 @@ locate_notes <- function(music) {
       offset <- .$offset
     }
 
+    # Infer the start bar and offset
+    . <- round_offset(bar, offset, meters, TRUE)
+    music$notes[k, ]$start_bar <- .$bar
+    music$notes[k, ]$start_offset <- .$offset
+
     # Infer the end bar and offset
     . <- round_offset(bar, offset + note$length, meters, FALSE)
+
+    # Update bar and offset
     bar <- .$bar
     offset <- .$offset
 
-    music$notes[k, ]$bar <- bar
-    music$notes[k, ]$offset <- offset
+    music$notes[k, ]$end_bar <- bar
+    music$notes[k, ]$end_offset <- offset
   }
 
   music
