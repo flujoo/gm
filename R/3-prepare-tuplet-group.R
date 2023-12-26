@@ -47,15 +47,15 @@ check_tuplet_groups <- function(music) {
 #'
 #' @noRd
 group_tuplets <- function(music) {
-  # initialize tuplet group indicators
+  # Initialize tuplet group indicators
   music$notes$group <- 0L
-  # temporarily undecided tuplets
+  # Temporarily undecided tuplets
   tuplets <- NULL
-  # the row numbers of the undecided tuplets
+  # Row numbers of the undecided tuplets
   ks <- NULL
-  # the number of the current Line
+  # Number of the current Line
   line <- 0L
-  # the tuplet group number
+  # Tuplet group number
   group <- 1L
 
   notes <- music$notes
@@ -65,12 +65,12 @@ group_tuplets <- function(music) {
     note <- notes[k, ]
     line_k <- note$line
 
-    # check if the Line has changed
+    # Check if the Line has changed
     if (line_k != line) {
       line <- line_k
 
       if (!is.null(tuplets)) {
-        # the undecided tuplets can not form a complete group
+        # Undecided tuplets can not form a complete group
         music$notes$group[ks] <- -1L
 
         tuplets <- NULL
@@ -78,15 +78,15 @@ group_tuplets <- function(music) {
       }
     }
 
-    # skip grace notes
+    # Skip grace notes
     if (any(graces$line == line_k & graces$i == note$i)) next
 
     duration <- note$duration
 
-    # deal with non-tuplets first
+    # Deal with non-tuplets first
     if (!grepl("/", duration)) {
       if (!is.null(tuplets)) {
-        # non-tuplets are trivially incompatible
+        # Non-tuplets are trivially incompatible
         music$notes$group[ks] <- -2L
 
         tuplets <- NULL
@@ -99,7 +99,7 @@ group_tuplets <- function(music) {
     duration <- complete_tuplet(Duration(duration))
     last <- tuplets[[length(tuplets)]]
 
-    # check the compatibility of the current tuplet
+    # Check the compatibility of the current tuplet
     if (is_compatible(duration, last)) {
       tuplets <- c(tuplets, list(duration))
       ks <- c(ks, k)
@@ -110,7 +110,7 @@ group_tuplets <- function(music) {
       ks <- k
     }
 
-    # try to reduce the undecided tuplets
+    # Try to reduce the undecided tuplets
     reduced <- reduce_tuplets(tuplets)
 
     if (is.list(reduced)) {
@@ -129,8 +129,8 @@ group_tuplets <- function(music) {
     }
   }
 
-  # all notes are processed,
-  # but there are still some undecided tuplets
+  # All notes are processed,
+  # but there are still some undecided tuplets.
   if (!is.null(tuplets)) music$notes$group[ks] <- -4L
 
   music
