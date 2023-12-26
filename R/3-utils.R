@@ -22,9 +22,14 @@ locate_notes <- function(music) {
   for (k in seq_len(NROW(notes))) {
     note <- notes[k, ]
     line_k <- note$line
+    i <- note$i
+    j <- note$j
 
     # Skip grace notes
-    if (any(graces$line == line_k & graces$i == note$i)) next
+    if (any(graces$line == line_k & graces$i == i)) next
+
+    # Skip the rest of chords
+    if (!is.na(j) && j > 1) next
 
     # Reset bar and offset
     if (line_k != line) {
@@ -38,8 +43,8 @@ locate_notes <- function(music) {
 
     # Infer the start bar and offset
     . <- round_offset(bar, offset, meters, TRUE)
-    music$notes[k, ]$start_bar <- .$bar
-    music$notes[k, ]$start_offset <- .$offset
+    music$notes[notes$line == line_k & notes$i == i, ]$start_bar <- .$bar
+    music$notes[notes$line == line_k & notes$i == i, ]$start_offset <- .$offset
 
     # Infer the end bar and offset
     . <- round_offset(bar, offset + note$length, meters, FALSE)
@@ -48,8 +53,8 @@ locate_notes <- function(music) {
     bar <- .$bar
     offset <- .$offset
 
-    music$notes[k, ]$end_bar <- bar
-    music$notes[k, ]$end_offset <- offset
+    music$notes[notes$line == line_k & notes$i == i, ]$end_bar <- bar
+    music$notes[notes$line == line_k & notes$i == i, ]$end_offset <- offset
   }
 
   music
