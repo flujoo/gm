@@ -5,7 +5,7 @@
 #'
 #' @noRd
 locate_notes <- function(music) {
-  # initialization
+  # Initialization
   music$notes$bar <- NA_integer_
   music$notes$offset <- NA_real_
 
