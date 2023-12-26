@@ -147,11 +147,11 @@ is_compatible <- function(current, last) {
   depth_current <- length(current$ratios)
   depth_last <- length(last$ratios)
 
-  # the undecided tuplets are stopped by the current tuplet
+  # Undecided tuplets are stopped by the current tuplet
   # from forming a complete group
   if (depth_current < depth_last) return(FALSE)
 
-  # for the convenience of comparison
+  # For the convenience of comparison
   if (depth_current > depth_last) {
     current$ratios[(depth_last + 1):depth_current] <- NULL
   }
@@ -174,13 +174,13 @@ reduce_tuplets <- function(tuplets) {
     depths <- sapply(tuplets, function(tuplet) length(tuplet$ratios))
     depth_max <- max(depths)
 
-    # the tuplets has been reduced completely
+    # The tuplets has been reduced completely
     if (depth_max == 0) return(NULL)
 
-    # the tuplets that reach the deepest level
+    # The tuplets that reach the deepest level
     ks <- which(depths == depth_max)
 
-    # the total ratio at the deepest level
+    # Total ratio at the deepest level
     ratio <- sum(sapply(
       tuplets[ks],
       function(tuplet) to_value_tuplet_ratio(tuplet$ratios[[depth_max]])
@@ -189,7 +189,7 @@ reduce_tuplets <- function(tuplets) {
     if (ratio > 1) return(FALSE)
     if (ratio < 1) return(tuplets)
 
-    # reduce the deepest level
+    # Reduce the deepest level
     tuplets[[ks[1]]]$ratios[[depth_max]] <- NULL
     tuplets[ks[-1]] <- NULL
   }
