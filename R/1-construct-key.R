@@ -1,3 +1,48 @@
+#' Create `Key` Object
+#'
+#' Create a `Key` object to represent a key signature.
+#'
+#' @param key A single integer between -7 and 7, which indicates
+#' the number of flat or sharp symbols in the key signature.
+#'
+#' @param bar Optional. A positive integer, which indicates the number of
+#' the measure where to add the key signature. By default, the
+#' key signature will be added at the first measure.
+#'
+#' @param to Optional. A single character or a single positive integer,
+#' which indicates the musical line where to add the key signature.
+#' By default, the key signature will be added to the whole music
+#' rather than some specific musical line.
+#'
+#' @param scope Optional. A single character of `"part"` or `"staff"`,
+#' which indicates whether to add the key signature to a whole part or
+#' only some staff of the part. Only when `to` is specified, can this
+#' argument be specified. The default value is `"part"`.
+#'
+#' @return A list of class `Key`.
+#'
+#' @seealso [gm::+.Music()] for adding a key signature to a `Music` object.
+#'
+#' @export
+#'
+#' @examples
+#' # Create a G major
+#' g <- Key(1, to = 1)
+#' g
+#'
+#' # Add it only to some part of a `Music`
+#' music <-
+#'   Music() +
+#'   Line(c("C4", "D4")) +
+#'   Line("G3") +
+#'   g
+#'
+#' music
+#'
+#' # Generate the music score
+#' if (interactive()) {
+#'   show(music)
+#' }
 #' @export
 Key <- function(key, bar = NULL, to = NULL, scope = NULL) {
   # Validation
