@@ -41,10 +41,13 @@ locate_notes <- function(music) {
       offset <- .$offset
     }
 
+    # Select the current note, rest, or chord
+    is_current <- notes$line == line_k & notes$i == i
+
     # Infer the start bar and offset
     . <- round_offset(bar, offset, meters, TRUE)
-    music$notes[notes$line == line_k & notes$i == i, ]$start_bar <- .$bar
-    music$notes[notes$line == line_k & notes$i == i, ]$start_offset <- .$offset
+    music$notes[is_current, ]$start_bar <- .$bar
+    music$notes[is_current, ]$start_offset <- .$offset
 
     # Infer the end bar and offset
     . <- round_offset(bar, offset + note$length, meters, FALSE)
@@ -53,8 +56,8 @@ locate_notes <- function(music) {
     bar <- .$bar
     offset <- .$offset
 
-    music$notes[notes$line == line_k & notes$i == i, ]$end_bar <- bar
-    music$notes[notes$line == line_k & notes$i == i, ]$end_offset <- offset
+    music$notes[is_current, ]$end_bar <- bar
+    music$notes[is_current, ]$end_offset <- offset
   }
 
   music
