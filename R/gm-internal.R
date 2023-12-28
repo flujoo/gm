@@ -20,6 +20,7 @@
 #' add.Grace
 #' add.Hairpin
 #' add.Instrument
+#' add.Key
 #'
 #' locate
 #' locate.Accidental
@@ -30,6 +31,7 @@
 #' locate.Grace
 #' locate.Hairpin
 #' locate.Instrument
+#' locate.Key
 #'
 #' check_add_to
 #' check_add_to.default
@@ -38,6 +40,7 @@
 #'
 #' to_string
 #' to_string.Clef
+#' to_string.Key
 #'
 #' to_value
 #'
