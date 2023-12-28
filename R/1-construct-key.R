@@ -1,21 +1,22 @@
 #' @export
 Key <- function(key, bar = NULL, to = NULL, scope = NULL) {
-  # validation
+  # Validation
   erify::check_content(key, -7:7)
   if (!is.null(bar)) erify::check_n(bar)
   check_to(to)
   check_key_scope(scope, to)
 
-  # normalization
+  # Normalization
   key <- as.integer(key)
   if (!is.null(bar)) bar <- as.integer(bar)
   if (is.null(to)) to <- NA_integer_
   scope <- normalize_key_scope(scope, to)
 
-  # construction
-  key <- list(to = to, scope = scope, bar = bar, key = key)
-  class(key) <- "Key"
-  key
+  # Construction
+  structure(
+    list(to = to, scope = scope, bar = bar, key = key),
+    class = "Key"
+  )
 }
 
 
