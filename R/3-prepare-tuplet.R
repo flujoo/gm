@@ -1,3 +1,30 @@
+check_over_bar_tuplet_groups <- function(music) {
+  general <- "Tuplet groups in `music` must not cross bars."
+  specifics <- character()
+
+  notes <- music$notes
+  groups <- notes$group
+
+  for (group in unique(groups)) {
+    if (group == 0) next
+
+    # Tuplet group start bar and end bar should be the same
+    tuplets <- notes[groups == group, ]
+    bar <- unique(c(tuplets$start_bar, tuplets$end_bar))
+    if (length(bar) == 1) next
+
+    specific <- sprintf(
+      "The tuplet group at position %s of Line %s crosses bars.",
+      tuplets$i[1], tuplets$line[1]
+    )
+
+    specifics <- c(specifics, specific)
+  }
+
+  erify::throw(general, specifics)
+}
+
+
 #' Check If Tuplets Form Groups
 #'
 #' @details This can not be done in `Line()`, because there can be
