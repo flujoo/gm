@@ -1,5 +1,6 @@
 check_over_bar_tuplet_groups <- function(music) {
   general <- "Tuplet groups in `music` must not cross bars."
+  specific <- "The tuplet group at position %s of Line %s crosses bars."
   specifics <- character()
 
   notes <- music$notes
@@ -13,12 +14,10 @@ check_over_bar_tuplet_groups <- function(music) {
     bar <- unique(c(tuplets$start_bar, tuplets$end_bar))
     if (length(bar) == 1) next
 
-    specific <- sprintf(
-      "The tuplet group at position %s of Line %s crosses bars.",
-      tuplets$i[1], tuplets$line[1]
+    specifics <- c(
+      specifics,
+      sprintf(specific, tuplets$i[1], tuplets$line[1])
     )
-
-    specifics <- c(specifics, specific)
   }
 
   erify::throw(general, specifics)
