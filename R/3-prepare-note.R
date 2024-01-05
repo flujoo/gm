@@ -1,4 +1,4 @@
-#' Infer Start and End Bar and Offset for Each Note
+#' Infer Start and End Bars and Offsets for Each Note
 #' @noRd
 locate_notes <- function(music) {
   # Initialization
