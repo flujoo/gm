@@ -64,6 +64,29 @@ locate_notes <- function(music) {
 }
 
 
+#' Infer Start and End Bars and Offsets for Each Line
+#' @noRd
+locate_lines <- function(music) {
+  # Initialization
+  music$lines$start_bar <- NA_integer_
+  music$lines$start_offset <- NA_real_
+  music$lines$end_bar <- NA_integer_
+  music$lines$end_offset <- NA_real_
+
+  notes <- music$notes
+
+  for (k in seq_len(NROW(music$lines))) {
+    . <- locate_line(notes, k)
+    music$lines[k, ]$start_bar <- .$start_bar
+    music$lines[k, ]$start_offset <- .$start_offset
+    music$lines[k, ]$end_bar <- .$end_bar
+    music$lines[k, ]$end_offset <- .$end_offset
+  }
+
+  music
+}
+
+
 #' Infer Start and End Bars and Offsets for Line or Tuplet Group
 #'
 #' @param k Refers to `$line` or `$group` in `notes`,
