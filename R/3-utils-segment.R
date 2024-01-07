@@ -10,7 +10,7 @@ is_separate <- function(top, bottom) {
 }
 
 
-find_bottom_segments <- function(lines, line) {
+find_bottom_segments <- function(line, lines) {
   which(
     lines$part == line$part &
     lines$staff == line$staff &
