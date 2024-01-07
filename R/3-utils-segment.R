@@ -8,3 +8,13 @@ is_separate <- function(top, bottom) {
     top$end_bar == bottom$start_bar && top$end_offset <= bottom$start_offset
   )
 }
+
+
+find_bottom_segments <- function(lines, line) {
+  which(
+    lines$part == line$part &
+    lines$staff == line$staff &
+    lines$voice == line$voice &
+    lines$segment < line$segment
+  )
+}
