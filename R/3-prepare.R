@@ -12,5 +12,7 @@ prepare <- function(music) {
   check_tuplet_groups(music)
   check_over_bar_tuplet_groups(music)
 
+  check_segments(music)
+
   music
 }
