@@ -22,6 +22,7 @@
 #' add.Instrument
 #' add.Key
 #' add.Line
+#' add.Lyric
 #'
 #' locate
 #' locate.Accidental
