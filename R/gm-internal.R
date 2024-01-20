@@ -21,6 +21,7 @@
 #' add.Hairpin
 #' add.Instrument
 #' add.Key
+#' add.Line
 #'
 #' locate
 #' locate.Accidental
@@ -41,8 +42,21 @@
 #' to_string
 #' to_string.Clef
 #' to_string.Key
+#' to_string.Pitch
+#' to_string.Duration
 #'
 #' to_value
+#' to_value.Pitch
+#' to_value.Duration
+#'
+#' Pitch
+#' Pitch.character
+#'
+#' Duration
+#' Duration.character
+#'
+#' print.Pitch
+#' print.Duration
 #'
 #' @keywords internal
 #' @name gm-internal
