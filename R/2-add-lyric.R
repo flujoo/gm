@@ -6,17 +6,17 @@ add.Lyric <- function(object, music) {
   lines <- music$lines
   lyrics <- music$lyrics
 
-  # validation
+  # Validation
   check_add_to(to, lines, object)
   line <- normalize_to(to, lines)
   check_i(i, line, music$notes)
 
-  # normalization
+  # Normalization
   names(object)[names(object) == "to"] <- "line"
   object$line <- line
   if (is.null(object$layer)) object$layer <- 1L
 
-  # construction
+  # Construction
   to_remove <-
     lyrics$line == line &
     lyrics$layer == object$layer &

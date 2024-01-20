@@ -1,31 +1,32 @@
 #' @export
 Lyric <- function(text, i, to = NULL, special = NULL, layer = NULL) {
-  # validation
+  # Validation
   erify::check_type(text, "character")
-  check_to(to)
   erify::check_n(i)
+  check_to(to)
   if (!is.null(special)) erify::check_content(special, c("-", "_"))
   if (!is.null(layer)) erify::check_n(layer)
 
-  # normalization
+  # Normalization
   text <- normalize_lyric_text(text)
   i <- as.integer(i)
   if (is.null(special)) special <- NA_character_
   if (!is.null(layer)) layer <- as.integer(layer)
   j <- normalize_lyric_j(text)
 
-  # construction
-  lyric <- list(
-    to = to,
-    layer = layer,
-    i = i,
-    j = j,
-    text = text,
-    special = special
-  )
+  # Construction
+  structure(
+    list(
+      to = to,
+      layer = layer,
+      i = i,
+      j = j,
+      text = text,
+      special = special
+    ),
 
-  class(lyric) <- "Lyric"
-  lyric
+    class = "Lyric"
+  )
 }
 
 
