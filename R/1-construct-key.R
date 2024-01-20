@@ -43,7 +43,6 @@
 #' if (interactive()) {
 #'   show(music)
 #' }
-#' @export
 Key <- function(key, bar = NULL, to = NULL, scope = NULL) {
   # Validation
   erify::check_content(key, -7:7)
