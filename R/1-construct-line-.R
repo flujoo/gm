@@ -1,4 +1,76 @@
+#' Create `Line` Object
+#'
+#' Create a `Line` object to represent a musical line. In gm,
+#' the musical line is the basic unit of music. It appears in different
+#' forms, such as voices, staffs, and parts in music scores.
+#'
+#' @param pitches A list or vector which represents the pitches
+#' of a musical line. The items of `pitches` can be
+#'
+#' - single characters like `"C4"`, which represent pitch notations,
+#' - single integers between 12 and 127, which represent MIDI note numbers,
+#' - single `NA`s, which represent rests, and
+#' - vectors of pitch notations and MIDI note numbers, which represent chords.
+#'
+#' If not provided, the default value is `NA`. If `pitches` and `durations`
+#' are not of the same length, the shorter one will be recycled.
+#' `pitches` and `durations` can not both be empty.
+#'
+#' @param durations A list or vector which represents the
+#' durations of a musical line. The items of `durations` can be
+#'
+#' - single numbers, which represent note lengths, and
+#' - single characters like `"quarter"`, which represent duration notations.
+#'
+#' If not provided, the default value is 1.
+#'
+#' @param tie Deprecated. Was used to add ties to notes. Please use
+#' [gm::Tie()] instead.
+#'
+#' @param name Optional. A single character which represents the name of
+#' the musical line. When adding components to a musical line,
+#' it can be referred to by its name.
+#'
+#' @param as Optional. A single character which can be `"part"`, `"staff"`,
+#' `"voice"`, and `"segment"`. It specifies how the musical line appears in
+#' the music score. The default value is `"part"`.
+#'
+#' @param to Optional. A single character or integer, which represents the
+#' name or row number of a reference musical line to which to add the
+#' current musical line. By default, the musical line will be added at the
+#' end of the score.
+#'
+#' @param after Optional. A single logical which indicates whether to add the
+#' musical line after or before the reference musical line. The default value
+#' is `TRUE`.
+#'
+#' @param bar Optional. A positive integer, which indicates the number of
+#' the measure where to add the musical line. By default, the musical line
+#' will be added at the first measure.
+#'
+#' @param offset Optional. A non-negative number,
+#' which indicates the position in a measure where to add the musical line.
+#' The default value is `0`.
+#'
+#' @return A list of class `Line`.
+#'
+#' @seealso [gm::+.Music()] for adding a musical line to a `Music` object.
+#'
 #' @export
+#'
+#' @examples
+#' # Create a musical line
+#' line <- Line(c("C4", "D4", "E4"))
+#' line
+#'
+#' # Add it to a music
+#' music <- Music() + line
+#' music
+#'
+#' # Generate the music score
+#' if (interactive()) {
+#'   show(music)
+#' }
 Line <- function(
     pitches = NULL,
     durations = NULL,
