@@ -7,6 +7,7 @@ check_line_name <- function(name, lines) {
     "The name of the Line must not have been used by",
     "any Line in the Music."
   )
+
   specifics <- sprintf('Name "%s" has been used.', name)
   erify::throw(general, specifics)
 }

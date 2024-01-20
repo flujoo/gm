@@ -49,10 +49,13 @@ has_duration_notation_syntax <- function(string) {
 
   re_ratio <- paste0(
     "(",
-    # divisor
+
+    # Divisor
     "/", "[1-9][0-9]*",
-    # multiplier
+
+    # Multiplier
     "(", "\\*", "\\(", re_base, "/", re_base, "\\)", ")?",
+
     ")*"
   )
 
@@ -65,6 +68,7 @@ has_duration_notation_syntax <- function(string) {
 #'
 #' @description `has_duration_notation_syntax()` only checks if a string
 #' is syntactically a duration notation. This is not enough.
+#'
 #' For example, the syntactically valid tuplet notation "1024th/3"
 #' implies a duration type shorter than the 1024th note,
 #' which is not semantically valid.
@@ -86,14 +90,14 @@ has_duration_notation_syntax <- function(string) {
 has_duration_notation_semantics <- function(string) {
   duration <- parse_duration_notation(string)
 
-  # validation of being a multiple of the 1024th note
+  # Validation of being a multiple of the 1024th note
   if (to_value_duration_base(duration) %% (1/256) != 0) return(FALSE)
 
   type <- duration$type
   dot <- duration$dot
 
   for (ratio in duration$ratios) {
-    # validation of implied duration type
+    # Validation of implied duration type
     implied_type <- divide_duration_type(type, ratio$n)
     if (is.na(implied_type)) return(FALSE)
 
@@ -103,10 +107,10 @@ has_duration_notation_semantics <- function(string) {
       type <- implied_type
 
     } else {
-      # validation of ratio value
+      # Validation of ratio value
       if (to_value_tuplet_ratio(ratio) > 1) return(FALSE)
 
-      # validation of divisibility
+      # Validation of divisibility
       remainder <- to_value_duration_base(list(type = type, dot = dot)) %%
         to_value_duration_base(ratio$unit)
       if (remainder != 0) return(FALSE)

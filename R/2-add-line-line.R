@@ -2,7 +2,7 @@
 #' @noRd
 add_line <- function(lines, object) {
   if (is.null(lines)) {
-    # initialization
+    # Initialization
     location <- data.frame(part = 1L, staff = 1L, voice = 1L, segment = 1L)
 
   } else {
@@ -10,7 +10,7 @@ add_line <- function(lines, object) {
     as <- object$as
     after <- object$after
 
-    # normalization
+    # Normalization
     if (is.null(as)) as <- "part"
     if (is.null(after)) after <- TRUE
 

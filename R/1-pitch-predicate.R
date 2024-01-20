@@ -28,13 +28,16 @@ is_pitch_notation <- function(x) {
 
   re <- paste0(
     "^", "\\s*",
-    # a valid pitch notation always starts with a note name
-    # either in uppercase or lowercase
+
+    # Start with a note name, either in uppercase or lowercase
     "([A-G]|[a-g])",
-    # maybe followed by an accidental
+
+    # Maybe followed by an accidental
     "(#{0,2}|-{0,2})",
-    # followed by an octave
+
+    # Followed by an octave
     "[0-9]",
+
     "\\s*", "$"
   )
 

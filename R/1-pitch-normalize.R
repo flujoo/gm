@@ -10,9 +10,10 @@ Pitch <- function(x, ...) {
 #' @keywords internal
 #' @export
 Pitch.character <- function(x, ...) {
-  pitch <- parse_pitch_notation(x)
-  class(pitch) <- "Pitch"
-  pitch
+  structure(
+    parse_pitch_notation(x),
+    class = "Pitch"
+  )
 }
 
 

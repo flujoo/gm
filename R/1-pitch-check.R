@@ -44,12 +44,12 @@ check_pitches <- function(pitches) {
     } else if (l == 1 && anyNA(pitch)) {
       next
 
-    # check if any logical vector is a single `NA`
+    # Check if any logical vector is a single `NA`
     } else if (is.logical(pitch)) {
       specific <- "%s is a logical, but is not a single `NA`."
       specific <- sprintf(specific, sprintf(item, i))
 
-    # check if any chord contains `NA`
+    # Check if any chord contains `NA`
     } else if (anyNA(pitch)) {
       specific <- "%s contains `NA`, but has length %s."
       specific <- sprintf(specific, sprintf(item, i), l)
@@ -72,7 +72,6 @@ specify_invalid_chord <- function(chord, length, i, item) {
     pitch <- chord[j]
     if (is_pitch_value(pitch) || is_pitch_notation(pitch)) next
 
-    # elaborate error messages
     if (length == 1) {
       s_name <- sprintf(item, i)
     } else {

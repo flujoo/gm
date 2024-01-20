@@ -13,6 +13,7 @@ to_string.Duration <- function(x, short = FALSE, ...) {
       to_string_duration_base(x, short),
       sapply(x$ratios, to_string_tuplet_ratio, short = short)
     ),
+
     collapse = ""
   )
 }
@@ -22,9 +23,10 @@ to_string_duration_base <- function(base, short = FALSE) {
   type <- base$type
 
   paste0(
-    # convert duration type to string
+    # Convert duration type to string
     if (short) duration_types$abbr[duration_types$name == type] else type,
-    # convert number of dots to string
+
+    # Convert number of dots to string
     strrep(".", base$dot)
   )
 }

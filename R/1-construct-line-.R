@@ -1,14 +1,16 @@
 #' @export
-Line <- function(pitches = NULL,
-                 durations = NULL,
-                 tie = NULL,
-                 name = NULL,
-                 as = NULL,
-                 to = NULL,
-                 after = NULL,
-                 bar = NULL,
-                 offset = NULL) {
-  # validation
+Line <- function(
+    pitches = NULL,
+    durations = NULL,
+    tie = NULL,
+    name = NULL,
+    as = NULL,
+    to = NULL,
+    after = NULL,
+    bar = NULL,
+    offset = NULL) {
+
+  # Validation
   check_pitches(pitches)
   check_durations(durations)
   check_pitches_durations(pitches, durations)
@@ -24,25 +26,26 @@ Line <- function(pitches = NULL,
   if (!is.null(bar)) erify::check_n(bar)
   check_offset(offset)
 
-  # normalization
+  # Normalization
   notes <- normalize_notes(pitches, durations)
   if (is.null(to)) to <- NA_integer_
   if (!is.null(bar)) bar <- as.integer(bar)
   if (!is.null(offset)) offset <- as.double(offset)
 
-  # construction
-  line <- list(
-    notes = notes,
-    name = name,
-    as = as,
-    to = to,
-    after = after,
-    bar = bar,
-    offset = offset
-  )
+  # Construction
+  structure(
+    list(
+      notes = notes,
+      name = name,
+      as = as,
+      to = to,
+      after = after,
+      bar = bar,
+      offset = offset
+    ),
 
-  class(line) <- "Line"
-  line
+    class = "Line"
+  )
 }
 
 

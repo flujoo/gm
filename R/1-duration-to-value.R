@@ -2,15 +2,15 @@
 #' @export
 to_value.Duration <- function(x) {
   to_value_duration_base(x) *
-    # convert tuplet ratios to value
+    # Convert tuplet ratios to value
     prod(vapply(x$ratios, to_value_tuplet_ratio, numeric(1)))
 }
 
 
 to_value_duration_base <- function(base) {
-  # convert duration type to value
+  # Convert duration type to value
   duration_types$value[duration_types$name == base$type] *
-    # convert number of dots to value
+    # Convert number of dots to value
     sum(2^(-(0:base$dot)))
 }
 
