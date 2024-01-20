@@ -5,7 +5,6 @@ test_that("convert complex tuplets to string", {
   expected <- "half/4*(eighth./quarter)/5"
   expect_equal(out, expected)
 
-  # short string
   out <- to_string(duration, TRUE)
   expected <- "h/4*(8./q)/5"
   expect_equal(out, expected)
