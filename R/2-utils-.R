@@ -34,6 +34,8 @@ locate_to <- function(to, lines) {
     line <- lines[!is.na(lines$name) & lines$name == to, ]
 
   } else {
+    # This is for adding a Line when `to` is unspecified
+    # The current Line will be the next part
     # Get the last Line in the score rather than the last case in `lines`
     lines <- lines[lines$part == max(lines$part), ]
     lines <- lines[lines$staff == max(lines$staff), ]
