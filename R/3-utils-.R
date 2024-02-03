@@ -19,7 +19,7 @@ add_first_bar_meter <- function(music) {
 #' will be the length of the rest.
 #'
 #' @noRd
-fill_empty_music <- function(music) {
+fill_music <- function(music) {
   if (!is.null(music$lines)) return(music)
 
   meters <- music$meters
