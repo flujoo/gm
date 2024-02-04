@@ -32,7 +32,7 @@ round_offset <- function(bar, offset, meters, up = TRUE) {
 
   repeat {
     # Find the Meter for the current bar
-    k <- which(bars <= bar)[1]
+    k <- find_by_bar(bar, bars)
     meter <- meters[k, ]
 
     value <- to_value(meter)
@@ -43,4 +43,9 @@ round_offset <- function(bar, offset, meters, up = TRUE) {
   }
 
   list(bar = bar, offset = offset)
+}
+
+
+find_by_bar <- function(bar, bars) {
+  which(bars <= bar)[1]
 }
