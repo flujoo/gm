@@ -51,10 +51,10 @@ Meter <- function(
 
   # Validation
   erify::check_n(number)
-  erify::check_content(unit, 2^(0:6))
+  check_meter_unit(unit)
   if (!is.null(bar)) erify::check_n(bar)
   if (!is.null(actual_number)) erify::check_n(actual_number)
-  if (!is.null(actual_unit)) erify::check_content(actual_unit, 2^(0:6))
+  if (!is.null(actual_unit)) check_meter_unit(unit)
   if (!is.null(invisible)) erify::check_bool(invisible)
 
   # Normalization
@@ -77,6 +77,11 @@ Meter <- function(
 
     class = "Meter"
   )
+}
+
+
+check_meter_unit <- function(unit) {
+  erify::check_content(unit, 2^(0:6))
 }
 
 
