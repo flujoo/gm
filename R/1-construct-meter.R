@@ -27,13 +27,6 @@
 #' @seealso [gm::+.Music()] for adding a `Meter` to a `Music` object.
 #'
 #' @export
-Meter <- function(number,
-                  unit,
-                  bar = NULL,
-                  actual_number = NULL,
-                  actual_unit = NULL,
-                  invisible = NULL) {
-  # validation
 #'
 #' @examples
 #' # Create a 3/4 time signature
@@ -48,6 +41,15 @@ Meter <- function(number,
 #'   music <- music + Line(c("C4", "D4", "E4"))
 #'   show(music)
 #' }
+Meter <- function(
+    number,
+    unit,
+    bar = NULL,
+    actual_number = NULL,
+    actual_unit = NULL,
+    invisible = NULL) {
+
+  # Validation
   erify::check_n(number)
   erify::check_content(unit, 2^(0:6))
   if (!is.null(bar)) erify::check_n(bar)
@@ -55,24 +57,26 @@ Meter <- function(number,
   if (!is.null(actual_unit)) erify::check_content(actual_unit, 2^(0:6))
   if (!is.null(invisible)) erify::check_bool(invisible)
 
-  # normalization
+  # Normalization
   number <- as.integer(number)
   unit <- as.integer(unit)
   if (!is.null(bar)) bar <- as.integer(bar)
   if (!is.null(actual_number)) actual_number <- as.integer(actual_number)
   if (!is.null(actual_unit)) actual_unit <- as.integer(actual_unit)
 
-  # construction
-  meter <- list(
-    bar = bar,
-    number = number,
-    unit = unit,
-    actual_number = actual_number,
-    actual_unit = actual_unit,
-    invisible = invisible
+  # Construction
+  structure(
+    list(
+      bar = bar,
+      number = number,
+      unit = unit,
+      actual_number = actual_number,
+      actual_unit = actual_unit,
+      invisible = invisible
+    ),
+
+    class = "Meter"
   )
-  class(meter) <- "Meter"
-  meter
 }
 
 
@@ -89,6 +93,7 @@ to_string.Meter <- function(x, ...) {
 
   if (is.null(actual_number)) {
     actual_number <- number
+
   } else if (is.null(actual_unit)) {
     actual_unit <- unit
   }
