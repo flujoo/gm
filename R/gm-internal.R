@@ -23,6 +23,7 @@
 #' add.Key
 #' add.Line
 #' add.Lyric
+#' add.Meter
 #'
 #' locate
 #' locate.Accidental
@@ -34,6 +35,7 @@
 #' locate.Hairpin
 #' locate.Instrument
 #' locate.Key
+#' locate.Meter
 #'
 #' check_add_to
 #' check_add_to.default
@@ -45,10 +47,12 @@
 #' to_string.Key
 #' to_string.Pitch
 #' to_string.Duration
+#' to_string.Meter
 #'
 #' to_value
 #' to_value.Pitch
 #' to_value.Duration
+#' to_value.Meter
 #'
 #' Pitch
 #' Pitch.character
