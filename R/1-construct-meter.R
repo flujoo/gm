@@ -1,3 +1,31 @@
+#' Create `Meter` Object
+#'
+#' Create a `Meter` object to represent a time signature.
+#'
+#' @param number A positive integer to represent the upper numeral of the
+#' time signature, which indicates how many beats each measure has.
+#'
+#' @param unit A single integer which can be
+#' 1, 2, 4, 8, 16, 32 or 64. It represents the lower numeral of the
+#' time signature, which indicates the duration of one single beat.
+#'
+#' @param bar Optional. A positive integer, which indicates the number of
+#' the measure where to add the time signature. By default, the
+#' time signature will be added at the first measure.
+#'
+#' @param actual_number,actual_unit Optional. They define the actual
+#' time signature rather than the one that appears on the score. Usually
+#' used to create a pickup measure. By default, they are the
+#' same as `number` and `unit`.
+#'
+#' @param invisible Optional. A single logical, which indicates whether to
+#' show the time signature on the score. Usually used to create a
+#' pickup measure. The default value is `FALSE`.
+#'
+#' @returns A list of class `Meter`.
+#'
+#' @seealso [gm::+.Music()] for adding a `Meter` to a `Music` object.
+#'
 #' @export
 Meter <- function(number,
                   unit,
@@ -6,6 +34,20 @@ Meter <- function(number,
                   actual_unit = NULL,
                   invisible = NULL) {
   # validation
+#'
+#' @examples
+#' # Create a 3/4 time signature
+#' meter <- Meter(3, 4)
+#'
+#' # Add it to a `Music`
+#' music <- Music() + meter
+#' music
+#'
+#' # Add a musical line and show the `Music`
+#' if (interactive()) {
+#'   music <- music + Line(c("C4", "D4", "E4"))
+#'   show(music)
+#' }
   erify::check_n(number)
   erify::check_content(unit, 2^(0:6))
   if (!is.null(bar)) erify::check_n(bar)
