@@ -1,32 +1,36 @@
 #' @export
-Mordent <- function(i,
-                    to = NULL,
-                    inverted = NULL,
-                    long = NULL,
-                    ornament = NULL) {
-  # validation
-  check_to(to)
+Mordent <- function(
+    i,
+    to = NULL,
+    inverted = NULL,
+    long = NULL,
+    ornament = NULL) {
+
+  # Validation
   erify::check_n(i)
+  check_to(to)
   if (!is.null(inverted)) erify::check_bool(inverted)
   if (!is.null(long)) erify::check_bool(long)
   check_mordent_ornament(ornament, long)
 
-  # normalization
+  # Normalization
   i <- as.integer(i)
   if (is.null(inverted)) inverted <- FALSE
   long <- normalize_mordent_long(long, ornament)
   if (is.null(ornament)) ornament <- NA_character_
 
-  # construction
-  mordent <- list(
-    to = to,
-    i = i,
-    inverted = inverted,
-    long = long,
-    ornament = ornament
+  # Construction
+  structure(
+    list(
+      to = to,
+      i = i,
+      inverted = inverted,
+      long = long,
+      ornament = ornament
+    ),
+
+    class = "Mordent"
   )
-  class(mordent) <- "Mordent"
-  mordent
 }
 
 
