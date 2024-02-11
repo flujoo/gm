@@ -24,6 +24,10 @@
 #' add.Line
 #' add.Lyric
 #' add.Meter
+#' add.Mordent
+#' add.Schleifer
+#' add.Tremolo
+#' add.Turn
 #'
 #' locate
 #' locate.Accidental
