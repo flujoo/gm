@@ -1,4 +1,44 @@
+#' Create `Mordent` Object
+#'
+#' Create a `Mordent` object to represent a mordent ornament.
+#'
+#' @param i A single positive integer, which represents the position
+#' of the mordent in a musical line.
+#'
+#' @param to Optional. A single character or a single positive integer,
+#' which indicates the musical line where to add the mordent.
+#'
+#' @param inverted Optional. A single logical, which indicates whether the
+#' mordent is inverted or not. The default value is `FALSE`. See MusicXML
+#' specification of [mordent](`r to_url("elements/mordent/")`) and
+#' [inverted mordent](`r to_url("elements/inverted-mordent/")`).
+#'
+#' @param long Optional. A single logical, which indicates whether the
+#' mordent is long or not. The default value is `FALSE`.
+#'
+#' @param ornament Optional. A single character, which can be `"left up"`,
+#' `"left down"`, `"right up"`, or `"right down"`. It indicates the
+#' direction of the mordent's left or right part.
+#'
+#' @returns A list of class `Mordent`.
+#'
+#' @seealso [gm::+.Music()] for adding a `Mordent` to a `Music` object.
+#'
 #' @export
+#'
+#' @examples
+#' # Create a mordent
+#' mordent <- Mordent(1)
+#' mordent
+#'
+#' # Add it to a `Music`
+#' music <- Music() + Line(c("C4", "D4")) + mordent
+#' music
+#'
+#' # Generate the music score
+#' if (interactive()) {
+#'   show(music)
+#' }
 Mordent <- function(
     i,
     to = NULL,
