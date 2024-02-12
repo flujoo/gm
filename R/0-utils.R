@@ -1,4 +1,9 @@
-url_musicxml <- "https://w3c.github.io/musicxml/musicxml-reference/"
+to_url <- function(path) {
+  paste0(
+    "https://w3c.github.io/musicxml/musicxml-reference/",
+    path
+  )
+}
 
 
 document_data_frame <- function(df) {

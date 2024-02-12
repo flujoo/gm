@@ -5,7 +5,8 @@
 #' @details Supported articulation names and symbols:
 #' `r document_data_frame(articulations)`
 #' The names are from
-#' [the MusicXML specification](`r url_musicxml_articulations`) and MuseScore.
+#' [the MusicXML specification](`r to_url("elements/articulations/")`)
+#' and MuseScore.
 #'
 #' @param name A single character, which represents the name or symbol
 #' of the articulation. For example, to create a staccato dot, `name` can
@@ -78,12 +79,6 @@ articulations <- rbind(
   c("stress"         , "stress"         , ","          ),
   c("unstress"       , "unstress"       , "u"          ),
   c("soft accent"    , "soft-accent"    , "<>"         )
-)
-
-
-url_musicxml_articulations <- paste0(
-  url_musicxml,
-  "elements/articulations/"
 )
 
 

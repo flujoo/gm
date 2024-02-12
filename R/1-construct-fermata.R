@@ -5,7 +5,8 @@
 #' Supported fermata types:
 #' `r document_data_frame(fermatas)`
 #' The types are from
-#' [the MusicXML specification](`r url_musicxml_fermata_shape`) and MuseScore.
+#' [the MusicXML specification](`r to_url("data-types/fermata-shape/")`)
+#' and MuseScore.
 #'
 #' @param i A single positive integer, which represents the position
 #' of the fermata in a musical line.
@@ -84,9 +85,3 @@ print.Fermata <- function(x, ...) {
     cat("* to be placed", s_above, "the staff", "\n")
   }
 }
-
-
-url_musicxml_fermata_shape <- paste0(
-  url_musicxml,
-  "data-types/fermata-shape/"
-)
