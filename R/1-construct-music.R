@@ -1,4 +1,16 @@
+#' Initialize `Music` Object
+#'
+#' Initialize a `Music` object. Other components can be added to it.
+#'
+#' @returns A list of class `Music`.
+#'
+#' @seealso [gm::+.Music()] for adding components to a `Music` object.
+#'
 #' @export
+#'
+#' @examples
+#' # Initialize a `Music`
+#' Music()
 Music <- function() {
   music <- list()
   class(music) <- "Music"
@@ -18,7 +30,7 @@ print.Music <- function(x, ...) {
     cs <- class(data.frame())
   }
 
-  # show components as data frames
+  # Show components as data frames
   for (name in names(x)) {
     if (is.data.frame(x[[name]])) class(x[[name]]) <- cs
   }
