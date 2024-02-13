@@ -28,6 +28,7 @@
 #' add.Schleifer
 #' add.Tremolo
 #' add.Turn
+#' add.Notehead
 #'
 #' locate
 #' locate.Accidental
@@ -40,6 +41,7 @@
 #' locate.Instrument
 #' locate.Key
 #' locate.Meter
+#' locate.Notehead
 #'
 #' check_add_to
 #' check_add_to.default
