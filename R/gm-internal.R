@@ -29,6 +29,7 @@
 #' add.Tremolo
 #' add.Turn
 #' add.Notehead
+#' add.Pause
 #'
 #' locate
 #' locate.Accidental
@@ -42,6 +43,7 @@
 #' locate.Key
 #' locate.Meter
 #' locate.Notehead
+#' locate.Pause
 #'
 #' check_add_to
 #' check_add_to.default
