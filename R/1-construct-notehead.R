@@ -5,15 +5,15 @@ Notehead <- function(i,
                      shape = NULL,
                      color = NULL,
                      filled = NULL,
-                     bracketed = NULL) {
   # validation
   check_to(to)
+    bracket = NULL) {
   erify::check_n(i)
   if (!is.null(j)) erify::check_n(j)
   if (!is.null(shape)) erify::check_content(shape, noteheads)
   check_color(color)
   if (!is.null(filled)) erify::check_bool(filled)
-  if (!is.null(bracketed)) erify::check_bool(bracketed)
+  if (!is.null(bracket)) erify::check_bool(bracket)
 
   # normalization
   i <- as.integer(i)
@@ -21,7 +21,6 @@ Notehead <- function(i,
   if (is.null(shape)) shape <- NA_character_
   color <- if (is.null(color)) NA_character_ else toupper(color)
   if (is.null(filled)) filled <- NA
-  if (is.null(bracketed)) bracketed <- NA
 
   # construction
   notehead <- list(
@@ -31,7 +30,8 @@ Notehead <- function(i,
     shape = shape,
     color = color,
     filled = filled,
-    bracketed = bracketed
+  if (is.null(bracket)) bracket <- NA
+      bracket = bracket
   )
   class(notehead) <- "Notehead"
   notehead
@@ -81,6 +81,6 @@ print.Notehead <- function(x, ...) {
   if (!is.na(shape)) cat(sprintf('* of shape "%s"', shape), "\n")
   if (!is.na(color)) cat(sprintf('* of color "%s"', color), "\n")
   if (isTRUE(x$filled)) cat("* filled", "\n")
-  if (isTRUE(x$bracketed)) cat("* bracketed", "\n")
+  if (isTRUE(x$bracket)) cat("* bracketed", "\n")
   print_to_i_j(x$to, x$i, x$j)
 }
