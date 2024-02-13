@@ -1,17 +1,18 @@
 #' @export
 Pause <- function(type, i, to = NULL) {
-  # validation
+  # Validation
   erify::check_content(type, c("breath", "caesura"))
-  check_to(to)
   erify::check_n(i)
+  check_to(to)
 
-  # normalization
+  # Normalization
   i <- as.integer(i)
 
-  # construction
-  pause <- list(to = to, i = i, type = type)
-  class(pause) <- "Pause"
-  pause
+  # Construction
+  structure(
+    list(to = to, i = i, type = type),
+    class = "Pause"
+  )
 }
 
 

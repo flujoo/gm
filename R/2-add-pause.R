@@ -5,16 +5,16 @@ add.Pause <- function(object, music) {
   i <- object$i
   lines <- music$lines
 
-  # validation
+  # Validation
   check_add_to(to, lines, object)
   line <- normalize_to(to, lines)
   check_i(i, line, music$notes)
 
-  # normalization
+  # Normalization
   names(object)[names(object) == "to"] <- "line"
   object$line <- line
 
-  # construction
+  # Construction
   music$pauses <- update_cases(music$pauses, object)
   music
 }
