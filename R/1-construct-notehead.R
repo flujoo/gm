@@ -1,40 +1,44 @@
 #' @export
-Notehead <- function(i,
-                     j = NULL,
-                     to = NULL,
-                     shape = NULL,
-                     color = NULL,
-                     filled = NULL,
-  # validation
-  check_to(to)
+Notehead <- function(
+    i,
+    j = NULL,
+    to = NULL,
+    shape = NULL,
+    color = NULL,
+    filled = NULL,
     bracket = NULL) {
+
+  # Validation
   erify::check_n(i)
   if (!is.null(j)) erify::check_n(j)
+  check_to(to)
   if (!is.null(shape)) erify::check_content(shape, noteheads)
   check_color(color)
   if (!is.null(filled)) erify::check_bool(filled)
   if (!is.null(bracket)) erify::check_bool(bracket)
 
-  # normalization
+  # Normalization
   i <- as.integer(i)
   j <- if (is.null(j)) NA_integer_ else as.integer(j)
   if (is.null(shape)) shape <- NA_character_
   color <- if (is.null(color)) NA_character_ else toupper(color)
   if (is.null(filled)) filled <- NA
-
-  # construction
-  notehead <- list(
-    to = to,
-    i = i,
-    j = j,
-    shape = shape,
-    color = color,
-    filled = filled,
   if (is.null(bracket)) bracket <- NA
+
+  # Construction
+  structure(
+    list(
+      to = to,
+      i = i,
+      j = j,
+      shape = shape,
+      color = color,
+      filled = filled,
       bracket = bracket
+    ),
+
+    class = "Notehead"
   )
-  class(notehead) <- "Notehead"
-  notehead
 }
 
 
