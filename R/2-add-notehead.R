@@ -5,7 +5,7 @@ add.Notehead <- function(object, music) {
   lines <- music$lines
   notes <- music$notes
 
-  # validation
+  # Validation
   check_add_to(to, lines, object)
 
   line <- normalize_to(to, lines)
@@ -15,11 +15,11 @@ add.Notehead <- function(object, music) {
   check_i_rest(object, line, notes)
   check_j(object$j, line, i, notes)
 
-  # normalization
+  # Normalization
   names(object)[names(object) == "to"] <- "line"
   object$line <- line
 
-  # construction
+  # Construction
   music$noteheads <- update_chordal(music$noteheads, object, notes)
   music
 }
