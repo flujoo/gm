@@ -1,4 +1,49 @@
+#' Create `Notehead` Object
+#'
+#' Create a `Notehead` object to customize the appearance of a note's head.
+#'
+#' @param i A single positive integer, which represents the position
+#' of the note in a musical line.
+#'
+#' @param j Optional. A single positive integer, which represents the
+#' position of the note in a chord.
+#'
+#' @param to Optional. A single character or a single positive integer,
+#' which indicates the musical line where to apply the `Notehead`.
+#'
+#' @param shape Optional. A single character which represents the shape
+#' of the note's head. See
+#' [the MusicXML specification](`r to_url("data-types/notehead-value/")`)
+#' for all shapes. Unfortunately, not all shapes are supported in MuseScore.
+#'
+#' @param color Optional. A single character which represents the color
+#' of the note's head. It must be in the hexadecimal RGB or ARGB format.
+#'
+#' @param filled Optional. A single logical, which indicates whether the
+#' note's head is filled or hollow.
+#'
+#' @param bracket Optional. A single logical, which indicates whether the
+#' note's head is enclosed in brackets.
+#'
+#' @returns A list of class `Notehead`.
+#'
+#' @seealso [gm::+.Music()] for adding a `Notehead` to a `Music` object.
+#'
 #' @export
+#'
+#' @examples
+#' # Create a `Notehead`
+#' notehead <- Notehead(1, shape = "diamond")
+#' notehead
+#'
+#' # Add it to a `Music`
+#' music <- Music() + Line(c("C4", "D4")) + notehead
+#' music
+#'
+#' # Generate the music score
+#' if (interactive()) {
+#'   show(music)
+#' }
 Notehead <- function(
     i,
     j = NULL,
