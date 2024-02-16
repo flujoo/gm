@@ -30,6 +30,7 @@
 #' add.Turn
 #' add.Notehead
 #' add.Pause
+#' add.Velocity
 #'
 #' locate
 #' locate.Accidental
@@ -44,6 +45,7 @@
 #' locate.Meter
 #' locate.Notehead
 #' locate.Pause
+#' locate.Velocity
 #'
 #' check_add_to
 #' check_add_to.default
