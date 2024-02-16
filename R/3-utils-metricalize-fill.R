@@ -1,6 +1,6 @@
-#' Fill Segment Between Start and End Positions with Metricalized Rests
+#' Fill Gap Between Start and End Positions with Metricalized Rests
 #' @noRd
-fill_segment <- function(
+fill_gap <- function(
     start_bar, start_offset,
     end_bar, end_offset,
     meters, line) {

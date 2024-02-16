@@ -1,6 +1,6 @@
 test_that("Full start bars and empty end bars are skipped", {
   meters <- (Music() + Meter(4, 4))$meters
-  out <- fill_segment(1, 4, 3, 0, meters, 1)
+  out <- fill_gap(1, 4, 3, 0, meters, 1)
 
   expected <- data_frame(
     line = 1,
