@@ -19,3 +19,10 @@ test_that("full start bars and empty end bars are skipped", {
 
   expect_identical(out, expected)
 })
+
+
+test_that("identical start and end positions work", {
+  meters <- (Music() + Meter(4, 4))$meters
+  out <- fill_gap(1, 0.5, 1, 0.5, meters, 1)
+  expect_null(out)
+})
