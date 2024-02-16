@@ -1,4 +1,42 @@
+#' Create `Velocity` Object
+#'
+#' Create a `Velocity` object to set some notes' velocities.
+#'
+#' @param velocity A single integer between `0` and `127`, which indicates
+#' the velocity to apply.
+#'
+#' @param to Optional. A single character or a single positive integer,
+#' which indicates the musical line where to apply the velocity. If not
+#' provided, the velocity will be applied to all notes.
+#'
+#' @param i Optional. A single positive integer, which represents the
+#' position of the velocity in a musical line.
+#'
+#' @param j Optional. A single positive integer, which represents the
+#' position of the velocity in a chord.
+#'
+#' @returns A list of class `Velocity`.
+#'
+#' @seealso
+#'
+#' - [gm::+.Music()] for adding a `Velocity` to a `Music` object
+#' - [gm::Dynamic()] for adding dynamic markings
+#'
 #' @export
+#'
+#' @examples
+#' # Create a `Velocity`
+#' velocity <- Velocity(10)
+#' velocity
+#'
+#' # Add it to a `Music`
+#' music <- Music() + Line(c("C4", "D4")) + velocity
+#' music
+#'
+#' # Generate the music score
+#' if (interactive()) {
+#'   show(music)
+#' }
 Velocity <- function(velocity, to = NULL, i = NULL, j = NULL) {
   # validation
   erify::check_interval(velocity, c(0L, 127L))
