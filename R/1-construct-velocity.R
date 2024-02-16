@@ -78,17 +78,20 @@ print.Velocity <- function(x, ...) {
   i <- x$i
   j <- x$j
 
-  cat("Velocity", x$velocity, "\n")
-  if (!is.null(to)) cat("\n")
-
+  cat("Velocity", x$velocity, "\n\n")
   s_to <- if (is.character(to)) paste0('"', to, '"') else to
 
   if (!is.na(j)) {
     s_ij <- sprintf("(%s, %s)", i, j)
     cat("* to be applied to position", s_ij, "of Line", s_to, "\n")
+
   } else if (!is.na(i)) {
     cat("* to be applied to position", i, "of Line", s_to, "\n")
-  } else if (!is.null(to)) {
+
+  } else if (!is.na(to)) {
     cat("* to be applied to Line", s_to, "\n")
+
+  } else {
+    cat("* to be applied to all notes", "\n")
   }
 }
