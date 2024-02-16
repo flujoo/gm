@@ -5,7 +5,7 @@ add.Velocity <- function(object, music) {
   lines <- music$lines
   notes <- music$notes
 
-  # validation
+  # Validation
   check_add_to(to, lines)
 
   line <- normalize_to(to, lines)
@@ -15,11 +15,11 @@ add.Velocity <- function(object, music) {
   check_i(i, line, notes)
   check_j(j, line, i, notes)
 
-  # normalization
+  # Normalization
   names(object)[names(object) == "to"] <- "line"
   object$line <- line
 
-  # construction
+  # Construction
   music$velocities <- update_cases(music$velocities, object)
   music
 }

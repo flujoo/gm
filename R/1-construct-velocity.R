@@ -38,22 +38,23 @@
 #'   show(music)
 #' }
 Velocity <- function(velocity, to = NULL, i = NULL, j = NULL) {
-  # validation
+  # Validation
   erify::check_interval(velocity, c(0L, 127L))
   check_to(to)
   check_velocity_i(i, to)
   check_velocity_j(j, i)
 
-  # normalization
+  # Normalization
   velocity <- as.integer(velocity)
+  if (is.null(to)) to <- NA_integer_
   i <- if (!is.null(i)) as.integer(i) else NA_integer_
   j <- if (!is.null(j)) as.integer(j) else NA_integer_
-  if (is.null(to)) to <- NA_integer_
 
-  # construction
-  velocity <- list(to = to, i = i, j = j, velocity = velocity)
-  class(velocity) <- "Velocity"
-  velocity
+  # Construction
+  structure(
+    list(to = to, i = i, j = j, velocity = velocity),
+    class = "Velocity"
+  )
 }
 
 
