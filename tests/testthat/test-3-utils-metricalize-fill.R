@@ -1,4 +1,4 @@
-test_that("Full start bars and empty end bars are skipped", {
+test_that("full start bars and empty end bars are skipped", {
   meters <- (Music() + Meter(4, 4))$meters
   out <- fill_gap(1, 4, 3, 0, meters, 1)
 
