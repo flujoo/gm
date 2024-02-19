@@ -64,8 +64,7 @@ metricalize <- function(music) {
 sort_chord <- function(chord) {
   . <- order(
     chord[["start_bar"]],
-    chord[["start_offset"]],
-    chord[["midi"]]
+    chord[["start_offset"]]
   )
 
   chord[., ]
