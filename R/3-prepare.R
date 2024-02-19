@@ -15,6 +15,7 @@ prepare <- function(music) {
   check_segments(music)
 
   music <- sort_lines(music)
+  music <- metricalize(music)
 
   music
 }
