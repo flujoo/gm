@@ -66,6 +66,7 @@
 #'
 #' Pitch
 #' Pitch.character
+#' Pitch.numeric
 #'
 #' Duration
 #' Duration.character
