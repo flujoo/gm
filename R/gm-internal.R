@@ -64,9 +64,9 @@
 #' to_value.Duration
 #' to_value.Meter
 #'
-#' Pitch
-#' Pitch.character
-#' Pitch.numeric
+#' to_Pitch
+#' to_Pitch.character
+#' to_Pitch.numeric
 #'
 #' Duration
 #' Duration.character

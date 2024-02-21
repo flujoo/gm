@@ -66,7 +66,7 @@ normalize_note <- function(i, pitch, duration) {
     ps <- pitch[-1]
 
     if (is_pitch_notation(p)) {
-      . <- Pitch(p)
+      . <- to_Pitch(p)
       pitch_notation <- to_string(.)
       pitch_value <- to_value(.)
 

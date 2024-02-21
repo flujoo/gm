@@ -1,10 +1,7 @@
 #' @keywords internal
 #' @export
-Pitch.character <- function(x, ...) {
-  structure(
-    parse_pitch_notation(x),
-    class = "Pitch"
-  )
+to_Pitch.character <- function(x, ...) {
+  do.call(Pitch, parse_pitch_notation(x))
 }
 
 
