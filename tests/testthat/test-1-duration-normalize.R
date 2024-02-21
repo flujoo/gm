@@ -1,7 +1,7 @@
 test_that("normalize complex tuplets", {
   notation <- "h / 4 * (8./q) / 5"
 
-  out <- Duration(notation)
+  out <- to_Duration(notation)
 
   expected <- list(
     type = "half",

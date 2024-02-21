@@ -1,12 +1,5 @@
 #' @keywords internal
 #' @export
-print.Duration <- function(x, ...) {
-  cat(to_string(x), "\n")
-}
-
-
-#' @keywords internal
-#' @export
 to_string.Duration <- function(x, short = FALSE, ...) {
   paste(
     c(

@@ -66,7 +66,7 @@ check_tempo_unit <- function(unit) {
 
 normalize_tempo_unit <- function(unit, tempo, marking) {
   if (!is.null(unit)) {
-    . <- Duration(unit)
+    . <- to_Duration(unit)
     unit <- to_string(.)
     bpm <- tempo / to_value(.)
 

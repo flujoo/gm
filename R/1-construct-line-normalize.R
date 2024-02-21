@@ -44,7 +44,7 @@ normalize_note <- function(i, pitch, duration) {
   j <- NA_integer_
 
   if (is.character(duration)) {
-    . <- Duration(duration)
+    . <- to_Duration(duration)
     duration_notation <- to_string(.)
     duration_value <- to_value(.)
 

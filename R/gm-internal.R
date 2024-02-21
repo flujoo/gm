@@ -68,8 +68,8 @@
 #' to_Pitch.character
 #' to_Pitch.numeric
 #'
-#' Duration
-#' Duration.character
+#' to_Duration
+#' to_Duration.character
 #'
 #' print.Pitch
 #' print.Duration

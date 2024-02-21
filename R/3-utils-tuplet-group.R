@@ -65,7 +65,7 @@ group_tuplets <- function(music) {
       next
     }
 
-    duration <- complete_tuplet(Duration(duration))
+    duration <- complete_tuplet(to_Duration(duration))
     last <- tuplets[[length(tuplets)]]
 
     # Check the compatibility of the current tuplet

@@ -1,19 +1,7 @@
-#' Normalize Duration Value or Notation to `Duration` Object
-#'
 #' @keywords internal
 #' @export
-Duration <- function(x, ...) {
-  UseMethod("Duration")
-}
-
-
-#' @keywords internal
-#' @export
-Duration.character <- function(x, ...) {
-  structure(
-    parse_duration_notation(x),
-    class = "Duration"
-  )
+to_Duration.character <- function(x, ...) {
+  Duration(parse_duration_notation(x))
 }
 
 
