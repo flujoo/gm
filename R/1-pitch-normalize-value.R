@@ -41,7 +41,8 @@ get_sharp_fifth <- function(key) {
   i <- which(-7:7 == key)
   step <- c("G", "D", "A", "E", "B", "F", "C")[(((i - 1) %% 7) + 1)]
   alter <- (i + 1) %/% 7
-  Pitch(step, alter)
+
+  list(Pitch(step, alter))
 }
 
 
