@@ -21,9 +21,9 @@ to_enharmonics <- function(midi) {
 }
 
 
-#' Infer Pitch Classes of Major Scale in Given Key
+#' Get Pitch Classes of Major Scale in Given Key
 #' @noRd
-infer_scale <- function(key) {
+get_scale <- function(key) {
   steps <- c("F", "C", "G", "D", "A", "E", "B")
 
   alters <- if (key >= 0) {
@@ -37,7 +37,7 @@ infer_scale <- function(key) {
 }
 
 
-infer_sharp_fifth <- function(key) {
+get_sharp_fifth <- function(key) {
   i <- which(-7:7 == key)
   step <- c("G", "D", "A", "E", "B", "F", "C")[(((i - 1) %% 7) + 1)]
   alter <- (i + 1) %/% 7
@@ -45,9 +45,9 @@ infer_sharp_fifth <- function(key) {
 }
 
 
-#' Infer Chromatic Neighbor Pitch Classes
+#' Get Chromatic Neighbor Pitch Classes
 #' @noRd
-infer_neighbors <- function(pitch) {
+get_neighbors <- function(notation) {
   steps <- c("C", "D", "E", "F", "G", "A", "B")
   pitch_classes <- lapply(steps, Pitch, alter = 0, octave = -1)
   values <- sapply(pitch_classes, to_value)
