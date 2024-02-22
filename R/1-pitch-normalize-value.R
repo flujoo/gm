@@ -1,3 +1,28 @@
+#' @keywords internal
+#' @export
+to_Pitch.numeric <- function(x, key, after = NA_character_, ...) {
+  enharmonics <- to_enharmonics(x)
+
+  domains <- list(
+    list(get_scale, key),
+    list(get_neighbors, after),
+    list(get_sharp_fifth, key)
+  )
+
+  for (domain in domains) {
+    generate <- domain[[1]]
+    parameter <- domain[[2]]
+    pitch <- find_enharmonic(enharmonics, generate(parameter))
+    if (!is.null(pitch)) return(pitch)
+  }
+
+  pitch <- find_minimum_alter(enharmonics)
+  if (!is.null(pitch)) return(pitch)
+
+  find_key_positivity(enharmonics, key)
+}
+
+
 #' Convert MIDI Note Number to All Equivalent Pitches
 #' @noRd
 to_enharmonics <- function(midi) {
@@ -91,4 +116,21 @@ find_enharmonic <- function(enharmonics, domain) {
   }
 
   NULL
+}
+
+
+#' Find Enharmonic of Minimum Alter
+#' @noRd
+find_minimum_alter <- function(enharmonics) {
+  alters <- sapply(enharmonics, \(enharmonic) abs(enharmonic[["alter"]]))
+  pitch <- enharmonics[alters == min(alters)]
+  if (length(pitch) == 1) pitch[[1]] else NULL
+}
+
+
+#' Find Enharmonic That Matches Key's Sharpness or Flatness
+#' @noRd
+find_key_positivity <- function(enharmonics, key) {
+  alters <- sapply(enharmonics, \(enharmonic) enharmonic[["alter"]])
+  enharmonics[(alters >= 0) == (key >= 0)][[1]]
 }
