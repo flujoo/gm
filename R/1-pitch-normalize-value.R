@@ -89,4 +89,6 @@ find_enharmonic <- function(enharmonics, domain) {
       if (is_matched) return(enharmonic)
     }
   }
+
+  NULL
 }
