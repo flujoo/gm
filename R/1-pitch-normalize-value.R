@@ -49,6 +49,9 @@ get_sharp_fifth <- function(key) {
 #' Get Chromatic Neighbor Pitch Classes
 #' @noRd
 get_neighbors <- function(notation) {
+  if (is.na(notation)) return(list())
+  pitch <- to_Pitch(notation)
+
   steps <- c("C", "D", "E", "F", "G", "A", "B")
   pitch_classes <- lapply(steps, Pitch, alter = 0, octave = -1)
   values <- sapply(pitch_classes, to_value)
