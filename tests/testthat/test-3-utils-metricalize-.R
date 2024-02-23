@@ -11,8 +11,8 @@ test_that("chord metricalization works", {
 
     Grace(1)
 
-  music <- locate_notes(music)
-  music <- locate_lines(music)
+  music <- delimit_notes(music)
+  music <- delimit_lines(music)
   music <- group_tuplets(music)
   music <- sort_lines(music)
   music <- metricalize(music)

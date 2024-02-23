@@ -1,6 +1,6 @@
 #' Infer Start and End Bars and Offsets for Each Note
 #' @noRd
-locate_notes <- function(music) {
+delimit_notes <- function(music) {
   # Initialization
   music$notes$start_bar <- NA_integer_
   music$notes$start_offset <- NA_real_
@@ -66,7 +66,7 @@ locate_notes <- function(music) {
 
 #' Infer Start and End Bars and Offsets for Each Line
 #' @noRd
-locate_lines <- function(music) {
+delimit_lines <- function(music) {
   # Initialization
   music$lines$start_bar <- NA_integer_
   music$lines$start_offset <- NA_real_
@@ -76,7 +76,7 @@ locate_lines <- function(music) {
   notes <- music$notes
 
   for (k in seq_len(NROW(music$lines))) {
-    . <- locate_line(notes, k)
+    . <- delimit_line(notes, k)
     music$lines[k, ]$start_bar <- .$start_bar
     music$lines[k, ]$start_offset <- .$start_offset
     music$lines[k, ]$end_bar <- .$end_bar
@@ -93,7 +93,7 @@ locate_lines <- function(music) {
 #' decided by `tuplet`.
 #'
 #' @noRd
-locate_line <- function(notes, k, tuplet = FALSE) {
+delimit_line <- function(notes, k, tuplet = FALSE) {
   notes <- if (tuplet) {
     notes[notes$group == k, ]
   } else {

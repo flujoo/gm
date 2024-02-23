@@ -6,7 +6,7 @@ test_that("grace notes and chords work", {
     Line(list(rep("C4", 3)), 4)
 
   . <- c("start_bar", "start_offset", "end_bar", "end_offset")
-  out <- as.data.frame(locate_notes(music)$notes[, .])
+  out <- as.data.frame(delimit_notes(music)$notes[, .])
 
   expected <- data.frame(
     start_bar = c(2L, NA, 3L, 1L, 1L, 1L),
