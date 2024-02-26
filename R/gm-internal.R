@@ -58,6 +58,7 @@
 #' to_string.Pitch
 #' to_string.Duration
 #' to_string.Meter
+#' to_string.MusicXML
 #'
 #' to_value
 #' to_value.Pitch
@@ -73,6 +74,7 @@
 #'
 #' print.Pitch
 #' print.Duration
+#' print.MusicXML
 #'
 #' @keywords internal
 #' @name gm-internal
