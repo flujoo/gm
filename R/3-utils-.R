@@ -9,17 +9,15 @@ add_first_bar_meter <- function(music) {
 }
 
 
-#' Add Rest to Empty Music
-#'
-#' Add a rest to an empty music. The value of the meter at the first bar
-#' will be the length of the rest.
+#' @description Fill an empty music with a rest.
+#' Its length will be the length of the meter at the first bar.
 #'
 #' @noRd
-fill_music <- function(music) {
-  if (!is.null(music$lines)) return(music)
+fill_empty_music <- function(music) {
+  if (!is.null(music[["lines"]])) return(music)
 
-  meters <- music$meters
-  first_bar_meter <- meters[meters$bar == 1, ]
+  meters <- music[["meters"]]
+  first_bar_meter <- meters[meters[["bar"]] == 1, ]
   duration <- to_value(first_bar_meter)
 
   music + Line(durations = duration)
@@ -27,10 +25,16 @@ fill_music <- function(music) {
 
 
 #' Sort Meters by Bar
+#'
+#' To make it easy for the subsequent processing.
+#'
 #' @noRd
 sort_meters <- function(music, decreasing = TRUE) {
-  meters <- music$meters
-  music$meters <- meters[order(meters$bar, decreasing = decreasing), ]
+  meters <- music[["meters"]]
+
+  . <- order(meters[["bar"]], decreasing = decreasing)
+  music[["meters"]] <- meters[., ]
+
   music
 }
 
@@ -39,8 +43,8 @@ sort_meters <- function(music, decreasing = TRUE) {
 #' @noRd
 add_global_key <- function(music) {
   # Check if there is already a global Key
-  keys <- music$keys
-  global_key <- keys[is.na(keys$line) & keys$bar == 1, ]
+  keys <- music[["keys"]]
+  global_key <- keys[is.na(keys[["line"]]) & keys[["bar"]] == 1, ]
   if (NROW(global_key) != 0) return(music)
 
   music + Key(0)
@@ -52,13 +56,18 @@ add_global_key <- function(music) {
 #'
 #' @noRd
 sort_lines <- function(music) {
-  lines <- music$lines
+  lines <- music[["lines"]]
 
   # Add row numbers
-  lines$line <- seq_len(NROW(lines))
+  lines[["line"]] <- seq_len(NROW(lines))
 
-  . <- list(lines$part, lines$staff, lines$voice, lines$start_bar)
-  music$lines <- lines[do.call(order, .), ]
+  . <- list(
+    lines[["part"]],
+    lines[["staff"]],
+    lines[["voice"]],
+    lines[["start_bar"]]
+  )
 
+  music[["lines"]] <- lines[do.call(order, .), ]
   music
 }
