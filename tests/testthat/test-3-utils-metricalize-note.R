@@ -1,5 +1,6 @@
 test_that("note metricalization works", {
   music <- Music() + Line("C4", "whole", bar = 2, offset = 2.5) + Meter(3, 4)
+  music <- indicate_grace(music)
   music <- delimit_notes(music)
   note <- music$notes
   meters <- music$meters
@@ -13,6 +14,7 @@ test_that("note metricalization works", {
     midi = rep(60L, 3),
     duration = rep(NA_character_, 3),
     length = c(0.5, 3, 0.5),
+    grace = c(FALSE, FALSE, FALSE),
     start_bar = c(2L, 3L, 4L),
     start_offset = c(2.5, 0, 0),
     end_bar = c(2L, 3L, 4L),

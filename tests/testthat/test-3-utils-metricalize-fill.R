@@ -10,6 +10,7 @@ test_that("full start bars and empty end bars are skipped", {
     midi = NA_integer_,
     duration = NA_character_,
     length = 4,
+    grace = FALSE,
     start_bar = 2L,
     start_offset = 0,
     end_bar = 2L,

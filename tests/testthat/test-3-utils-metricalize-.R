@@ -11,6 +11,7 @@ test_that("chord metricalization works", {
 
     Grace(1)
 
+  music <- indicate_grace(music)
   music <- delimit_notes(music)
   music <- delimit_lines(music)
   music <- group_tuplets(music)
@@ -61,6 +62,8 @@ test_that("chord metricalization works", {
       rep(0.5, 2), rep(3, 2), rep(0.5, 2),
       2.5
     ),
+
+    grace = c(FALSE, FALSE, TRUE, rep(FALSE, 15)),
 
     start_bar = as.integer(c(
       1, 2,

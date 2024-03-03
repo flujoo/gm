@@ -23,6 +23,7 @@ test_that("tuplet grouping works", {
     Line(90, durations_1) + Grace(4) +
     Line(NULL, durations_2)
 
+  music <- indicate_grace(music)
   out <- group_tuplets(music)$notes$group
 
   expected <- as.integer(c(
