@@ -10,7 +10,7 @@ infer_pitches <- function(music) {
     # Skip notes that already have a pitch notation and rests
     if (!is.na(note[["pitch"]]) || is.na(midi)) next
 
-    key <- find_key(note, keys, lines)
+    key <- find_key(note, notes, keys, lines)
     after <- find_after(note, notes[notes[["line"]] == note[["line"]], ])
     pitch <- to_Pitch(midi, key, after)
 
@@ -42,7 +42,14 @@ locate_keys <- function(keys, lines) {
 }
 
 
-find_key <- function(note, keys, lines) {
+find_key <- function(note, notes, keys, lines) {
+  # If it's a grace note, find the note it attaches to
+  repeat {
+    if (!note[["grace"]]) break
+    i <- note[["i"]] + 1
+    note <- notes[notes[["line"]] == note[["line"]] & notes[["i"]] == i, ][1, ]
+  }
+
   line <- lines[note[["line"]], ]
   part <- line[["part"]]
   staff <- line[["staff"]]
