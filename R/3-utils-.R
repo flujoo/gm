@@ -1,14 +1,10 @@
-#' Add 4/4 Meter at First Bar
-#'
-#' Add a 4/4 meter at the first bar of the music,
+#' @description Add a 4/4 meter at the first bar,
 #' if there is no meter there.
-#'
-#' There must be a meter at the first bar, or the processing can not
-#' proceed.
+#' Otherwise, the processing can not proceed.
 #'
 #' @noRd
 add_first_bar_meter <- function(music) {
-  if (1 %in% music$meters$bar) return(music)
+  if (1 %in% music[["meters"]][["bar"]]) return(music)
   music + Meter(4, 4)
 }
 
