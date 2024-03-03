@@ -24,6 +24,27 @@ fill_empty_music <- function(music) {
 }
 
 
+indicate_grace <- function(music) {
+  notes <- music[["notes"]]
+  graces <- music[["graces"]]
+
+  music[["notes"]][["grace"]] <- FALSE
+
+  for (k in seq_len(NROW(notes))) {
+    note <- notes[k, ]
+
+    is_grace <- any(
+      graces[["line"]] == note[["line"]] &
+        graces[["i"]] == note[["i"]]
+    )
+
+    if (is_grace) music[["notes"]][["grace"]][k] <- TRUE
+  }
+
+  music
+}
+
+
 #' Sort Meters by Bar
 #'
 #' To make it easy for the subsequent processing.
@@ -69,26 +90,5 @@ sort_lines <- function(music) {
   )
 
   music[["lines"]] <- lines[do.call(order, .), ]
-  music
-}
-
-
-indicate_grace <- function(music) {
-  notes <- music[["notes"]]
-  graces <- music[["graces"]]
-
-  music[["notes"]][["grace"]] <- FALSE
-
-  for (k in seq_len(NROW(notes))) {
-    note <- notes[k, ]
-
-    is_grace <- any(
-      graces[["line"]] == note[["line"]] &
-      graces[["i"]] == note[["i"]]
-    )
-
-    if (is_grace) music[["notes"]][["grace"]][k] <- TRUE
-  }
-
   music
 }
