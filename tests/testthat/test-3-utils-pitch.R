@@ -15,27 +15,27 @@ test_that("key finding works", {
   midis <- notes[["midi"]]
   keys <- locate_keys(music[["keys"]], lines)
 
-  out <- find_key(notes[midis == 61, ], keys, lines)
+  out <- find_key(notes[midis == 61, ], notes, keys, lines)
   expected <- 0L
   expect_identical(out, expected)
 
-  out <- find_key(notes[midis == 65, ], keys, lines)
+  out <- find_key(notes[midis == 65, ], notes, keys, lines)
   expected <- 1L
   expect_identical(out, expected)
 
-  out <- find_key(notes[midis == 82, ], keys, lines)
+  out <- find_key(notes[midis == 82, ], notes, keys, lines)
   expected <- 2L
   expect_identical(out, expected)
 
-  out <- find_key(notes[midis == 83, ], keys, lines)
+  out <- find_key(notes[midis == 83, ], notes, keys, lines)
   expected <- 3L
   expect_identical(out, expected)
 
-  out <- find_key(notes[midis == 91, ], keys, lines)
+  out <- find_key(notes[midis == 91, ], notes, keys, lines)
   expected <- 2L
   expect_identical(out, expected)
 
-  out <- find_key(notes[midis == 95, ], keys, lines)
+  out <- find_key(notes[midis == 95, ], notes, keys, lines)
   expected <- 4L
   expect_identical(out, expected)
 })
