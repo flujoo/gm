@@ -67,7 +67,7 @@ find_key <- function(note, keys, lines) {
 find_after <- function(note, notes) {
   i <- note[["i"]]
   midi <- note[["midi"]]
-  not_grace <- !is.na(note[["start_bar"]])
+  not_grace <- !note[["grace"]]
   max_i <- max(notes[["i"]])
 
   repeat {
@@ -78,7 +78,7 @@ find_after <- function(note, notes) {
     chord <- notes[notes[["i"]] == i, ]
 
     # Skip grace notes if the current note is not one
-    if (not_grace && all(is.na(chord[["start_bar"]]))) next
+    if (not_grace && all(chord[["grace"]])) next
 
     pitches <- chord[["pitch"]]
     if (all(is.na(pitches))) next
