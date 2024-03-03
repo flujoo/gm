@@ -17,7 +17,6 @@ delimit_notes <- function(music) {
   notes <- music$notes
   lines <- music$lines
   meters <- music$meters
-  graces <- music$graces
 
   for (k in seq_len(NROW(notes))) {
     note <- notes[k, ]
@@ -26,7 +25,7 @@ delimit_notes <- function(music) {
     j <- note$j
 
     # Skip grace notes
-    if (any(graces$line == line_k & graces$i == i)) next
+    if (note[["grace"]]) next
 
     # Skip the rest of chords
     if (!is.na(j) && j > 1) next

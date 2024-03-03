@@ -28,7 +28,6 @@ group_tuplets <- function(music) {
   group <- 1L
 
   notes <- music$notes
-  graces <- music$graces
 
   for (k in seq_len(NROW(notes))) {
     note <- notes[k, ]
@@ -48,7 +47,7 @@ group_tuplets <- function(music) {
     }
 
     # Skip grace notes
-    if (any(graces$line == line_k & graces$i == note$i)) next
+    if (note[["grace"]]) next
 
     duration <- note$duration
 
