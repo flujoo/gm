@@ -24,7 +24,8 @@ find_key <- function(note, notes, keys, lines) {
   repeat {
     if (!note[["grace"]]) break
     i <- note[["i"]] + 1
-    note <- notes[notes[["line"]] == note[["line"]] & notes[["i"]] == i, ][1, ]
+    chord <- notes[notes[["line"]] == note[["line"]] & notes[["i"]] == i, ]
+    note <- chord[1, ]
   }
 
   line <- lines[note[["line"]], ]
