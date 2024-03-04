@@ -5,7 +5,7 @@ metricalize_note <- function(note, meters) {
   if (is.na(start_bar) || start_bar == end_bar) return(note)
 
   metricalized <- NULL
-  bars <- meters$bar
+  bars <- meters[["bar"]]
 
   for (bar in start_bar:end_bar) {
     meter <- meters[find_by_bar(bar, bars), ]
