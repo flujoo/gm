@@ -20,5 +20,7 @@ prepare <- function(music) {
   music <- sort_lines(music)
   music <- metricalize(music)
 
+  music <- untie_notes(music)
+
   music
 }
