@@ -26,18 +26,18 @@ test_that("chord metricalization works", {
     i = as.integer(c(
       NA, NA, # Fillings before the Line
       1, # Grace note
-      rep(2, 3), rep(NA, 3), # First chord
-      3, NA, # Note
-      rep(4, 2), rep(NA, 4), # Second chord
+      rep(2, 3), rep(2, 3), # First chord
+      3, 3, # Note
+      rep(4, 2), rep(4, 4), # Second chord
       NA # Fillings after the Line
     )),
 
     j = as.integer(c(
       NA, NA,
       NA,
-      1:3, rep(NA, 3),
+      1:3, 1:3,
       NA, NA,
-      1:2, rep(NA, 4),
+      1:2, 1:2, 1:2,
       NA
     )),
 

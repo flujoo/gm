@@ -13,10 +13,10 @@ metricalize_note <- function(note, meters) {
 
     . <- note
 
-    if (bar != start_bar) {
-      .[["i"]] <- NA_integer_
-      .[["j"]] <- NA_integer_
-    }
+    # if (bar != start_bar) {
+    #   .[["i"]] <- NA_integer_
+    #   .[["j"]] <- NA_integer_
+    # }
 
     .[["duration"]] <- NA_character_
 

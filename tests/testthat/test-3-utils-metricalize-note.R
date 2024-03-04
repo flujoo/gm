@@ -8,7 +8,7 @@ test_that("note metricalization works", {
 
   expected <- data_frame(
     line = rep(1L, 3),
-    i = c(1L, NA, NA),
+    i = rep(1L, 3),
     j = rep(NA_integer_, 3),
     pitch = rep("C4", 3),
     midi = rep(60L, 3),
