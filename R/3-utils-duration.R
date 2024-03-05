@@ -26,27 +26,7 @@ untie_notes <- function(music) {
 
   for (k in seq_len(NROW(notes))) {
     note <- notes[k, ]
-
-    if (note[["grace"]] || !is.na(note[["duration"]])) {
-      untied_notes <- rbind(untied_notes, note)
-      next
-    }
-
-    values <- untie_duration_value(note[["length"]])
-    n <- length(values)
-
-    if (n == 1) {
-      untied_notes <- rbind(untied_notes, note)
-      next
-    }
-
-    untied_note <- note[rep(1, n), ]
-    rownames(untied_note) <- NULL
-    untied_note[["length"]] <- values
-
-    offsets <- cumsum(c(note[["start_offset"]], values))
-    untied_note[["start_offset"]] <- offsets[-(n + 1)]
-    untied_note[["end_offset"]] <- offsets[-1]
+    untied_note <- untie_note(note)
 
     j_k <- note[["j"]]
     chord_not_empty <- NROW(chord) != 0
@@ -76,6 +56,26 @@ untie_notes <- function(music) {
 
   music[["notes"]] <- untied_notes
   music
+}
+
+
+untie_note <- function(note) {
+  if (note[["grace"]] || !is.na(note[["duration"]])) return(note)
+
+  values <- untie_duration_value(note[["length"]])
+  n <- length(values)
+
+  if (n == 1) return(note)
+
+  untied_note <- note[rep(1, n), ]
+  rownames(untied_note) <- NULL
+  untied_note[["length"]] <- values
+
+  offsets <- cumsum(c(note[["start_offset"]], values))
+  untied_note[["start_offset"]] <- offsets[-(n + 1)]
+  untied_note[["end_offset"]] <- offsets[-1]
+
+  untied_note
 }
 
 
