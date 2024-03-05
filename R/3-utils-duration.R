@@ -67,7 +67,7 @@ untie_notes <- function(music) {
     } else if (j_k < j) {
       untied_notes <- rbind(untied_notes, sort_chord(chord))
       j <- j_k
-      chord <- rbind(chord, untied_note)
+      chord <- untied_note
     }
   }
 

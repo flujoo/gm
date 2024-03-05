@@ -42,7 +42,7 @@ metricalize <- function(music) {
       } else if (j_k < j) {
         metricalized <- rbind(metricalized, sort_chord(chord))
         j <- j_k
-        chord <- rbind(chord, metricalized_note)
+        chord <- metricalized_note
       }
 
       # It has reached the end of the Line
