@@ -21,6 +21,7 @@ prepare <- function(music) {
   music <- metricalize(music)
 
   music <- untie_notes(music)
+  music <- infer_durations(music)
 
   music
 }
