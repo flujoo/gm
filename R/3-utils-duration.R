@@ -1,3 +1,20 @@
+infer_durations <- function(music) {
+  notes <- music[["notes"]]
+
+  for (k in seq_len(NROW(notes))) {
+    note <- notes[k, ]
+    if (!is.na(note[["duration"]])) next
+
+    durations <- duration_types[["name"]]
+    values <- duration_types[["value"]]
+    duration <- durations[values == note[["length"]]]
+    music[["notes"]][k, ][["duration"]] <- duration
+  }
+
+  music
+}
+
+
 untie_notes <- function(music) {
   notes <- music[["notes"]]
   untied_notes <- notes[integer(), ]
