@@ -106,3 +106,23 @@ test_that("chord metricalization works", {
 
   expect_identical(out, expected)
 })
+
+
+test_that("metricalization of adjacent chords works", {
+  music <-
+    Music() +
+    Meter(3, 4) +
+    Line(list(71:72, 73:74, 75:76, 77:78), rep(4, 4)) +
+    Grace(2)
+
+  music <- indicate_grace(music)
+  music <- delimit_notes(music)
+  music <- delimit_lines(music)
+  music <- group_tuplets(music)
+  music <- sort_lines(music)
+  music <- metricalize(music)
+
+  out <- music[["notes"]][["length"]]
+  expected <- c(3, 3, 1, 1, 4, 4, 2, 2, 2, 2, 1, 1, 3, 3)
+  expect_identical(out, expected)
+})
