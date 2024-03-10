@@ -1,7 +1,8 @@
 prepare <- function(music) {
   check_first_bar_meter(music[["meters"]])
   check_empty_music(music[["lines"]])
-  music <- indicate_grace(music)
+
+  music[["notes"]] <- indicate_grace(music[["notes"]], music[["graces"]])
 
   music <- sort_meters(music)
   music <- round_offsets(music)

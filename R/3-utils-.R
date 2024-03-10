@@ -10,24 +10,12 @@ check_empty_music <- function(lines) {
 }
 
 
-indicate_grace <- function(music) {
-  notes <- music[["notes"]]
-  graces <- music[["graces"]]
+indicate_grace <- function(notes, graces) {
+  notes[["grace"]] <-
+    paste(notes[["line"]], notes[["i"]]) %in%
+    paste(graces[["line"]], graces[["i"]])
 
-  music[["notes"]][["grace"]] <- FALSE
-
-  for (k in seq_len(NROW(notes))) {
-    note <- notes[k, ]
-
-    is_grace <- any(
-      graces[["line"]] == note[["line"]] &
-        graces[["i"]] == note[["i"]]
-    )
-
-    if (is_grace) music[["notes"]][["grace"]][k] <- TRUE
-  }
-
-  music
+  notes
 }
 
 

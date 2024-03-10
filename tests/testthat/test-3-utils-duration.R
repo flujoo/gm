@@ -5,7 +5,7 @@ test_that("untying notes works", {
     Line(list(90:91, 80:81, 92, 93, 94:95), list(1.5, 1, "q.", 1.5, 1.5)) +
     Grace(2)
 
-  music <- indicate_grace(music)
+  music[["notes"]] <- indicate_grace(music[["notes"]], music[["graces"]])
   music <- delimit_notes(music)
   music <- untie_notes(music)
 

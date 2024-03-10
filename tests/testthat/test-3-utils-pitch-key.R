@@ -6,7 +6,7 @@ test_that("key finding works", {
     Line(91:95, as = "staff") + Key(4, bar = 4, to = 2, scope = "staff") +
     Line(61:65)
 
-  music <- indicate_grace(music)
+  music[["notes"]] <- indicate_grace(music[["notes"]], music[["graces"]])
   music <- delimit_notes(music)
   music <- delimit_lines(music)
 

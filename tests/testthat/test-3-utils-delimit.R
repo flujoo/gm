@@ -5,7 +5,7 @@ test_that("grace notes and chords work", {
     Line(rep("C4", 3), rep(4, 3), bar = 2, offset = 0.5) + Grace(2) +
     Line(list(rep("C4", 3)), 4)
 
-  music <- indicate_grace(music)
+  music[["notes"]] <- indicate_grace(music[["notes"]], music[["graces"]])
   . <- c("start_bar", "start_offset", "end_bar", "end_offset")
   out <- as.data.frame(delimit_notes(music)$notes[, .])
 
