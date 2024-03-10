@@ -1,11 +1,6 @@
-#' @description Add a 4/4 meter at the first bar,
-#' if there is no meter there.
-#' Otherwise, the processing can not proceed.
-#'
-#' @noRd
-add_first_bar_meter <- function(music) {
-  if (1 %in% music[["meters"]][["bar"]]) return(music)
-  music + Meter(4, 4)
+check_first_bar_meter <- function(meters) {
+  if (1 %in% meters[["bar"]]) return()
+  erify::throw("There must be a Meter at the first bar.")
 }
 
 
