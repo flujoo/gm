@@ -19,18 +19,8 @@ indicate_grace <- function(notes, graces) {
 }
 
 
-#' Sort Meters by Bar
-#'
-#' To make it easy for the subsequent processing.
-#'
-#' @noRd
-sort_meters <- function(music, decreasing = TRUE) {
-  meters <- music[["meters"]]
-
-  . <- order(meters[["bar"]], decreasing = decreasing)
-  music[["meters"]] <- meters[., ]
-
-  music
+sort_meters <- function(meters, decreasing = TRUE) {
+  meters[order(meters[["bar"]], decreasing = decreasing), ]
 }
 
 

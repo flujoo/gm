@@ -6,7 +6,7 @@ test_that("all components that contain `offset` work", {
     Clef("g", bar = 4, offset = 3) +
     Tempo(90, bar = 10, offset = 5)
 
-  music <- sort_meters(music)
+  music[["meters"]] <- sort_meters(music[["meters"]])
   music <- round_offsets(music)
 
   lines <- music$lines
