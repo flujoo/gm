@@ -1,6 +1,6 @@
 prepare <- function(music) {
-  music <- fill_empty_music(music)
   check_first_bar_meter(music[["meters"]])
+  check_empty_music(music[["lines"]])
   music <- indicate_grace(music)
 
   music <- sort_meters(music)

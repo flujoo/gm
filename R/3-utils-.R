@@ -4,18 +4,9 @@ check_first_bar_meter <- function(meters) {
 }
 
 
-#' @description Fill an empty music with a rest.
-#' Its length will be the length of the meter at the first bar.
-#'
-#' @noRd
-fill_empty_music <- function(music) {
-  if (!is.null(music[["lines"]])) return(music)
-
-  meters <- music[["meters"]]
-  first_bar_meter <- meters[meters[["bar"]] == 1, ]
-  duration <- to_value(first_bar_meter)
-
-  music + Line(durations = duration)
+check_empty_music <- function(lines) {
+  if (!is.null(lines)) return()
+  erify::throw("The Music can not be empty.")
 }
 
 
