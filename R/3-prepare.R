@@ -4,8 +4,8 @@ prepare <- function(music) {
 
   music[["notes"]] <- indicate_grace(music[["notes"]], music[["graces"]])
   music[["meters"]] <- sort_meters(music[["meters"]])
-
   music <- round_offsets(music)
+
   music <- delimit_notes(music)
   music <- delimit_lines(music)
 
