@@ -1,7 +1,4 @@
-metricalize <- function(music) {
-  lines <- music[["lines"]]
-  notes <- music[["notes"]]
-  meters <- music[["meters"]]
+metricalize <- function(notes, lines, meters) {
   metricalized <- notes[integer(), ]
 
   # Because notes are metricalized one by one,
@@ -56,8 +53,7 @@ metricalize <- function(music) {
     metricalized <- rbind(metricalized, fillings[["after"]])
   }
 
-  music$notes <- metricalized
-  music
+  metricalized
 }
 
 

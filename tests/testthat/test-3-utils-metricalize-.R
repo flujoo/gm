@@ -11,14 +11,17 @@ test_that("chord metricalization works", {
 
     Grace(1)
 
-  music[["notes"]] <- indicate_grace(music[["notes"]], music[["graces"]])
-  music <- delimit_notes(music)
-  music <- delimit_lines(music)
-  music <- group_tuplets(music)
-  music <- sort_lines(music)
-  music <- metricalize(music)
+  notes <- music[["notes"]]
+  lines <- music[["lines"]]
+  meters <- music[["meters"]]
 
-  out <- music[["notes"]]
+  notes <- indicate_grace(notes, music[["graces"]])
+  notes <- delimit_notes(notes, lines, meters)
+  lines <- delimit_lines(lines, notes)
+  notes <- group_tuplets(notes)
+  lines <- sort_lines(lines)
+
+  out <- metricalize(notes, lines, meters)
 
   expected <- data_frame(
     line = rep(1L, 18),
@@ -115,14 +118,18 @@ test_that("metricalization of adjacent chords works", {
     Line(list(71:72, 73:74, 75:76, 77:78), rep(4, 4)) +
     Grace(2)
 
-  music[["notes"]] <- indicate_grace(music[["notes"]], music[["graces"]])
-  music <- delimit_notes(music)
-  music <- delimit_lines(music)
-  music <- group_tuplets(music)
-  music <- sort_lines(music)
-  music <- metricalize(music)
+  notes <- music[["notes"]]
+  lines <- music[["lines"]]
+  meters <- music[["meters"]]
 
-  out <- music[["notes"]][["length"]]
+  notes <- indicate_grace(notes, music[["graces"]])
+  notes <- delimit_notes(notes, lines, meters)
+  lines <- delimit_lines(lines, notes)
+  notes <- group_tuplets(notes)
+  lines <- sort_lines(lines)
+  notes <- metricalize(notes, lines, meters)
+
+  out <- notes[["length"]]
   expected <- c(3, 3, 1, 1, 4, 4, 2, 2, 2, 2, 1, 1, 3, 3)
   expect_identical(out, expected)
 })
