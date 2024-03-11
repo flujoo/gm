@@ -1,22 +1,21 @@
-check_over_bar_tuplet_groups <- function(music) {
+check_over_bar_tuplet_groups <- function(notes) {
   general <- "Tuplet groups in `music` must not cross bars."
   specific <- "The tuplet group at position %s of Line %s crosses bars."
   specifics <- character()
 
-  notes <- music$notes
-  groups <- notes$group
+  groups <- notes[["group"]]
 
   for (group in unique(groups)) {
     if (group == 0) next
 
     # Tuplet group start bar and end bar should be the same
     tuplets <- notes[groups == group, ]
-    bar <- unique(c(tuplets$start_bar, tuplets$end_bar))
+    bar <- unique(c(tuplets[["start_bar"]], tuplets[["end_bar"]]))
     if (length(bar) == 1) next
 
     specifics <- c(
       specifics,
-      sprintf(specific, tuplets$i[1], tuplets$line[1])
+      sprintf(specific, tuplets[["i"]][1], tuplets[["line"]][1])
     )
   }
 
