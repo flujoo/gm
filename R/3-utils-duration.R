@@ -1,6 +1,4 @@
-infer_durations <- function(music) {
-  notes <- music[["notes"]]
-
+infer_durations <- function(notes) {
   for (k in seq_len(NROW(notes))) {
     note <- notes[k, ]
     if (!is.na(note[["duration"]])) next
@@ -8,15 +6,14 @@ infer_durations <- function(music) {
     durations <- duration_types[["name"]]
     values <- duration_types[["value"]]
     duration <- durations[values == note[["length"]]]
-    music[["notes"]][k, ][["duration"]] <- duration
+    notes[k, ][["duration"]] <- duration
   }
 
-  music
+  notes
 }
 
 
-untie_notes <- function(music) {
-  notes <- music[["notes"]]
+untie_notes <- function(notes) {
   untied_notes <- notes[integer(), ]
 
   # Because notes are untied one by one,
@@ -52,10 +49,7 @@ untie_notes <- function(music) {
   }
 
   # In case the chord is at the end
-  untied_notes <- rbind(untied_notes, sort_chord(chord))
-
-  music[["notes"]] <- untied_notes
-  music
+  rbind(untied_notes, sort_chord(chord))
 }
 
 
