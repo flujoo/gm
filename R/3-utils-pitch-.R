@@ -1,7 +1,5 @@
-infer_pitches <- function(music) {
-  notes <- music[["notes"]]
-  lines <- music[["lines"]]
-  keys <- locate_keys(music[["keys"]], lines)
+infer_pitches <- function(notes, lines, keys) {
+  keys <- locate_keys(keys, lines)
 
   for (k in rev(seq_len(NROW(notes)))) {
     note <- notes[k, ]
@@ -14,10 +12,10 @@ infer_pitches <- function(music) {
     after <- find_after(note, notes[notes[["line"]] == note[["line"]], ])
     pitch <- to_Pitch(midi, key, after)
 
-    music[["notes"]][k, ][["pitch"]] <- to_string(pitch)
+    notes[k, ][["pitch"]] <- to_string(pitch)
   }
 
-  music
+  notes
 }
 
 
