@@ -1,11 +1,11 @@
 #' Infer Start and End Bars and Offsets for Each Note
 #' @noRd
-delimit_notes <- function(music) {
+delimit_notes <- function(notes, lines, meters) {
   # Initialization
-  music$notes$start_bar <- NA_integer_
-  music$notes$start_offset <- NA_real_
-  music$notes$end_bar <- NA_integer_
-  music$notes$end_offset <- NA_real_
+  notes[["start_bar"]] <- NA_integer_
+  notes[["start_offset"]] <- NA_real_
+  notes[["end_bar"]] <- NA_integer_
+  notes[["end_offset"]] <- NA_real_
 
   # Current Line number
   line <- 0L
@@ -14,15 +14,11 @@ delimit_notes <- function(music) {
   bar <- NULL
   offset <- NULL
 
-  notes <- music$notes
-  lines <- music$lines
-  meters <- music$meters
-
   for (k in seq_len(NROW(notes))) {
     note <- notes[k, ]
-    line_k <- note$line
-    i <- note$i
-    j <- note$j
+    line_k <- note[["line"]]
+    i <- note[["i"]]
+    j <- note[["j"]]
 
     # Skip grace notes
     if (note[["grace"]]) next
@@ -36,30 +32,30 @@ delimit_notes <- function(music) {
 
       # Use Line's bar and offset
       . <- lines[line_k, ]
-      bar <- .$bar
-      offset <- .$offset
+      bar <- .[["bar"]]
+      offset <- .[["offset"]]
     }
 
     # Select the current note, rest, or chord
-    is_current <- notes$line == line_k & notes$i == i
+    is_current <- notes[["line"]] == line_k & notes[["i"]] == i
 
     # Infer the start bar and offset
     . <- round_offset(bar, offset, meters, TRUE)
-    music$notes[is_current, ]$start_bar <- .$bar
-    music$notes[is_current, ]$start_offset <- .$offset
+    notes[is_current, ][["start_bar"]] <- .[["bar"]]
+    notes[is_current, ][["start_offset"]] <- .[["offset"]]
 
     # Infer the end bar and offset
-    . <- round_offset(bar, offset + note$length, meters, FALSE)
+    . <- round_offset(bar, offset + note[["length"]], meters, FALSE)
 
     # Update bar and offset
-    bar <- .$bar
-    offset <- .$offset
+    bar <- .[["bar"]]
+    offset <- .[["offset"]]
 
-    music$notes[is_current, ]$end_bar <- bar
-    music$notes[is_current, ]$end_offset <- offset
+    notes[is_current, ][["end_bar"]] <- bar
+    notes[is_current, ][["end_offset"]] <- offset
   }
 
-  music
+  notes
 }
 
 
