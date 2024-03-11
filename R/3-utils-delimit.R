@@ -61,24 +61,22 @@ delimit_notes <- function(notes, lines, meters) {
 
 #' Infer Start and End Bars and Offsets for Each Line
 #' @noRd
-delimit_lines <- function(music) {
+delimit_lines <- function(lines, notes) {
   # Initialization
-  music$lines$start_bar <- NA_integer_
-  music$lines$start_offset <- NA_real_
-  music$lines$end_bar <- NA_integer_
-  music$lines$end_offset <- NA_real_
+  lines[["start_bar"]] <- NA_integer_
+  lines[["start_offset"]] <- NA_real_
+  lines[["end_bar"]] <- NA_integer_
+  lines[["end_offset"]] <- NA_real_
 
-  notes <- music$notes
-
-  for (k in seq_len(NROW(music$lines))) {
+  for (k in seq_len(NROW(lines))) {
     . <- delimit_line(notes, k)
-    music$lines[k, ]$start_bar <- .$start_bar
-    music$lines[k, ]$start_offset <- .$start_offset
-    music$lines[k, ]$end_bar <- .$end_bar
-    music$lines[k, ]$end_offset <- .$end_offset
+    lines[k, ][["start_bar"]] <- .[["start_bar"]]
+    lines[k, ][["start_offset"]] <- .[["start_offset"]]
+    lines[k, ][["end_bar"]] <- .[["end_bar"]]
+    lines[k, ][["end_offset"]] <- .[["end_offset"]]
   }
 
-  music
+  lines
 }
 
 
