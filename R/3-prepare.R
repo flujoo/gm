@@ -2,27 +2,36 @@ prepare <- function(music) {
   check_first_bar_meter(music[["meters"]])
   check_empty_music(music[["lines"]])
 
-  music[["notes"]] <- indicate_grace(music[["notes"]], music[["graces"]])
   music[["meters"]] <- sort_meters(music[["meters"]])
   music <- round_offsets(music)
 
-  music <- delimit_notes(music)
-  music <- delimit_lines(music)
+  notes <- music[["notes"]]
+  lines <- music[["lines"]]
+  meters <- music[["meters"]]
 
-  music <- group_tuplets(music)
-  check_tuplet_groups(music)
-  check_over_bar_tuplet_groups(music)
+  notes <- indicate_grace(notes, music[["graces"]])
 
-  check_segments(music)
+  notes <- delimit_notes(notes, lines, meters)
+  lines <- delimit_lines(lines, notes)
+
+  notes <- group_tuplets(notes)
+  check_tuplet_groups(notes)
+  check_over_bar_tuplet_groups(notes)
+
+  check_segments(lines)
 
   music <- add_global_key(music)
-  music <- infer_pitches(music)
+  notes <- infer_pitches(notes, lines, music[["keys"]])
 
-  music <- sort_lines(music)
-  music <- metricalize(music)
+  lines <- sort_lines(lines)
+  notes <- metricalize(notes, lines, meters)
 
-  music <- untie_notes(music)
-  music <- infer_durations(music)
+  notes <- untie_notes(notes)
+  notes <- infer_durations(notes)
+
+  music[["notes"]] <- notes
+  music[["lines"]] <- lines
+  music[["meters"]] <- meters
 
   music
 }
