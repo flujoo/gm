@@ -1,14 +1,11 @@
-check_segments <- function(music) {
+check_segments <- function(lines) {
   general <- "Segments must not overlap."
   specific <- "Line %s and %s overlap."
   specifics <- character()
 
-  lines <- music$lines
-  notes <- music$notes
-
   for (i in seq_len(NROW(lines))) {
     line_i <- lines[i, ]
-    if (line_i$segment == 1) next
+    if (line_i[["segment"]] == 1) next
 
     js <- find_bottom_segments(line_i, lines)
 
