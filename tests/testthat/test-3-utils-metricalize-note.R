@@ -1,10 +1,14 @@
 test_that("note metricalization works", {
   music <- Music() + Line("C4", "whole", bar = 2, offset = 2.5) + Meter(3, 4)
-  music[["notes"]] <- indicate_grace(music[["notes"]], music[["graces"]])
-  music <- delimit_notes(music)
-  note <- music$notes
-  meters <- music$meters
-  out <- metricalize_note(note, meters)
+
+  notes <- music[["notes"]]
+  lines <- music[["lines"]]
+  meters <- music[["meters"]]
+
+  notes <- indicate_grace(notes, music[["graces"]])
+  notes <- delimit_notes(notes, lines, meters)
+
+  out <- metricalize_note(notes, meters)
 
   expected <- data_frame(
     line = rep(1L, 3),

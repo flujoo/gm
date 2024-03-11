@@ -6,12 +6,14 @@ test_that("key finding works", {
     Line(91:95, as = "staff") + Key(4, bar = 4, to = 2, scope = "staff") +
     Line(61:65)
 
-  music[["notes"]] <- indicate_grace(music[["notes"]], music[["graces"]])
-  music <- delimit_notes(music)
-  music <- delimit_lines(music)
-
-  lines <- music[["lines"]]
   notes <- music[["notes"]]
+  lines <- music[["lines"]]
+  meters <- music[["meters"]]
+
+  notes <- indicate_grace(notes, music[["graces"]])
+  notes <- delimit_notes(notes, lines, meters)
+  lines <- delimit_lines(lines, notes)
+
   midis <- notes[["midi"]]
   keys <- locate_keys(music[["keys"]], lines)
 
