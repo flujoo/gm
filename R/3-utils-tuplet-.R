@@ -30,21 +30,18 @@ check_over_bar_tuplet_groups <- function(notes) {
 #' the grace notes have not been indicated. These grace notes would make the
 #' tuplet groups incomplete.
 #'
-#' @param music The output of `group_tuplets()`.
-#'
 #' @noRd
-check_tuplet_groups <- function(music) {
+check_tuplet_groups <- function(notes) {
   general <- "Tuplets in `music` must form complete groups."
   specifics <- character()
-  notes <- music$notes
 
   for (k in seq_len(NROW(notes))) {
     note <- notes[k, ]
-    if (note$group >= 0) next
+    if (note[["group"]] >= 0) next
 
     specific <- sprintf(
       "The tuplet at position %s of Line %s is not in a complete group.",
-      note$i, note$line
+      note[["i"]], note[["line"]]
     )
 
     specifics <- c(specifics, specific)
