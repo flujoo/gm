@@ -15,23 +15,25 @@
 #' This taxonomy is for testing.
 #'
 #' @noRd
-group_tuplets <- function(music) {
+group_tuplets <- function(notes) {
   # Initialize tuplet group indicators
-  music$notes$group <- 0L
+  notes[["group"]] <- 0L
+
   # Temporarily undecided tuplets
   tuplets <- NULL
+
   # Row numbers of the undecided tuplets
   ks <- NULL
+
   # Number of the current Line
   line <- 0L
+
   # Tuplet group number
   group <- 1L
 
-  notes <- music$notes
-
   for (k in seq_len(NROW(notes))) {
     note <- notes[k, ]
-    line_k <- note$line
+    line_k <- note[["line"]]
 
     # Check if the Line has changed
     if (line_k != line) {
@@ -39,7 +41,7 @@ group_tuplets <- function(music) {
 
       if (!is.null(tuplets)) {
         # Undecided tuplets can not form a complete group
-        music$notes$group[ks] <- -1L
+        notes[["group"]][ks] <- -1L
 
         tuplets <- NULL
         ks <- NULL
@@ -49,13 +51,13 @@ group_tuplets <- function(music) {
     # Skip grace notes
     if (note[["grace"]]) next
 
-    duration <- note$duration
+    duration <- note[["duration"]]
 
     # Deal with non-tuplets first
     if (!grepl("/", duration)) {
       if (!is.null(tuplets)) {
         # Non-tuplets are trivially incompatible
-        music$notes$group[ks] <- -2L
+        notes[["group"]][ks] <- -2L
 
         tuplets <- NULL
         ks <- NULL
@@ -73,7 +75,7 @@ group_tuplets <- function(music) {
       ks <- c(ks, k)
 
     } else {
-      music$notes$group[ks] <- -2L
+      notes[["group"]][ks] <- -2L
       tuplets <- list(duration)
       ks <- k
     }
@@ -85,12 +87,12 @@ group_tuplets <- function(music) {
       tuplets <- reduced
 
     } else if (isFALSE(reduced)) {
-      music$notes$group[ks[-length(ks)]] <- -3L
+      notes[["group"]][ks[-length(ks)]] <- -3L
       tuplets <- list(duration)
       ks <- k
 
     } else if (is.null(reduced)) {
-      music$notes$group[ks] <- group
+      notes[["group"]][ks] <- group
       group <- group + 1L
       tuplets <- NULL
       ks <- NULL
@@ -99,9 +101,9 @@ group_tuplets <- function(music) {
 
   # All notes are processed,
   # but there are still some undecided tuplets.
-  if (!is.null(tuplets)) music$notes$group[ks] <- -4L
+  if (!is.null(tuplets)) notes[["group"]][ks] <- -4L
 
-  music
+  notes
 }
 
 
