@@ -40,9 +40,7 @@ add_global_key <- function(music) {
 #' Sort segments by position.
 #'
 #' @noRd
-sort_lines <- function(music) {
-  lines <- music[["lines"]]
-
+sort_lines <- function(lines) {
   # Add row numbers
   lines[["line"]] <- seq_len(NROW(lines))
 
@@ -53,6 +51,5 @@ sort_lines <- function(music) {
     lines[["start_bar"]]
   )
 
-  music[["lines"]] <- lines[do.call(order, .), ]
-  music
+  lines[do.call(order, .), ]
 }
