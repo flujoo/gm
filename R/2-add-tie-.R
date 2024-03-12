@@ -5,16 +5,16 @@ add.Tie <- function(object, music) {
   lines <- music$lines
   notes <- music$notes
 
-  # validation
+  # Validation
   check_add_to(to, lines, object)
   line <- normalize_to(to, lines)
   check_tie(object$i, object$j, line, notes)
 
-  # normalization
+  # Normalization
   names(object)[names(object) == "to"] <- "line"
   object$line <- line
 
-  # construction
+  # Construction
   music$ties <- update_ties(music$ties, object, notes)
   music
 }

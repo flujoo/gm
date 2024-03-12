@@ -1,20 +1,21 @@
 #' @export
 Tie <- function(i, j = NULL, to = NULL, above = NULL) {
-  # validation
-  check_to(to)
+  # Validation
   erify::check_n(i)
   if (!is.null(j)) erify::check_n(j)
+  check_to(to)
   if (!is.null(above)) erify::check_bool(above)
 
-  # normalization
+  # Normalization
   i <- as.integer(i)
   j <- if (!is.null(j)) as.integer(j) else NA_integer_
   if (is.null(above)) above <- NA
 
-  # construction
-  tie <- list(to = to, i = i, j = j, above = above)
-  class(tie) <- "Tie"
-  tie
+  # Construction
+  structure(
+    list(to = to, i = i, j = j, above = above),
+    class = "Tie"
+  )
 }
 
 
