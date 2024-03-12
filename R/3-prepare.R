@@ -26,7 +26,7 @@ prepare <- function(music) {
   lines <- sort_lines(lines)
   notes <- metricalize(notes, lines, meters)
 
-  notes <- untie_notes(notes)
+  notes <- atomize_notes(notes)
   notes <- infer_durations(notes)
 
   music[["notes"]] <- notes

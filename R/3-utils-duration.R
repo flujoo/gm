@@ -13,50 +13,50 @@ infer_durations <- function(notes) {
 }
 
 
-untie_notes <- function(notes) {
-  untied_notes <- notes[integer(), ]
+atomize_notes <- function(notes) {
+  atomized <- notes[integer(), ]
 
-  # Because notes are untied one by one,
+  # Because notes are atomized one by one,
   # notes in chords can be separated.
   j <- 0L
   chord <- notes[integer(), ]
 
   for (k in seq_len(NROW(notes))) {
     note <- notes[k, ]
-    untied_note <- untie_note(note)
+    untied_note <- atomize_note(note)
 
     j_k <- note[["j"]]
     chord_not_empty <- NROW(chord) != 0
 
     if (is.na(j_k)) {
       if (chord_not_empty) {
-        untied_notes <- rbind(untied_notes, sort_chord(chord))
+        atomized <- rbind(atomized, sort_chord(chord))
         j <- 0L
         chord <- notes[integer(), ]
       }
 
-      untied_notes <- rbind(untied_notes, untied_note)
+      atomized <- rbind(atomized, untied_note)
 
     } else if (j_k > j) {
       j <- j_k
       chord <- rbind(chord, untied_note)
 
     } else if (j_k < j) {
-      untied_notes <- rbind(untied_notes, sort_chord(chord))
+      atomized <- rbind(atomized, sort_chord(chord))
       j <- j_k
       chord <- untied_note
     }
   }
 
   # In case the chord is at the end
-  rbind(untied_notes, sort_chord(chord))
+  rbind(atomized, sort_chord(chord))
 }
 
 
-untie_note <- function(note) {
+atomize_note <- function(note) {
   if (note[["grace"]] || !is.na(note[["duration"]])) return(note)
 
-  values <- untie_duration_value(note[["length"]])
+  values <- atomize_duration_value(note[["length"]])
   n <- length(values)
 
   if (n == 1) return(note)
@@ -75,12 +75,12 @@ untie_note <- function(note) {
 
 #' Split Duration Value Into Duration Type Values
 #' @noRd
-untie_duration_value <- function(value) {
+atomize_duration_value <- function(value) {
   values <- duration_types[["value"]]
 
   if (value %in% values) return(value)
   if (value < rev(values)[1]) stop()
 
   head <- values[value > values][1]
-  c(untie_duration_value(value - head), head)
+  c(atomize_duration_value(value - head), head)
 }
