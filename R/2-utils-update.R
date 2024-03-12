@@ -33,27 +33,25 @@ to_case <- function(object) {
 }
 
 
-#' Append Tie, Accidental, and Notehead to Component of Music
+#' Append Accidental and Notehead to Component of Music
 #'
-#' If the chord length is 1, `j` will be normalized to `NA`.
-#' And if not but `j` is `NA`, `j` will be made explicit for
-#' each note in the chord.
+#' - If there is only one note at the position,
+#' `j` will be normalized to `NA`;
+#'
+#' - If there is more than one note and `j` is `NA`,
+#' `j` will be made explicit for each note at the position.
 #'
 #' @noRd
 update_chordal <- function(cases, object, notes) {
-  j <- object$j
+  # Number of notes that are at the position where the tie is added
+  . <- notes[["line"]] == object[["line"]] & notes[["i"]] == object[["i"]]
+  n <- NROW(notes[., ])
 
-  # Chord length
-  l <- nrow(notes[notes$line == object$line & notes$i == object$i, ])
+  # If more than one note is involved, make their `j` explicit
+  js <- if (n == 1) NA_integer_ else 1:n
 
-  if (l == 1) {
-    j <- NA_integer_
-  } else if (is.na(j)) {
-    j <- 1:l
-  }
-
-  for (j_i in j) {
-    object$j <- j_i
+  for (j in js) {
+    object[["j"]] <- j
     cases <- update_cases(cases, object)
   }
 
