@@ -33,32 +33,6 @@ to_case <- function(object) {
 }
 
 
-#' Append Accidental and Notehead to Component of Music
-#'
-#' - If there is only one note at the position,
-#' `j` will be normalized to `NA`;
-#'
-#' - If there is more than one note and `j` is `NA`,
-#' `j` will be made explicit for each note at the position.
-#'
-#' @noRd
-update_chordal <- function(cases, object, notes) {
-  # Number of notes that are at the position where the tie is added
-  . <- notes[["line"]] == object[["line"]] & notes[["i"]] == object[["i"]]
-  n <- NROW(notes[., ])
-
-  # If more than one note is involved, make their `j` explicit
-  js <- if (n == 1) NA_integer_ else 1:n
-
-  for (j in js) {
-    object[["j"]] <- j
-    cases <- update_cases(cases, object)
-  }
-
-  cases
-}
-
-
 #' Append Pedal and Trill to Component of Music
 #' @noRd
 update_2d <- function(cases, object) {
