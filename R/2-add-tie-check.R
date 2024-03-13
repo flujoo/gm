@@ -1,11 +1,9 @@
 #' Various Validations for Tie Adding
 #'
-#' 1. Check if the start position exceeds the Line length.
-#' 2. Check if it is a rest at the start position.
-#' 3. Check if `j` exceeds the chord length.
-#' 4. Check if the stop position exceeds the Line length.
-#' 5. Check if it is a rest at the stop position.
-#' 6. Check if the notes to be tied have equivalent pitches.
+#' - Check if the start or stop position exceeds the Line.
+#' - Check if it is a rest at the start or stop position.
+#' - Check if `j` exceeds the chord length.
+#' - Check if the notes to be tied have equivalent pitches.
 #'
 #' @noRd
 check_tie <- function(i, j, line, notes) {
