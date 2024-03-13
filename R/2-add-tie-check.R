@@ -26,6 +26,7 @@ check_tie <- function(i, j, line, notes) {
   notes_stop <- notes_line[notes_line[["i"]] == i_stop, ]
   if (anyNA(notes_stop[["midi"]])) abort_tie_stop_rest(i, line)
 
+  if (!is.na(j)) notes_start <- notes_start[notes_start[["j"]] == j, ]
   common_pitches <- intersect(notes_start[["midi"]], notes_stop[["midi"]])
   if (length(common_pitches) == 0) abort_tie_equivalent(i, j, line)
 }
