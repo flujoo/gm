@@ -8,7 +8,7 @@ test_that("inferring pitches from the next pitches works", {
   lines <- music[["lines"]]
   notes <- music[["notes"]]
 
-  notes <- indicate_grace(notes, music[["graces"]])
+  notes <- indicate_graces(notes, music[["graces"]])
   notes <- delimit_notes(notes, lines, music[["meters"]])
   notes <- infer_pitches(notes, lines, music[["keys"]])
 
@@ -29,7 +29,7 @@ test_that("inferring pitches from keys works", {
   lines <- music[["lines"]]
   notes <- music[["notes"]]
 
-  notes <- indicate_grace(notes, music[["graces"]])
+  notes <- indicate_graces(notes, music[["graces"]])
   notes <- delimit_notes(notes, lines, music[["meters"]])
   notes <- infer_pitches(notes, lines, music[["keys"]])
 
@@ -50,7 +50,7 @@ test_that("grace notes are considered in pitch inferring", {
   lines <- music[["lines"]]
   notes <- music[["notes"]]
 
-  notes <- indicate_grace(notes, music[["graces"]])
+  notes <- indicate_graces(notes, music[["graces"]])
   notes <- delimit_notes(notes, lines, music[["meters"]])
   notes <- infer_pitches(notes, lines, music[["keys"]])
 
@@ -77,7 +77,7 @@ test_that("chords are considered in pitch inferring", {
   lines <- music[["lines"]]
   notes <- music[["notes"]]
 
-  notes <- indicate_grace(notes, music[["graces"]])
+  notes <- indicate_graces(notes, music[["graces"]])
   notes <- delimit_notes(notes, lines, music[["meters"]])
   notes <- infer_pitches(notes, lines, music[["keys"]])
 

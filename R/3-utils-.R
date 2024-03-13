@@ -10,7 +10,7 @@ check_empty_music <- function(lines) {
 }
 
 
-indicate_grace <- function(notes, graces) {
+indicate_graces <- function(notes, graces) {
   notes[["grace"]] <-
     paste(notes[["line"]], notes[["i"]]) %in%
     paste(graces[["line"]], graces[["i"]])

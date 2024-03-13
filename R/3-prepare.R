@@ -9,7 +9,7 @@ prepare <- function(music) {
   lines <- music[["lines"]]
   meters <- music[["meters"]]
 
-  notes <- indicate_grace(notes, music[["graces"]])
+  notes <- indicate_graces(notes, music[["graces"]])
 
   notes <- delimit_notes(notes, lines, meters)
   lines <- delimit_lines(lines, notes)

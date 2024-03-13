@@ -15,7 +15,7 @@ test_that("chord metricalization works", {
   lines <- music[["lines"]]
   meters <- music[["meters"]]
 
-  notes <- indicate_grace(notes, music[["graces"]])
+  notes <- indicate_graces(notes, music[["graces"]])
   notes <- delimit_notes(notes, lines, meters)
   lines <- delimit_lines(lines, notes)
   notes <- group_tuplets(notes)
@@ -122,7 +122,7 @@ test_that("metricalization of adjacent chords works", {
   lines <- music[["lines"]]
   meters <- music[["meters"]]
 
-  notes <- indicate_grace(notes, music[["graces"]])
+  notes <- indicate_graces(notes, music[["graces"]])
   notes <- delimit_notes(notes, lines, meters)
   lines <- delimit_lines(lines, notes)
   notes <- group_tuplets(notes)
