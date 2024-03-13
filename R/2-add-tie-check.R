@@ -9,45 +9,29 @@
 #'
 #' @noRd
 check_tie <- function(i, j, line, notes) {
-  # the notes of the Line
-  line_notes <- notes[notes$line == line, ]
+  notes_line <- notes[notes[["line"]] == line, ]
 
-  # the length of the Line
-  line_length <- max(line_notes$i)
+  n_line <- max(notes_line[["i"]])
+  if (i > n_line) abort_tie_i(i, line, n_line)
 
-  # check if the start position of the Tie exceeds the Line length
-  if (i > line_length) abort_tie_i(i, line, line_length)
+  notes_start <- notes_line[notes_line[["i"]] == i, ]
+  if (anyNA(notes_start[["midi"]])) abort_tie_i_rest(i, line)
 
-  # the note/chord/rest at the start position
-  start_chord <- line_notes[line_notes$i == i, ]
-
-  # check if it is a rest at the start position
-  is_rest <- anyNA(start_chord$pitch) && anyNA(start_chord$midi)
-  if (is_rest) abort_tie_i_rest(i, line)
-
-  # check if `j` exceeds the chord length
-  chord_length <- nrow(start_chord)
-  if (!is.na(j) && j > chord_length) abort_tie_j(j, i, line, chord_length)
+  n_start <- NROW(notes_start)
+  if (!is.na(j) && j > n_start) abort_tie_j(j, i, line, n_start)
 
   i_stop <- i + 1
+  if (i_stop > n_line) abort_tie_stop(i_stop, line, n_line)
 
-  # check if the stop position exceeds the Line length
-  if (i_stop > line_length) abort_tie_stop(i_stop, line, line_length)
+  notes_stop <- notes_line[notes_line[["i"]] == i_stop, ]
+  if (anyNA(notes_stop[["midi"]])) abort_tie_stop_rest(i, line)
 
-  # the note/chord/rest at the stop position
-  stop_chord <- line_notes[line_notes$i == i_stop, ]
-
-  # check if it is a rest at the stop position
-  is_rest <- anyNA(stop_chord$pitch) && anyNA(stop_chord$midi)
-  if (is_rest) abort_tie_stop_rest(i, line)
-
-  # check if the notes to be tied have equivalent pitches
-  common_pitches <- intersect(start_chord$midi, stop_chord$midi)
-  if (length(common_pitches) == 0) abort_tie_equivalent(i, line)
+  common_pitches <- intersect(notes_start[["midi"]], notes_stop[["midi"]])
+  if (length(common_pitches) == 0) abort_tie_equivalent(i, j, line)
 }
 
 
-abort_tie_i <- function(i, line, line_length) {
+abort_tie_i <- function(i, line, n_line) {
   general <- paste(
     "The start position of the Tie",
     "must not exceed the Line length."
@@ -55,7 +39,7 @@ abort_tie_i <- function(i, line, line_length) {
 
   specifics <- sprintf(
     "`i` is %s, while the length of Line %s is %s.",
-    i, line, line_length
+    i, line, n_line
   )
 
   erify::throw(general, specifics)
@@ -69,19 +53,19 @@ abort_tie_i_rest <- function(i, line) {
 }
 
 
-abort_tie_j <- function(j, i, line, chord_length) {
+abort_tie_j <- function(j, i, line, n_start) {
   general <- "`j` must not exceed the chord length."
 
   specifics <- sprintf(
     "`j` is %s, while the chord length at position %s of Line %s is %s.",
-    j, i, line, chord_length
+    j, i, line, n_start
   )
 
   erify::throw(general, specifics)
 }
 
 
-abort_tie_stop <- function(i_stop, line, line_length) {
+abort_tie_stop <- function(i_stop, line, n_line) {
   general <- paste(
     "The stop position of the Tie",
     "must not exceed the Line length."
@@ -89,7 +73,7 @@ abort_tie_stop <- function(i_stop, line, line_length) {
 
   specifics <- sprintf(
     "The stop position would be %s, while the length of Line %s is %s.",
-    i_stop, line, line_length
+    i_stop, line, n_line
   )
 
   erify::throw(general, specifics)
@@ -103,11 +87,12 @@ abort_tie_stop_rest <- function(i, line) {
 }
 
 
-abort_tie_equivalent <- function(i, line) {
+abort_tie_equivalent <- function(i, j, line) {
   general <- "The notes to be tied must have equivalent pitches."
 
   specifics <- paste(
-    "The notes before and after the Tie added at position", i,
+    "The notes at and after position",
+    if (is.na(j)) i else sprintf("(%s, %s)", i, j),
     "of Line", line,
     "do not have equivalent pitches."
   )
