@@ -52,3 +52,23 @@ indicate_original_ties <- function(notes, ties) {
 
   notes
 }
+
+
+#' Add Ties to Metricalized and Atomized Notes
+#' @noRd
+indicate_derived_ties <- function(notes) {
+  ids <- notes[["id"]]
+
+  for (id in unique(ids)) {
+    notes_id <- notes[ids == id, ]
+    n <- NROW(notes_id)
+
+    if (n == 1 || all(is.na(notes_id[["midi"]]))) next
+
+    ks <- 1:n
+    notes[ids == id, ][ks[-n], ][["tie_start"]] <- TRUE
+    notes[ids == id, ][ks[-1], ][["tie_stop"]] <- TRUE
+  }
+
+  notes
+}
