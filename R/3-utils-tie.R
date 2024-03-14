@@ -1,3 +1,19 @@
+indicate_ties <- function(notes, ties) {
+  notes[["tie_start"]] <- FALSE
+  notes[["tie_stop"]] <- FALSE
+
+  # Make it easy to match notes
+  notes[["id"]] <- paste(notes[["line"]], notes[["i"]], notes[["j"]])
+  ties[["id"]] <- paste(ties[["line"]], ties[["i"]], ties[["j"]])
+
+  notes <- indicate_original_ties(notes, ties)
+  notes <- indicate_derived_ties(notes)
+
+  notes[["id"]] <- NULL
+  notes
+}
+
+
 indicate_original_ties <- function(notes, ties) {
   ids <- notes[["id"]]
   lines <- notes[["line"]]

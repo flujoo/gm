@@ -29,6 +29,8 @@ prepare <- function(music) {
   notes <- atomize_notes(notes)
   notes <- infer_durations(notes)
 
+  notes <- indicate_ties(notes, music[["ties"]])
+
   music[["notes"]] <- notes
   music[["lines"]] <- lines
   music[["meters"]] <- meters
