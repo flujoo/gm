@@ -54,7 +54,7 @@ classes <- c(
 
   # Note level
   "Dynamic", "Grace", "Stem", "Lyric", "Tie",
-  "Articulation", "Fermata",
+  "Articulation", "Fermata", "Breath",
   "Trill", "Turn", "Mordent", "Schleifer", "Tremolo"
 )
 
