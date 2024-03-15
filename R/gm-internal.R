@@ -29,7 +29,6 @@
 #' add.Tremolo
 #' add.Turn
 #' add.Notehead
-#' add.Pause
 #' add.Velocity
 #' add.Tie
 #'
@@ -45,7 +44,6 @@
 #' locate.Key
 #' locate.Meter
 #' locate.Notehead
-#' locate.Pause
 #' locate.Velocity
 #' locate.Tie
 #'
