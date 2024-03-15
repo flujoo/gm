@@ -23,7 +23,7 @@ print.MusicXML <- function(x, ...) {
 to_string.MusicXML <- function(x, ...) {
   tab <- strrep(" ", 2)
   fragments <- to_fragments(x)
-  paste(prepend_tab(fragments, tab), collapse = "\n")
+  paste(indent(fragments, tab), collapse = "\n")
 }
 
 
@@ -61,14 +61,14 @@ to_fragments <- function(musicxml) {
 }
 
 
-prepend_tab <- function(fragments, tab) {
+indent <- function(fragments, tab) {
   if (is.character(fragments)) return(fragments)
 
   l <- length(fragments)
   contents <- list()
 
   for (i in 2:(l - 1)) {
-    element <- paste0(tab, prepend_tab(fragments[[i]], tab))
+    element <- paste0(tab, indent(fragments[[i]], tab))
     contents <- c(contents, as.list(element))
   }
 
