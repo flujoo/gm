@@ -74,6 +74,9 @@
 #' to_Duration
 #' to_Duration.character
 #'
+#' to_MusicXML
+#' to_MusicXML.Pitch
+#'
 #' print.Pitch
 #' print.Duration
 #' print.MusicXML
