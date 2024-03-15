@@ -33,7 +33,6 @@ prepare <- function(music) {
 
   music[["notes"]] <- notes
   music[["lines"]] <- lines
-  music[["meters"]] <- meters
 
   music
 }
