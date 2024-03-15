@@ -24,5 +24,5 @@ print.Breath <- function(x, ...) {
 
   cat("Breath Mark", "\n\n")
   if (!is.na(symbol)) cat(sprintf('* of symbol "%s"', symbol), "\n")
-  print_to_i_j(x$to, x$i)
+  print_to_i_j(x[["to"]], x[["i"]])
 }
