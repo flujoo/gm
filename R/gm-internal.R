@@ -31,6 +31,7 @@
 #' add.Notehead
 #' add.Velocity
 #' add.Tie
+#' add.Breath
 #'
 #' locate
 #' locate.Accidental
@@ -46,6 +47,7 @@
 #' locate.Notehead
 #' locate.Velocity
 #' locate.Tie
+#' locate.Breath
 #'
 #' check_add_to
 #' check_add_to.default
