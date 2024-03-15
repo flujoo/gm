@@ -13,6 +13,13 @@ MusicXML <- function(tag, contents = NULL, attributes = NULL) {
 
 #' @keywords internal
 #' @export
+to_MusicXML <- function(x, ...) {
+  UseMethod("to_MusicXML")
+}
+
+
+#' @keywords internal
+#' @export
 print.MusicXML <- function(x, ...) {
   cat(to_string(x), "\n")
 }
