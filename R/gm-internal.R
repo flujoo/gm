@@ -76,6 +76,7 @@
 #'
 #' to_MusicXML
 #' to_MusicXML.Pitch
+#' to_MusicXML.Breath
 #'
 #' print.Pitch
 #' print.Duration
