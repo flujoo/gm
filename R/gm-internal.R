@@ -33,6 +33,7 @@
 #' add.Tie
 #' add.Breath
 #' add.Pedal
+#' add.Slur
 #'
 #' locate
 #' locate.Accidental
@@ -49,6 +50,7 @@
 #' locate.Velocity
 #' locate.Tie
 #' locate.Breath
+#' locate.Slur
 #'
 #' check_add_to
 #' check_add_to.default
