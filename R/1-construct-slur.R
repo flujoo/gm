@@ -1,32 +1,33 @@
 #' @export
 Slur <- function(i, j, to = NULL, to_j = NULL, above = NULL) {
-  # validation
-  check_to(to)
+  # Validation
   erify::check_n(i)
   erify::check_n(j)
+  check_to(to)
   check_to(to_j)
   if (!is.null(above)) erify::check_bool(above)
 
-  # normalization
+  # Normalization
   i <- as.integer(i)
   j <- as.integer(j)
-  if (is.null(above)) above <- NA
   if (is.null(to_j)) to_j <- NA_integer_
+  if (is.null(above)) above <- NA
 
-  # construction
-  slur <- list(to = to, i = i, j = j, to_j = to_j, above = above)
-  class(slur) <- "Slur"
-  slur
+  # Construction
+  structure(
+    list(to = to, i = i, j = j, to_j = to_j, above = above),
+    class = "Slur"
+  )
 }
 
 
 #' @export
 print.Slur <- function(x, ...) {
-  to <- x$to
-  i <- x$i
-  j <- x$j
-  to_j <- x$to_j
-  above <- x$above
+  to <- x[["to"]]
+  i <- x[["i"]]
+  j <- x[["j"]]
+  to_j <- x[["to_j"]]
+  above <- x[["above"]]
 
   cat("Slur", "\n\n")
 
