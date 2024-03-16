@@ -32,6 +32,7 @@
 #' add.Velocity
 #' add.Tie
 #' add.Breath
+#' add.Pedal
 #'
 #' locate
 #' locate.Accidental
