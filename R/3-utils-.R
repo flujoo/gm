@@ -53,3 +53,9 @@ sort_lines <- function(lines) {
 
   lines[do.call(order, .), ]
 }
+
+
+sort_chord <- function(chord) {
+  if (all(chord[["grace"]])) return(chord)
+  chord[order(chord[["start_bar"]], chord[["start_offset"]]), ]
+}

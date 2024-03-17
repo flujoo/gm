@@ -55,9 +55,3 @@ metricalize <- function(notes, lines, meters) {
 
   metricalized
 }
-
-
-sort_chord <- function(chord) {
-  if (all(chord[["grace"]])) return(chord)
-  chord[order(chord[["start_bar"]], chord[["start_offset"]]), ]
-}
