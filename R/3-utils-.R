@@ -19,8 +19,8 @@ indicate_graces <- function(notes, graces) {
 }
 
 
-sort_meters <- function(meters, decreasing = TRUE) {
-  meters[order(meters[["bar"]], decreasing = decreasing), ]
+sort_by_bar <- function(objects, decreasing = TRUE) {
+  objects[order(objects[["bar"]], decreasing = decreasing), ]
 }
 
 

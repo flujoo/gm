@@ -2,7 +2,7 @@ prepare <- function(music) {
   check_first_bar_meter(music[["meters"]])
   check_empty_music(music[["lines"]])
 
-  music[["meters"]] <- sort_meters(music[["meters"]])
+  music[["meters"]] <- sort_by_bar(music[["meters"]])
   music <- round_offsets(music)
 
   notes <- music[["notes"]]
