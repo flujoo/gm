@@ -1,3 +1,16 @@
+prepare_keys <- function(music) {
+  music <- add_global_key(music)
+
+  keys <- music[["keys"]]
+  lines <- music[["lines"]]
+
+  keys <- locate_keys(keys, lines)
+  keys <- specify_keys(keys, lines)
+
+  keys
+}
+
+
 add_global_key <- function(music) {
   keys <- music[["keys"]]
   global_key <- keys[is.na(keys[["line"]]) & keys[["bar"]] == 1, ]

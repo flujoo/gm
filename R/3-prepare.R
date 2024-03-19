@@ -20,7 +20,7 @@ prepare <- function(music) {
 
   check_segments(lines)
 
-  music <- add_global_key(music)
+  music[["keys"]] <- prepare_keys(music)
   notes <- infer_pitches(notes, lines, music[["keys"]])
 
   lines <- sort_lines(lines)
