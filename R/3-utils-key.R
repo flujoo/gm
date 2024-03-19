@@ -8,21 +8,14 @@ add_global_key <- function(music) {
 
 
 locate_keys <- function(keys, lines) {
-  located <- NULL
+  keys[["part"]] <- NA_integer_
+  keys[["staff"]] <- NA_integer_
 
   for (k in seq_len(NROW(keys))) {
-    key <- keys[k, ]
-    . <- locate(key, lines)
-
-    located_k <- data_frame(
-      part = .[1],
-      staff = .[2],
-      bar = .[3],
-      key = key[["key"]]
-    )
-
-    located <- rbind(located, located_k)
+    location <- locate(keys[k, ], lines)
+    keys[["part"]][k] <- location[1]
+    keys[["staff"]][k] <- location[2]
   }
 
-  located
+  keys[, c("part", "staff", "bar", "key")]
 }
