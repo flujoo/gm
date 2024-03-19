@@ -13,9 +13,8 @@ test_that("key finding works", {
   notes <- indicate_graces(notes, music[["graces"]])
   notes <- delimit_notes(notes, lines, meters)
   lines <- delimit_lines(lines, notes)
-
+  keys <- prepare_keys(music)
   midis <- notes[["midi"]]
-  keys <- locate_keys(music[["keys"]], lines)
 
   out <- find_key(notes[midis == 61, ], notes, keys, lines)
   expected <- 0L
@@ -55,7 +54,8 @@ test_that("inferring pitches from the next pitches works", {
 
   notes <- indicate_graces(notes, music[["graces"]])
   notes <- delimit_notes(notes, lines, music[["meters"]])
-  notes <- infer_pitches(notes, lines, music[["keys"]])
+  keys <- prepare_keys(music)
+  notes <- infer_pitches(notes, lines, keys)
 
   out <- notes[["pitch"]]
   expected <- c("D-4", "C4", "C#4", "D4", "C#4", NA)
@@ -76,7 +76,8 @@ test_that("inferring pitches from keys works", {
 
   notes <- indicate_graces(notes, music[["graces"]])
   notes <- delimit_notes(notes, lines, music[["meters"]])
-  notes <- infer_pitches(notes, lines, music[["keys"]])
+  keys <- prepare_keys(music)
+  notes <- infer_pitches(notes, lines, keys)
 
   out <- notes[["pitch"]]
   expected <- c("C#4", "D-4")
@@ -97,7 +98,8 @@ test_that("grace notes are considered in pitch inferring", {
 
   notes <- indicate_graces(notes, music[["graces"]])
   notes <- delimit_notes(notes, lines, music[["meters"]])
-  notes <- infer_pitches(notes, lines, music[["keys"]])
+  keys <- prepare_keys(music)
+  notes <- infer_pitches(notes, lines, keys)
 
   out <- notes[["pitch"]]
   expected <- c("C#4", "D4", "D-4", "C4", "D-4", "C3")
@@ -124,7 +126,8 @@ test_that("chords are considered in pitch inferring", {
 
   notes <- indicate_graces(notes, music[["graces"]])
   notes <- delimit_notes(notes, lines, music[["meters"]])
-  notes <- infer_pitches(notes, lines, music[["keys"]])
+  keys <- prepare_keys(music)
+  notes <- infer_pitches(notes, lines, keys)
 
   out <- notes[["pitch"]]
 
