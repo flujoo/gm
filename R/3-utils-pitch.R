@@ -1,6 +1,4 @@
 infer_pitches <- function(notes, lines, keys) {
-  keys <- locate_keys(keys, lines)
-
   for (k in rev(seq_len(NROW(notes)))) {
     note <- notes[k, ]
     midi <- note[["midi"]]
@@ -29,21 +27,15 @@ find_key <- function(note, notes, keys, lines) {
   }
 
   line <- lines[note[["line"]], ]
-  part <- line[["part"]]
-  staff <- line[["staff"]]
-  bar <- note[["start_bar"]]
 
   # Select the relevant keys
-  keys <- keys[keys[["part"]] %in% c(0L, part), ]
-  keys <- keys[keys[["staff"]] %in% c(0L, staff), ]
-  keys <- keys[keys[["bar"]] <= bar, ]
+  is_relevant <-
+    keys[["part"]] == line[["part"]] &
+    keys[["staff"]] == line[["staff"]] &
+    keys[["bar"]] <= note[["start_bar"]]
 
-  . <- order(
-    keys[["part"]], keys[["staff"]], keys[["bar"]],
-    decreasing = TRUE
-  )
-
-  keys[., ][1, ][["key"]]
+  # Already reverse-ordered on `bar`
+  keys[is_relevant, ][1, ][["key"]]
 }
 
 
