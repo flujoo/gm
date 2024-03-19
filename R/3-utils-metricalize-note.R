@@ -12,12 +12,6 @@ metricalize_note <- function(note, meters) {
     meter_length <- to_value(meter)
 
     . <- note
-
-    # if (bar != start_bar) {
-    #   .[["i"]] <- NA_integer_
-    #   .[["j"]] <- NA_integer_
-    # }
-
     .[["duration"]] <- NA_character_
 
     .[["length"]] <- if (bar == start_bar) {
