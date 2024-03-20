@@ -13,12 +13,11 @@ prepare <- function(music) {
 
   notes <- delimit_notes(notes, lines, meters)
   lines <- delimit_lines(lines, notes)
+  check_segments(lines)
 
   notes <- group_tuplets(notes)
   check_tuplet_groups(notes)
   check_over_bar_tuplet_groups(notes)
-
-  check_segments(lines)
 
   music[["keys"]] <- prepare_keys(music)
   notes <- infer_pitches(notes, lines, music[["keys"]])
