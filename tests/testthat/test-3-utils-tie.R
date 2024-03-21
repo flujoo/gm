@@ -13,6 +13,7 @@ test_that("tie indication works", {
   notes <- delimit_notes(notes, lines, meters)
   lines <- delimit_lines(lines, notes)
   notes <- group_tuplets(notes)
+  notes <- indicate_tuplets(notes)
   lines <- sort_lines(lines)
   notes <- metricalize(notes, lines, meters)
   notes <- atomize_notes(notes)

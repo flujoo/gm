@@ -18,6 +18,10 @@ test_that("full start bars and empty end bars are skipped", {
     group = 0L
   )
 
+  # In case of `data.frame()` rather than `tibble()` being used
+  expected[["tuplet_start"]] <- list(NULL)
+  expected[["tuplet_stop"]] <- list(NULL)
+
   expect_identical(out, expected)
 })
 

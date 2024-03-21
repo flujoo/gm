@@ -19,6 +19,7 @@ test_that("chord metricalization works", {
   notes <- delimit_notes(notes, lines, meters)
   lines <- delimit_lines(lines, notes)
   notes <- group_tuplets(notes)
+  notes <- indicate_tuplets(notes)
   lines <- sort_lines(lines)
 
   out <- metricalize(notes, lines, meters)
@@ -107,6 +108,10 @@ test_that("chord metricalization works", {
     group = rep(0L, 18)
   )
 
+  # In case of `data.frame()` rather than `tibble()` being used
+  expected[["tuplet_start"]] <- rep(list(NULL), 18)
+  expected[["tuplet_stop"]] <- rep(list(NULL), 18)
+
   expect_identical(out, expected)
 })
 
@@ -126,6 +131,7 @@ test_that("metricalization of adjacent chords works", {
   notes <- delimit_notes(notes, lines, meters)
   lines <- delimit_lines(lines, notes)
   notes <- group_tuplets(notes)
+  notes <- indicate_tuplets(notes)
   lines <- sort_lines(lines)
   notes <- metricalize(notes, lines, meters)
 

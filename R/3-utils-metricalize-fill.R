@@ -106,6 +106,10 @@ fill_gap <- function(
         group = 0L
       )
 
+      # In case of `data.frame()` rather than `tibble()` being used
+      note[["tuplet_start"]] <- list(NULL)
+      note[["tuplet_stop"]] <- list(NULL)
+
       notes <- rbind(notes, note)
     }
 
@@ -147,6 +151,10 @@ fill_gap <- function(
         end_offset = end_offset_k,
         group = 0L
       )
+
+      # In case of `data.frame()` rather than `tibble()` being used
+      note[["tuplet_start"]] <- list(NULL)
+      note[["tuplet_stop"]] <- list(NULL)
 
       notes <- rbind(notes, note)
     }
