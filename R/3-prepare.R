@@ -18,6 +18,7 @@ prepare <- function(music) {
   notes <- group_tuplets(notes)
   check_tuplet_groups(notes)
   check_over_bar_tuplet_groups(notes)
+  notes <- indicate_tuplets(notes)
 
   music[["keys"]] <- prepare_keys(music)
   notes <- infer_pitches(notes, lines, music[["keys"]])
