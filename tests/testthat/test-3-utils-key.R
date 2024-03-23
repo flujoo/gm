@@ -11,6 +11,7 @@ test_that("key preparation works", {
     Key(4, to = 3)
 
   out <- as.data.frame(prepare_keys(music))
+  row.names(out) <- NULL
 
   expected <- data.frame(
     part = c(1L, 1L, 1L, 2L),

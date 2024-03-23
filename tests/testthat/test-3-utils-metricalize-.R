@@ -23,6 +23,7 @@ test_that("chord metricalization works", {
   lines <- sort_lines(lines)
 
   out <- metricalize(notes, lines, meters)
+  row.names(out) <- NULL
 
   expected <- data_frame(
     line = rep(1L, 18),
