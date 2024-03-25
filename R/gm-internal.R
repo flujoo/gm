@@ -80,6 +80,7 @@
 #' to_MusicXML
 #' to_MusicXML.Pitch
 #' to_MusicXML.Breath
+#' to_MusicXML.Duration
 #'
 #' print.Pitch
 #' print.Duration
