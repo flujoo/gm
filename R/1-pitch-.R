@@ -22,6 +22,8 @@ print.Pitch <- function(x, ...) {
 #' @keywords internal
 #' @export
 to_string.Pitch <- function(x, ...) {
+  if (!is.list(x)) return("")
+
   accidental <- c("--", "-", "", "#", "##")[x$alter == -2:2]
   paste0(x$step, accidental, x$octave)
 }

@@ -1,7 +1,12 @@
 #' @keywords internal
 #' @export
 to_Pitch.character <- function(x, ...) {
-  do.call(Pitch, parse_pitch_notation(x))
+  if (is.na(x)) {
+    structure(x, class = "Pitch")
+
+  } else {
+    do.call(Pitch, parse_pitch_notation(x))
+  }
 }
 
 
