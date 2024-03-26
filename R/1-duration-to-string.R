@@ -4,7 +4,7 @@ to_string.Duration <- function(x, short = FALSE, ...) {
   paste(
     c(
       to_string_duration_base(x, short),
-      sapply(x$ratios, to_string_tuplet_ratio, short = short)
+      sapply(x$ratios, to_string_ratio, short = short)
     ),
 
     collapse = ""
@@ -25,7 +25,7 @@ to_string_duration_base <- function(base, short = FALSE) {
 }
 
 
-to_string_tuplet_ratio <- function(ratio, short = FALSE) {
+to_string_ratio <- function(ratio, short = FALSE) {
   take <- ratio$take
 
   if (is.null(take)) {
