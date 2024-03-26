@@ -108,7 +108,7 @@ has_duration_notation_semantics <- function(string) {
 
     } else {
       # Validation of ratio value
-      if (to_value_tuplet_ratio(ratio) > 1) return(FALSE)
+      if (to_value_ratio(ratio) > 1) return(FALSE)
 
       # Validation of divisibility
       remainder <- to_value_duration_base(list(type = type, dot = dot)) %%

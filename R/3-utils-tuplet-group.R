@@ -153,7 +153,7 @@ reduce_tuplets <- function(tuplets) {
     # Total ratio at the deepest level
     ratio <- sum(sapply(
       tuplets[ks],
-      function(tuplet) to_value_tuplet_ratio(tuplet$ratios[[depth_max]])
+      function(tuplet) to_value_ratio(tuplet$ratios[[depth_max]])
     ))
 
     if (ratio > 1) return(FALSE)

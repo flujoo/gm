@@ -3,7 +3,7 @@
 to_value.Duration <- function(x) {
   to_value_duration_base(x) *
     # Convert tuplet ratios to value
-    prod(vapply(x$ratios, to_value_tuplet_ratio, numeric(1)))
+    prod(vapply(x$ratios, to_value_ratio, numeric(1)))
 }
 
 
@@ -15,7 +15,7 @@ to_value_duration_base <- function(base) {
 }
 
 
-to_value_tuplet_ratio <- function(ratio) {
+to_value_ratio <- function(ratio) {
   take <- ratio$take
 
   if (is.null(take)) {
