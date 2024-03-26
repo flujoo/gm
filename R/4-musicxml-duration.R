@@ -6,3 +6,17 @@ to_MusicXML_non_tuplet <- function(duration) {
 
   musicxml
 }
+
+
+get_actual_normal_numbers <- function(tuplet) {
+  pairs <- list()
+  take <- tuplet
+
+  for (ratio in tuplet[["ratios"]]) {
+    normal <- to_value_base(take) / to_value_base(ratio[["unit"]])
+    pairs <- c(pairs, list(c(actual = ratio[["n"]], normal = normal)))
+    take <- ratio[["take"]]
+  }
+
+  pairs
+}
