@@ -91,7 +91,7 @@ has_duration_notation_semantics <- function(string) {
   duration <- parse_duration_notation(string)
 
   # Validation of being a multiple of the 1024th note
-  if (to_value_duration_base(duration) %% (1/256) != 0) return(FALSE)
+  if (to_value_base(duration) %% (1/256) != 0) return(FALSE)
 
   type <- duration$type
   dot <- duration$dot
@@ -111,8 +111,9 @@ has_duration_notation_semantics <- function(string) {
       if (to_value_ratio(ratio) > 1) return(FALSE)
 
       # Validation of divisibility
-      remainder <- to_value_duration_base(list(type = type, dot = dot)) %%
-        to_value_duration_base(ratio$unit)
+      remainder <- to_value_base(list(type = type, dot = dot)) %%
+        to_value_base(ratio$unit)
+
       if (remainder != 0) return(FALSE)
 
       type <- take$type
