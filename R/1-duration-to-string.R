@@ -3,7 +3,7 @@
 to_string.Duration <- function(x, short = FALSE, ...) {
   paste(
     c(
-      to_string_duration_base(x, short),
+      to_string_base(x, short),
       sapply(x$ratios, to_string_ratio, short = short)
     ),
 
@@ -12,7 +12,7 @@ to_string.Duration <- function(x, short = FALSE, ...) {
 }
 
 
-to_string_duration_base <- function(base, short = FALSE) {
+to_string_base <- function(base, short = FALSE) {
   type <- base$type
 
   paste0(
@@ -32,7 +32,7 @@ to_string_ratio <- function(ratio, short = FALSE) {
     sprintf("/%s", ratio$n)
 
   } else {
-    sprintf("/%s*(%s/%s)", ratio$n, to_string_duration_base(take, short),
-      to_string_duration_base(ratio$unit, short))
+    sprintf("/%s*(%s/%s)", ratio$n, to_string_base(take, short),
+      to_string_base(ratio$unit, short))
   }
 }
