@@ -13,8 +13,12 @@ get_actual_normal_pairs <- function(tuplet) {
   take <- tuplet
 
   for (ratio in tuplet[["ratios"]]) {
+    actual <- ratio[["n"]]
     normal <- to_value_base(take) / to_value_base(ratio[["unit"]])
-    pairs <- c(pairs, list(c(actual = ratio[["n"]], normal = normal)))
+
+    pair <- c(actual = actual, normal = normal)
+    pairs <- c(pairs, list(pair))
+
     take <- ratio[["take"]]
   }
 
