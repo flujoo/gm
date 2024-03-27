@@ -31,6 +31,8 @@ prepare <- function(music) {
 
   notes <- indicate_ties(notes, music[["ties"]])
 
+  class(notes) <- c("Note", class(notes))
+
   music[["notes"]] <- notes
   music[["lines"]] <- lines
 
