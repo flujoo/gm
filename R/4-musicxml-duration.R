@@ -1,10 +1,8 @@
 to_MusicXML_non_tuplet <- function(duration) {
-  musicxml <- list(MusicXML("type", duration[["type"]]))
+  musicxml_type <- MusicXML("type", duration[["type"]])
+  musicxml_dots <- rep(list(MusicXML("dot")), duration[["dot"]])
 
-  dot <- duration[["dot"]]
-  if (dot != 0) musicxml <- c(musicxml, rep(list(MusicXML("dot")), dot))
-
-  musicxml
+  c(list(musicxml_type), musicxml_dots)
 }
 
 
