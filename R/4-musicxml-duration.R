@@ -8,6 +8,11 @@ to_MusicXML_non_tuplet <- function(duration) {
 }
 
 
+#' @returns A list of number pairs. The numbers are the contents of
+#' the `<tuplet-number>` elements in `<tuplet-actual>` and
+#' `<tuplet-normal>` elements.
+#'
+#' @noRd
 get_actual_normal_pairs <- function(tuplet) {
   pairs <- list()
   take <- tuplet
