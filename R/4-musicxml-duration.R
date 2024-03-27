@@ -8,7 +8,7 @@ to_MusicXML_non_tuplet <- function(duration) {
 }
 
 
-get_actual_normal_numbers <- function(tuplet) {
+get_actual_normal_pairs <- function(tuplet) {
   pairs <- list()
   take <- tuplet
 
