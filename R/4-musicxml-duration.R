@@ -1,3 +1,20 @@
+#' @keywords internal
+#' @export
+to_MusicXML.Duration <- function(x, ...) {
+  depth <- length(x[["ratios"]])
+  if (depth == 0) return(to_MusicXML_non_tuplet(x))
+
+  tuplet <- complete_tuplet(x)
+  ratios <- tuplet[["ratios"]]
+
+  last_take <- ratios[[depth]][["take"]]
+  musicxml_type <- MusicXML("type", last_take[["type"]])
+  musicxml_dots <- rep(list(MusicXML("dot")), last_take[["dot"]])
+
+  actual_normal_pairs <- get_actual_normal_pairs(tuplet)
+}
+
+
 to_MusicXML_non_tuplet <- function(duration) {
   musicxml_type <- MusicXML("type", duration[["type"]])
   musicxml_dots <- rep(list(MusicXML("dot")), duration[["dot"]])
