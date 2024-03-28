@@ -48,3 +48,34 @@ get_actual_normal_pairs <- function(tuplet) {
 
   pairs
 }
+
+
+#' @description `<normal-type>` and `<normal-dot>` elements represent
+#' the deepest unit of a tuplet.
+#'
+#' @noRd
+to_MusicXML_time_modification <- function(actual_normal_pairs, last_unit) {
+  musicxml_actual_notes <- MusicXML(
+    "actual-notes",
+    prod(sapply(actual_normal_pairs, function(pair) pair[["actual"]]))
+  )
+
+  musicxml_normal_notes <- MusicXML(
+    "normal-notes",
+    prod(sapply(actual_normal_pairs, function(pair) pair[["normal"]]))
+  )
+
+  musicxml_normal_type <- MusicXML("normal-type", last_unit[["type"]])
+
+  musicxml_normal_dots <- rep(
+    list(MusicXML("normal-dot")),
+    last_unit[["dot"]]
+  )
+
+  contents <- c(
+    list(musicxml_actual_notes, musicxml_normal_notes, musicxml_normal_type),
+    musicxml_normal_dots
+  )
+
+  MusicXML("time-modification", contents)
+}
