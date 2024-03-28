@@ -79,3 +79,10 @@ to_MusicXML_time_modification <- function(actual_normal_pairs, last_unit) {
 
   MusicXML("time-modification", contents)
 }
+
+
+to_MusicXML_tuplet_stop <- function(tuplet_stop) {
+  lapply(tuplet_stop, function(number) {
+    MusicXML("tuplet", attributes = list(type = "stop", number = number))
+  })
+}
