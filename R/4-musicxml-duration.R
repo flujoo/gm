@@ -81,6 +81,38 @@ to_MusicXML_time_modification <- function(actual_normal_pairs, last_unit) {
 }
 
 
+to_MusicXML_tuplet_start <- function(
+    tuplet_start,
+    ratios,
+    actual_normal_pairs) {
+
+  lapply(tuplet_start, function(number) {
+    pair <- actual_normal_pairs[[number]]
+    ratio <- ratios[[number]]
+    take <- ratio[["take"]]
+    unit <- ratio[["unit"]]
+
+    musicxml_tuplet_actual <- MusicXML("tuplet-actual", c(
+      list(MusicXML("tuplet-number", pair[["actual"]])),
+      list(MusicXML("tuplet-type", take[["type"]])),
+      rep(list(MusicXML("tuplet-dot")), take[["dot"]])
+    ))
+
+    musicxml_tuplet_normal <- MusicXML("tuplet-normal", c(
+      list(MusicXML("tuplet-number", pair[["normal"]])),
+      list(MusicXML("tuplet-type", unit[["type"]])),
+      rep(list(MusicXML("tuplet-dot")), unit[["dot"]])
+    ))
+
+    MusicXML(
+      "tuplet",
+      list(musicxml_tuplet_actual, musicxml_tuplet_normal),
+      list(type = "start", number = number, bracket = "yes")
+    )
+  })
+}
+
+
 to_MusicXML_tuplet_stop <- function(tuplet_stop) {
   lapply(tuplet_stop, function(number) {
     MusicXML("tuplet", attributes = list(type = "stop", number = number))
