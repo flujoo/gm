@@ -18,7 +18,7 @@ fill_line <- function(line, i, lines, meters) {
     FALSE
 
   } else {
-    line_before <- line[i - 1, ]
+    line_before <- lines[i - 1, ]
 
     location_before <- c(
       line_before[["part"]], line_before[["staff"]], line_before[["voice"]]
@@ -47,7 +47,7 @@ fill_line <- function(line, i, lines, meters) {
     FALSE
 
   } else {
-    line_after <- line[i + 1, ]
+    line_after <- lines[i + 1, ]
 
     location_after <- c(
       line_after[["part"]], line_after[["staff"]], line_after[["voice"]]
