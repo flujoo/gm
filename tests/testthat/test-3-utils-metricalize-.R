@@ -1,3 +1,36 @@
+test_that("metricalization works", {
+  music <-
+    Music() +
+    Meter(3, 4) +
+    Line(80) +
+    Line(90, bar = 2, as = "segment") +
+    Line(100, as = "voice")
+
+  notes <- music[["notes"]]
+  lines <- music[["lines"]]
+  meters <- music[["meters"]]
+
+  notes <- indicate_graces(notes, music[["graces"]])
+  notes <- delimit_notes(notes, lines, meters)
+  lines <- delimit_lines(lines, notes)
+  notes <- group_tuplets(notes)
+  notes <- indicate_tuplets(notes)
+  lines <- sort_lines(lines)
+  notes <- metricalize(notes, lines, meters)
+
+  out <- notes[, c("start_bar", "start_offset", "end_bar", "end_offset")]
+
+  expected <- data_frame(
+    start_bar = as.integer(c(1, 1, 2, 2, 1)),
+    start_offset = c(0, 1, 0, 1, 0),
+    end_bar = as.integer(c(1, 1, 2, 2, 1)),
+    end_offset = c(1, 3, 1, 3, 1)
+  )
+
+  expect_identical(out, expected)
+})
+
+
 test_that("chord metricalization works", {
   music <-
     Music() +
