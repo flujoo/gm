@@ -1,17 +1,54 @@
+#' @returns A list of two components:
+#'
+#' - `duration` is a list of `<type>`, `<dot>`, and `<time-modification>`
+#' elements.
+#'
+#' - `tuplet` is a list of `<tuplet>` elements.
+#'
 #' @keywords internal
 #' @export
 to_MusicXML.Duration <- function(x, ...) {
   depth <- length(x[["ratios"]])
+
+  # Non-tuplet
   if (depth == 0) return(to_MusicXML_non_tuplet(x))
 
   tuplet <- complete_tuplet(x)
   ratios <- tuplet[["ratios"]]
 
-  last_take <- ratios[[depth]][["take"]]
+  last <- ratios[[depth]]
+  last_take <- last[["take"]]
+  last_unit <- last[["unit"]]
+
   musicxml_type <- MusicXML("type", last_take[["type"]])
   musicxml_dots <- rep(list(MusicXML("dot")), last_take[["dot"]])
 
   actual_normal_pairs <- get_actual_normal_pairs(tuplet)
+
+  musicxml_time_modification <- to_MusicXML_time_modification(
+    actual_normal_pairs,
+    last_unit
+  )
+
+  musicxml_duration <- c(
+    list(musicxml_type),
+    musicxml_dots,
+    list(musicxml_time_modification)
+  )
+
+  musicxml_tuplet_start <- to_MusicXML_tuplet_start(
+    tuplet[["tuplet_start"]],
+    ratios,
+    actual_normal_pairs
+  )
+
+  musicxml_tuplet_stop <- to_MusicXML_tuplet_stop(tuplet[["tuplet_stop"]])
+  musicxml_tuplet <- c(musicxml_tuplet_start, musicxml_tuplet_stop)
+
+  list(
+    duration = musicxml_duration,
+    tuplet = musicxml_tuplet
+  )
 }
 
 
