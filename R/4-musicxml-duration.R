@@ -3,7 +3,8 @@
 #' - `duration` is a list of `<type>`, `<dot>`, and `<time-modification>`
 #' elements.
 #'
-#' - `tuplet` is a list of `<tuplet>` elements.
+#' - `tuplet` is a list of `<tuplet>` elements. `tuplet_start` and
+#' `tuplet_stop` are already added.
 #'
 #' @keywords internal
 #' @export
