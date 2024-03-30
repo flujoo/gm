@@ -38,12 +38,12 @@ to_MusicXML.Duration <- function(x, ...) {
   )
 
   musicxml_tuplet_start <- to_MusicXML_tuplet_start(
-    tuplet[["tuplet_start"]],
+    tuplet[["tuplet_start"]][[1]],
     ratios,
     actual_normal_pairs
   )
 
-  musicxml_tuplet_stop <- to_MusicXML_tuplet_stop(tuplet[["tuplet_stop"]])
+  musicxml_tuplet_stop <- to_MusicXML_tuplet_stop(tuplet[["tuplet_stop"]][[1]])
   musicxml_tuplet <- c(musicxml_tuplet_start, musicxml_tuplet_stop)
 
   list(
