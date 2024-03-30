@@ -38,7 +38,8 @@ round_offset <- function(bar, offset, meters, up = TRUE) {
 
     # For tuplets, there can be very small differences which prevent
     # offsets from being rounded up.
-    # https://stackoverflow.com/questions/9508518/
+    # Try the example in test-3-utils-tuplet-indicate.R
+    # See https://stackoverflow.com/questions/9508518/
     # why-are-these-numbers-not-equal
     if (isTRUE(all.equal(offset, value))) {
       if (up) {
