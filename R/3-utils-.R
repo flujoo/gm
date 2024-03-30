@@ -47,3 +47,21 @@ sort_chord <- function(chord) {
   if (all(chord[["grace"]])) return(chord)
   chord[order(chord[["start_bar"]], chord[["start_offset"]]), ]
 }
+
+
+indicate_locations <- function(notes, lines) {
+  lines[["voice"]] <- (lines[["staff"]] - 1) * 4 + lines[["voice"]]
+
+  notes <- merge(
+    notes,
+    lines[, c("line", "part", "staff", "voice")],
+    by = "line",
+    all.x = TRUE
+  )
+
+  if (requireNamespace("tibble", quietly = TRUE)) {
+    notes <- tibble::as_tibble(notes)
+  }
+
+  notes
+}

@@ -30,7 +30,7 @@ prepare <- function(music) {
   notes <- infer_durations(notes)
 
   notes <- indicate_ties(notes, music[["ties"]])
-
+  notes <- indicate_locations(notes, lines)
   class(notes) <- c("Note", class(notes))
 
   music[["notes"]] <- notes
