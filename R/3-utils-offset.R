@@ -34,9 +34,25 @@ round_offset <- function(bar, offset, meters, up = TRUE) {
     # Find the Meter for the current bar
     k <- find_by_bar(bar, bars)
     meter <- meters[k, ]
-
     value <- to_value(meter)
-    if ((up && offset < value) || (!up && offset <= value)) break
+
+    # For tuplets, there can be very small differences which prevent
+    # offsets from being rounded up.
+    # https://stackoverflow.com/questions/9508518/
+    # why-are-these-numbers-not-equal
+    if (isTRUE(all.equal(offset, value))) {
+      if (up) {
+        bar <- bar + 1L
+        offset <- 0
+
+      } else {
+        offset <- value
+      }
+
+      break
+    }
+
+    if (offset < value) break
 
     bar <- bar + 1L
     offset <- offset - value
