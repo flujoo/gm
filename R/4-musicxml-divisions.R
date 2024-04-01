@@ -15,3 +15,6 @@ to_fraction_type <- function(type) {
 }
 
 
+to_fraction_dot <- function(dot) {
+  c(2^(dot + 1) - 1, 2^dot)
+}
