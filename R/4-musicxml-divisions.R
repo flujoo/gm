@@ -1,3 +1,8 @@
+to_fraction_base <- function(base) {
+  to_fraction_type(base[["type"]]) * to_fraction_dot(base[["dot"]])
+}
+
+
 to_fraction_type <- function(type) {
   k <- which(type == duration_types[["name"]])
   value <- duration_types[["value"]][k]
