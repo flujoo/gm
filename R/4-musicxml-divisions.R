@@ -1,3 +1,14 @@
+to_fraction <- function(duration) {
+  fraction <- to_fraction_base(duration) * Reduce(
+    `*`,
+    lapply(duration[["ratios"]], to_fraction_ratio),
+    c(1, 1)
+  )
+
+  fraction / get_greatest_common_divisor(fraction[1], fraction[2])
+}
+
+
 to_fraction_ratio <- function(ratio) {
   to_fraction_base(ratio[["take"]]) *
     rev(to_fraction_base(ratio[["unit"]])) *
