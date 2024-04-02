@@ -1,3 +1,10 @@
+get_divisions <- function(durations) {
+  fractions <- lapply(durations, to_fraction)
+  denominators <- sapply(fractions, function(fraction) fraction[2])
+  Reduce(get_lowest_common_multiple, denominators)
+}
+
+
 to_fraction <- function(notation) {
   duration <- to_Duration(notation)
   duration <- complete_tuplet(duration)
