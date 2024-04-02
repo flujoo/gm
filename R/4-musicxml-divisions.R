@@ -1,3 +1,10 @@
+to_fraction_ratio <- function(ratio) {
+  to_fraction_base(ratio[["take"]]) *
+    rev(to_fraction_base(ratio[["unit"]])) *
+    c(1, ratio[["n"]])
+}
+
+
 to_fraction_base <- function(base) {
   to_fraction_type(base[["type"]]) * to_fraction_dot(base[["dot"]])
 }
