@@ -1,4 +1,7 @@
-to_fraction <- function(duration) {
+to_fraction <- function(notation) {
+  duration <- to_Duration(notation)
+  duration <- complete_tuplet(duration)
+
   fraction <- to_fraction_base(duration) * Reduce(
     `*`,
     lapply(duration[["ratios"]], to_fraction_ratio),
