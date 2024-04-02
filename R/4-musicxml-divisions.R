@@ -42,6 +42,11 @@ to_fraction_dot <- function(dot) {
 }
 
 
+get_lowest_common_multiple <- function(a, b) {
+  a * b / get_greatest_common_divisor(a, b)
+}
+
+
 get_greatest_common_divisor <- function(a, b) {
   while (b != 0) {
     x <- a
