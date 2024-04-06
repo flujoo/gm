@@ -44,7 +44,9 @@ to_MusicXML.Note <- function(x, divisions, ...) {
   notations <- c(notations, .[["tuplet"]])
 
   contents <- c(contents, list(MusicXML("staff", x[["staff"]])))
-
   contents <- c(contents, list(MusicXML("notations", notations)))
-  MusicXML("note", contents)
+
+  musicxml <- MusicXML("note", contents)
+  for (name in c("line", "i", "j")) musicxml[[name]] <- x[[name]]
+  musicxml
 }
