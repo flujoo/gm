@@ -36,7 +36,8 @@ to_MusicXML.Note <- function(x, divisions, ...) {
   contents <- c(contents, list(MusicXML("voice", x[["voice"]])))
 
   for (type in c("start", "stop")) {
-    duration[[paste0("tuplet_", type)]] <- x[[paste0("tuplet_", type)]]
+    name <- paste0("tuplet_", type)
+    duration[[name]] <- x[[name]]
   }
 
   . <- to_MusicXML(duration)
@@ -45,8 +46,10 @@ to_MusicXML.Note <- function(x, divisions, ...) {
 
   contents <- c(contents, list(MusicXML("staff", x[["staff"]])))
   contents <- c(contents, list(MusicXML("notations", notations)))
-
   musicxml <- MusicXML("note", contents)
+
+  # Retain indices for inserting components
   for (name in c("line", "i", "j")) musicxml[[name]] <- x[[name]]
+
   musicxml
 }
