@@ -16,6 +16,7 @@ test_that("tie indication works", {
   notes <- indicate_tuplets(notes)
   lines <- sort_lines(lines)
   notes <- metricalize(notes, lines, meters)
+  notes <- indicate_measure_rests(notes, meters)
   notes <- atomize_notes(notes)
   notes <- indicate_ties(notes, music[["ties"]])
 

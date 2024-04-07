@@ -1,7 +1,26 @@
+indicate_measure_rests <- function(notes, meters) {
+  notes[["rest"]] <- FALSE
+  bars <- meters[["bar"]]
+
+  for (k in seq_len(NROW(notes))) {
+    note <- notes[k, ]
+    if (!is.na(note[["midi"]])) next
+
+    # Find the Meter for the current bar
+    meter <- meters[find_by_bar(note[["start_bar"]], bars), ]
+    value <- to_value(meter)
+
+    if (note[["length"]] == value) notes[k, ][["rest"]] <- TRUE
+  }
+
+  notes
+}
+
+
 infer_durations <- function(notes) {
   for (k in seq_len(NROW(notes))) {
     note <- notes[k, ]
-    if (!is.na(note[["duration"]])) next
+    if (note[["rest"]] || !is.na(note[["duration"]])) next
 
     durations <- duration_types[["name"]]
     values <- duration_types[["value"]]
@@ -54,7 +73,12 @@ atomize_notes <- function(notes) {
 
 
 atomize_note <- function(note) {
-  if (note[["grace"]] || !is.na(note[["duration"]])) return(note)
+  to_skip <-
+    note[["grace"]] ||
+    note[["rest"]] ||
+    !is.na(note[["duration"]])
+
+  if (to_skip) return(note)
 
   values <- atomize_duration_value(note[["length"]])
   n <- length(values)

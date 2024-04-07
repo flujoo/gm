@@ -11,6 +11,7 @@ test_that("untying notes works", {
 
   notes <- indicate_graces(notes, music[["graces"]])
   notes <- delimit_notes(notes, lines, meters)
+  notes <- indicate_measure_rests(notes, meters)
   notes <- atomize_notes(notes)
 
   out <- notes[["length"]]
