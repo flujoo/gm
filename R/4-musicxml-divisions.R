@@ -1,3 +1,8 @@
+#' Infer Value in `<divisions>` Element
+#'
+#' @param meters For measure rests.
+#'
+#' @noRd
 infer_divisions <- function(notes, meters) {
   durations <- notes[!notes[["rest"]], ][["duration"]]
   durations <- lapply(durations, to_Duration)
