@@ -83,6 +83,10 @@
 #' to_MusicXML.Duration
 #' to_MusicXML.Note
 #'
+#' to_fraction
+#' to_fraction.Meter
+#' to_fraction.Duration
+#'
 #' print.Pitch
 #' print.Duration
 #' print.MusicXML
