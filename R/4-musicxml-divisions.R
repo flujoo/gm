@@ -1,4 +1,4 @@
-get_divisions <- function(notes, meters) {
+infer_divisions <- function(notes, meters) {
   durations <- notes[!notes[["rest"]], ][["duration"]]
   durations <- lapply(durations, to_Duration)
   durations <- lapply(durations, complete_tuplet)
