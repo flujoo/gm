@@ -5,13 +5,20 @@ get_divisions <- function(durations) {
 }
 
 
-to_fraction <- function(notation) {
-  duration <- to_Duration(notation)
-  duration <- complete_tuplet(duration)
+#' @keywords internal
+#' @export
+to_fraction <- function(x) {
+  UseMethod("to_fraction")
+}
 
-  fraction <- to_fraction_base(duration) * Reduce(
+
+
+#' @keywords internal
+#' @export
+to_fraction.Duration <- function(x) {
+  fraction <- to_fraction_base(x) * Reduce(
     `*`,
-    lapply(duration[["ratios"]], to_fraction_ratio),
+    lapply(x[["ratios"]], to_fraction_ratio),
     c(1, 1)
   )
 
