@@ -12,6 +12,14 @@ to_fraction <- function(x) {
 }
 
 
+#' @keywords internal
+#' @export
+to_fraction.Meter <- function(x) {
+  k <- log2(x[["actual_unit"]]) + 4
+  type <- duration_types[["name"]][k]
+  to_fraction_type(type)
+}
+
 
 #' @keywords internal
 #' @export
