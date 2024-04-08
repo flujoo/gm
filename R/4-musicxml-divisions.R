@@ -1,5 +1,13 @@
-get_divisions <- function(durations) {
-  fractions <- lapply(durations, to_fraction)
+get_divisions <- function(notes, meters) {
+  durations <- notes[!notes[["rest"]], ][["duration"]]
+  durations <- lapply(durations, to_Duration)
+  durations <- lapply(durations, complete_tuplet)
+
+  fractions <- c(
+    lapply(durations, to_fraction),
+    lapply(seq_len(NROW(meters)), function(i) to_fraction(meters[i, ]))
+  )
+
   denominators <- sapply(fractions, function(fraction) fraction[2])
   Reduce(get_lowest_common_multiple, denominators)
 }
