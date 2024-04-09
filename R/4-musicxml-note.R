@@ -1,55 +1,98 @@
 #' @keywords internal
 #' @export
 to_MusicXML.Note <- function(x, divisions, ...) {
-  notations <- list()
-  contents <- list()
+  contents_notations <- list()
+  contents_note <- list()
+
+  measure_rest <- x[["measure_rest"]]
+
+
+  # <grace> ----------------------------------------------------
 
   if (x[["grace"]]) {
-    contents <- c(contents, list(
-      MusicXML("grace", attributes = list(slash = "yes"))
-    ))
+    musicxml_grace <- MusicXML("grace", attributes = list(slash = "yes"))
+    contents_note <- c(contents_note, list(musicxml_grace))
   }
 
+
+  # <chord> ----------------------------------------------------
+
   j <- x[["j"]]
-  if (!is.na(j) && j > 1) contents <- c(contents, list(MusicXML("chord")))
 
-  contents <- c(contents, list(to_MusicXML(to_Pitch(x[["pitch"]]))))
+  if (!is.na(j) && j > 1) {
+    musicxml_chord <- MusicXML("chord")
+    contents_note <- c(contents_note, list(musicxml_chord))
+  }
 
-  duration <- to_Duration(x[["duration"]])
 
-  contents <- c(contents, list(
-    MusicXML("duration", divisions * to_value(duration))
-  ))
+  # <pitch> ----------------------------------------------------
+
+  pitch <- to_Pitch(x[["pitch"]])
+  musicxml_pitch <- to_MusicXML(pitch, measure_rest)
+  contents_note <- c(contents_note, list(musicxml_pitch))
+
+
+  # <duration> -------------------------------------------------
+
+  musicxml_duration <- MusicXML("duration", divisions * x[["length"]])
+  contents_note <- c(contents_note, list(musicxml_duration))
+
+
+  # <tie> and <tied> -------------------------------------------
 
   for (type in c("start", "stop")) {
     if (x[[paste0("tie_", type)]]) {
-      contents <- c(contents, list(
-        MusicXML("tie", attributes = list(type = type))
-      ))
+      musicxml_tie <- MusicXML("tie", attributes = list(type = type))
+      contents_note <- c(contents_note, list(musicxml_tie))
 
-      notations <- c(notations, list(
-        MusicXML("tied", attributes = list(type = type))
-      ))
+      musicxml_tied <- MusicXML("tied", attributes = list(type = type))
+      contents_notations <- c(contents_notations, list(musicxml_tied))
     }
   }
 
-  contents <- c(contents, list(MusicXML("voice", x[["voice"]])))
 
-  for (type in c("start", "stop")) {
-    name <- paste0("tuplet_", type)
-    duration[[name]] <- x[[name]]
+  # <voice> ----------------------------------------------------
+
+  musicxml_voice <- MusicXML("voice", x[["voice"]])
+  contents_note <- c(contents_note, list(musicxml_voice))
+
+
+  # <type>, <dot>, <time-modification>, and <tuplet> -----------
+
+  if (!measure_rest) {
+    duration <- to_Duration(x[["duration"]])
+
+    for (type in c("start", "stop")) {
+      name <- paste0("tuplet_", type)
+      duration[[name]] <- x[[name]]
+    }
+
+    . <- to_MusicXML(duration)
+    contents_note <- c(contents_note, .[["duration"]])
+    contents_notations <- c(contents_notations, .[["tuplet"]])
   }
 
-  . <- to_MusicXML(duration)
-  contents <- c(contents, .[["duration"]])
-  notations <- c(notations, .[["tuplet"]])
 
-  contents <- c(contents, list(MusicXML("staff", x[["staff"]])))
-  contents <- c(contents, list(MusicXML("notations", notations)))
-  musicxml <- MusicXML("note", contents)
+  # <staff> ----------------------------------------------------
+
+  musicxml_staff <- MusicXML("staff", x[["staff"]])
+  contents_note <- c(contents_note, list(musicxml_staff))
+
+
+  # <notations> ------------------------------------------------
+
+  if (length(contents_notations) != 0) {
+    musicxml_notations <- MusicXML("notations", contents_notations)
+    contents_note <- c(contents_note, list(musicxml_notations))
+  }
+
+
+  # <note> -----------------------------------------------------
+
+  musicxml_note <- MusicXML("note", contents_note)
 
   # Retain indices for inserting components
-  for (name in c("line", "i", "j")) musicxml[[name]] <- x[[name]]
+  for (index in c("line", "i", "j")) musicxml_note[[index]] <- x[[index]]
 
-  musicxml
+  musicxml_note
 }
