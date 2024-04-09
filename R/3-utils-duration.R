@@ -1,5 +1,5 @@
 indicate_measure_rests <- function(notes, meters) {
-  notes[["rest"]] <- FALSE
+  notes[["measure_rest"]] <- FALSE
   bars <- meters[["bar"]]
 
   for (k in seq_len(NROW(notes))) {
@@ -10,7 +10,7 @@ indicate_measure_rests <- function(notes, meters) {
     meter <- meters[find_by_bar(note[["start_bar"]], bars), ]
     value <- to_value(meter)
 
-    if (note[["length"]] == value) notes[k, ][["rest"]] <- TRUE
+    if (note[["length"]] == value) notes[k, ][["measure_rest"]] <- TRUE
   }
 
   notes
@@ -20,7 +20,7 @@ indicate_measure_rests <- function(notes, meters) {
 infer_durations <- function(notes) {
   for (k in seq_len(NROW(notes))) {
     note <- notes[k, ]
-    if (note[["rest"]] || !is.na(note[["duration"]])) next
+    if (note[["measure_rest"]] || !is.na(note[["duration"]])) next
 
     durations <- duration_types[["name"]]
     values <- duration_types[["value"]]
@@ -75,7 +75,7 @@ atomize_notes <- function(notes) {
 atomize_note <- function(note) {
   to_skip <-
     note[["grace"]] ||
-    note[["rest"]] ||
+    note[["measure_rest"]] ||
     !is.na(note[["duration"]])
 
   if (to_skip) return(note)

@@ -4,7 +4,7 @@
 #'
 #' @noRd
 infer_divisions <- function(notes, meters) {
-  durations <- notes[!notes[["rest"]], ][["duration"]]
+  durations <- notes[!notes[["measure_rest"]], ][["duration"]]
   durations <- lapply(durations, to_Duration)
   durations <- lapply(durations, complete_tuplet)
 
