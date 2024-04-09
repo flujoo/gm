@@ -1,18 +1,24 @@
 #' @keywords internal
 #' @export
-to_MusicXML.Pitch <- function(x, ...) {
-  if (!is.list(x)) return(MusicXML("rest"))
+to_MusicXML.Pitch <- function(x, measure_rest, ...) {
+  if (measure_rest) {
+    MusicXML("rest", attributes = list(measure = "yes"))
 
-  contents <- list(
-    MusicXML("step", x[["step"]]),
-    MusicXML("octave", x[["octave"]])
-  )
+  } else if (!is.list(x)) {
+    MusicXML("rest")
 
-  alter <- x[["alter"]]
+  } else {
+    contents <- list(
+      MusicXML("step", x[["step"]]),
+      MusicXML("octave", x[["octave"]])
+    )
 
-  if (alter != 0) {
-    contents <- append(contents, list(MusicXML("alter", alter)), 1)
+    alter <- x[["alter"]]
+
+    if (alter != 0) {
+      contents <- append(contents, list(MusicXML("alter", alter)), 1)
+    }
+
+    MusicXML("pitch", contents)
   }
-
-  MusicXML("pitch", contents)
 }
