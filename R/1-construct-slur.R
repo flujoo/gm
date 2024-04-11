@@ -10,7 +10,7 @@
 #' if the start and end positions are in different musical lines.
 #'
 #' @param above Optional. A single logical, which indicates whether the
-#' slur should appear above or below the staff. Be default, the position
+#' slur should appear above or below the staff. By default, the position
 #' is decided by MuseScore.
 #'
 #' @returns A list of class `Slur`.
