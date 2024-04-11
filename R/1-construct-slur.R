@@ -1,4 +1,37 @@
+#' Create `Slur` Object
+#'
+#' Create a `Slur` object to represent a slur.
+#'
+#' @param i,j A single positive integer. They indicate the start
+#' and end positions of the slur.
+#'
+#' @param to,to_j Optional. A single character or a single positive integer,
+#' which indicates the musical line where to add the slur. Specify `to_j`
+#' if the start and end positions are in different musical lines.
+#'
+#' @param above Optional. A single logical, which indicates whether the
+#' slur should appear above or below the staff. Be default, the position
+#' is decided by MuseScore.
+#'
+#' @returns A list of class `Slur`.
+#'
+#' @seealso [gm::+.Music()] for adding a slur to a `Music` object.
+#'
 #' @export
+#'
+#' @examples
+#' # Create a slur
+#' slur <- Slur(1, 3)
+#' slur
+#'
+#' # Add it to a `Music`
+#' music <- Music() + Line(c("C4", "D4", "E4")) + slur
+#' music
+#'
+#' # Generate the music score
+#' if (interactive()) {
+#'   show(music)
+#' }
 Slur <- function(i, j, to = NULL, to_j = NULL, above = NULL) {
   # Validation
   erify::check_n(i)
