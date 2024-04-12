@@ -34,6 +34,8 @@
 #' add.Breath
 #' add.Pedal
 #' add.Slur
+#' add.Stem
+#' add.Tempo
 #'
 #' locate
 #' locate.Accidental
@@ -51,6 +53,8 @@
 #' locate.Tie
 #' locate.Breath
 #' locate.Slur
+#' locate.Stem
+#' locate.Tempo
 #'
 #' check_add_to
 #' check_add_to.default
