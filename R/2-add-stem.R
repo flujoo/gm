@@ -1,23 +1,23 @@
 #' @keywords internal
 #' @export
 add.Stem <- function(object, music) {
-  to <- object$to
-  i <- object$i
-  lines <- music$lines
-  notes <- music$notes
+  to <- object[["to"]]
+  i <- object[["i"]]
+  lines <- music[["lines"]]
+  notes <- music[["notes"]]
 
-  # validation
+  # Validation
   check_add_to(to, lines, object)
   line <- normalize_to(to, lines)
   check_i(i, line, notes)
   check_i_rest(object, line, notes)
 
-  # normalization
+  # Normalization
   names(object)[names(object) == "to"] <- "line"
-  object$line <- line
+  object[["line"]] <- line
 
-  # construction
-  music$stems <- update_cases(music$stems, object)
+  # Construction
+  music[["stems"]] <- update_cases(music[["stems"]], object)
   music
 }
 
@@ -25,5 +25,5 @@ add.Stem <- function(object, music) {
 #' @keywords internal
 #' @export
 locate.Stem <- function(object, ...) {
-  c(object$line, object$i)
+  c(object[["line"]], object[["i"]])
 }

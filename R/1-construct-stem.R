@@ -1,24 +1,25 @@
 #' @export
 Stem <- function(direction, i, to = NULL) {
-  # validation
+  # Validation
   erify::check_content(direction, c("down", "up", "double", "none"))
-  check_to(to)
   erify::check_n(i)
+  check_to(to)
 
-  # normalization
+  # Normalization
   i <- as.integer(i)
 
-  # construction
-  stem <- list(to = to, i = i, direction = direction)
-  class(stem) <- "Stem"
-  stem
+  # Construction
+  structure(
+    list(to = to, i = i, direction = direction),
+    class = "Stem"
+  )
 }
 
 
 #' @export
 print.Stem <- function(x, ...) {
   s_direction <- switch(
-    x$direction,
+    x[["direction"]],
     "down" = "Downward",
     "up" = "Upward",
     "double" = "Double",
@@ -26,5 +27,5 @@ print.Stem <- function(x, ...) {
   )
 
   cat(s_direction, "Stem", "\n\n")
-  print_to_i_j(x$to, x$i)
+  print_to_i_j(x[["to"]], x[["i"]])
 }
