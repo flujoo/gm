@@ -104,7 +104,7 @@ print.Tempo <- function(x, ...) {
   if (enter) cat("\n")
 
   if (is.na(unit) && !is.na(marking)) {
-    cat("*", tempo, "quarter notes per minute")
+    cat("*", tempo, "quarter notes per minute", "\n")
   }
 
   print_bar_offset(bar, offset)
