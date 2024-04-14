@@ -86,6 +86,7 @@
 #' to_MusicXML.Breath
 #' to_MusicXML.Duration
 #' to_MusicXML.Note
+#' to_MusicXML.Tempo
 #'
 #' to_fraction
 #' to_fraction.Meter
