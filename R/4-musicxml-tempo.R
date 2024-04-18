@@ -104,3 +104,29 @@ parse_tempo_marking <- function(marking, tempo) {
     bracket = bracket
   )
 }
+
+
+to_MusicXML_metronome <- function(left, right, bracket) {
+  musicxml_left <- c(
+    list(MusicXML("beat-unit", left[["type"]])),
+    rep(list(MusicXML("beat-unit-dot")), left[["dot"]])
+  )
+
+  musicxml_right <- if (inherits(right, "Duration")) {
+    c(
+      list(MusicXML("beat-unit", right[["type"]])),
+      rep(list(MusicXML("beat-unit-dot")), right[["dot"]])
+    )
+
+  } else {
+    list(MusicXML("per-minute", right))
+  }
+
+  contents <- c(musicxml_left, musicxml_right)
+  bracket <- if (bracket) "yes" else "no"
+
+  MusicXML(
+    "direction-type",
+    MusicXML("metronome", contents, list(parentheses = bracket))
+  )
+}
