@@ -73,13 +73,8 @@ parse_tempo_marking <- function(marking, tempo) {
   metronome <- regmatches(marking, .)
   before <- regmatches(marking, ., TRUE)[[1]][1]
 
-  before <- if (trimws(before) == "") {
-    NULL
-
-  } else {
-    # Remove only the first whitespace on the right
-    gsub(" $", "", before)
-  }
+  # Remove only the first whitespace on the right
+  before <- if (before == "") NULL else gsub(" $", "", before)
 
   pattern_braket <- paste0("^\\(", "|", "\\)$")
   bracket <- grepl(pattern_braket, metronome)
