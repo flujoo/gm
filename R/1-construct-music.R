@@ -22,10 +22,11 @@ print.Music <- function(x, ...) {
   if (length(x) == 0) return(invisible())
   cat("\n")
 
-  if (requireNamespace("tibble", quietly = TRUE)) {
-    cs <- class(tibble::tibble())
+  cs <- if (requireNamespace("tibble", quietly = TRUE)) {
+    class(tibble::tibble())
+
   } else {
-    cs <- class(data.frame())
+    class(data.frame())
   }
 
   # Show components as data frames
