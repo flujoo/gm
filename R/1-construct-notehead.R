@@ -37,7 +37,7 @@
 #' notehead
 #'
 #' # Add it to a `Music`
-#' music <- Music() + Line(c("C4", "D4")) + notehead
+#' music <- Music() + Meter(4, 4) + Line(c("C4", "D4")) + notehead
 #' music
 #'
 #' # Generate the music score

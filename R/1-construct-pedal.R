@@ -20,7 +20,7 @@
 #' pedal
 #'
 #' # Add it to a `Music`
-#' music <- Music() + Line(c("C4", "D4", "E4")) + pedal
+#' music <- Music() + Meter(4, 4) + Line(c("C4", "D4", "E4")) + pedal
 #' music
 #'
 #' # Generate the music score

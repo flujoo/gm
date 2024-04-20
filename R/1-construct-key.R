@@ -33,6 +33,7 @@
 #' # Add it only to some part of a `Music`
 #' music <-
 #'   Music() +
+#'   Meter(4, 4) +
 #'   Line(c("C4", "D4")) +
 #'   Line("G3") +
 #'   g

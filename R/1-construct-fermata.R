@@ -33,7 +33,7 @@
 #' fermata
 #'
 #' # Add it to a `Music`
-#' music <- Music() + Line(c("C4", "D4")) + fermata
+#' music <- Music() + Meter(4, 4) + Line(c("C4", "D4")) + fermata
 #' music
 #'
 #' # Generate the music score

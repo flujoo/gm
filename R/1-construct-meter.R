@@ -33,12 +33,11 @@
 #' meter <- Meter(3, 4)
 #'
 #' # Add it to a `Music`
-#' music <- Music() + meter
+#' music <- Music() + Line(c("C4", "D4", "E4")) + meter
 #' music
 #'
-#' # Add a musical line and show the `Music`
+#' # Generate the music score
 #' if (interactive()) {
-#'   music <- music + Line(c("C4", "D4", "E4"))
 #'   show(music)
 #' }
 Meter <- function(

@@ -64,7 +64,7 @@
 #' line
 #'
 #' # Add it to a music
-#' music <- Music() + line
+#' music <- Music() + Meter(4, 4) + line
 #' music
 #'
 #' # Generate the music score
