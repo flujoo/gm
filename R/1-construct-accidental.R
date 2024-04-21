@@ -23,7 +23,7 @@
 #' @param to Optional. A single character or a single positive integer,
 #' which indicates the musical line where to add the accidental.
 #'
-#' @param bracket Optional. A single logical, which indicate if the
+#' @param bracket Optional. A single logical, which indicates if the
 #' accidental is enclosed in brackets.
 #'
 #' @returns A list of class `Accidental`.
