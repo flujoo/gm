@@ -50,8 +50,6 @@ sort_chord <- function(chord) {
 
 
 indicate_locations <- function(notes, lines) {
-  lines[["voice"]] <- (lines[["staff"]] - 1) * 4 + lines[["voice"]]
-
   notes <- merge(
     notes,
     lines[, c("line", "part", "staff", "voice")],

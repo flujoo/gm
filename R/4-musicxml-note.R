@@ -5,6 +5,8 @@ to_MusicXML.Note <- function(x, divisions, ...) {
   contents_note <- list()
 
   measure_rest <- x[["measure_rest"]]
+  voice <- x[["voice"]]
+  staff <- x[["staff"]]
 
 
   # <grace> ----------------------------------------------------
@@ -53,7 +55,8 @@ to_MusicXML.Note <- function(x, divisions, ...) {
 
   # <voice> ----------------------------------------------------
 
-  musicxml_voice <- MusicXML("voice", x[["voice"]])
+  voice <- (staff - 1) * 4 + voice
+  musicxml_voice <- MusicXML("voice", voice)
   contents_note <- c(contents_note, list(musicxml_voice))
 
 
@@ -75,7 +78,7 @@ to_MusicXML.Note <- function(x, divisions, ...) {
 
   # <staff> ----------------------------------------------------
 
-  musicxml_staff <- MusicXML("staff", x[["staff"]])
+  musicxml_staff <- MusicXML("staff", staff)
   contents_note <- c(contents_note, list(musicxml_staff))
 
 
