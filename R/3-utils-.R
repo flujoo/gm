@@ -56,7 +56,8 @@ indicate_locations <- function(notes, lines) {
     notes,
     lines[, c("line", "part", "staff", "voice")],
     by = "line",
-    all.x = TRUE
+    all.x = TRUE,
+    sort = FALSE
   )
 
   if (requireNamespace("tibble", quietly = TRUE)) {
