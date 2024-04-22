@@ -39,13 +39,13 @@ to_fragments <- function(musicxml) {
   contents <- musicxml[["contents"]]
   attributes <- musicxml[["attributes"]]
 
-  attributes <- if (is.null(attributes)) {
+  attributes <- if (length(attributes) == 0) {
     ""
   } else {
     paste0(" ", names(attributes), '="', attributes, '"', collapse = "")
   }
 
-  if (is.null(contents)) {
+  if (length(contents) == 0) {
     paste0("<", tag, attributes, "/>")
 
   } else if (is.atomic(contents)) {
