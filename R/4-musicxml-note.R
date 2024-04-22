@@ -3,6 +3,7 @@
 to_MusicXML.Note <- function(x, divisions, ...) {
   contents_notations <- list()
   contents_note <- list()
+  attributes <- list()
 
   measure_rest <- x[["measure_rest"]]
   voice <- x[["voice"]]
@@ -90,9 +91,19 @@ to_MusicXML.Note <- function(x, divisions, ...) {
   }
 
 
+  # dynamics ---------------------------------------------------
+
+  velocity <- x[["velocity"]]
+
+  if (!is.na(velocity)) {
+    dynamics <- round(velocity / 90 * 100, 2)
+    attributes[["dynamics"]] <- dynamics
+  }
+
+
   # <note> -----------------------------------------------------
 
-  musicxml_note <- MusicXML("note", contents_note)
+  musicxml_note <- MusicXML("note", contents_note, attributes)
 
   # Retain indices for inserting components
   for (index in c("line", "i", "j")) musicxml_note[[index]] <- x[[index]]
