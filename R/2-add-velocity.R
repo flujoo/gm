@@ -19,6 +19,9 @@ add.Velocity <- function(object, music) {
   names(object)[names(object) == "to"] <- "line"
   object$line <- line
 
+  . <- notes[["line"]] == line & notes[["i"]] == i
+  if (NROW(notes[., ]) == 1) object[["j"]] <- NA_integer_
+
   # Construction
   music$velocities <- update_cases(music$velocities, object)
   music
