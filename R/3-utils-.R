@@ -64,3 +64,34 @@ indicate_locations <- function(notes, lines) {
 
   notes
 }
+
+
+indicate_velocities <- function(notes, velocities) {
+  # For convenience
+  velocities[is.na(velocities)] <- 0L
+  . <- order(velocities[["line"]], velocities[["i"]], decreasing = TRUE)
+  velocities <- velocities[., ]
+
+  lines <- velocities[["line"]]
+  is <- velocities[["i"]]
+  js <- velocities[["j"]]
+
+  notes[["velocity"]] <- NA_integer_
+
+  for (k in seq_len(NROW(notes))) {
+    note <- notes[k, ]
+    if (is.na(note[["midi"]])) next
+
+    is_candidate <-
+      lines %in% c(note[["line"]], 0) &
+      is %in% c(note[["i"]], 0) &
+      js %in% c(note[["j"]], 0)
+
+    if (!any(is_candidate)) next
+
+    velocity <- velocities[is_candidate, ][1, ][["velocity"]]
+    notes[k, "velocity"] <- velocity
+  }
+
+  notes
+}
