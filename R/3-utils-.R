@@ -67,6 +67,9 @@ indicate_locations <- function(notes, lines) {
 
 
 indicate_velocities <- function(notes, velocities) {
+  notes[["velocity"]] <- NA_integer_
+  if (NROW(velocities) == 0) return(notes)
+
   # For convenience
   velocities[is.na(velocities)] <- 0L
   . <- order(velocities[["line"]], velocities[["i"]], decreasing = TRUE)
@@ -75,8 +78,6 @@ indicate_velocities <- function(notes, velocities) {
   lines <- velocities[["line"]]
   is <- velocities[["i"]]
   js <- velocities[["j"]]
-
-  notes[["velocity"]] <- NA_integer_
 
   for (k in seq_len(NROW(notes))) {
     note <- notes[k, ]
