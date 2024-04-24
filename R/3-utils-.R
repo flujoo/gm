@@ -32,14 +32,14 @@ sort_lines <- function(lines) {
   # Add row numbers
   lines[["line"]] <- seq_len(NROW(lines))
 
-  . <- list(
+  . <- order(
     lines[["part"]],
     lines[["staff"]],
     lines[["voice"]],
     lines[["start_bar"]]
   )
 
-  lines[do.call(order, .), ]
+  lines[., ]
 }
 
 
