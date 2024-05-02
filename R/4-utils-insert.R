@@ -1,5 +1,5 @@
 #' @keywords internal
 #' @export
-insert <- function(x, ...) {
+insert <- function(object, target, ...) {
   UseMethod("insert")
 }
