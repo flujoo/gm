@@ -10,15 +10,6 @@ check_empty_music <- function(lines) {
 }
 
 
-indicate_graces <- function(notes, graces) {
-  notes[["grace"]] <-
-    paste(notes[["line"]], notes[["i"]]) %in%
-    paste(graces[["line"]], graces[["i"]])
-
-  notes
-}
-
-
 sort_by_bar <- function(objects, decreasing = TRUE) {
   objects[order(objects[["bar"]], decreasing = decreasing), ]
 }

@@ -1,3 +1,12 @@
+indicate_graces <- function(notes, graces) {
+  notes[["grace"]] <-
+    paste(notes[["line"]], notes[["i"]]) %in%
+    paste(graces[["line"]], graces[["i"]])
+
+  notes
+}
+
+
 #' @description Assign the start positions of the notes where the grace
 #' notes attached to the grace notes, for ease of further processing.
 #'
