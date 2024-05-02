@@ -96,6 +96,8 @@
 #' print.Duration
 #' print.MusicXML
 #'
+#' insert
+#'
 #' @keywords internal
 #' @name gm-internal
 NULL
