@@ -33,6 +33,7 @@ prepare <- function(music) {
   notes <- indicate_ties(notes, music[["ties"]])
   notes <- indicate_locations(notes, lines)
   notes <- indicate_velocities(notes, music[["velocities"]])
+  notes <- locate_graces(notes)
   class(notes) <- c("Note", class(notes))
 
   music[["notes"]] <- notes
