@@ -1,3 +1,22 @@
+to_MusicXML_score <- function(lines, notes, meters) {
+  contents <- list()
+
+  musicxml_part_list <- to_MusicXML_part_list(lines)
+  contents <- c(contents, list(musicxml_part_list))
+
+  divisions <- infer_divisions(notes, meters)
+  part_numbers <- notes[["part"]]
+
+  for (part_number in sort(unique(part_numbers))) {
+    part <- notes[part_numbers == part_number, ]
+    musicxml_part <- to_MusicXML_part(part, divisions)
+    contents <- c(contents, list(musicxml_part))
+  }
+
+  MusicXML("score-partwise", contents)
+}
+
+
 to_MusicXML_part_list <- function(lines) {
   contents <- list()
   part_numbers <- lines[["part"]]
