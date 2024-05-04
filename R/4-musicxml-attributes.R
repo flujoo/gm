@@ -17,11 +17,11 @@ to_MusicXML.Attributes <- function(x, ...) {
 
 #' @keywords internal
 #' @export
-insert.Attributes <- function(object, musicxml_measure, ...) {
+insert.Attributes <- function(object, musicxml_measure, after = 0, ...) {
   musicxml_measure[["contents"]] <- append(
     musicxml_measure[["contents"]],
     list(to_MusicXML(object)),
-    0
+    after
   )
 
   musicxml_measure
