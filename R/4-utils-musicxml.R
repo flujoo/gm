@@ -82,3 +82,10 @@ indent <- function(fragments, tab) {
   # Insert contents between tags
   append(list(fragments[[1]], fragments[[l]]), contents, after = 1)
 }
+
+
+#' @keywords internal
+#' @export
+insert <- function(object, target, ...) {
+  UseMethod("insert")
+}
