@@ -86,6 +86,6 @@ indent <- function(fragments, tab) {
 
 #' @keywords internal
 #' @export
-insert <- function(object, target, ...) {
+insert <- function(object, ...) {
   UseMethod("insert")
 }
