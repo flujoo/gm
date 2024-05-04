@@ -87,6 +87,7 @@
 #' to_MusicXML.Duration
 #' to_MusicXML.Note
 #' to_MusicXML.Tempo
+#' to_MusicXML.Attributes
 #'
 #' to_fraction
 #' to_fraction.Meter
@@ -97,6 +98,7 @@
 #' print.MusicXML
 #'
 #' insert
+#' insert.Attributes
 #'
 #' @keywords internal
 #' @name gm-internal
