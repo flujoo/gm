@@ -27,6 +27,21 @@ to_fraction <- function(x) {
 
 #' @keywords internal
 #' @export
+to_fraction.numeric <- function(x) {
+  values <- duration_types[["value"]]
+  k <- which(x %% values == 0)[1]
+
+  type <- duration_types[["name"]][k]
+  n <- x / values[k]
+
+  fraction <- to_fraction_type(type)
+  fraction[1] <- fraction[1] * n
+  fraction / get_greatest_common_divisor(fraction[1], fraction[2])
+}
+
+
+#' @keywords internal
+#' @export
 to_fraction.Meter <- function(x) {
   k <- log2(x[["actual_unit"]]) + 4
   type <- duration_types[["name"]][k]
