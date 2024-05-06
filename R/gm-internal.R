@@ -92,6 +92,7 @@
 #' to_fraction
 #' to_fraction.Meter
 #' to_fraction.Duration
+#' to_fraction.numeric
 #'
 #' print.Pitch
 #' print.Duration
