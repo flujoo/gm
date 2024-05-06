@@ -4,7 +4,7 @@ to_MusicXML_score <- function(lines, notes, meters) {
   musicxml_part_list <- to_MusicXML_part_list(lines)
   contents <- c(contents, list(musicxml_part_list))
 
-  divisions <- infer_divisions(notes, meters)
+  divisions <- infer_divisions(lines, notes, meters)
   part_numbers <- notes[["part"]]
 
   for (part_number in sort(unique(part_numbers))) {

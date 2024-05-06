@@ -1,14 +1,18 @@
 #' Infer Value in `<divisions>` Element
 #'
+#' @param lines For voice offsets.
 #' @param meters For measure rests.
 #'
 #' @noRd
-infer_divisions <- function(notes, meters) {
+infer_divisions <- function(lines, notes, meters) {
+  offsets <- lines[lines[["voice"]] > 1, ][["start_offset"]]
+
   durations <- notes[!notes[["measure_rest"]], ][["duration"]]
   durations <- lapply(durations, to_Duration)
   durations <- lapply(durations, complete_tuplet)
 
   fractions <- c(
+    lapply(offsets, to_fraction),
     lapply(durations, to_fraction),
     lapply(seq_len(NROW(meters)), function(i) to_fraction(meters[i, ]))
   )
