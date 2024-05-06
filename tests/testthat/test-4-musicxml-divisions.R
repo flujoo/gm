@@ -19,3 +19,23 @@ test_that("inferring divisions works", {
   expected <- 420
   expect_identical(out, expected)
 })
+
+
+test_that("voice offsets work", {
+  music <-
+    Music() +
+    Line(durations = "q") +
+    Line(durations = "q", offset = 0.125, as = "voice") +
+    Meter(4, 4)
+
+  notes <- music[["notes"]]
+  meters <- music[["meters"]]
+  lines <- music[["lines"]]
+
+  lines[["start_offset"]] <- lines[["offset"]]
+  notes[["measure_rest"]] <- c(FALSE, FALSE)
+
+  out <- infer_divisions(lines, notes, meters)
+  expected <- 8
+  expect_identical(out, expected)
+})
