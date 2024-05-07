@@ -50,6 +50,59 @@ to_MusicXML_part <- function(part, meters, divisions) {
 }
 
 
+to_MusicXML_measure <- function(measure, meters, divisions) {
+  contents <- list()
+
+  line_numbers <- measure[["line"]]
+  measure_number <- measure[["start_bar"]][1]
+
+  # Find the Meter for the current bar
+  k <- find_by_bar(measure_number, meters[["bar"]])
+  meter <- meters[k, ]
+  measure_length <- to_value(meter)
+  measure_duration <- measure_length * divisions
+
+  for (line_number in unique(line_numbers)) {
+    line <- measure[line_numbers == line_number, ]
+
+    is_staff <- line[["staff"]][1] > 1
+    is_voice <- line[["voice"]][1] > 1
+
+    if (is_staff) {
+      musicxml_backup <- to_MusicXML_backup(measure_duration)
+      contents <- c(contents, list(musicxml_backup))
+    }
+
+    if (is_voice) {
+      start_offset <- line[1, ][["start_offset"]]
+
+      if (start_offset > 0) {
+        musicxml_forward <- to_MusicXML_forward(start_offset * divisions)
+        contents <- c(contents, list(musicxml_forward))
+      }
+    }
+
+    musicxml_notes <- lapply(
+      seq_len(NROW(line)),
+      function(k) to_MusicXML(line[k, ], divisions)
+    )
+
+    contents <- c(contents, musicxml_notes)
+
+    if (is_voice) {
+      rest_offset <- measure_length - rev(line[["end_offset"]])[1]
+
+      if (rest_offset > 0) {
+        musicxml_forward <- to_MusicXML_forward(rest_offset * divisions)
+        contents <- c(contents, list(musicxml_forward))
+      }
+    }
+  }
+
+  MusicXML("measure", contents, list(number = measure_number))
+}
+
+
 to_MusicXML_part_list <- function(lines) {
   contents <- list()
   part_numbers <- lines[["part"]]
@@ -71,4 +124,14 @@ to_MusicXML_part_list <- function(lines) {
   }
 
   MusicXML("part-list", contents)
+}
+
+
+to_MusicXML_backup <- function(duration) {
+  MusicXML("backup", MusicXML("duration", duration))
+}
+
+
+to_MusicXML_forward <- function(duration) {
+  MusicXML("forward", MusicXML("duration", duration))
 }
