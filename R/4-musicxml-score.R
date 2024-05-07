@@ -25,7 +25,7 @@ to_MusicXML_part <- function(part, meters, divisions) {
 
   for (measure_number in sort(unique(measure_numbers))) {
     measure <- part[measure_numbers == measure_number, ]
-    musicxml_measure <- to_MusicXML_measure(measure, meters)
+    musicxml_measure <- to_MusicXML_measure(measure, meters, divisions)
 
     if (measure_number == 1) {
       staves <- length(unique(part[["staff"]]))
