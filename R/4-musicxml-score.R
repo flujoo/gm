@@ -9,7 +9,7 @@ to_MusicXML_score <- function(lines, notes, meters) {
 
   for (part_number in sort(unique(part_numbers))) {
     part <- notes[part_numbers == part_number, ]
-    musicxml_part <- to_MusicXML_part(part, divisions, meters)
+    musicxml_part <- to_MusicXML_part(part, meters, divisions)
     contents <- c(contents, list(musicxml_part))
   }
 
@@ -17,7 +17,7 @@ to_MusicXML_score <- function(lines, notes, meters) {
 }
 
 
-to_MusicXML_part <- function(part, divisions, meters) {
+to_MusicXML_part <- function(part, meters, divisions) {
   contents <- list()
 
   measure_numbers <- part[["start_bar"]]
