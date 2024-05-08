@@ -68,7 +68,7 @@ to_MusicXML_measure <- function(measure, meters, divisions) {
     is_staff <- line[["staff"]][1] > 1
     is_voice <- line[["voice"]][1] > 1
 
-    if (is_staff) {
+    if (is_staff || is_voice) {
       musicxml_backup <- to_MusicXML_backup(measure_duration)
       contents <- c(contents, list(musicxml_backup))
     }
