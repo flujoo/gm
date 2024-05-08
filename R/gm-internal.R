@@ -88,6 +88,7 @@
 #' to_MusicXML.Note
 #' to_MusicXML.Tempo
 #' to_MusicXML.Attributes
+#' to_MusicXML.Music
 #'
 #' to_fraction
 #' to_fraction.Meter
