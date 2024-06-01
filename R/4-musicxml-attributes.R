@@ -19,7 +19,13 @@ to_MusicXML.Attributes <- function(x, ...) {
 #' @keywords internal
 #' @export
 #' @noRd
-insert.Attributes <- function(x, to, after = 0, ...) {
-  to[["contents"]] <- append(to[["contents"]], list(to_MusicXML(x)), after)
+insert.Attributes <- function(x, to, offset = 0, ...) {
+  if (offset == 0) {
+    to[["contents"]] <- append(to[["contents"]], list(to_MusicXML(x)), 0)
+
+  } else {
+    # For Tempos and Clefs, use <forward> and <backup>
+  }
+
   to
 }
