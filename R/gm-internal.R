@@ -90,6 +90,7 @@
 #' to_MusicXML.Attributes
 #' to_MusicXML.Music
 #' to_MusicXML.default
+#' to_MusicXML.Key
 #'
 #' to_fraction
 #' to_fraction.Meter
@@ -102,6 +103,7 @@
 #'
 #' insert
 #' insert.Attributes
+#' insert.Key
 #'
 #' @keywords internal
 #' @name gm-internal
