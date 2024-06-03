@@ -8,7 +8,7 @@ Attributes <- function(...) {
 to_MusicXML.Attributes <- function(x, ...) {
   contents <- lapply(
     names(x),
-    function(name) MusicXML(name, x[[name]])
+    function(name) to_MusicXML(x[[name]], name)
   )
 
   MusicXML("attributes", contents)
