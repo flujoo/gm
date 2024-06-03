@@ -8,7 +8,12 @@ to_MusicXML.Music <- function(x, ...) {
   divisions <- infer_divisions(lines, notes, meters)
   musicxml_score <- to_MusicXML_score(lines, notes, meters, divisions)
 
-  # For the order of insertion, see `to_url("elements/attributes")`
+  # At this point, <attributes> contains only <divisions> and <staves>
+  # Follow `to_url("elements/attributes")` strictly to insert objects
+
+  # At this point, <score-partwise> contains only <part-list> and <part>
+  # Add other elements only afterwards
+
   groups <- c("keys")
 
   for (group in groups) {
