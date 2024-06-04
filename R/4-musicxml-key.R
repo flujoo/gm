@@ -34,7 +34,7 @@ insert.Key <- function(x, to, ...) {
   } else {
     to$contents[[part + 1]]$contents[[bar]]$contents <- append(
       notes,
-      list(to_MusicXML(Attributes(key = x))),
+      list(to_MusicXML(Attributes(x))),
       0
     )
   }
