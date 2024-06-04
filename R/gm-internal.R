@@ -89,7 +89,6 @@
 #' to_MusicXML.Tempo
 #' to_MusicXML.Attributes
 #' to_MusicXML.Music
-#' to_MusicXML.default
 #' to_MusicXML.Key
 #'
 #' to_fraction
