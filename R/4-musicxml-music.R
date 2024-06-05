@@ -26,3 +26,30 @@ to_MusicXML.Music <- function(x, ...) {
 
   musicxml_score
 }
+
+
+#' @description Elements in `<attributes>` should follow the order:
+#' `to_url("elements/attributes")`. Find the insertion position for the
+#' given tag.
+#'
+#' @param tag The tag of the element to insert.
+#' @param attributes The contents of an <attributes> element.
+#'
+#' @noRd
+locate_attribute <- function(tag, attributes) {
+  tags <- c(
+    "divisions",
+    "key",
+    "time",
+    "staves"
+  )
+
+  before <- tags[seq_along(tags) <= which(tags == tag)]
+
+  Position(
+    \(musicxml) musicxml[["tag"]] %in% before,
+    attributes,
+    right = TRUE,
+    nomatch = 0L
+  )
+}

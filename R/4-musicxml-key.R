@@ -28,7 +28,7 @@ insert.Key <- function(x, to, ...) {
     to$contents[[part + 1]]$contents[[bar]]$contents[[1]]$contents <- append(
       attributes,
       list(to_MusicXML(x)),
-      Position(\(musicxml) musicxml[["tag"]] == "divisions", attributes)
+      locate_attribute("key", attributes)
     )
 
   } else {
