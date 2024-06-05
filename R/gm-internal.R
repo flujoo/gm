@@ -90,6 +90,7 @@
 #' to_MusicXML.Attributes
 #' to_MusicXML.Music
 #' to_MusicXML.Key
+#' to_MusicXML.Meter
 #'
 #' to_fraction
 #' to_fraction.Meter
