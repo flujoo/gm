@@ -37,6 +37,7 @@ to_value <- function(x) {
 
 data_frame <- if (requireNamespace("tibble", quietly = TRUE)) {
   tibble::tibble
+
 } else {
   data.frame
 }
