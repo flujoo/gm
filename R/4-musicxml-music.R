@@ -8,16 +8,13 @@ to_MusicXML.Music <- function(x, ...) {
   divisions <- infer_divisions(lines, notes, meters)
   musicxml_score <- to_MusicXML_score(lines, notes, meters, divisions)
 
-  # At this point, <attributes> contains only <divisions> and <staves>
-  # Follow `to_url("elements/attributes")` strictly to insert objects
+  for (name in names(x)) {
+    if (name %in% c("lines", "notes")) next
+    objects <- x[[name]]
 
-  # At this point, <score-partwise> contains only <part-list> and <part>
-  # Add other elements only afterwards
-
-  groups <- c("keys")
-
-  for (group in groups) {
-    objects <- x[[group]]
+    # At this point, <score-partwise> contains only <part-list> and <part>
+    # To make it simple, add other elements like title only afterwards
+    if (!is.data.frame(objects)) next
 
     for (k in seq_len(NROW(objects))) {
       musicxml_score <- insert(objects[k, ], musicxml_score, divisions)
@@ -30,7 +27,8 @@ to_MusicXML.Music <- function(x, ...) {
 
 #' @description Elements in `<attributes>` should follow the order:
 #' `to_url("elements/attributes")`. Find the insertion position for the
-#' given tag.
+#' given tag. Initially, `<attributes>` contains only `<divisions>` and
+#' `<staves>`.
 #'
 #' @param tag The tag of the element to insert.
 #' @param attributes The contents of an <attributes> element.
