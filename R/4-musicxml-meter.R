@@ -11,3 +11,14 @@ to_MusicXML.Meter <- function(x, ...) {
 }
 
 
+#' @keywords internal
+#' @export
+insert.Meter <- function(x, to, ...) {
+  bar <- x[["bar"]]
+
+  for (i in seq_along(to[["contents"]])[-1]) {
+    to <- insert_attribute(x, to, i, bar)
+  }
+
+  to
+}

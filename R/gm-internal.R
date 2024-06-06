@@ -104,6 +104,7 @@
 #' insert
 #' insert.Attributes
 #' insert.Key
+#' insert.Meter
 #'
 #' @keywords internal
 #' @name gm-internal
