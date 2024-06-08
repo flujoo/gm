@@ -41,6 +41,7 @@ to_fragments <- function(musicxml) {
 
   attributes <- if (length(attributes) == 0) {
     ""
+
   } else {
     paste0(" ", names(attributes), '="', attributes, '"', collapse = "")
   }
