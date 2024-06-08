@@ -106,6 +106,9 @@
 #' insert.Key
 #' insert.Meter
 #'
+#' export
+#' export.MusicXML
+#'
 #' @keywords internal
 #' @name gm-internal
 NULL
