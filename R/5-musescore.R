@@ -1,3 +1,15 @@
+#' Check and Store MuseScore Path
+#'
+#' Users can specify the MuseScore path in .Renviron file by adding
+#' `MUSESCORE_PATH=/your/path/to/musescore`. This path will be
+#' tested with some sample Music.
+#'
+#' If not provided or invalid, default paths will be checked. See
+#' <https://musescore.org/en/handbook/4/revert-factory-settings>.
+#'
+#' The MuseScore path will be stored in the package options.
+#'
+#' @noRd
 set_musescore_path <- function() {
   if (!is.null(getOption("gm.musescore_path"))) return(invisible())
   custom_path <- Sys.getenv("MUSESCORE_PATH")
