@@ -63,7 +63,9 @@ set_musescore_path <- function() {
 #' Call MuseScore to Convert MusicXML File
 #'
 #' @param from,to Input and output file paths.
-#' @param musescore MuseScore command line options.
+#'
+#' @param musescore MuseScore command line options. See
+#' <https://musescore.org/en/handbook/4/command-line-usage>.
 #'
 #' @noRd
 convert_musicxml <- function(from, to, musescore = NULL) {
