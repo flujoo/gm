@@ -8,7 +8,7 @@
 #' @noRd
 convert_musicxml <- function(from, to, musescore = NULL) {
   system2(
-    options("gm.musescore_path"),
+    getOption("gm.musescore_path"),
     c(from, "-o", to, musescore),
     stderr = NULL,
     stdout = NULL
