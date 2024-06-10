@@ -1,12 +1,6 @@
 #' @keywords internal
 #' @export
-export.MusicXML <- function(
-    x,
-    path,
-    formats = NULL,
-    musescore = NULL,
-    ...) {
-
+export.MusicXML <- function(x, path, formats = NULL, musescore = NULL, ...) {
   dir_path <- dirname(path)
 
   file_name_extension <- strsplit(basename(path), "[.]")[[1]]
