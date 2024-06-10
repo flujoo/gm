@@ -5,3 +5,23 @@ export <- function(x, ...) {
 }
 
 
+musescore_extensions <- c(
+  "flac",
+  "metajson",
+  "mid",
+  "midi",
+  "mlog",
+  "mp3",
+  "mpos",
+  "mscx",
+  "mscz",
+  "musicxml",
+  "mxl",
+  "ogg",
+  "pdf",
+  "png",
+  "spos",
+  "svg",
+  "wav",
+  "xml"
+)
