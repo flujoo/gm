@@ -1,5 +1,7 @@
+#' @param formats Extra formats not specified in `path`.
 #' @keywords internal
 #' @export
+#' @noRd
 export.MusicXML <- function(x, path, formats = NULL, musescore = NULL, ...) {
   dir_path <- dirname(path)
 
