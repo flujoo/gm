@@ -21,6 +21,12 @@ document_data_frame <- function(df) {
 }
 
 
+document_items <- function(items) {
+  docs <- sprintf("%s. %s", seq_along(items), items)
+  paste(docs, collapse = "\n")
+}
+
+
 #' @keywords internal
 #' @export
 to_string <- function(x, ...) {
