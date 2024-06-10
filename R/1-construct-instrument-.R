@@ -3,7 +3,7 @@
 #' Create an `Instrument` object to represent an instrument.
 #'
 #' Supported instruments:
-#' `r document_instruments()`
+#' `r document_items(instruments)`
 #'
 #' @param instrument A single integer between `1` and `128`, which indicates
 #' the instrument. See the *Details* section.
@@ -76,10 +76,4 @@ print.Instrument <- function(x, ...) {
   print_to_i_j(x$to, scope = "part")
   if (!is.null(volume)) cat("* of volume", volume, "\n")
   if (!is.null(pan)) cat("* of pan", pan, "\n")
-}
-
-
-document_instruments <- function() {
-  docs <- sprintf("%s. %s", seq_along(instruments), instruments)
-  paste(docs, collapse = "\n")
 }
