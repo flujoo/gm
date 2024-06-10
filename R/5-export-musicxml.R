@@ -2,11 +2,17 @@
 #' @export
 export.MusicXML <- function(
     x,
-    dir_path,
-    file_name,
-    formats,
+    path,
+    formats = NULL,
     musescore = NULL,
     ...) {
+
+  dir_path <- dirname(path)
+
+  file_name_extension <- strsplit(basename(path), "[.]")[[1]]
+  n <- length(file_name_extension)
+  file_name <- paste0(file_name_extension[-n], collapse = ".")
+  formats <- c(formats, file_name_extension[n])
 
   # File path without the extension
   name_path <- file.path(dir_path, file_name)
