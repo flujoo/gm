@@ -1,10 +1,19 @@
-# cran.r-project.org/doc/manuals/r-devel/R-exts.html#Package-subdirectories
+#' How to Document Exported Internal Functions
+#'
+#' Internal S3 generics and methods have to be exported.
+#' Follow [Writing R Extensions](
+#' cran.r-project.org/doc/manuals/r-devel/R-exts.html#Package-subdirectories)
+#' to document them:
+#'
+#' Note that all user-level objects in a package should be documented;
+#' if a package pkg contains user-level objects which are for “internal” use
+#' only, it should provide a file pkg-internal.Rd which documents all such
+#' objects, and clearly states that these are not meant to be called by the
+#' user. See e.g. the sources for package grid in the R distribution.
+#'
+#' @noRd
+NULL
 
-# Note that all user-level objects in a package should be documented;
-# if a package pkg contains user-level objects which are for “internal” use
-# only, it should provide a file pkg-internal.Rd which documents all such
-# objects, and clearly states that these are not meant to be called by the
-# user. See e.g. the sources for package grid in the R distribution.
 
 #' Internal gm Functions
 #'
