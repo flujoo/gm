@@ -2,6 +2,7 @@
 #'
 #' @keywords internal
 #' @export
+#' @noRd
 check_add_to <- function(to, lines, ...) {
   UseMethod("check_add_to")
 }
@@ -11,6 +12,7 @@ check_add_to <- function(to, lines, ...) {
 #'
 #' @keywords internal
 #' @export
+#' @noRd
 check_add_to.default <- function(to, lines, object, ...) {
   if (!is.null(lines)) return(invisible())
   vowels <- c("Articulation", "Accidental", "Instrument")

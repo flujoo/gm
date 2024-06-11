@@ -87,6 +87,7 @@ check_object_class <- function(object) {
 #'
 #' @keywords internal
 #' @export
+#' @noRd
 add <- function(object, music) {
   UseMethod("add")
 }

@@ -26,6 +26,7 @@ add.Key <- function(object, music) {
 #'
 #' @keywords internal
 #' @export
+#' @noRd
 locate.Key <- function(object, lines, ...) {
   line <- object$line
   scope <- object$scope
