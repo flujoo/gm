@@ -16,6 +16,9 @@
 #' [MuseScore command line usage](
 #' https://musescore.org/en/handbook/4/command-line-options) for details.
 #'
+#' @param ... Optional arguments to `export()` methods. Should be
+#' ignored by the user.
+#'
 #' @returns An invisible `NULL`. A file is generated in the specified path.
 #'
 #' @export
