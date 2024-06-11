@@ -18,7 +18,9 @@ URL: https://github.com/flujoo/gm, https://flujoo.github.io/gm/
 Encoding: UTF-8
 RoxygenNote: 7.3.1
 Suggests: 
+    knitr,
     rmarkdown,
+    shiny,
     testthat,
     tibble
 Imports:
