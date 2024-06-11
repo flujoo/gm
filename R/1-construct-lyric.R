@@ -106,7 +106,7 @@ print.Lyric <- function(x, ...) {
   special <- x$special
   layer <- x$layer
 
-  cat("Lyric", sprintf('"%s"', paste(x$text, collapse = "‿")), "\n\n")
+  cat("Lyric", sprintf('"%s"', paste(x$text, collapse = "_")), "\n\n")
 
   if (!is.na(special)) {
     s_special <- switch(special,
