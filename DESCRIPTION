@@ -25,6 +25,7 @@ Suggests:
     testthat,
     tibble
 Imports:
+    base64enc,
     erify,
     utils
 Roxygen: list(markdown = TRUE)
