@@ -27,6 +27,7 @@ Suggests:
 Imports:
     base64enc,
     erify,
+    htmltools,
     utils
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
