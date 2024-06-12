@@ -117,6 +117,8 @@ NULL
 #'
 #' export.MusicXML
 #'
+#' show.MusicXML
+#'
 #' @keywords internal
 #' @name gm-internal
 NULL
