@@ -1,7 +1,8 @@
 .onLoad <- function(libname, pkgname) {
   settings <- list(
     gm.musescore_path = NULL,
-    gm.context = infer_context()
+    gm.context = infer_context(),
+    gm.show_to = c("score", "audio")
   )
 
   to_set <- !names(settings) %in% names(options())
@@ -13,7 +14,8 @@
 .onUnload <- function(libpath) {
   settings <- list(
     gm.musescore_path = NULL,
-    gm.context = NULL
+    gm.context = NULL,
+    gm.show_to = NULL
   )
 
   options(settings)
