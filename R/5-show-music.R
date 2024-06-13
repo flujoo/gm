@@ -41,3 +41,9 @@ show.Music <- function(x, to = NULL, musescore = NULL) {
   musicxml <- to_MusicXML(music)
   show(musicxml, to, musescore = musescore)
 }
+
+
+normalize_show_to <- function(to) {
+  if (is.null(to)) to <- getOption("gm.show_to")
+  c(audio = "mp3", score = "png")[to]
+}
