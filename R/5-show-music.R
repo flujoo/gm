@@ -32,3 +32,12 @@
 #'   music <- Music() + Meter(4, 4) + Line("C4")
 #'   show(music, musescore = "-r 800 -T 5")
 #' }
+show.Music <- function(x, to = NULL, musescore = NULL) {
+  check_show_to(to)
+  to <- normalize_show_to(to)
+
+  set_musescore_path()
+  music <- prepare(x)
+  musicxml <- to_MusicXML(music)
+  show(musicxml, to, musescore = musescore)
+}
