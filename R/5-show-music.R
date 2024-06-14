@@ -58,5 +58,5 @@ check_show_to <- function(to) {
 
 normalize_show_to <- function(to) {
   if (is.null(to)) to <- getOption("gm.show_to")
-  c(audio = "mp3", score = "png")[to]
+  c(score = "png", audio = "mp3")[unique(to)]
 }
