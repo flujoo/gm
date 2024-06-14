@@ -43,6 +43,19 @@ show.Music <- function(x, to = NULL, musescore = NULL) {
 }
 
 
+check_show_to <- function(to) {
+  if (is.null(to)) return(invisible())
+
+  erify::check_type(to, "character")
+  erify::check_length(to, c(1, 2))
+
+  valid <- c("score", "audio")
+  general <- '`to` must be `"score"`, `"audio"` or both.'
+  if (length(to) == 1) erify::check_content(to, valid, general = general)
+  erify::check_contents(to, valid, general = general)
+}
+
+
 normalize_show_to <- function(to) {
   if (is.null(to)) to <- getOption("gm.show_to")
   c(audio = "mp3", score = "png")[to]
