@@ -27,7 +27,7 @@ get_show_paths <- function(name_path, to) {
   file_paths <- list.files(tempdir(), full.names = TRUE)
   file_paths <- file_paths[grepl(name_path, file_paths)]
 
-  # Also exclude the MusicXML file
+  # The MusicXML file is excluded in the meantime
   file_paths <- sapply(
     to,
     function(format) file_paths[grepl(paste0(format, "$"), file_paths)],
