@@ -3,38 +3,63 @@
 #' @noRd
 show.MusicXML <- function(x, to, musescore = NULL) {
   context <- getOption("gm.context")
+
   name_path <- tempfile()
   export(x, paste0(name_path, ".musicxml"), to, c("-r 115", musescore))
 
-  # For Word and PDF files, ignore the audio format
-  if (context == "rmd_other" && ("png" %in% to)) {
-    # In case MuseScore splits a long image
-    paths <- list.files(tempdir(), full.names = TRUE)
-    paths <- paths[grepl(name_path, paths)]
+  file_paths <- get_show_paths(name_path, to)
+  file_paths <- convert_show_paths(file_paths, context)
+  if (context == "rmd_other") return(file_paths)
 
-    knitr::include_graphics(paths)
-    return(invisible())
-  }
+  html <- to_html(file_paths, context)
+  if (context %in% c("rmd", "jupyter", "shiny")) return(html)
 
-  content <- generate_show_content(name_path, to, context)
-  if (context %in% c("rmd", "jupyter", "shiny")) return(content)
-
-  html_path <- to_html(content, name_path)
-
-  if (context == "rstudio" && requireNamespace("rstudioapi", quietly = TRUE)) {
-    rstudioapi::viewer(html_path)
-
-  } else {
-    utils::browseURL(html_path)
-  }
+  show(html, name_path, context)
 }
 
 
-generate_show_content <- function(name_path, to, context) {
-  content <- list()
+#' @description In case MuseScore splits a long image, get the paths
+#' of the score and audio file by matching the file name. Then sort the paths
+#' according to the order of the given formats.
+#'
+#' @noRd
+get_show_paths <- function(name_path, to) {
+  file_paths <- list.files(tempdir(), full.names = TRUE)
+  file_paths <- file_paths[grepl(name_path, file_paths)]
 
-  for (format in to) {
-    file_path <- generate_file_path(name_path, format, context)
+  # Also exclude the MusicXML file
+  file_paths <- sapply(
+    to,
+    function(format) file_paths[grepl(paste0(format, "$"), file_paths)],
+    simplify = FALSE
+  )
+
+  unlist(file_paths)
+}
+
+
+convert_show_paths <- function(file_paths, context) {
+  if (context == "rmd_other") {
+    # For Word and PDF files, ignore the audio format
+    file_paths <- file_paths[grepl("png$", file_paths)]
+    file_paths <- knitr::include_graphics(file_paths)
+
+  } else if (context %in% c("rstudio", "other")) {
+    # Because the files will be referred to from an HTML file
+    file_paths <- basename(file_paths)
+  }
+
+  file_paths
+}
+
+
+to_html <- function(file_paths, context) {
+  to_data_url <- context %in% c("jupyter", "rmd", "shiny")
+  htmls <- list()
+
+  for (file_path in file_paths) {
+    format <- rev(strsplit(file_path, "[.]")[[1]])[1]
+    if (to_data_url) file_path <- base64enc::dataURI(file = file_path)
 
     if (format == "mp3") {
       html <- htmltools::tags$source(src = file_path, type = "audio/mp3")
@@ -46,34 +71,17 @@ generate_show_content <- function(name_path, to, context) {
       html <- htmltools::p(html)
     }
 
-    content <- c(content, list(html))
+    htmls <- c(htmls, list(html))
   }
 
-  if (length(content) == 1) {
-    content[[1]]
-
-  } else {
-    htmltools::div(content)
-  }
+  if (length(htmls) == 1) htmls[[1]] else htmltools::div(htmls)
 }
 
 
-generate_file_path <- function(name_path, format, context) {
-  file_path <- paste0(name_path, ".", format)
-
-  if (context %in% c("rstudio", "other")) {
-    file_path <- basename(file_path)
-  }
-
-  if (context %in% c("jupyter", "rmd", "shiny")) {
-    file_path <- base64enc::dataURI(file = file_path)
-  }
-
-  file_path
-}
-
-
-to_html <- function(content, name_path) {
+#' @keywords internal
+#' @export
+#' @noRd
+show.shiny.tag <- function(html, name_path, context) {
   html <- paste(
     "<!DOCTYPE html>",
     "<html>",
@@ -81,15 +89,19 @@ to_html <- function(content, name_path) {
     '<meta charset="utf-8">',
     "</head>",
     "<body>",
-    "%s",
+    as.character(html),
     "</body>",
     "</html>",
     sep = "\n"
   )
 
   html_path <- paste0(name_path, ".", "html")
-  content <- as.character(content)
-  html <- sprintf(html, content)
   writeLines(html, html_path)
-  html_path
+
+  if (context == "rstudio" && requireNamespace("rstudioapi", quietly = TRUE)) {
+    rstudioapi::viewer(html_path)
+
+  } else {
+    utils::browseURL(html_path)
+  }
 }
