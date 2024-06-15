@@ -6,9 +6,22 @@ insert <- function(x, to, ...) {
 
 
 #' Insert Attribute Object (Keys, Meters, ...) to `<score-partwise>`
+#'
+#' Elements in `<attributes>` should follow the order:
+#' `to_url("elements/attributes")`. Initially, `<attributes>` contains
+#' only `<divisions>` and `<staves>`.
+#'
 #' @param i The index of target `<part>`. For now, it's part number plus one.
 #' @noRd
 insert_attribute <- function(object, score, i, bar) {
+  # All tags <attributes> can possibly contain
+  tags <- c(
+    "divisions",
+    "key",
+    "time",
+    "staves"
+  )
+
   measures <- score[["contents"]][[i]][["contents"]]
   if (length(measures) < bar) return(score)
 
@@ -23,7 +36,7 @@ insert_attribute <- function(object, score, i, bar) {
     score$contents[[i]]$contents[[bar]]$contents[[1]]$contents <- append(
       attributes,
       list(musicxml),
-      locate_attribute(musicxml[["tag"]], attributes)
+      locate_element(musicxml[["tag"]], attributes, tags)
     )
 
   } else {
@@ -35,27 +48,6 @@ insert_attribute <- function(object, score, i, bar) {
   }
 
   score
-}
-
-
-#' @description Elements in `<attributes>` should follow the order:
-#' `to_url("elements/attributes")`. Find the insertion position for the
-#' given tag. Initially, `<attributes>` contains only `<divisions>` and
-#' `<staves>`.
-#'
-#' @param tag The tag of the element to insert.
-#' @param attributes The contents of an <attributes> element.
-#'
-#' @noRd
-locate_attribute <- function(tag, attributes) {
-  tags <- c(
-    "divisions",
-    "key",
-    "time",
-    "staves"
-  )
-
-  locate_element(tag, attributes, tags)
 }
 
 
