@@ -16,6 +16,7 @@ add.Accidental <- function(object, music) {
   # Normalization
   names(object)[names(object) == "to"] <- "line"
   object$line <- line
+  if (is.na(object[["bracket"]])) object[["bracket"]] <- FALSE
 
   # Construction
   music$accidentals <- update_chordal(music$accidentals, object, notes)
