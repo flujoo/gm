@@ -57,7 +57,7 @@ insert.Attributes <- function(x, to, offset = 0, ...) {
 #' @param i The index of target `<part>`. For now, it's part number plus one.
 #' @noRd
 insert_attribute <- function(object, score, i, bar) {
-  # All tags <attributes> can possibly contain
+  # All involved tags <attributes> can possibly contain
   tags <- c(
     "divisions",
     "key",
