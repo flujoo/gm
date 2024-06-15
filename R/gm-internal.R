@@ -118,7 +118,6 @@ NULL
 #' export.MusicXML
 #'
 #' show.MusicXML
-#' show.shiny.tag
 #'
 #' @keywords internal
 #' @name gm-internal

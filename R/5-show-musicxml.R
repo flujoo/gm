@@ -14,7 +14,7 @@ show.MusicXML <- function(x, to, musescore = NULL) {
   html <- to_html(file_paths, context)
   if (context %in% c("rmd", "jupyter", "shiny")) return(html)
 
-  show(html, name_path, context)
+  show_html(html, name_path, context)
 }
 
 
@@ -78,10 +78,7 @@ to_html <- function(file_paths, context) {
 }
 
 
-#' @keywords internal
-#' @export
-#' @noRd
-show.shiny.tag <- function(html, name_path, context) {
+show_html <- function(html, name_path, context) {
   html <- paste(
     "<!DOCTYPE html>",
     "<html>",
