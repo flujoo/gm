@@ -1,18 +1,14 @@
 #' Create `Accidental` Object
 #'
-#' @description Create an `Accidental` object to represent an accidental
-#' symbol.
-#'
-#' In musical notation, accidentals are the symbols that appear before notes.
-#' The pitches of these notes are usually affected. Common accidentals
-#' include flat (♭), natural (♮), and sharp (♯).
-#'
-#' @details For a complete list of accidentals, please refer to
-#' [the MusicXML specification](`r to_url("data-types/accidental-value/")`).
-#' Unfortunately, not all accidentals are supported in MuseScore.
+#' Create an `Accidental` object to represent an accidental
+#' symbol, such as flat (♭), natural (♮), or sharp (♯). Usually,
+#' accidentals are automatically added.
 #'
 #' @param name A single character, which represents the name of the
-#' accidental. `"flat"` and `"sharp"` are two common examples. See details.
+#' accidental. `"flat"` and `"sharp"` are two common examples.
+#' For a complete list of accidentals, please refer to
+#' [the MusicXML specification](`r to_url("data-types/accidental-value/")`).
+#' Unfortunately, not all accidentals are supported in MuseScore.
 #'
 #' @param i A single positive integer, which represents the position
 #' of the accidental in a musical line.
