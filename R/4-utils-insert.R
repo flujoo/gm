@@ -55,11 +55,16 @@ locate_attribute <- function(tag, attributes) {
     "staves"
   )
 
+  locate_element(tag, attributes, tags)
+}
+
+
+locate_element <- function(tag, elements, tags) {
   before <- tags[seq_along(tags) <= which(tags == tag)]
 
   Position(
-    \(musicxml) musicxml[["tag"]] %in% before,
-    attributes,
+    \(element) element[["tag"]] %in% before,
+    elements,
     right = TRUE,
     nomatch = 0L
   )
