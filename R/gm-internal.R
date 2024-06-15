@@ -100,6 +100,7 @@ NULL
 #' to_MusicXML.Music
 #' to_MusicXML.Key
 #' to_MusicXML.Meter
+#' to_MusicXML.Accidental
 #'
 #' to_fraction
 #' to_fraction.Meter
