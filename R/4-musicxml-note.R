@@ -146,7 +146,7 @@ locate_notes <- function(score, line, i, j = NULL, object = NULL) {
         is_matched <-
           note[["line"]] == line &&
           !is.na(note_i) && note_i == i &&
-          if (is.null(j)) TRUE else !is.na(note_j) && note_j == j
+          if (is.null(j) || is.na(j)) TRUE else !is.na(note_j) && note_j == j
 
         if (is_matched) {
           locations <- c(locations, list(c(k, l, m)))
