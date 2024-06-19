@@ -30,11 +30,11 @@
 #'
 #' @examples
 #' # Create an `Accidental`
-#' accidental <- Accidental("flat", 2, bracket = TRUE)
+#' accidental <- Accidental("natural", 2, bracket = TRUE)
 #' accidental
 #'
-#' # Add an `Accidental` to a `Music`
-#' music <- Music() + Meter(4, 4) + Line(c("C4", "D4")) + accidental
+#' # Add it to a `Music`
+#' music <- Music() + Meter(4, 4) + Line(c("C4", "C4")) + accidental
 #' music
 #'
 #' # Generate the music score
