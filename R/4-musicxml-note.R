@@ -112,6 +112,57 @@ to_MusicXML.Note <- function(x, divisions, ...) {
 }
 
 
+#' Insert Child Element of `<note>`
+#'
+#' See `to_url("elements/note")`.
+#'
+#' @param scope Can be `"first"`, `"last"`, or `"all"`. Indicates
+#' which note to insert the child to.
+#'
+#' @noRd
+insert_note_child <- function(object, score, scope = "all") {
+  tags <- c(
+    "type",
+    "dot",
+    "accidental",
+    "time-modification",
+    "stem",
+    "notehead",
+    "staff",
+    "beam",
+    "notations",
+    "lyric"
+  )
+
+  locations <- locate_notes(score, object = object)
+
+  locations <- switch(
+    scope,
+    first = locations[1],
+    last = rev(locations)[1],
+    all = locations
+  )
+
+  musicxml <- to_MusicXML(object)
+
+  for (location in locations) {
+    i <- location[1]
+    j <- location[2]
+    k <- location[3]
+
+    children <- score$contents[[i]]$contents[[j]]$contents[[k]]$contents
+
+    score$contents[[i]]$contents[[j]]$contents[[k]]$contents <- append(
+      children,
+      list(musicxml),
+      locate_element(musicxml[["tag"]], children, tags)
+    )
+  }
+
+  score
+}
+
+
 #' Get Indices of Matched Notes in MusicXML
 #' @param j In current context, it indicates the position in a chord.
 #' @param object Where `line`, `i`, and `j` can be extracted.
