@@ -113,10 +113,17 @@ to_MusicXML.Note <- function(x, divisions, ...) {
 
 
 #' Get Indices of Matched Notes in MusicXML
-#' @param j indicates the position in a chord.
+#' @param j In current context, it indicates the position in a chord.
+#' @param object Where `line`, `i`, and `j` can be extracted.
 #' @returns A list of triplets indicating part, measure, and note positions.
 #' @noRd
-locate_notes <- function(score, line, i, j = NULL) {
+locate_notes <- function(score, line, i, j = NULL, object = NULL) {
+  if (!is.null(object)) {
+    line <- object[["line"]]
+    i <- object[["i"]]
+    j <- object[["j"]]
+  }
+
   locations <- list()
   parts <- score[["contents"]]
   is_found <- FALSE
