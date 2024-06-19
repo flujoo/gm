@@ -115,6 +115,7 @@ NULL
 #' insert.Attributes
 #' insert.Key
 #' insert.Meter
+#' insert.Accidental
 #'
 #' export.MusicXML
 #'

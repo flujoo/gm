@@ -7,3 +7,10 @@ to_MusicXML.Accidental <- function(x, ...) {
     if (x[["bracket"]]) list(bracket = "yes") else NULL
   )
 }
+
+
+#' @keywords internal
+#' @export
+insert.Accidental <- function(x, to, ...) {
+  insert_note_child(x, to, "first")
+}
