@@ -46,7 +46,7 @@ Articulation <- function(name, i, to = NULL) {
   check_to(to)
 
   # Normalization
-  name <- articulations$musescore[which(articulations == name, TRUE)[1]]
+  name <- articulations[["musicxml"]][which(articulations == name, TRUE)[1]]
   i <- as.integer(i)
 
   # Construction
