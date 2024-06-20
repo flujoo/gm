@@ -101,6 +101,7 @@ NULL
 #' to_MusicXML.Key
 #' to_MusicXML.Meter
 #' to_MusicXML.Accidental
+#' to_MusicXML.Articulation
 #'
 #' to_fraction
 #' to_fraction.Meter
@@ -116,6 +117,7 @@ NULL
 #' insert.Key
 #' insert.Meter
 #' insert.Accidental
+#' insert.Articulation
 #'
 #' export.MusicXML
 #'
