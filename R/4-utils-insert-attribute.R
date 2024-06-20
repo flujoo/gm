@@ -1,20 +1,6 @@
-#' Insert Attribute Object (Keys, Meters, ...) to `<score-partwise>`
-#'
-#' Elements in `<attributes>` should follow the order:
-#' `to_url("elements/attributes")`. Initially, `<attributes>` contains
-#' only `<divisions>` and `<staves>`.
-#'
 #' @param i The index of target `<part>`. For now, it's part number plus one.
 #' @noRd
 insert_attribute <- function(object, score, i, bar) {
-  # All involved tags <attributes> can possibly contain
-  tags <- c(
-    "divisions",
-    "key",
-    "time",
-    "staves"
-  )
-
   measures <- score[["contents"]][[i]][["contents"]]
   if (length(measures) < bar) return(score)
 
@@ -29,7 +15,7 @@ insert_attribute <- function(object, score, i, bar) {
     score$contents[[i]]$contents[[bar]]$contents[[1]]$contents <- append(
       attributes,
       list(musicxml),
-      locate_ordered_element(musicxml[["tag"]], attributes, tags)
+      locate_attribute(musicxml[["tag"]], attributes)
     )
 
   } else {
@@ -41,4 +27,18 @@ insert_attribute <- function(object, score, i, bar) {
   }
 
   score
+}
+
+
+#' @details `to_url("elements/attributes")`
+#' @noRd
+locate_attribute <- function(tag, attributes) {
+  tags <- c(
+    "divisions",
+    "key",
+    "time",
+    "staves"
+  )
+
+  locate_ordered_element(tag, attributes, tags)
 }
