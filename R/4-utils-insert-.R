@@ -10,16 +10,16 @@ insert <- function(x, to, ...) {
 #' for deciding where to insert a new element.
 #'
 #' @param tag The tag of the element to insert.
-#' @param elements Sibling elements that are already there.
+#' @param siblings Sibling elements that are already there.
 #' @param tags Ordered tags that the parent element can possibly contain.
 #'
 #' @noRd
-locate_ordered_element <- function(tag, elements, tags) {
+locate_ordered_element <- function(tag, siblings, tags) {
   before <- tags[seq_along(tags) <= which(tags == tag)]
 
   Position(
     \(element) element[["tag"]] %in% before,
-    elements,
+    siblings,
     right = TRUE,
     nomatch = 0L
   )
