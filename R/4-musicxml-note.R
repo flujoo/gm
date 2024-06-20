@@ -113,12 +113,7 @@ to_MusicXML.Note <- function(x, divisions, ...) {
 
 
 #' Insert Child Element of `<note>`
-#'
 #' See `to_url("elements/note")`.
-#'
-#' @param scope Can be `"first"`, `"last"`, or `"all"`. Indicates
-#' which note to insert the child to.
-#'
 #' @noRd
 insert_note_child <- function(object, score, scope = "all") {
   tags <- c(
@@ -134,15 +129,7 @@ insert_note_child <- function(object, score, scope = "all") {
     "lyric"
   )
 
-  locations <- locate_notes(score, object = object)
-
-  locations <- switch(
-    scope,
-    first = locations[1],
-    last = rev(locations)[1],
-    all = locations
-  )
-
+  locations <- locate_notes(score, object = object, scope = scope)
   musicxml <- to_MusicXML(object)
 
   for (location in locations) {
@@ -166,9 +153,18 @@ insert_note_child <- function(object, score, scope = "all") {
 #' Get Indices of Matched Notes in MusicXML
 #' @param j In current context, it indicates the position in a chord.
 #' @param object Where `line`, `i`, and `j` can be extracted.
+#'
+#' @param scope Can be `"first"`, `"last"`, or `"all"`. Indicates
+#' which location(s) to return.
+#'
 #' @returns A list of triplets indicating part, measure, and note positions.
 #' @noRd
-locate_notes <- function(score, line, i, j = NULL, object = NULL) {
+locate_notes <- function(
+    score,
+    line, i, j = NULL,
+    object = NULL,
+    scope = "all") {
+
   if (!is.null(object)) {
     line <- object[["line"]]
     i <- object[["i"]]
@@ -201,6 +197,7 @@ locate_notes <- function(score, line, i, j = NULL, object = NULL) {
 
         if (is_matched) {
           locations <- c(locations, list(c(k, l, m)))
+          if (scope == "first") return(locations)
           is_found <- TRUE
 
         } else if (is_found) {
@@ -211,5 +208,6 @@ locate_notes <- function(score, line, i, j = NULL, object = NULL) {
     }
   }
 
+  if (scope == "last") return(rev(locations)[1])
   locations
 }
