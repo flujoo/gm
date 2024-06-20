@@ -129,7 +129,7 @@ insert_note_child <- function(object, score, scope = "all") {
     "lyric"
   )
 
-  locations <- locate_notes(score, object = object, scope = scope)
+  locations <- locate_notes(object, score, scope)
   musicxml <- to_MusicXML(object)
 
   for (location in locations) {
@@ -147,67 +147,4 @@ insert_note_child <- function(object, score, scope = "all") {
   }
 
   score
-}
-
-
-#' Get Indices of Matched Notes in MusicXML
-#' @param j In current context, it indicates the position in a chord.
-#' @param object Where `line`, `i`, and `j` can be extracted.
-#'
-#' @param scope Can be `"first"`, `"last"`, or `"all"`. Indicates
-#' which location(s) to return.
-#'
-#' @returns A list of triplets indicating part, measure, and note positions.
-#' @noRd
-locate_notes <- function(
-    score,
-    line, i, j = NULL,
-    object = NULL,
-    scope = "all") {
-
-  if (!is.null(object)) {
-    line <- object[["line"]]
-    i <- object[["i"]]
-    j <- object[["j"]]
-  }
-
-  locations <- list()
-  parts <- score[["contents"]]
-  is_found <- FALSE
-
-  for (k in seq_along(parts)[-1]) {
-    part <- parts[[k]]
-    if (!line %in% part[["lines"]]) next
-    measures <- part[["contents"]]
-
-    for (l in seq_along(measures)) {
-      notes <- measures[[l]][["contents"]]
-
-      for (m in seq_along(notes)) {
-        note <- notes[[m]]
-        if (note[["tag"]] == "attributes") next
-
-        note_i <- note[["i"]]
-        note_j <- note[["j"]]
-
-        is_matched <-
-          note[["line"]] == line &&
-          !is.na(note_i) && note_i == i &&
-          if (is.null(j) || is.na(j)) TRUE else !is.na(note_j) && note_j == j
-
-        if (is_matched) {
-          locations <- c(locations, list(c(k, l, m)))
-          if (scope == "first") return(locations)
-          is_found <- TRUE
-
-        } else if (is_found) {
-          # Matched notes should be adjacent
-          break
-        }
-      }
-    }
-  }
-
-  if (scope == "last") return(rev(locations)[1])
-  locations
 }
