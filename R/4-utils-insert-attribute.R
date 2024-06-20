@@ -37,7 +37,10 @@ locate_attribute <- function(tag, attributes) {
     "divisions",
     "key",
     "time",
-    "staves"
+    "staves",
+    "instruments",
+    "clef",
+    "directive"
   )
 
   locate_ordered_element(tag, attributes, tags)
