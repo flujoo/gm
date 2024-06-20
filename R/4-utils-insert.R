@@ -14,7 +14,7 @@ insert <- function(x, to, ...) {
 #' @param tags Ordered tags that the parent element can possibly contain.
 #'
 #' @noRd
-locate_element <- function(tag, elements, tags) {
+locate_ordered_element <- function(tag, elements, tags) {
   before <- tags[seq_along(tags) <= which(tags == tag)]
 
   Position(

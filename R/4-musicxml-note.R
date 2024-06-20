@@ -142,7 +142,7 @@ insert_note_child <- function(object, score, scope = "all") {
     score$contents[[i]]$contents[[j]]$contents[[k]]$contents <- append(
       children,
       list(musicxml),
-      locate_element(musicxml[["tag"]], children, tags)
+      locate_ordered_element(musicxml[["tag"]], children, tags)
     )
   }
 

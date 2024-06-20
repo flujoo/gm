@@ -79,7 +79,7 @@ insert_attribute <- function(object, score, i, bar) {
     score$contents[[i]]$contents[[bar]]$contents[[1]]$contents <- append(
       attributes,
       list(musicxml),
-      locate_element(musicxml[["tag"]], attributes, tags)
+      locate_ordered_element(musicxml[["tag"]], attributes, tags)
     )
 
   } else {
