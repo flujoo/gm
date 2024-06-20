@@ -1,3 +1,45 @@
+insert_note_child <- function(object, score, scope) {
+  locations <- locate_notes(object, score, scope)
+  musicxml <- to_MusicXML(object)
+
+  for (location in locations) {
+    i <- location[1]
+    j <- location[2]
+    k <- location[3]
+
+    siblings <- score$contents[[i]]$contents[[j]]$contents[[k]]$contents
+
+    score$contents[[i]]$contents[[j]]$contents[[k]]$contents <- append(
+      siblings,
+      list(musicxml),
+      locate_note_child(musicxml[["tag"]], siblings)
+    )
+  }
+
+  score
+}
+
+
+#' @details See `to_url("elements/note")`.
+#' @noRd
+locate_note_child <- function(tag, siblings) {
+  tags <- c(
+    "type",
+    "dot",
+    "accidental",
+    "time-modification",
+    "stem",
+    "notehead",
+    "staff",
+    "beam",
+    "notations",
+    "lyric"
+  )
+
+  locate_ordered_element(tag, siblings, tags)
+}
+
+
 locate_notes <- function(object, score, scope) {
   locate_notes_by_index(
     object[["line"]],
