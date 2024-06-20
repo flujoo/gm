@@ -102,6 +102,5 @@ locate_notes_by_index <- function(line, i, j, score, scope) {
     }
   }
 
-  if (scope == "last") return(rev(locations)[1])
-  locations
+  if (scope == "last") rev(locations)[1] else locations
 }
