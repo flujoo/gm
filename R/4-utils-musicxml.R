@@ -53,7 +53,6 @@ to_fragments <- function(musicxml) {
     paste0("<", tag, attributes, ">", contents, "</", tag, ">")
 
   } else if (inherits(contents, "MusicXML")) {
-    # Should wrap a single element in a list to prevent indexing errors
     list(
       paste0("<", tag, attributes, ">"),
       to_fragments(contents),
