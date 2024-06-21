@@ -118,6 +118,7 @@ NULL
 #' insert.Meter
 #' insert.Accidental
 #' insert.Articulation
+#' insert.Breath
 #'
 #' export.MusicXML
 #'
