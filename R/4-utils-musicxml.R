@@ -1,3 +1,8 @@
+#' @details For elements like `<notations>`,
+#' when `contents` has only one element, should wrap it
+#' to a list to prevent indexing errors in the insertion phase.
+#'
+#' @noRd
 MusicXML <- function(tag, contents = NULL, attributes = NULL) {
   structure(
     list(
