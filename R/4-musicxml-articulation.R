@@ -4,10 +4,10 @@ to_MusicXML.Articulation <- function(x, level, ...) {
   musicxml <- MusicXML(x[["name"]])
   if (level == 1) return(musicxml)
 
-  musicxml <- MusicXML("articulations", musicxml)
+  musicxml <- MusicXML("articulations", list(musicxml))
   if (level == 2) return(musicxml)
 
-  MusicXML("notations", musicxml)
+  MusicXML("notations", list(musicxml))
 }
 
 
