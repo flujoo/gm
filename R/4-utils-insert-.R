@@ -24,3 +24,9 @@ locate_insertion <- function(tag, siblings, tags) {
     nomatch = 0L
   )
 }
+
+
+locate_tag <- function(tag, contents) {
+  tags <- sapply(contents, function(element) element[["tag"]])
+  which(tags == tag)
+}
