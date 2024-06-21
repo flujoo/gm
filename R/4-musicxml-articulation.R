@@ -11,3 +11,8 @@ to_MusicXML.Articulation <- function(x, level, ...) {
 }
 
 
+#' @keywords internal
+#' @export
+insert.Articulation <- function(x, to, ...) {
+  insert_articulation(x, to, "all")
+}
