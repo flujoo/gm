@@ -36,7 +36,7 @@ locate_note_child <- function(tag, siblings) {
     "lyric"
   )
 
-  locate_ordered_element(tag, siblings, tags)
+  locate_insertion(tag, siblings, tags)
 }
 
 

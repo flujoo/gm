@@ -43,5 +43,5 @@ locate_attribute <- function(tag, attributes) {
     "directive"
   )
 
-  locate_ordered_element(tag, attributes, tags)
+  locate_insertion(tag, attributes, tags)
 }
