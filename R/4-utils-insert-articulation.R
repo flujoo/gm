@@ -1,12 +1,7 @@
 insert_articulation <- function(object, score, scope) {
   musicxml_articulation <- to_MusicXML(object)
-
-  musicxml_articulations <- MusicXML(
-    "articulations",
-    list(musicxml_articulation)
-  )
-
-  musicxml_notations <- MusicXML("notations", list(musicxml_articulations))
+  musicxml_articulations <- MusicXML("articulations", musicxml_articulation)
+  musicxml_notations <- MusicXML("notations", musicxml_articulations)
 
   for (location in locate_notes(object, score, scope)) {
     i <- location[1]

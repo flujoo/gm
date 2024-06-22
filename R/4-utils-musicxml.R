@@ -4,6 +4,8 @@
 #'
 #' @noRd
 MusicXML <- function(tag, contents = NULL, attributes = NULL) {
+  if (inherits(contents, "MusicXML")) contents <- list(contents)
+
   structure(
     list(
       tag = tag,
