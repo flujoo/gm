@@ -1,9 +1,7 @@
-#' @details For elements like `<notations>`,
-#' when `contents` has only one element, should wrap it
-#' to a list to prevent indexing errors in the insertion phase.
-#'
-#' @noRd
 MusicXML <- function(tag, contents = NULL, attributes = NULL) {
+  # For elements like `<notations>`,
+  # when `contents` has only one element, should wrap it
+  # to a list to prevent indexing errors in the insertion phase.
   if (inherits(contents, "MusicXML")) contents <- list(contents)
 
   structure(
