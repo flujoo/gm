@@ -4,8 +4,12 @@
 #' @param meters For measure rests.
 #'
 #' @noRd
-infer_divisions <- function(lines, notes, meters) {
-  offsets <- lines[lines[["voice"]] > 1, ][["start_offset"]]
+infer_divisions <- function(lines, notes, meters, tempos, clefs) {
+  offsets <- c(
+    lines[lines[["voice"]] > 1, ][["start_offset"]],
+    tempos[["offset"]],
+    clefs[["offset"]]
+  )
 
   durations <- notes[!notes[["measure_rest"]], ][["duration"]]
   durations <- lapply(durations, to_Duration)

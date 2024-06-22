@@ -5,7 +5,7 @@ to_MusicXML.Music <- function(x, ...) {
   notes <- x[["notes"]]
   meters <- x[["meters"]]
 
-  divisions <- infer_divisions(lines, notes, meters)
+  divisions <- infer_divisions(lines, notes, meters, x$tempos, x$clefs)
   musicxml_score <- to_MusicXML_score(lines, notes, meters, divisions)
 
   for (name in names(x)) {
