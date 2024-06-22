@@ -1,6 +1,6 @@
 #' @keywords internal
 #' @export
-to_MusicXML.Tempo <- function(x, ...) {
+to_MusicXML.Tempo <- function(x, divisions, ...) {
   tempo <- x[["tempo"]]
   contents <- list()
 
@@ -24,7 +24,22 @@ to_MusicXML.Tempo <- function(x, ...) {
   musicxml_sound <- MusicXML("sound", attributes = list(tempo = tempo))
   contents <- c(contents, list(musicxml_sound))
 
-  MusicXML("direction", contents)
+  musicxml_direction <- MusicXML("direction", contents)
+  offset <- x[["offset"]]
+
+  if (offset == 0) {
+    # For convenience
+    list(musicxml_direction)
+
+  } else {
+    duration <- offset * divisions
+
+    list(
+      to_MusicXML_forward(duration),
+      musicxml_direction,
+      to_MusicXML_backup(duration)
+    )
+  }
 }
 
 
