@@ -140,3 +140,21 @@ to_MusicXML_metronome <- function(left, right, bracket) {
     MusicXML("metronome", contents, list(parentheses = bracket))
   )
 }
+
+
+#' @keywords internal
+#' @export
+insert.Tempo <- function(x, to, divisions, ...) {
+  bar <- x[["bar"]]
+  measures <- to$contents[[2]]$contents
+  if (bar > length(measures)) return(to)
+  notes <- measures[[bar]]$contents
+
+  to$contents[[2]]$contents[[bar]]$contents <- append(
+    notes,
+    to_MusicXML(x, divisions),
+    locate_insertion("attributes", notes, "attributes")
+  )
+
+  to
+}

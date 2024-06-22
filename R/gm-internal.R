@@ -119,6 +119,7 @@ NULL
 #' insert.Accidental
 #' insert.Articulation
 #' insert.Breath
+#' insert.Tempo
 #'
 #' export.MusicXML
 #'
