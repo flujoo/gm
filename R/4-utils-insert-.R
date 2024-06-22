@@ -18,7 +18,7 @@ locate_insertion <- function(tag, siblings, tags) {
   before <- tags[seq_along(tags) <= which(tags == tag)]
 
   Position(
-    \(element) element[["tag"]] %in% before,
+    function(element) element[["tag"]] %in% before,
     siblings,
     right = TRUE,
     nomatch = 0L
