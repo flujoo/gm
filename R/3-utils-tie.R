@@ -34,7 +34,7 @@ indicate_original_ties <- function(notes, ties) {
     # If a note is possibly at the stop position
     is_stop <-
       lines == note_start[["line"]] &
-      is == note_start[["i"]] + 1 &
+      !is.na(is) & is == note_start[["i"]] + 1 &
       midis == note_start[["midi"]] # Don’t know the index or ID
 
     # There can also be more than one note
