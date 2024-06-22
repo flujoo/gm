@@ -49,16 +49,11 @@ parse_tempo_marking <- function(marking, tempo) {
 
   pattern_metronome <- paste0(
     "\\(?", "\\s*",
-
-    # The duration notation can only preceded by "(" or a whitespace
-    # For example, "qq = 90" should not be allowed
-    "(?<=(\\(|\\s))", pattern_base,
-
-    "\\s*", "=", "\\s*", ".*",
+    pattern_base, "\\s*", "=", "\\s*", ".*",
     "\\s*", "\\)?"
   )
 
-  if (!grepl(pattern_metronome, marking, perl = TRUE)) {
+  if (!grepl(pattern_metronome, marking)) {
     parsed <- list(
       before = marking,
       left = NULL,
