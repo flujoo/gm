@@ -9,7 +9,7 @@ add.Clef <- function(object, music) {
 
   # Normalization
   object$name <- to_string(object)
-  names(object)[names(object) == "line"] <- "staff"
+  names(object)[names(object) == "line"] <- "clef_line"
   names(object)[names(object) == "to"] <- "line"
   object$line <- normalize_to(object$line, lines)
   if (is.null(object$bar)) object$bar <- 1L
