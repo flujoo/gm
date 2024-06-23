@@ -36,6 +36,8 @@ prepare <- function(music) {
   notes <- locate_graces(notes)
   class(notes) <- c("Note", class(notes))
 
+  music[["clefs"]] <- prepare_clefs(music[["clefs"]], lines)
+
   music[["notes"]] <- notes
   music[["lines"]] <- lines
 
