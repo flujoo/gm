@@ -86,6 +86,7 @@ normalize_dynamic_velocity <- function(velocity, marking) {
 
   if (marking %in% markings) {
     (dynamics$velocity)[which(markings == marking)]
+
   } else {
     NA_integer_
   }
