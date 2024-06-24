@@ -9,7 +9,7 @@ to_MusicXML.Music <- function(x, ...) {
   musicxml_score <- to_MusicXML_score(lines, notes, meters, divisions)
 
   for (name in names(x)) {
-    if (name %in% c("lines", "notes", "ties", "velocities")) next
+    if (name %in% c("lines", "notes", "ties", "velocities", "graces")) next
     objects <- x[[name]]
 
     # At this point, <score-partwise> contains only <part-list> and <part>
