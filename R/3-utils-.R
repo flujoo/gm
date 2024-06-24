@@ -91,6 +91,9 @@ indicate_velocities <- function(notes, velocities) {
 
 prepare_clefs <- function(clefs, lines) {
   if (is.null(clefs)) return()
+
+  classes <- class(clefs)
   clefs <- merge(clefs, lines[, c("line", "part", "staff")], by = "line")
   clefs[, c("part", "staff", "bar", "offset", "sign", "clef_line", "octave")]
+  structure(clefs, class = classes)
 }
