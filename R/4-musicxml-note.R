@@ -5,6 +5,7 @@ to_MusicXML.Note <- function(x, divisions, ...) {
   contents_note <- list()
   attributes <- list()
 
+  grace <- x[["grace"]]
   measure_rest <- x[["measure_rest"]]
   voice <- x[["voice"]]
   staff <- x[["staff"]]
@@ -12,7 +13,7 @@ to_MusicXML.Note <- function(x, divisions, ...) {
 
   # <grace> ----------------------------------------------------
 
-  if (x[["grace"]]) {
+  if (grace) {
     musicxml_grace <- MusicXML("grace", attributes = list(slash = "yes"))
     contents_note <- c(contents_note, list(musicxml_grace))
   }
@@ -37,8 +38,10 @@ to_MusicXML.Note <- function(x, divisions, ...) {
 
   # <duration> -------------------------------------------------
 
-  musicxml_duration <- MusicXML("duration", divisions * x[["length"]])
-  contents_note <- c(contents_note, list(musicxml_duration))
+  if (!grace) {
+    musicxml_duration <- MusicXML("duration", divisions * x[["length"]])
+    contents_note <- c(contents_note, list(musicxml_duration))
+  }
 
 
   # <tie> and <tied> -------------------------------------------
