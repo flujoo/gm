@@ -121,6 +121,7 @@ NULL
 #' insert.Articulation
 #' insert.Breath
 #' insert.Tempo
+#' insert.Clef
 #'
 #' export.MusicXML
 #'
