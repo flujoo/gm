@@ -31,3 +31,13 @@ check_offset <- function(offset) {
   specific <- sprintf("`offset` is `%s`.", offset)
   erify::throw(general, specific)
 }
+
+
+#' @details For `Fermata()` and `Articulation()`
+#' @noRd
+check_content_df <- function(x, valid) {
+  valid <- unique(unlist(valid))
+  valid <- valid[!is.na(valid)]
+  name <- deparse(substitute(x))
+  erify::check_content(x, valid, name)
+}

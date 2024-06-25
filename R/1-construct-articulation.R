@@ -41,7 +41,7 @@
 #' }
 Articulation <- function(name, i, to = NULL) {
   # Validation
-  check_articulation_name(name)
+  check_content_df(name, articulations)
   erify::check_n(i)
   check_to(to)
 

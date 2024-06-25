@@ -44,7 +44,7 @@ Fermata <- function(i, to = NULL, type = NULL, above = NULL) {
   # Validation
   erify::check_n(i)
   check_to(to)
-  if (!is.null(type)) erify::check_content(type, unlist(fermatas))
+  if (!is.null(type)) check_content_df(type, fermatas)
   if (!is.null(above)) erify::check_bool(above)
 
   # Normalization
