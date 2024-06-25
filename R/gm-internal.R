@@ -103,6 +103,7 @@ NULL
 #' to_MusicXML.Accidental
 #' to_MusicXML.Articulation
 #' to_MusicXML.Clef
+#' to_MusicXML.Dynamic
 #'
 #' to_fraction
 #' to_fraction.Meter
