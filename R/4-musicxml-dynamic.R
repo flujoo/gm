@@ -55,3 +55,8 @@ to_MusicXML.Dynamic <- function(x, ...) {
 }
 
 
+#' @keywords internal
+#' @export
+insert.Dynamic <- function(x, to, ...) {
+  insert_direction(x, to, "first")
+}

@@ -123,6 +123,7 @@ NULL
 #' insert.Breath
 #' insert.Tempo
 #' insert.Clef
+#' insert.Dynamic
 #'
 #' export.MusicXML
 #'
