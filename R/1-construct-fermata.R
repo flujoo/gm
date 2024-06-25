@@ -2,9 +2,9 @@
 #'
 #' Create a `Fermata` object to represent a fermata symbol.
 #'
-#' Supported fermata types:
+#' Supported fermata shapes:
 #' `r document_data_frame(fermatas)`
-#' The types are from
+#' The shapes are from
 #' [the MusicXML specification](`r to_url("data-types/fermata-shape/")`)
 #' and MuseScore.
 #'
@@ -14,7 +14,7 @@
 #' @param to Optional. A single character or a single positive integer,
 #' which indicates the musical line where to add the fermata.
 #'
-#' @param type Optional. A single character, which indicates the shape of
+#' @param shape Optional. A single character, which indicates the shape of
 #' the fermata. The default value is `"normal"`. See the *Details* section.
 #'
 #' @param above Optional. A single logical, which indicates whether the
@@ -40,20 +40,20 @@
 #' if (interactive()) {
 #'   show(music)
 #' }
-Fermata <- function(i, to = NULL, type = NULL, above = NULL) {
+Fermata <- function(i, to = NULL, shape = NULL, above = NULL) {
   # Validation
   erify::check_n(i)
   check_to(to)
-  if (!is.null(type)) check_content_df(type, fermatas)
+  if (!is.null(shape)) check_content_df(shape, fermatas)
   if (!is.null(above)) erify::check_bool(above)
 
   # Normalization
   i <- as.integer(i)
-  if (is.null(type)) type <- NA_character_
+  if (is.null(shape)) shape <- NA_character_
 
   # Construction
   structure(
-    list(to = to, i = i, type = type, above = above),
+    list(to = to, i = i, shape = shape, above = above),
     class = "Fermata"
   )
 }
@@ -74,12 +74,12 @@ fermatas <- rbind(
 
 #' @export
 print.Fermata <- function(x, ...) {
-  type <- x$type
+  shape <- x$shape
   above <- x$above
 
   cat("Fermata", "\n\n")
   print_to_i_j(x$to, x$i)
-  if (!is.na(type)) cat(sprintf('* of type "%s"', type), "\n")
+  if (!is.na(shape)) cat(sprintf('* of shape "%s"', shape), "\n")
 
   if (!is.null(above)) {
     s_above <- if (above) "above" else "below"

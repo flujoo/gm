@@ -11,7 +11,7 @@ add.Fermata <- function(object, music) {
   check_i(i, line, music$notes)
 
   # Normalization
-  if (is.na(object[["type"]])) object[["type"]] <- "normal"
+  if (is.na(object[["shape"]])) object[["shape"]] <- "normal"
   if (is.null(object$above)) object$above <- TRUE
   names(object)[names(object) == "to"] <- "line"
   object$line <- line
