@@ -7,3 +7,10 @@ to_MusicXML.Fermata <- function(x, ...) {
     list(type = if (x[["above"]]) "upright" else "inverted")
   )
 }
+
+
+#' @keywords internal
+#' @export
+insert.Fermata <- function(x, to, ...) {
+  insert_notation(x, to, "last")
+}

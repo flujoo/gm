@@ -125,6 +125,7 @@ NULL
 #' insert.Tempo
 #' insert.Clef
 #' insert.Dynamic
+#' insert.Fermata
 #'
 #' export.MusicXML
 #'
