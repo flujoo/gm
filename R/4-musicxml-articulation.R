@@ -1,6 +1,6 @@
 #' @keywords internal
 #' @export
-to_MusicXML.Articulation <- function(x, level, ...) {
+to_MusicXML.Articulation <- function(x, ...) {
   MusicXML(x[["name"]])
 }
 
