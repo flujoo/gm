@@ -104,6 +104,7 @@ NULL
 #' to_MusicXML.Articulation
 #' to_MusicXML.Clef
 #' to_MusicXML.Dynamic
+#' to_MusicXML.Fermata
 #'
 #' to_fraction
 #' to_fraction.Meter
