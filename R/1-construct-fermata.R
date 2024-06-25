@@ -67,7 +67,8 @@ fermatas <- rbind(
   c("very short"   , "double-angled"),
   c("very long"    , "double-square"),
   c("long (Henze)" , "double-dot"   ),
-  c("short (Henze)", "half-curve"   )
+  c("short (Henze)", "half-curve"   ),
+  c(NA_character_  , "curlew"       )
 )
 
 
