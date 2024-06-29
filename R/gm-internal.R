@@ -129,6 +129,7 @@ NULL
 #' insert.Dynamic
 #' insert.Fermata
 #' insert.Hairpin
+#' insert.Pedal
 #'
 #' export.MusicXML
 #'

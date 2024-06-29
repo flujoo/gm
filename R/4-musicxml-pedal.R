@@ -8,3 +8,8 @@ to_MusicXML.Pedal <- function(x, type, ...) {
 }
 
 
+#' @keywords internal
+#' @export
+insert.Pedal <- function(x, to, ...) {
+  insert_linelike(x, to)
+}
