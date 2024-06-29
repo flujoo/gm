@@ -41,5 +41,7 @@ prepare <- function(music) {
   music[["notes"]] <- notes
   music[["lines"]] <- lines
 
+  music <- prepare_linelike(music)
+
   music
 }

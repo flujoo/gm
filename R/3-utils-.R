@@ -97,3 +97,18 @@ prepare_clefs <- function(clefs, lines) {
   clefs[, c("part", "staff", "bar", "offset", "sign", "clef_line", "octave")]
   structure(clefs, class = classes)
 }
+
+
+prepare_linelike <- function(music) {
+  for (name in c("hairpins", "pedals", "slurs")) {
+    objects <- music[[name]]
+    if (is.null(objects)) next
+
+    objects <- objects[order(objects[["line"]], objects[["i"]]), ]
+    objects[["number"]] <- rep_len(1:16, NROW(objects))
+
+    music[[name]] <- objects
+  }
+
+  music
+}
