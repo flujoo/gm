@@ -14,3 +14,10 @@ to_MusicXML.Notehead <- function(x, ...) {
 
   MusicXML("notehead", x[["shape"]], attributes)
 }
+
+
+#' @keywords internal
+#' @export
+insert.Notehead <- function(x, to, ...) {
+  insert_note_child(x, to, "all")
+}

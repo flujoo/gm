@@ -131,6 +131,7 @@ NULL
 #' insert.Fermata
 #' insert.Hairpin
 #' insert.Pedal
+#' insert.Notehead
 #'
 #' export.MusicXML
 #'
