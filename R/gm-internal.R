@@ -107,6 +107,7 @@ NULL
 #' to_MusicXML.Fermata
 #' to_MusicXML.Hairpin
 #' to_MusicXML.Pedal
+#' to_MusicXML.Notehead
 #'
 #' to_fraction
 #' to_fraction.Meter
