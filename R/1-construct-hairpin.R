@@ -11,10 +11,6 @@
 #' @param to Optional. A single character or a single positive integer,
 #' which indicates the musical line where to add the `Hairpin` object.
 #'
-#' @param text Optional. A single character, which represents the text
-#' that will appear on the score, instead of the crescendo or diminuendo
-#' symbol.
-#'
 #' @param above Optional. A single logical, which indicates whether the
 #' `Hairpin` object should appear above or below the staff.
 #'
@@ -38,19 +34,17 @@
 #' if (interactive()) {
 #'   show(music)
 #' }
-Hairpin <- function(symbol, i, j, to = NULL, text = NULL, above = NULL) {
+Hairpin <- function(symbol, i, j, to = NULL, above = NULL) {
   # Validation
   erify::check_content(symbol, c("<", ">"))
   erify::check_n(i)
   erify::check_n(j)
   check_to(to)
-  if (!is.null(text)) erify::check_string(text)
   if (!is.null(above)) erify::check_bool(above)
 
   # Normalization
   i <- as.integer(i)
   j <- as.integer(j)
-  if (is.null(text)) text <- NA_character_
 
   # Construction
   structure(
@@ -59,7 +53,6 @@ Hairpin <- function(symbol, i, j, to = NULL, text = NULL, above = NULL) {
       i = i,
       j = j,
       symbol = symbol,
-      text = text,
       above = above
     ),
 
@@ -70,11 +63,9 @@ Hairpin <- function(symbol, i, j, to = NULL, text = NULL, above = NULL) {
 
 #' @export
 print.Hairpin <- function(x, ...) {
-  text <- x$text
   above <- x$above
 
   cat(switch(x$symbol, "<" = "Crescendo", ">" = "Diminuendo"), "\n\n")
-  if (!is.na(text)) cat(sprintf('* as text "%s"', text), "\n")
 
   if (!is.null(above)) {
     s_above <- if (above) "above" else "below"
