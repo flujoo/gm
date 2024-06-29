@@ -16,3 +16,15 @@ insert_direction <- function(object, score, scope, type = "start") {
 
   score
 }
+
+
+insert_linelike <- function(object, score) {
+  start <- object
+  start[["j"]] <- NULL
+  score <- insert_direction(start, score, "first", "start")
+
+  stop <- object
+  stop[["i"]] <- stop[["j"]]
+  stop[["j"]] <- NULL
+  insert_direction(stop, score, "last", "stop")
+}

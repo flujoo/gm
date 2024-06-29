@@ -14,12 +14,5 @@ to_MusicXML.Hairpin <- function(x, type, ...) {
 #' @keywords internal
 #' @export
 insert.Hairpin <- function(x, to, ...) {
-  start <- x
-  start[["j"]] <- NULL
-  to <- insert_direction(start, to, "first", "start")
-
-  stop <- x
-  stop[["i"]] <- stop[["j"]]
-  stop[["j"]] <- NULL
-  insert_direction(stop, to, "last", "stop")
+  insert_linelike(x, to)
 }
