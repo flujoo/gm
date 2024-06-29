@@ -127,6 +127,7 @@ NULL
 #' insert.Clef
 #' insert.Dynamic
 #' insert.Fermata
+#' insert.Hairpin
 #'
 #' export.MusicXML
 #'
