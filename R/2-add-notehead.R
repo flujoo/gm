@@ -18,6 +18,7 @@ add.Notehead <- function(object, music) {
   # Normalization
   names(object)[names(object) == "to"] <- "line"
   object$line <- line
+  if (is.na(object[["shape"]])) object[["shape"]] <- "normal"
 
   # Construction
   music$noteheads <- update_chordal(music$noteheads, object, notes)
