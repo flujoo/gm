@@ -105,6 +105,7 @@ NULL
 #' to_MusicXML.Clef
 #' to_MusicXML.Dynamic
 #' to_MusicXML.Fermata
+#' to_MusicXML.Hairpin
 #'
 #' to_fraction
 #' to_fraction.Meter
