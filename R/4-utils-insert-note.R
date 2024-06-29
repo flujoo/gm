@@ -80,7 +80,7 @@ locate_notes_by_index <- function(line, i, j, score, scope) {
 
       for (m in seq_along(notes)) {
         note <- notes[[m]]
-        if (note[["tag"]] == "attributes") next
+        if (note[["tag"]] != "note") next
 
         note_i <- note[["i"]]
         note_j <- note[["j"]]
