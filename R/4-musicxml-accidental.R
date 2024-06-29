@@ -4,7 +4,7 @@ to_MusicXML.Accidental <- function(x, ...) {
   MusicXML(
     "accidental",
     x[["name"]],
-    if (x[["bracket"]]) list(bracket = "yes") else NULL
+    if (x[["bracket"]]) list(parentheses = "yes") else NULL
   )
 }
 
