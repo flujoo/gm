@@ -108,6 +108,7 @@ NULL
 #' to_MusicXML.Hairpin
 #' to_MusicXML.Pedal
 #' to_MusicXML.Notehead
+#' to_MusicXML.Stem
 #'
 #' to_fraction
 #' to_fraction.Meter
@@ -132,6 +133,7 @@ NULL
 #' insert.Hairpin
 #' insert.Pedal
 #' insert.Notehead
+#' insert.Stem
 #'
 #' export.MusicXML
 #'
