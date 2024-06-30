@@ -3,6 +3,11 @@ insert_articulation <- function(object, score, scope) {
 }
 
 
+insert_ornament <- function(object, score, scope) {
+  insert_sub_notation(object, score, scope, "ornaments")
+}
+
+
 insert_sub_notation <- function(object, score, scope, tag) {
   musicxml_sub_notation <- to_MusicXML(object)
   musicxml_notation <- MusicXML(tag, musicxml_sub_notation)
