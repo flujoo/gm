@@ -98,7 +98,14 @@ to_MusicXML_measure <- function(measure, meters, divisions) {
     }
   }
 
-  MusicXML("measure", contents, list(number = measure_number))
+  musicxml <- MusicXML("measure", contents, list(number = measure_number))
+
+  # Retain `i` for inserting components
+  is <- unique(measure[["i"]])
+  is <- is[!is.na(is)]
+  musicxml[["is"]] <- is
+
+  musicxml
 }
 
 
