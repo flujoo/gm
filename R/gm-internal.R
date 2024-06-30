@@ -110,6 +110,7 @@ NULL
 #' to_MusicXML.Notehead
 #' to_MusicXML.Stem
 #' to_MusicXML.Schleifer
+#' to_MusicXML.Mordent
 #'
 #' to_fraction
 #' to_fraction.Meter
@@ -136,6 +137,7 @@ NULL
 #' insert.Notehead
 #' insert.Stem
 #' insert.Schleifer
+#' insert.Mordent
 #'
 #' export.MusicXML
 #'
