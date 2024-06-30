@@ -20,7 +20,7 @@
 #'
 #' @examples
 #' # Create a `Stem`
-#' stem <- Stem("double", 1)
+#' stem <- Stem("none", 1)
 #' stem
 #'
 #' # Add a `Stem` to a `Music`
