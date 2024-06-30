@@ -33,7 +33,7 @@
 #'
 #' @examples
 #' # Create a `Notehead`
-#' notehead <- Notehead(1, shape = "diamond")
+#' notehead <- Notehead(1, shape = "diamond", color = "#800080")
 #' notehead
 #'
 #' # Add it to a `Music`
