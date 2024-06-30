@@ -1,5 +1,5 @@
-insert_notation <- function(object, score, scope) {
-  musicxml_notation <- to_MusicXML(object)
+insert_notation <- function(object, score, scope, type = NULL) {
+  musicxml_notation <- to_MusicXML(object, type)
   musicxml_notations <- MusicXML("notations", musicxml_notation)
 
   for (location in locate_notes(object, score, scope)) {
