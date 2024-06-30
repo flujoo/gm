@@ -1,7 +1,12 @@
 insert_articulation <- function(object, score, scope) {
-  musicxml_articulation <- to_MusicXML(object)
-  musicxml_articulations <- MusicXML("articulations", musicxml_articulation)
-  musicxml_notations <- MusicXML("notations", musicxml_articulations)
+  insert_sub_notation(object, score, scope, "articulations")
+}
+
+
+insert_sub_notation <- function(object, score, scope, tag) {
+  musicxml_sub_notation <- to_MusicXML(object)
+  musicxml_notation <- MusicXML(tag, musicxml_sub_notation)
+  musicxml_notations <- MusicXML("notations", musicxml_notation)
 
   for (location in locate_notes(object, score, scope)) {
     i <- location[1]
@@ -22,18 +27,18 @@ insert_articulation <- function(object, score, scope) {
     }
 
     notations <- children[[l]]$contents
-    m <- locate_tag("articulations", notations)
+    m <- locate_tag(tag, notations)
 
     if (length(m) == 0) {
       children[[l]]$contents <- append(
         notations,
-        list(musicxml_articulations)
+        list(musicxml_notation)
       )
 
     } else {
       children[[l]]$contents[[m]]$contents <- append(
         notations[[m]]$contents,
-        list(musicxml_articulation)
+        list(musicxml_sub_notation)
       )
     }
 
