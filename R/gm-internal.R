@@ -109,6 +109,7 @@ NULL
 #' to_MusicXML.Pedal
 #' to_MusicXML.Notehead
 #' to_MusicXML.Stem
+#' to_MusicXML.Schleifer
 #'
 #' to_fraction
 #' to_fraction.Meter
@@ -134,6 +135,7 @@ NULL
 #' insert.Pedal
 #' insert.Notehead
 #' insert.Stem
+#' insert.Schleifer
 #'
 #' export.MusicXML
 #'
