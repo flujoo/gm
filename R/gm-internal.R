@@ -112,6 +112,7 @@ NULL
 #' to_MusicXML.Schleifer
 #' to_MusicXML.Mordent
 #' to_MusicXML.Slur
+#' to_MusicXML.Turn
 #'
 #' to_fraction
 #' to_fraction.Meter
@@ -140,6 +141,7 @@ NULL
 #' insert.Schleifer
 #' insert.Mordent
 #' insert.Slur
+#' insert.Turn
 #'
 #' export.MusicXML
 #'

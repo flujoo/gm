@@ -40,3 +40,20 @@ to_MusicXML.Mordent <- function(x, ...) {
 insert.Mordent <- function(x, to, ...) {
   insert_ornament(x, to, "first")
 }
+
+
+# Turn ---------------------------------------------------------
+
+#' @keywords internal
+#' @export
+to_MusicXML.Turn <- function(x, ...) {
+  tag <- if (x[["inverted"]]) "inverted-turn" else "turn"
+  MusicXML(tag)
+}
+
+
+#' @keywords internal
+#' @export
+insert.Turn <- function(x, to, ...) {
+  insert_ornament(x, to, "first")
+}
