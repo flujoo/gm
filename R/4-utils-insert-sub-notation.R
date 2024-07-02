@@ -41,9 +41,14 @@ insert_sub_notation <- function(object, score, scope, tag, type = NULL) {
       )
 
     } else {
+      # Trill lines are already wrapped in lists
+      if (inherits(musicxml_sub_notation, "MusicXML")) {
+        musicxml_sub_notation <- list(musicxml_sub_notation)
+      }
+
       children[[l]]$contents[[m]]$contents <- append(
         notations[[m]]$contents,
-        list(musicxml_sub_notation)
+        musicxml_sub_notation
       )
     }
 

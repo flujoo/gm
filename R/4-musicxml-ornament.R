@@ -57,3 +57,39 @@ to_MusicXML.Turn <- function(x, ...) {
 insert.Turn <- function(x, to, ...) {
   insert_ornament(x, to, "first")
 }
+
+
+# Trill --------------------------------------------------------
+
+#' @keywords internal
+#' @export
+to_MusicXML.Trill <- function(x, type = NULL, ...) {
+  musicxml_trill <- MusicXML("trill-mark")
+  if (is.null(type)) return(musicxml_trill)
+
+  attributes <- list(type = type, number = x[["number"]])
+  musicxml_wavy <- MusicXML("wavy-line", attributes = attributes)
+
+  switch(
+    type,
+    start = list(musicxml_trill, musicxml_wavy),
+    stop = musicxml_wavy
+  )
+}
+
+
+#' @keywords internal
+#' @export
+insert.Trill <- function(x, to, ...) {
+  j <- x[["j"]]
+  if (is.na(j)) return(insert_ornament(x, to, "first"))
+
+  start <- x
+  start[["j"]] <- NULL
+  to <- insert_ornament(start, to, "first", "start")
+
+  stop <- x
+  stop[["i"]] <- j
+  stop[["j"]] <- NULL
+  insert_ornament(stop, to, "last", "stop")
+}

@@ -113,6 +113,7 @@ NULL
 #' to_MusicXML.Mordent
 #' to_MusicXML.Slur
 #' to_MusicXML.Turn
+#' to_MusicXML.Trill
 #'
 #' to_fraction
 #' to_fraction.Meter
@@ -142,6 +143,7 @@ NULL
 #' insert.Mordent
 #' insert.Slur
 #' insert.Turn
+#' insert.Trill
 #'
 #' export.MusicXML
 #'

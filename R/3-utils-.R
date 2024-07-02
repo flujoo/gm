@@ -100,7 +100,7 @@ prepare_clefs <- function(clefs, lines) {
 
 
 prepare_linelike <- function(music) {
-  for (name in c("hairpins", "pedals", "slurs")) {
+  for (name in c("hairpins", "pedals", "slurs", "trills")) {
     objects <- music[[name]]
     if (is.null(objects)) next
 
