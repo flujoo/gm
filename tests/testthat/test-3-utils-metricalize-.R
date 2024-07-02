@@ -19,6 +19,7 @@ test_that("metricalization works", {
   notes <- metricalize(notes, lines, meters)
 
   out <- notes[, c("start_bar", "start_offset", "end_bar", "end_offset")]
+  row.names(out) <- NULL
 
   expected <- data_frame(
     start_bar = as.integer(c(1, 1, 2, 2, 1)),
