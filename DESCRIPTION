@@ -1,18 +1,14 @@
 Package: gm
 Type: Package
-Title: Generate Music Easily and Show Them Anywhere
-Version: 1.0.4
+Title: Create Music With Ease
+Version: 2.0.0
 Author: Renfei Mao
 Maintainer: Renfei Mao <renfeimao@gmail.com>
-Description: Provides a simple and intuitive high-level language, with which
-    you can create music easily. Takes care of all the dirty technical
-    details in converting your music to musical scores and audio files.
-    Works in 'R Markdown' documents <https://rmarkdown.rstudio.com/>,
-    R 'Jupyter Notebooks' <https://jupyter.org/>, and 'RStudio'
-    <https://www.rstudio.com/>, so you can embed generated music
-    anywhere. Internally, uses 'MusicXML' <https://www.musicxml.com/> to
-    represent musical scores, and 'MuseScore' <https://musescore.org/> to
-    convert 'MusicXML'.
+Description: Provides a simple and intuitive high-level language for music
+    representation. Generates and embeds music scores and audio files in
+    'RStudio', 'R Markdown' documents, and R 'Jupyter Notebooks'.
+    Internally, uses 'MusicXML' <https://github.com/w3c/musicxml> to represent
+    music, and 'MuseScore' <https://musescore.org/> to convert 'MusicXML'.
 License: MIT + file LICENSE
 URL: https://github.com/flujoo/gm, https://flujoo.github.io/gm/
 Encoding: UTF-8
