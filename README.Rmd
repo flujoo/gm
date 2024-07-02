@@ -50,4 +50,4 @@ Install [MuseScore](https://musescore.org/). MuseScore is open source and free n
 
 ## More
 
-See `vignette("gm", package = "gm")` for a complete guide to gm.
+See `vignette("gm")` for a complete guide to gm.

@@ -38,4 +38,4 @@ and free notation software.
 
 ## More
 
-See `vignette("gm", package = "gm")` for a complete guide to gm.
+See `vignette("gm")` for a complete guide to gm.
