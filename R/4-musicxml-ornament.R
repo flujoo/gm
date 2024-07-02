@@ -93,3 +93,27 @@ insert.Trill <- function(x, to, ...) {
   stop[["j"]] <- NULL
   insert_ornament(stop, to, "last", "stop")
 }
+
+
+# Tremolo ------------------------------------------------------
+
+#' @keywords internal
+#' @export
+to_MusicXML.Tremolo <- function(x, type, ...) {
+  MusicXML("tremolo", x[["number"]], list(type = type))
+}
+
+
+#' @keywords internal
+#' @export
+insert.Tremolo <- function(x, to, ...) {
+  between <- x[["between"]]
+  if (!between) return(insert_ornament(x, to, "first", "single"))
+
+  start <- x
+  to <- insert_ornament(start, to, "first", "start")
+
+  stop <- x
+  stop[["i"]] <- stop[["i"]] + 1L
+  insert_ornament(stop, to, "first", "stop")
+}
