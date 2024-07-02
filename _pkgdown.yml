@@ -5,14 +5,12 @@ authors:
     href: https://github.com/flujoo
 
 home:
-  title: Generate Music in R
+  title: Create Music With R
 
 navbar:
   left:
     - text: "Complete Guide"
       href: "articles/gm.html"
-    - text: "中文导论"
-      href: "articles/cn.html"
     - text: "Reference"
       href: "reference/index.html"
     - text: "Changelog"
@@ -22,7 +20,7 @@ template:
   package: preferably
 
 reference:
-  - title: Create Music
+  - title: Music Creation
     contents:
       - Music
       - +.Music
@@ -31,11 +29,7 @@ reference:
       - Key
       - Clef
       - Tempo
-  - title: Create Complex Tuplets
-    contents:
-      - tuplet
-      - Tupler
-  - title: Convert Music
+  - title: Music Generation
     contents:
       - show
       - export
