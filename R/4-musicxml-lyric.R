@@ -6,7 +6,7 @@ to_MusicXML.Lyric <- function(x, ...) {
   syllabic <- .[["syllabic"]]
   text <- .[["text"]]
 
-  if (is.null(text) && is.null(extend)) return()
+  if (is.null(text) && !identical(extend, "stop")) return()
 
   contents <- list()
 
@@ -63,22 +63,24 @@ parse_lyric_text <- function(text) {
 
   # <text> -----------------------------------------------------
 
-  if (text %in% c("", "-", "_")) {
-    text <- NULL
+  tryCatch(
+    {
+      if (!is.null(extend)) text <- substring(text, 1, nchar(text) - 1)
 
-  } else {
-    if (!is.null(extend)) text <- substring(text, 1, nchar(text) - 1)
+      if (syllabic %in% c("begin", "middle")) {
+        text <- substring(text, 1, nchar(text) - 1)
+      }
 
-    if (syllabic %in% c("begin", "middle")) {
-      text <- substring(text, 1, nchar(text) - 1)
-    }
+      if (syllabic %in% c("end", "middle")) {
+        text <- substring(text, 2, nchar(text))
+      }
 
-    if (syllabic %in% c("end", "middle")) {
-      text <- substring(text, 2, nchar(text))
-    }
+      text <- strsplit(text, "(?<!\\\\)_", perl = TRUE)[[1]]
+      if (length(text) == 0 || identical(text, "")) text <- NULL
+    },
 
-    text <- strsplit(text, "(?<!\\\\)_", perl = TRUE)[[1]]
-  }
+    error = function(e) text <<- NULL
+  )
 
 
   list(extend = extend, syllabic = syllabic, text = text)
