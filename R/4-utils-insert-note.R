@@ -1,6 +1,10 @@
 insert_note_child <- function(object, score, scope) {
-  locations <- locate_notes(object, score, scope)
   musicxml <- to_MusicXML(object)
+
+  # For Lyrics
+  if (is.null(musicxml)) return(score)
+
+  locations <- locate_notes(object, score, scope)
 
   for (location in locations) {
     i <- location[1]

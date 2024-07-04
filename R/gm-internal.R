@@ -147,6 +147,7 @@ NULL
 #' insert.Turn
 #' insert.Trill
 #' insert.Tremolo
+#' insert.Lyric
 #'
 #' export.MusicXML
 #'

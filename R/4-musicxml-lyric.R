@@ -83,3 +83,10 @@ parse_lyric_text <- function(text) {
 
   list(extend = extend, syllabic = syllabic, text = text)
 }
+
+
+#' @keywords internal
+#' @export
+insert.Lyric <- function(x, to, ...) {
+  insert_note_child(x, to, "first")
+}
