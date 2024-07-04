@@ -14,12 +14,12 @@ add.Lyric <- function(object, music) {
   # Normalization
   names(object)[names(object) == "to"] <- "line"
   object$line <- line
-  if (is.null(object$layer)) object$layer <- 1L
+  if (is.null(object$verse)) object$verse <- 1L
 
   # Construction
   to_remove <-
     lyrics$line == line &
-    lyrics$layer == object$layer &
+    lyrics$verse == object$verse &
     lyrics$i == i
 
   music$lyrics <- rbind(lyrics[!(to_remove), ], to_case(object))

@@ -1,11 +1,30 @@
 #' Create `Lyric` Object
 #'
-#' Create `Lyric` objects to represent lyrics.
+#' Create a `Lyric` object to represent a unit of lyrics.
 #'
-#' @param text A character vector. Usually, the length of `text` should
-#' be 1, and it represents some word of the lyrics. If the length is
-#' larger than 1, the words will be connected with
-#' [elision slurs](https://musescore.org/en/handbook/4/lyrics#elision-slur).
+#' You can use `"-"` and `"_"` in argument `text` to create the following
+#' structures:
+#'
+#' - [Syllable](https://musescore.org/en/handbook/4/lyrics#enter-syllables):
+#' for example, with `Lyric("mo-", 1)` and `Lyric("-ther", 3)`, the two
+#' syllables of *mother* are added to the first and third notes, with
+#' a hyphen placed on the second note.
+#'
+#' - [Melisma](https://musescore.org/en/handbook/4/lyrics#enter-melisma):
+#' for example, with `Lyric("love_", 1)` and `Lyric("_", 3)`, the word
+#' *love* is added to the first note, followed by an underscore line
+#' which extends over the second and third notes.
+#'
+#' - [Elision](https://musescore.org/en/handbook/4/lyrics#elision-slur):
+#' for example, with `Lyric("my_love", 1)`, words *my* and *love* are both
+#' added to the first note, connected by an elision slur.
+#'
+#' Use `"\\-"` and `"\\_"` if you want to add hyphens and
+#' underscores literally.
+#'
+#' @param text A single character, which usually represents a word or
+#' syllable of the lyrics. See the *Details* section for more
+#' complex usage.
 #'
 #' @param i A single positive integer, which represents the position
 #' of the `Lyric` in a musical line.
@@ -13,18 +32,10 @@
 #' @param to Optional. A single character or a single positive integer,
 #' which indicates the musical line where to add the `Lyric`.
 #'
-#' @param special Optional. A single character which can be `"-"` and
-#' `"_"`.
-#'
-#' - With `"-"`, the `Lyric` will be treated as a syllable, and will
-#' be connected with the next `Lyric`. See
-#' [MuseScore](https://musescore.org/en/handbook/4/lyrics#enter-syllables).
-#'
-#' - With `"_"`, the `Lyric` will be treated as a
-#' [melisma](https://musescore.org/en/handbook/4/lyrics#enter-melisma).
-#'
-#' @param layer Optional. A positive integer which indicates the layer
-#' where to add the `Lyric`. The default value is 1.
+#' @param verse Optional. A positive integer which indicates the verse
+#' where to add the `Lyric`. The default value is 1. See
+#' [the MuseScore handbook
+#' ](https://musescore.org/en/handbook/4/lyrics#overview).
 #'
 #' @returns A list of class `Lyric`.
 #'
@@ -34,8 +45,8 @@
 #'
 #' @examples
 #' # Create two syllables
-#' syllable_1 <- Lyric("He", 1, special = "-")
-#' syllable_2 <- Lyric("llo", 2)
+#' syllable_1 <- Lyric("He-", 1)
+#' syllable_2 <- Lyric("-llo", 3)
 #' syllable_1
 #' syllable_2
 #'
@@ -43,7 +54,7 @@
 #' music <-
 #'   Music() +
 #'   Meter(4, 4) +
-#'   Line(c("C4", "D4")) +
+#'   Line(c("C4", "D4", "E4")) +
 #'   syllable_1 +
 #'   syllable_2
 #'
@@ -53,70 +64,30 @@
 #' if (interactive()) {
 #'   show(music)
 #' }
-Lyric <- function(text, i, to = NULL, special = NULL, layer = NULL) {
+Lyric <- function(text, i, to = NULL, verse = NULL) {
   # Validation
-  erify::check_type(text, "character")
+  erify::check_string(text)
   erify::check_n(i)
   check_to(to)
-  if (!is.null(special)) erify::check_content(special, c("-", "_"))
-  if (!is.null(layer)) erify::check_n(layer)
+  if (!is.null(verse)) erify::check_n(verse)
 
   # Normalization
-  text <- normalize_lyric_text(text)
   i <- as.integer(i)
-  if (is.null(special)) special <- NA_character_
-  if (!is.null(layer)) layer <- as.integer(layer)
-  j <- normalize_lyric_j(text)
+  if (!is.null(verse)) verse <- as.integer(verse)
 
   # Construction
   structure(
-    list(
-      to = to,
-      layer = layer,
-      i = i,
-      j = j,
-      text = text,
-      special = special
-    ),
-
+    list(to = to, verse = verse, i = i, text = text),
     class = "Lyric"
   )
 }
 
 
-normalize_lyric_text <- function(text) {
-  l <- length(text)
-
-  if (l == 0) return(" ")
-  text[is.na(text)] <- " "
-  if (l == 1 && text == "") return(" ")
-
-  text
-}
-
-
-normalize_lyric_j <- function(text) {
-  l <- length(text)
-  if (l == 1) NA_integer_ else 1:l
-}
-
-
 #' @export
 print.Lyric <- function(x, ...) {
-  special <- x$special
-  layer <- x$layer
+  verse <- x[["verse"]]
 
-  cat("Lyric", sprintf('"%s"', paste(x$text, collapse = "_")), "\n\n")
-
-  if (!is.na(special)) {
-    s_special <- switch(special,
-      "-" = "to be connected with the next syllable",
-      "_" = "as a melisma"
-    )
-
-    cat("*", s_special, "\n")
-  }
-
-  print_to_i_j(x$to, x$i)
-  if (!is.null(layer)) cat("* to be added to layer", layer, "\n")
+  cat("Lyric", sprintf('"%s"', x[["text"]]), "\n\n")
+  print_to_i_j(x[["to"]], x[["i"]])
+  if (!is.null(verse)) cat("* to be added to verse", verse, "\n")
 }
