@@ -22,7 +22,8 @@ to_MusicXML.Lyric <- function(x, ...) {
   }
 
   if (!is.null(extend)) {
-    contents <- c(contents, list(MusicXML("extend", extend)))
+    musicxml_extend <- MusicXML("extend", NULL, list(type = extend))
+    contents <- c(contents, list(musicxml_extend))
   }
 
   attributes <- list(number = x[["verse"]])
