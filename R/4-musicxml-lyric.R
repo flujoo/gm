@@ -1,3 +1,33 @@
+#' @keywords internal
+#' @export
+to_MusicXML.Lyric <- function(x, ...) {
+  . <- parse_lyric_text(x[["text"]])
+  extend <- .[["extend"]]
+  syllabic <- .[["syllabic"]]
+  text <- .[["text"]]
+
+  if (is.null(text) && is.null(extend)) return()
+
+  contents <- list()
+
+  if (!is.null(syllabic)) {
+    contents <- c(contents, list(MusicXML("syllabic", syllabic)))
+  }
+
+  n <- length(text)
+
+  for (i in seq_along(text)) {
+    contents <- c(contents, list(MusicXML("text", text[i])))
+    if (i != n) contents <- c(contents, list(MusicXML("elision", "")))
+  }
+
+  if (!is.null(extend)) {
+    contents <- c(contents, list(MusicXML("extend", extend)))
+  }
+
+  attributes <- list(number = x[["verse"]])
+  MusicXML("lyric", contents, attributes)
+}
 
 
 parse_lyric_text <- function(text) {

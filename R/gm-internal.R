@@ -115,6 +115,7 @@ NULL
 #' to_MusicXML.Turn
 #' to_MusicXML.Trill
 #' to_MusicXML.Tremolo
+#' to_MusicXML.Lyric
 #'
 #' to_fraction
 #' to_fraction.Meter
