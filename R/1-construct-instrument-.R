@@ -6,7 +6,9 @@
 #' `r document_items(instruments)`
 #'
 #' @param instrument A single integer between `1` and `128`, which indicates
-#' the instrument. See the *Details* section.
+#' the [program number
+#' ](https://en.wikipedia.org/wiki/General_MIDI#Program_change_events)
+#' of the instrument. See the *Details* section for all instruments.
 #'
 #' @param to Optional. A single character or a single positive integer,
 #' which indicates the musical line where to add the instrument.
