@@ -93,8 +93,10 @@ prepare_clefs <- function(clefs, lines) {
   if (is.null(clefs)) return()
 
   classes <- class(clefs)
+  columns <- c("part", "staff", names(clefs))
+
   clefs <- merge(clefs, lines[, c("line", "part", "staff")], by = "line")
-  clefs[, c("part", "staff", "bar", "offset", "sign", "clef_line", "octave")]
+  clefs <- clefs[, columns]
   structure(clefs, class = classes)
 }
 
