@@ -37,6 +37,7 @@ prepare <- function(music) {
   class(notes) <- c("Note", class(notes))
 
   music[["clefs"]] <- prepare_clefs(music[["clefs"]], lines)
+  music[["instruments"]] <- prepare_instruments(music[["instruments"]], lines)
 
   music[["notes"]] <- notes
   music[["lines"]] <- lines

@@ -112,3 +112,16 @@ prepare_linelike <- function(music) {
 
   music
 }
+
+
+prepare_instruments <- function(instruments, lines) {
+  if (is.null(instruments)) return()
+
+  classes <- class(instruments)
+  columns <- names(instruments)
+  columns[1] <- "part"
+
+  instruments <- merge(instruments, lines[, c("line", "part")], by = "line")
+  instruments <- instruments[, columns]
+  structure(instruments, class = classes)
+}
