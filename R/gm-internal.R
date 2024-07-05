@@ -116,6 +116,7 @@ NULL
 #' to_MusicXML.Trill
 #' to_MusicXML.Tremolo
 #' to_MusicXML.Lyric
+#' to_MusicXML.Instrument
 #'
 #' to_fraction
 #' to_fraction.Meter
@@ -148,6 +149,7 @@ NULL
 #' insert.Trill
 #' insert.Tremolo
 #' insert.Lyric
+#' insert.Instrument
 #'
 #' export.MusicXML
 #'
