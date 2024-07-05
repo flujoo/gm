@@ -13,11 +13,11 @@ knitr::opts_chunk$set(
 
 # Cannot add audio files in GitHub README, so let pkgdown use `index.md` 
 # rather than `README.md` to generate the home page. The two differences:
-
+# 
 # <audio controls>
 #   <source src="reference/figures/readme_audio.mp3" type="audio/mpeg">
 # </audio>
-
+# 
 # See `vignette("gm")` for a complete guide to gm.
 ```
 
