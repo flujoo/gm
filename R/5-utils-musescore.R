@@ -21,7 +21,7 @@ set_musescore_path <- function() {
     music <- Music() + Meter(1, 4) + Line(60)
     music <- prepare(music)
     musicxml <- to_MusicXML(music)
-    export(musicxml, tempdir(), "test", "png")
+    export(musicxml, file.path(tempdir(), "test.png"))
 
     if (any(grepl("^test.png$", list.files(tempdir())))) {
       return(invisible())
