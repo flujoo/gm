@@ -27,12 +27,12 @@
 #' @export
 #'
 #' @examples
-#' # Create a piano
-#' piano <- Instrument(1, 1)
-#' piano
+#' # Create a flute
+#' flute <- Instrument(74, pan = -90)
+#' flute
 #'
 #' # Add it to a `Music`
-#' music <- Music() + Meter(4, 4) + Line(c("C4", "D4")) + piano
+#' music <- Music() + Meter(4, 4) + Line(c("C5", "D5", "E5", "F5")) + flute
 #' music
 #'
 #' # Generate the music score
