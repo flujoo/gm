@@ -13,7 +13,14 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  eval = identical(Sys.getenv("gm_vignette"), "true")
+  
+  # To prevent CRAN from building this vignette:
+  # 
+  # 1. Add `BUILD_VIGNETTE=TRUE` in .Renviron before calling
+  # `devtools::build()` or `R CMD build`, to build this vignette locally.
+  # 
+  # 2. Remove `BUILD_VIGNETTE=TRUE` before calling `R CMD check --as-cran`.
+  eval = Sys.getenv("BUILD_VIGNETTE") == "TRUE"
 )
 ```
 
