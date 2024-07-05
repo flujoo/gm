@@ -10,13 +10,24 @@ knitr::opts_chunk$set(
   comment = "#>",
   out.width = "100%"
 )
+
+# Cannot add audio files in GitHub README, so let pkgdown use `index.md` 
+# rather than `README.md` to generate the home page. The two differences:
+
+# <audio controls>
+#   <source src="reference/figures/readme_audio.mp3" type="audio/mpeg">
+# </audio>
+
+# See `vignette("gm")` for a complete guide to gm.
 ```
 
 
-# gm - Create Music With R <img src="man/figures/logo.png" align="right" alt="logo" width="120"/>
+# gm <img src="man/figures/logo.png" align="right" alt="logo" width="120"/>
 
 <!-- badges: start -->
 <!-- badges: end -->
+
+Create music with R.
 
 
 ## Example
@@ -50,4 +61,4 @@ Install [MuseScore](https://musescore.org/). MuseScore is open source and free n
 
 ## More
 
-See `vignette("gm")` for a complete guide to gm.
+See [`vignette("gm")`](https://flujoo.github.io/gm/articles/gm.html) for a complete guide to gm.

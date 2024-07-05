@@ -1,10 +1,12 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# gm - Create Music With R <img src="man/figures/logo.png" align="right" alt="logo" width="120"/>
+# gm <img src="man/figures/logo.png" align="right" alt="logo" width="120"/>
 
 <!-- badges: start -->
 <!-- badges: end -->
+
+Create music with R.
 
 ## Example
 
@@ -36,4 +38,5 @@ and free notation software.
 
 ## More
 
-See `vignette("gm")` for a complete guide to gm.
+See [`vignette("gm")`](https://flujoo.github.io/gm/articles/gm.html) for
+a complete guide to gm.
