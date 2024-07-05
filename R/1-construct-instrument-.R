@@ -13,11 +13,12 @@
 #' @param to Optional. A single character or a single positive integer,
 #' which indicates the musical line where to add the instrument.
 #'
-#' @param volume Optional. A single integer between `0` and `127`, which
-#' represents the volume of the instrument. The default value is `100`.
+#' @param volume Optional. A single integer between `0` and `100`, which
+#' represents the volume of the instrument. The default value is `80`.
+#' Please note that `volume` and `pan` only work in MuseScore 3.
 #'
-#' @param pan Optional. A single integer between `0` and `127`, which
-#' represents the panning of the instrument. The default value is `64`.
+#' @param pan Optional. A single integer between `-90` and `90`, which
+#' represents the panning of the instrument. The default value is `0`.
 #'
 #' @returns A list of class `Instrument`.
 #'
@@ -42,14 +43,14 @@ Instrument <- function(instrument, to = NULL, volume = NULL, pan = NULL) {
   # Validation
   erify::check_interval(instrument, c(1L, 128L))
   check_to(to)
-  if (!is.null(volume)) erify::check_interval(volume, c(0L, 127L))
-  if (!is.null(pan)) erify::check_interval(pan, c(0L, 127L))
+  if (!is.null(volume)) erify::check_interval(volume, c(0, 100))
+  if (!is.null(pan)) erify::check_interval(pan, c(-90, 90))
 
   # Normalization
   midi <- as.integer(instrument)
   name <- instruments[midi]
-  if (!is.null(volume)) volume <- as.integer(volume)
-  if (!is.null(pan)) pan <- as.integer(pan)
+  if (!is.null(volume)) volume <- as.double(volume)
+  if (!is.null(pan)) pan <- as.double(pan)
 
   # Construction
   structure(

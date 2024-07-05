@@ -31,7 +31,8 @@ set_musescore_path <- function() {
     }
   }
 
-  musescore_versions <- c(4, 3)
+  # `volume` and `pan` don't work in 4
+  musescore_versions <- c(3, 4)
 
   default_paths <- switch(
     Sys.info()["sysname"],

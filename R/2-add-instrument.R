@@ -10,8 +10,8 @@ add.Instrument <- function(object, music) {
   # Normalization
   object$to <- normalize_to(object$to, lines)
   names(object)[names(object) == "to"] <- "line"
-  if (is.null(object$volume)) object$volume <- 100L
-  if (is.null(object$pan)) object$pan <- 64L
+  if (is.null(object$volume)) object$volume <- 80
+  if (is.null(object$pan)) object$pan <- 0
 
   # Construction
   music$instruments <- update_cases(music$instruments, object, lines)
