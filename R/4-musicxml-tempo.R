@@ -136,6 +136,7 @@ to_MusicXML_metronome <- function(left, right, bracket) {
   contents <- c(musicxml_left, musicxml_right)
   bracket <- if (bracket) "yes" else "no"
 
+  # `print-object="no"` doesn’t work
   MusicXML(
     "direction-type",
     MusicXML("metronome", contents, list(parentheses = bracket))
