@@ -104,7 +104,10 @@ You don’t need to configure anything if MuseScore is installed to a [default p
 Otherwise, please specify the path to the MuseScore executable file in .Renviron file:
 
 1. Open .Renviron file.
-2. Add `MUSESCORE_PATH=<path to MuseScore>`.
+2. Add environment variable `MUSESCORE_PATH=<path to MuseScore>`.
 3. Restart R session.
 
-For example, in Windows, you can add something like `MUSESCORE_PATH=C:/Program Files/MuseScore 4/bin/MuseScore4.exe` to .Renviron file.
+For example, the environment variable is like
+
+- `MUSESCORE_PATH=C:/Program Files/MuseScore 4/bin/MuseScore4.exe` in Windows, and
+- `MUSESCORE_PATH=/Applications/MuseScore\ 4.app/Contents/MacOS/mscore` in Mac.
