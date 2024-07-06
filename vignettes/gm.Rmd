@@ -139,3 +139,131 @@ music
 ```
 
 We will explore every type of components as we proceed.
+
+
+## Musical Lines
+
+Musical lines are the most basic units of music in gm. You can create a musical line with `Line()`.
+
+### Pitches and Durations
+
+You can specify the pitches and durations of a musical line with arguments `pitches` and `durations`. For example:
+
+```{r}
+line <- Line(
+  pitches = c("C5", "D5", "E5", "F5"),
+  durations = c(0.5, 1, 1.5, 2)
+)
+
+music <- Music() + Meter(5, 4) + line
+show(music)
+```
+
+We will talk more about them later.
+
+### Musical Line Insertion
+
+You can insert a musical line at positions other than the first beat of the first bar with arguments `bar` and `offset`. For example:
+
+```{r}
+line <- Line(c("C5", "D5", "E5"), bar = 2, offset = 1)
+music <- Music() + Meter(4, 4) + line
+show(music)
+```
+
+The musical line is inserted at the second beat of the second bar.
+
+### Multiple Musical Lines
+
+Music can contain more than one musical line. For example:
+
+```{r}
+line_1 <- Line(c("C5", "D5", "E5", "F5"))
+line_2 <- Line(c("E4", "G4"), 2)
+line_3 <- Line("C4", 4)
+music <- Music() + Meter(4, 4) + line_1 + line_2 + line_3
+show(music)
+```
+
+You can assign a name to a musical line with argument `name`. For example:
+
+```{r}
+line_1 <- Line(c("C5", "D5", "E5", "F5"), name = "a")
+line_2 <- Line(c("E4", "G4"), 2, name = "b")
+line_3 <- Line("C4", 4, name = "c")
+music <- Music() + Meter(4, 4) + line_1 + line_2 + line_3
+show(music)
+```
+
+By default, a musical line is added to the end. You can change it with argument `to` and `after`. For example:
+
+```{r}
+line_1 <- Line(c("C5", "D5", "E5", "F5"), name = "a")
+line_2 <- Line(c("E4", "G4"), 2, name = "b")
+line_3 <- Line("C4", 4, name = "c", to = "a", after = FALSE)
+music <- Music() + Meter(4, 4) + line_1 + line_2 + line_3
+show(music)
+```
+
+Now the third musical line is added to the beginning.
+
+### Musical Line Types
+
+There are four types of musical lines in gm:
+
+1. part
+2. staff
+3. voice
+4. segment
+
+You specify the type with argument `as`. For example, the following music has two parts:
+
+```{r}
+music <- 
+  Music() +
+  Meter(4, 4) +
+  Line(c("C5", "D5", "E5", "F5")) +
+  Line(c("C4", "G4"), 2, as = "part")
+
+show(music)
+```
+
+Part is the default type, so you can also remove `as = "part"`.
+
+This music has two staffs:
+
+```{r}
+music <- 
+  Music() +
+  Meter(4, 4) +
+  Line(c("C5", "D5", "E5", "F5")) +
+  Line(c("C4", "G4"), 2, as = "staff")
+
+show(music)
+```
+
+This music has two voices:
+
+```{r}
+music <- 
+  Music() +
+  Meter(4, 4) +
+  Line(c("C5", "D5", "E5", "F5")) +
+  Line(c("C4", "G4"), 2, as = "voice")
+
+show(music)
+```
+
+And this music has two segments:
+
+```{r}
+music <- 
+  Music() +
+  Meter(4, 4) +
+  Line(c("C5", "D5", "E5", "F5")) +
+  Line(c("C4", "G4"), 2, as = "segment", bar = 2)
+
+show(music)
+```
+
+Segments are used to insert musical lines into other musical lines.
