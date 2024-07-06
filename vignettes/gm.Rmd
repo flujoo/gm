@@ -23,3 +23,20 @@ knitr::opts_chunk$set(
   eval = Sys.getenv("BUILD_VIGNETTE") == "TRUE"
 )
 ```
+
+
+```{r message = FALSE}
+library(gm)
+```
+
+There are two interpretations of the package name *gm*:
+
+1. grammar of music
+2. generate music
+
+They correspond to two functionalities of the package:
+
+1. a language for music representation
+2. generation of music scores and audio files
+
+Let's start with a quick example.
