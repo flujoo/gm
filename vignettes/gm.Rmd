@@ -83,3 +83,28 @@ show(music)
 ```
 
 There are still many other components we can add. Before we dive in, let's see how to install and configure gm.
+
+
+## Installation
+
+Install gm:
+
+```r
+install.packages("gm")
+```
+
+Install [MuseScore](https://musescore.org/). MuseScore is open source
+and free notation software.
+
+
+## Configuration
+
+You don’t need to configure anything if MuseScore is installed to a [default path](https://musescore.org/en/handbook/4/revert-factory-settings).
+
+Otherwise, please specify the path to the MuseScore executable file in .Renviron file:
+
+1. Open .Renviron file.
+2. Add `MUSESCORE_PATH=<path to MuseScore>`.
+3. Restart R session.
+
+For example, in Windows, you can add something like `MUSESCORE_PATH=C:/Program Files/MuseScore 4/bin/MuseScore4.exe` to .Renviron file.
