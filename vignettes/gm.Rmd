@@ -42,7 +42,7 @@ They correspond to two functionalities of the package:
 Let's start with a quick example.
 
 
-## Quick Example
+## Example
 
 ```{r}
 music <- 
