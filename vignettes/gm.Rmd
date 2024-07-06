@@ -94,7 +94,7 @@ install.packages("gm")
 ```
 
 Install [MuseScore](https://musescore.org/). MuseScore is open source
-and free notation software.
+and free notation software. Internally, gm uses MuseScore to generate music. 
 
 
 ## Configuration
