@@ -123,7 +123,7 @@ As shown in the *Quick Example* section, the workflow for creating music is usua
 2. Add components to it with `+`.
 3. Display the music with `show()`.
 
-A `Music` object is represented as a list of data frames. Each data frame represents a type of components added to it. To examine a `Music` object's representation, simply print it. For example, below is the representation of the `Music` object created in the *Quick Example* section:
+A `Music` object is represented as a list of data frames. Each data frame represents some type of components of the music. To examine a `Music` object's representation, simply print it. For example, below is the representation of the `Music` object created in the *Quick Example* section:
 
 ```{r}
 music <- 
