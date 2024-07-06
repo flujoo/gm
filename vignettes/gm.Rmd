@@ -301,3 +301,22 @@ music$lines
 ```
 
 We can see from the data frame that this music has one part, and this part has two staffs. The first staff has two voices. The second staff is inserted at the second beat.
+
+
+## Pitches
+
+### Pitch Notations
+
+You can use [scientific pitch notations](https://en.wikipedia.org/wiki/Scientific_pitch_notation) to specify pitches. For example:
+
+```{r}
+pitches <- c("C4", "C#4", "D-4", "C##4", "D--4")
+music <- Music() + Meter(5, 4) + Line(pitches)
+show(music)
+```
+
+A pitch notation consists of
+
+1. a tone name (from A to G),
+2. an optional accidental (\-, \-\-, \# or \#\#), and
+3. a number identifying the pitch's octave (from 0 to 9).
