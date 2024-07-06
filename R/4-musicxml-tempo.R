@@ -24,7 +24,8 @@ to_MusicXML.Tempo <- function(x, divisions, ...) {
   musicxml_sound <- MusicXML("sound", attributes = list(tempo = tempo))
   contents <- c(contents, list(musicxml_sound))
 
-  musicxml_direction <- MusicXML("direction", contents)
+  attributes <- list(placement = "above")
+  musicxml_direction <- MusicXML("direction", contents, attributes)
   offset <- x[["offset"]]
 
   if (offset == 0) {
