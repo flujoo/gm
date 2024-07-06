@@ -159,7 +159,19 @@ music <- Music() + Meter(5, 4) + line
 show(music)
 ```
 
-We will talk more about them later.
+If `pitches` and `durations` have different lengths, the shorter one will be recycled. This feature is useful for repeating a pattern. For example:
+
+```{r}
+line <- Line(
+  pitches = c("A3", "E4", "C5", "B3", "E4", "G#4"),
+  durations = c("quarter.", "eighth", "quarter")
+)
+
+music <- Music() + Meter(3, 4) + line
+show(music)
+```
+
+We will talk more about pitches and durations later.
 
 ### Musical Line Insertion
 
