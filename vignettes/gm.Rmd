@@ -111,3 +111,22 @@ For example, the environment variable is like
 
 - `MUSESCORE_PATH=C:/Program Files/MuseScore 4/bin/MuseScore4.exe` in Windows, and
 - `MUSESCORE_PATH=/Applications/MuseScore\ 4.app/Contents/MacOS/mscore` in macOS.
+
+
+## Music
+
+At the highest level, gm uses `Music` objects to represent music.
+
+As shown in the *Quick Example* section, the workflow for creating music is usually like this:
+
+1. Initialize a `Music` object with `Music()`.
+2. Add components to it with `+`.
+3. Display the music with `show()`.
+
+A `Music` object is represented as a list of data frames. Each data frame represents a type of components added to it. To examine a `Music` object's representation, simply print it. For example, the representation of the `Music` object created in the *Quick Example* section:
+
+```{r}
+music
+```
+
+We will explore every type of components as we proceed.
