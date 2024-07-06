@@ -110,4 +110,4 @@ Otherwise, please specify the path to the MuseScore executable file in .Renviron
 For example, the environment variable is like
 
 - `MUSESCORE_PATH=C:/Program Files/MuseScore 4/bin/MuseScore4.exe` in Windows, and
-- `MUSESCORE_PATH=/Applications/MuseScore\ 4.app/Contents/MacOS/mscore` in Mac.
+- `MUSESCORE_PATH=/Applications/MuseScore\ 4.app/Contents/MacOS/mscore` in macOS.
