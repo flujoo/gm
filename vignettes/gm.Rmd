@@ -207,16 +207,22 @@ show(music)
 
 Now the third musical line is added to the beginning.
 
-### Musical Line Types
+### Musical Line Hierarchy
 
-There are four types of musical lines in gm:
+There is a hierarchy of musical lines:
 
 1. part
 2. staff
 3. voice
 4. segment
 
-You specify the type with argument `as`. For example, the following music has two parts:
+From the perspective of a music score,
+
+- a part can have several staffs;
+- a staff can have up to four voices;
+- a voice can have several segments.
+
+You can specify the hierarchy with argument `as`. For example, the following music has two parts:
 
 ```{r}
 music <- 
@@ -228,9 +234,7 @@ music <-
 show(music)
 ```
 
-Part is the default type, so you can also remove `as = "part"`.
-
-This music has two staffs:
+The following music has one part, and this part has two staffs:
 
 ```{r}
 music <- 
@@ -242,7 +246,7 @@ music <-
 show(music)
 ```
 
-This music has two voices:
+The following music has one part of one staff, and this staff has two voices:
 
 ```{r}
 music <- 
@@ -254,7 +258,7 @@ music <-
 show(music)
 ```
 
-And this music has two segments:
+The following music has one part of one staff of one voice, and this voice has two segments:
 
 ```{r}
 music <- 
