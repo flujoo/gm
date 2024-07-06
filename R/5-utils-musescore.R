@@ -32,7 +32,8 @@ set_musescore_path <- function() {
   }
 
   # `volume` and `pan` don't work in 4
-  musescore_versions <- c(3, 4)
+  # `placement = "below"` doesn’t work for Pedals in 3
+  musescore_versions <- c(4, 3)
 
   default_paths <- switch(
     Sys.info()["sysname"],
