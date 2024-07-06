@@ -267,3 +267,21 @@ show(music)
 ```
 
 Segments are used to insert musical lines into other musical lines.
+
+### Musical Line Representation
+
+The `$lines` data frame of a `Music` object contains the information about all musical lines. For example:
+
+```{r}
+line_1 <- Line(c("C5", "D5", "E5", "F5"), name = "a")
+line_2 <- Line(c("E4", "G4"), 2, name = "b", as = "voice")
+line_3 <- Line("C4", 2, name = "c", as = "staff", offset = 2)
+music <- Music() + Meter(4, 4) + line_1 + line_2 + line_3
+show(music)
+```
+
+```{r}
+music$lines
+```
+
+We can see from the data frame that this music has one part, and this part has two staffs. The first staff has two voices. The second staff is inserted at the second beat.
