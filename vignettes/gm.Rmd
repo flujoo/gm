@@ -40,3 +40,46 @@ They correspond to two functionalities of the package:
 2. generation of music scores and audio files
 
 Let's start with a quick example.
+
+
+## Quick Example
+
+```{r}
+music <- 
+  Music() +
+  Meter(4, 4) +
+  Line(c("C5", "D5", "E5", "F5"))
+  
+show(music)
+```
+
+Let's go through the code line by line:
+
+1. `music <-` defines a variable.
+2. `Music()` initializes a `Music` object.
+3. `+ Meter(4, 4)` adds a 4/4 time signature.
+4. `+ Line(c("C5", "D5", "E5", "F5"))` adds four notes.
+5. `show(music)` generates the music.
+
+We don’t have to stop here. We can add more components. For example, add a tempo:
+
+```{r}
+music <- music + Tempo(180)
+show(music)
+```
+
+Add an articulation:
+
+```{r}
+music <- music + Articulation(">", 1)
+show(music)
+```
+
+Add a pedal:
+
+```{r}
+music <- music + Pedal(1, 4)
+show(music)
+```
+
+There are still many other components we can add. Before we dive in, let's see how to install and configure gm.
