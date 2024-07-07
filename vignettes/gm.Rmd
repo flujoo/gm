@@ -440,11 +440,10 @@ knitr::kable(duration_types)
 You can also use duration values to specify durations. For example:
 
 ```{r}
-durations <- c(0.5, 1, 1.5, 2)
-music <- Music() + Meter(5, 4) + Line(durations = durations)
+durations <- 1:5
+music <- Music() + Meter(5, 4) + Line("C4", durations)
 show(music)
 ```
 
-A valid duration value should have an equivalent duration notation. For example, the equivalent duration notation of 0.5 is "eighth"; the equivalent duration notation of 1.5 is "quarter.".
+A valid duration value should be equal to the total length of one or more duration types. For example, 0.5 is equal to the length of "eighth"; 1.5 is equal to the total length of "quarter" and "eighth"; 1.1 is invalid.
 
-Just like MIDI note numbers, duration values are easy to work with, but can have ambiguous interpretations. For example, 1.5 can be "quarter." or "quarter" and "eighth". Usually, gm takes the latter interpretation.
