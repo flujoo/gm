@@ -364,3 +364,29 @@ pitches <- c(73, 73)
 music <- Music() + Meter(1, 4) + Key(7) + Key(-7, bar = 2) + Line(pitches)
 show(music)
 ```
+
+### Rests
+
+You can use `NA` to specify rests. For example:
+
+```{r}
+pitches <- c("C4", NA, "D4", NA)
+music <- Music() + Meter(4, 4) + Line(pitches)
+show(music)
+```
+
+Sometimes rests are added by gm automatically. In the following example, the musical line is inserted at the second bar, so a rest is added to the first bar:
+
+```{r}
+pitches <- c("C4", NA, "D4", NA)
+music <- Music() + Meter(4, 4) + Line(pitches, bar = 2)
+show(music)
+```
+
+In the following example, the musical line doesn’t fill the entire bar, so some rests are added to the end:
+
+```{r}
+pitches <- "C4"
+music <- Music() + Meter(4, 4) + Line(pitches)
+show(music)
+```
