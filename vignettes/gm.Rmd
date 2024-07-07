@@ -317,6 +317,6 @@ show(music)
 
 A pitch notation consists of
 
-1. a tone name (from A to G),
-2. an optional accidental (\-, \-\-, \# or \#\#), and
-3. a number identifying the pitch's octave (from 0 to 9).
+1. a tone name which can be "C", "D", "E", "F", "G", "A", or "B",
+2. an optional accidental which can be "-", "--", "#", or "##", and
+3. a number between 0 and 9 that indicates the pitch's octave.
