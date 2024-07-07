@@ -400,3 +400,29 @@ pitches <- list("C4", c("E4", "G4"), NA, c(64, 67))
 music <- Music() + Meter(4, 4) + Line(pitches)
 show(music)
 ```
+
+
+## Durations
+
+### Duration Notations
+
+You can use duration notations to specify durations. For example:
+
+```{r}
+durations <- c("q.", "eighth", "quarter..", "16th")
+music <- Music() + Meter(4, 4) + Line(durations = durations)
+show(music)
+```
+
+A duration notation can have two parts:
+
+- a duration type or its abbreviation
+- zero to four dots
+
+All supported duration types:
+
+```{r echo = FALSE}
+duration_types <- gm:::duration_types[, 1:2]
+names(duration_types) <- c("Duration Type", "Abbreviation")
+knitr::kable(duration_types)
+```
