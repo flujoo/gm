@@ -422,7 +422,15 @@ A duration notation can have two parts:
 All supported duration types:
 
 ```{r echo = FALSE}
-duration_types <- gm:::duration_types[, 1:2]
-names(duration_types) <- c("Duration Type", "Abbreviation")
+duration_types <- gm:::duration_types
+
+duration_types$value <- duration_types$value |>
+  lapply(gm:::to_fraction) |>
+  lapply(\(fraction) {
+    if (fraction[2] == 1) fraction[1] else paste(fraction, collapse = "/")
+  }) |>
+  as.character()
+
+names(duration_types) <- c("Duration Type", "Abbreviation", "Value")
 knitr::kable(duration_types)
 ```
