@@ -393,12 +393,10 @@ show(music)
 
 ### Chords
 
-You can use vectors to specify chords. For example:
+You can use vectors to specify chords. Just remember to wrap them in a list. For example:
 
 ```{r}
 pitches <- list("C4", c("E4", "G4"), NA, c(64, 67))
 music <- Music() + Meter(4, 4) + Line(pitches)
 show(music)
 ```
-
-Just remember to wrap them in a list.
