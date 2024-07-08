@@ -1,3 +1,20 @@
+# gm 2.0.0
+
+## Features
+
+* See [Reference](reference/index.html) for a lot of new components (#11 #4).
+* Represent music with data frames.
+* Refactor code. Now it's more developer-friendly.
+* Reduce package dependencies.
+
+## Breaking Changes
+
+* Deprecate argument `tie` of `Line()`. Use `Tie()` instead.
+* Deprecate argument `unit` of `Tempo()`. Use `marking` instead.
+* Change arguments of `export()`.
+* Remove `tuplet()` and `Tupler()`. See argument `durations` of `Line()`.
+
+
 # gm 1.0.4
 
 * Recognize Shiny apps.
