@@ -2,7 +2,7 @@
 
 ## Features
 
-* See [Reference](reference/index.html) for a lot of new components (#11 #4).
+* Add many new components (#11 #4).
 * Represent music with data frames.
 * Refactor code. Now it's more developer-friendly.
 * Reduce package dependencies.
