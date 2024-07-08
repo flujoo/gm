@@ -18,18 +18,3 @@ navbar:
 
 template:
   package: preferably
-
-reference:
-  - title: Music Creation
-    contents:
-      - Music
-      - +.Music
-      - Line
-      - Meter
-      - Key
-      - Clef
-      - Tempo
-  - title: Music Generation
-    contents:
-      - show
-      - export
