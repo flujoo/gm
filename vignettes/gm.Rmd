@@ -473,3 +473,212 @@ gm can represent nested tuplets like this:
 
 However, because gm uses MusicXML to represent music internally, but MuseScore cannot handle nested tuplets with MusicXML, we will skip this part.
 
+## Notes
+
+### Note Representation
+
+In `Line()`, we don't provide notes, rests, or chords directly. Instead, we separate the pitches and durations. This feature is convenient for music programming.
+
+However, `Music` objects have a data frame `$notes` for representing notes. For example:
+
+```{r}
+music <-
+  Music() +
+  Meter(4, 4) +
+  Line(list("C4", NA, c("C4", "E4")), list(1, "quarter", 2))
+
+show(music)
+```
+
+```{r}
+music$notes
+```
+
+The meaning of each column:
+
+- `line` indicates the row number of the musical line a note belongs to.
+- `i` indicates a note's index in the musical line.
+- `j` indicates a note's index in a chord.
+- `pitch` indicates the pitch notation of a note.
+- `midi` indicates the MIDI note number of a note.
+- `duration` indicates the duration notation of a note.
+- `length` indicates the length of a note's duration.
+
+### Ties
+
+You can tie together two notes with `Tie()`. For example:
+
+```{r}
+notes <- Line(c("C4", "C4"))
+tie <- Tie(1)
+music <- Music() + Meter(2, 4) + notes + tie
+show(music)
+```
+
+You can tie together some notes in chords or the whole chords. For example:
+
+```{r}
+chords <- Line(list(c("C4", "E4"), c("C4", "E4")))
+tie <- Tie(1, 2)
+music <- Music() + Meter(2, 4) + chords + tie
+show(music)
+```
+
+```{r}
+chords <- Line(list(c("C4", "E4"), c("C4", "E4")))
+tie <- Tie(1)
+music <- Music() + Meter(2, 4) + chords + tie
+show(music)
+```
+
+gm automatically splits cross-bar notes and adds ties. For example:
+
+```{r}
+cross_bar_note <- Line("C4", 4)
+music <- Music() + Meter(1, 4) + cross_bar_note
+show(music)
+```
+
+### Grace Notes
+
+You can add grace notes with `Grace()`. For example:
+
+```{r}
+line <- Line(c("A3", "B3", "C4", "D4"), c(0.25, 0.25, 1, 1))
+music <- Music() + Meter(2, 4) + line + Grace(1) + Grace(2)
+show(music)
+```
+
+The first two notes are indicated as grace notes.
+
+### Accidentals
+
+gm adds accidentals to notes based on the key. You can change default accidentals with `Accidental()`. For example:
+
+```{r}
+accidental <- Accidental("natural", 2)
+music <- Music() + Meter(2, 4) + Line(c("C4", "C4")) + accidental
+show(music)
+```
+
+### Noteheads
+
+You can change the shape or color of a note with `Notehead()`. For example:
+
+```{r}
+notehead <- Notehead(1, shape = "diamond", color = "#FF0000")
+music <- Music() + Meter(2, 4) + Line(c("C4", "C4")) + notehead
+show(music)
+```
+
+### Stems
+
+You can change the stem of a note with `Stem()`. For example:
+
+```{r}
+stem <- Stem("none", 1)
+music <- Music() + Meter(2, 4) + Line(c("C4", "C4")) + stem
+show(music)
+```
+
+### Articulations
+
+You can add an articulation to a note with `Articulation()`. Some examples:
+
+```{r}
+music <- 
+  Music() +
+  Meter(4, 4) +
+  Line(c("C4", "D4", "E4", "F4")) +
+  Articulation(">", 1) +
+  Articulation(".", 2) +
+  Articulation("'", 3) +
+  Articulation("-", 4)
+  
+show(music)
+```
+
+All supported articulations:
+
+```{r echo = FALSE}
+articulations <- gm:::articulations
+names(articulations) <- c("MuseScore", "MusicXML", "Symbol")
+knitr::kable(articulations)
+```
+
+### Fermatas
+
+You can add a fermata to a note with `Fermata()`. For example:
+
+```{r}
+music <- 
+  Music() +
+  Meter(4, 4) +
+  Line(c("C4", "D4", "E4", "F4")) +
+  Fermata(4, shape = "square")
+  
+show(music)
+```
+
+### Breath Marks
+
+You can add a breath mark to a note with `Breath()`. For example:
+
+```{r}
+music <- 
+  Music() +
+  Meter(4, 4) +
+  Line(c("C4", "D4", "E4", "F4")) +
+  Breath(2)
+  
+show(music)
+```
+
+### Ornaments
+
+You can add an ornament to a note with the following options:
+
+- `Schleifer()`
+- `Mordent()`
+- `Trill()`
+- `Turn()`
+- `Tremolo()`
+
+Some examples:
+
+```{r}
+music <- 
+  Music() +
+  Meter(7, 4) +
+  Line(c("B4", "C5", "D5", "E5", "F5", "G5", "A5")) +
+  Tremolo(3, 1) +
+  Turn(2, inverted = TRUE) +
+  Mordent(3, long = TRUE) + 
+  Trill(4) + 
+  Trill(5, 6) +
+  Schleifer(7)
+
+show(music)
+```
+
+### Slurs
+
+You can add a slur to notes with `Slur()`. For example:
+
+```{r}
+music <- Music() + Meter(4, 4) + Line(60:63) + Slur(1, 4)
+show(music)
+```
+
+Slurs can cross staffs. For example:
+
+```{r}
+music <- 
+  Music() +
+  Meter(4, 4) +
+  Line(c("C4", "D4")) +
+  Line(c("E4", "F4"), offset = 2, as = "staff") +
+  Slur(1, 2, to = 1, to_j = 2)
+
+show(music)
+```
