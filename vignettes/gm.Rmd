@@ -403,6 +403,41 @@ music <- Music() + Meter(4, 4) + Line(pitches)
 show(music)
 ```
 
+### Key
+
+You can use `Key()` to add a key signature. All keys:
+
+```{r}
+keys <- -7:7
+for (key in keys) print(Key(key))
+```
+
+You can add a key signature to a specific bar by using the `bar` argument. For example:
+
+```{r}
+music <- Music() + Meter(1, 4) + Line(durations = rep(1, length(keys)))
+for (i in seq_along(keys)) music <- music + Key(keys[i], bar = i)
+show(music)
+```
+
+You can add a key signature only to a part or staff. For example:
+
+```{r}
+music <-
+  Music() +
+  Meter(1, 4) +
+  Line(NA) +
+  Line(NA, as = "staff") +
+  Line(NA) +
+  Line(NA, as = "staff") +
+  Key(1, to = 1) +
+  Key(-1, to = 3, scope = "staff")
+
+show(music)
+```
+
+`Key(1, to = 1)` adds a G major to the first musical line and it affects the whole part, while `Key(-1, to = 2, scope = "staff")` adds an F major to the third musical line and it affects only that corresponding staff.
+
 
 ## Rhythm
 
