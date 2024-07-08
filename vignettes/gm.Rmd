@@ -586,6 +586,36 @@ music <-
 show(music)
 ```
 
+### Tempo
+
+You can use `Tempo()` to add a tempo mark. For example:
+
+```{r}
+music <- 
+  Music() +
+  Meter(4, 4) +
+  Line(60:67) +
+  Tempo(90) +
+  Tempo(120, bar = 2) +
+  Tempo(200, bar = 2, offset = 2)
+
+show(music)
+```
+
+You can add more sophisticated tempo marks by using argument `marking`. For example:
+
+```{r}
+music <- 
+  Music() +
+  Meter(4, 4) +
+  Line(60:67) +
+  Tempo(90, marking = "Slowly!!") +
+  Tempo(200, offset = 2, marking = "quarter. = quarter") +
+  Tempo(120, bar = 2, marking = "Allegro (quarter = 110-130)")
+
+show(music)
+```
+
 
 ## Note
 
