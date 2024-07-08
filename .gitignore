@@ -6,7 +6,3 @@ inst/doc
 doc
 Meta
 .DS_Store
-
-# temporarily ignore:
-man/
-NAMESPACE
