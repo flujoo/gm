@@ -117,13 +117,13 @@ For example, the environment variable is like
 
 At the highest level, gm uses `Music` objects to represent music.
 
-As shown in the *Quick Example* section, the workflow for creating music is usually like this:
+As shown in the *Example* section, the workflow for creating music is usually like this:
 
 1. Initialize a `Music` object with `Music()`.
 2. Add components to it with `+`.
 3. Display the music with `show()`.
 
-A `Music` object is represented as a list of data frames. Each data frame represents some type of components of the music. To examine a `Music` object's representation, simply print it. For example, below is the representation of the `Music` object created in the *Quick Example* section:
+A `Music` object is represented as a list of data frames. Each data frame represents some type of components of the music. To examine a `Music` object's representation, simply print it. For example, below is the representation of the `Music` object created in the *Example* section:
 
 ```{r}
 music <- 
@@ -270,6 +270,8 @@ music <-
 show(music)
 ```
 
+Actually, the three examples above all sound the same. The hierarchy of musical lines is only discernible from the score.
+
 The following music has one part of one staff of one voice, and this voice has two segments:
 
 ```{r}
@@ -300,7 +302,7 @@ show(music)
 music$lines
 ```
 
-We can see from the data frame that this music has one part, and this part has two staffs. The first staff has two voices. The second staff is inserted at the second beat.
+We can see from the data frame that this music has one part, and this part has two staffs. The first staff has two voices. The second staff is inserted at the third beat.
 
 
 ## Pitches
@@ -317,8 +319,8 @@ show(music)
 
 A pitch notation consists of
 
-1. a tone name which can be "C", "D", "E", "F", "G", "A", or "B",
-2. an optional accidental which can be "-", "--", "#", or "##", and
+1. a tone name which can be C, D, E, F, G, A, or B,
+2. an optional accidental which can be \-, \-\-, \#, or \#\#, and
 3. a number between 0 and 9 that indicates the pitch's octave.
 
 ### MIDI Note Numbers
@@ -445,7 +447,7 @@ music <- Music() + Meter(5, 4) + Line("C4", durations)
 show(music)
 ```
 
-A valid duration value should be equal to the total length of one or more duration types. For example, 0.5 is equal to the length of "eighth"; 1.5 is equal to the total length of "quarter" and "eighth"; 1.1 is invalid.
+A valid duration value should be equal to the total length of one or more duration types. For example, 0.5 is equal to the length of eighth; 1.5 is equal to the total length of quarter and eighth; 1.1 is not valid.
 
 ### Tuplets
 
