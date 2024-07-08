@@ -445,6 +445,47 @@ show(music)
 
 `Key(1, to = 1)` adds a G major to the first musical line and it affects the whole part, while `Key(-1, to = 3, scope = "staff")` adds an F major to the third musical line and it affects only that corresponding staff.
 
+### Clef
+
+You can use `Clef()` to add a clef. For example:
+
+```{r}
+clef <- Clef("F")
+music <- Music() + Meter(2, 4) + Line(c("C3", "D3")) + clef
+show(music)
+```
+
+All supported clefs:
+
+```{r}
+Clef("G")
+Clef("G", line = 1)
+Clef("G", octave = 1)
+Clef("G", octave = -1)
+Clef("F")
+Clef("F", line = 3)
+Clef("F", line = 5)
+Clef("F", octave = 1)
+Clef("F", octave = -1)
+Clef("C")
+Clef("C", line = 1)
+Clef("C", line = 2)
+Clef("C", line = 4)
+Clef("C", line = 5)
+```
+
+You can add a clef at positions other than the first beat of the first bar. For example:
+
+```{r}
+music <-
+  Music() +
+  Meter(2, 4) +
+  Line(c("C3", "D3"), bar = 2) +
+  Clef("F", bar = 2, offset = 1)
+
+show(music)
+```
+
 
 ## Rhythm
 
