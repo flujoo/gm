@@ -558,6 +558,35 @@ gm can represent nested tuplets like this:
 
 However, because gm uses MusicXML to represent music internally, but MuseScore cannot handle nested tuplets with MusicXML, we will skip this part.
 
+### Meter
+
+You can use `Meter()` to add a time signature. For example:
+
+```{r}
+music <-
+  Music() +
+  Meter(1, 4) +
+  Meter(2, 4, bar = 2) +
+  Line(c("C4", "E4", "G4"))
+
+show(music)
+```
+
+To apply `show()` to a `Music` object, there must be a time signature at the first bar.
+
+You can add a pickup measure by using arguments `actual_number`, `actual_unit`, and `invisible`. For example:
+
+```{r}
+music <-
+  Music() +
+  Meter(4, 4, actual_number = 1, actual_unit = 4) +
+  Meter(4, 4, bar = 2, invisible = TRUE) +
+  Line(c("A4", "B4", "C5", "D5", "E5"))
+
+show(music)
+```
+
+
 ## Note
 
 ### Note Representation
