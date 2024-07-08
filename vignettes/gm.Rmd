@@ -141,7 +141,7 @@ music
 We will explore every type of components as we proceed.
 
 
-## Musical Lines
+## Musical Line
 
 Musical lines are the most basic units of music in gm. You can create a musical line with `Line()`.
 
@@ -305,9 +305,9 @@ music$lines
 We can see from the data frame that this music has one part, and this part has two staffs. The first staff has two voices. The second staff is inserted at the third beat.
 
 
-## Pitches
+## Pitch
 
-### Pitch Notations
+### Pitch Notation
 
 You can use [scientific pitch notations](https://en.wikipedia.org/wiki/Scientific_pitch_notation) to specify pitches. For example:
 
@@ -323,7 +323,7 @@ A pitch notation consists of
 2. an optional accidental which can be \-, \-\-, \#, or \#\#, and
 3. a number between 0 and 9 that indicates the pitch's octave.
 
-### MIDI Note Numbers
+### MIDI Note Number
 
 A MIDI note number is a number between 12 and 127. You can also use MIDI note numbers to specify pitches. For example:
 
@@ -367,7 +367,7 @@ music <- Music() + Meter(1, 4) + Key(7) + Key(-7, bar = 2) + Line(pitches)
 show(music)
 ```
 
-### Rests
+### Rest
 
 You can use `NA` to specify rests. For example:
 
@@ -393,7 +393,7 @@ music <- Music() + Meter(4, 4) + Line(pitches)
 show(music)
 ```
 
-### Chords
+### Chord
 
 You can use vectors to specify chords. Just remember to wrap them in a list. For example:
 
@@ -404,9 +404,9 @@ show(music)
 ```
 
 
-## Durations
+## Rhythm
 
-### Duration Notations
+### Duration Notation
 
 You can use duration notations to specify durations. For example:
 
@@ -437,7 +437,7 @@ names(duration_types) <- c("Duration Type", "Abbreviation", "Value")
 knitr::kable(duration_types)
 ```
 
-### Duration Values
+### Duration Value
 
 You can also use duration values to specify durations. For example:
 
@@ -449,7 +449,7 @@ show(music)
 
 A valid duration value should be equal to the total length of one or more duration types. For example, 0.5 is equal to the length of eighth; 1.5 is equal to the total length of quarter and eighth; 1.1 is not valid.
 
-### Tuplets
+### Tuplet
 
 You can specify tuplets with more complex duration notations. For example:
 
@@ -475,7 +475,7 @@ gm can represent nested tuplets like this:
 
 However, because gm uses MusicXML to represent music internally, but MuseScore cannot handle nested tuplets with MusicXML, we will skip this part.
 
-## Notes
+## Note
 
 ### Note Representation
 
@@ -506,7 +506,7 @@ The meaning of each column:
 - `duration` indicates the duration notation of a note.
 - `length` indicates the length of a note's duration.
 
-### Ties
+### Tie
 
 You can tie together two notes with `Tie()`. For example:
 
@@ -541,7 +541,7 @@ music <- Music() + Meter(1, 4) + cross_bar_note
 show(music)
 ```
 
-### Grace Notes
+### Grace Note
 
 You can add grace notes with `Grace()`. For example:
 
@@ -553,7 +553,7 @@ show(music)
 
 The first two notes are indicated as grace notes.
 
-### Accidentals
+### Accidental
 
 gm adds accidentals to notes based on the key. You can change default accidentals with `Accidental()`. For example:
 
@@ -563,7 +563,7 @@ music <- Music() + Meter(2, 4) + Line(c("C4", "C4")) + accidental
 show(music)
 ```
 
-### Noteheads
+### Notehead
 
 You can change the shape or color of a note with `Notehead()`. For example:
 
@@ -573,7 +573,7 @@ music <- Music() + Meter(2, 4) + Line(c("C4", "C4")) + notehead
 show(music)
 ```
 
-### Stems
+### Stem
 
 You can change the stem of a note with `Stem()`. For example:
 
@@ -583,7 +583,7 @@ music <- Music() + Meter(2, 4) + Line(c("C4", "C4")) + stem
 show(music)
 ```
 
-### Articulations
+### Articulation
 
 You can add an articulation to a note with `Articulation()`. Some examples:
 
@@ -608,7 +608,7 @@ names(articulations) <- c("MuseScore", "MusicXML", "Symbol")
 knitr::kable(articulations)
 ```
 
-### Fermatas
+### Fermata
 
 You can add a fermata to a note with `Fermata()`. For example:
 
@@ -622,7 +622,7 @@ music <-
 show(music)
 ```
 
-### Breath Marks
+### Breath Mark
 
 You can add a breath mark to a note with `Breath()`. For example:
 
@@ -636,7 +636,7 @@ music <-
 show(music)
 ```
 
-### Ornaments
+### Ornament
 
 You can add an ornament to a note with the following options:
 
@@ -663,7 +663,7 @@ music <-
 show(music)
 ```
 
-### Slurs
+### Slur
 
 You can add a slur to notes with `Slur()`. For example:
 
