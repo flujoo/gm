@@ -447,3 +447,29 @@ show(music)
 
 A valid duration value should be equal to the total length of one or more duration types. For example, 0.5 is equal to the length of "eighth"; 1.5 is equal to the total length of "quarter" and "eighth"; 1.1 is invalid.
 
+### Tuplets
+
+You can specify tuplets with more complex duration notations. For example:
+
+```{r}
+durations <- rep("half/3", 3)
+music <- Music() + Meter(2, 4) + Line(durations = durations)
+show(music)
+```
+
+Here we use "/3" to divide the half note into three tuplets. In the following example, we divide the half note into two tuplets of different lengths:
+
+```{r}
+durations <- c("half/3", "half/3*(half/quarter)")
+music <- Music() + Meter(2, 4) + Line(durations = durations)
+show(music)
+```
+
+Please note that tuplets should come in groups. For example, two half/3 tuplets or four half/3 tuplets cannot form a valid group. And a tuplet group should not cross bar lines.
+
+gm can represent nested tuplets like this:
+
+![](../man/figures/nested_tuplets.png)
+
+However, because gm uses MusicXML to represent music internally, but MuseScore cannot handle nested tuplets with MusicXML, we will skip this part.
+
