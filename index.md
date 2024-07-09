@@ -33,6 +33,9 @@ Install gm:
 
 ``` r
 install.packages("gm")
+
+# Or install the development version from GitHub
+pak::pak("flujoo/gm")
 ```
 
 Install [MuseScore](https://musescore.org/). MuseScore is open source
