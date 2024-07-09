@@ -29,9 +29,7 @@ accidental is enclosed in brackets.}
 A list of class \code{Accidental}.
 }
 \description{
-Create an \code{Accidental} object to represent an accidental
-symbol, such as flat (♭), natural (♮), or sharp (♯). Usually,
-accidentals are automatically added.
+Create an \code{Accidental} object to represent an accidental symbol.
 }
 \examples{
 # Create an `Accidental`

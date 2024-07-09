@@ -1,8 +1,6 @@
 #' Create `Accidental` Object
 #'
-#' Create an `Accidental` object to represent an accidental
-#' symbol, such as flat (♭), natural (♮), or sharp (♯). Usually,
-#' accidentals are automatically added.
+#' Create an `Accidental` object to represent an accidental symbol.
 #'
 #' @param name A single character, which represents the name of the
 #' accidental. `"flat"` and `"sharp"` are two common examples.
