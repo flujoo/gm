@@ -34,7 +34,28 @@
     <loc>https://flujoo.github.io/gm/notes.html</loc>
   </url>
   <url>
+    <loc>https://flujoo.github.io/gm/reference/Accidental.html</loc>
+  </url>
+  <url>
+    <loc>https://flujoo.github.io/gm/reference/Articulation.html</loc>
+  </url>
+  <url>
+    <loc>https://flujoo.github.io/gm/reference/Breath.html</loc>
+  </url>
+  <url>
     <loc>https://flujoo.github.io/gm/reference/Clef.html</loc>
+  </url>
+  <url>
+    <loc>https://flujoo.github.io/gm/reference/Dynamic.html</loc>
+  </url>
+  <url>
+    <loc>https://flujoo.github.io/gm/reference/Fermata.html</loc>
+  </url>
+  <url>
+    <loc>https://flujoo.github.io/gm/reference/Grace.html</loc>
+  </url>
+  <url>
+    <loc>https://flujoo.github.io/gm/reference/Hairpin.html</loc>
   </url>
   <url>
     <loc>https://flujoo.github.io/gm/reference/Instrument.html</loc>
@@ -46,16 +67,52 @@
     <loc>https://flujoo.github.io/gm/reference/Line.html</loc>
   </url>
   <url>
+    <loc>https://flujoo.github.io/gm/reference/Lyric.html</loc>
+  </url>
+  <url>
     <loc>https://flujoo.github.io/gm/reference/Meter.html</loc>
+  </url>
+  <url>
+    <loc>https://flujoo.github.io/gm/reference/Mordent.html</loc>
   </url>
   <url>
     <loc>https://flujoo.github.io/gm/reference/Music.html</loc>
   </url>
   <url>
+    <loc>https://flujoo.github.io/gm/reference/Notehead.html</loc>
+  </url>
+  <url>
+    <loc>https://flujoo.github.io/gm/reference/Pedal.html</loc>
+  </url>
+  <url>
+    <loc>https://flujoo.github.io/gm/reference/Schleifer.html</loc>
+  </url>
+  <url>
+    <loc>https://flujoo.github.io/gm/reference/Slur.html</loc>
+  </url>
+  <url>
+    <loc>https://flujoo.github.io/gm/reference/Stem.html</loc>
+  </url>
+  <url>
     <loc>https://flujoo.github.io/gm/reference/Tempo.html</loc>
   </url>
   <url>
+    <loc>https://flujoo.github.io/gm/reference/Tie.html</loc>
+  </url>
+  <url>
+    <loc>https://flujoo.github.io/gm/reference/Tremolo.html</loc>
+  </url>
+  <url>
+    <loc>https://flujoo.github.io/gm/reference/Trill.html</loc>
+  </url>
+  <url>
     <loc>https://flujoo.github.io/gm/reference/Tupler.html</loc>
+  </url>
+  <url>
+    <loc>https://flujoo.github.io/gm/reference/Turn.html</loc>
+  </url>
+  <url>
+    <loc>https://flujoo.github.io/gm/reference/Velocity.html</loc>
   </url>
   <url>
     <loc>https://flujoo.github.io/gm/reference/add.html</loc>
@@ -68,6 +125,9 @@
   </url>
   <url>
     <loc>https://flujoo.github.io/gm/reference/check_positions_length.html</loc>
+  </url>
+  <url>
+    <loc>https://flujoo.github.io/gm/reference/export.Music.html</loc>
   </url>
   <url>
     <loc>https://flujoo.github.io/gm/reference/export.html</loc>
@@ -89,6 +149,9 @@
   </url>
   <url>
     <loc>https://flujoo.github.io/gm/reference/plus-.Music.html</loc>
+  </url>
+  <url>
+    <loc>https://flujoo.github.io/gm/reference/show.Music.html</loc>
   </url>
   <url>
     <loc>https://flujoo.github.io/gm/reference/show.html</loc>

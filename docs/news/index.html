@@ -29,16 +29,13 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav"><li>
   <a href="../articles/gm.html">Complete Guide</a>
-</li>
-<li>
-  <a href="../articles/cn.html">中文导论</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -70,6 +67,23 @@
     </div>
 
     <div class="section level2">
+<h2 class="page-header" data-toc-text="2.0.0" id="gm-200">gm 2.0.0<a class="anchor" aria-label="anchor" href="#gm-200"></a></h2>
+<div class="section level3">
+<h3 id="features-2-0-0">Features<a class="anchor" aria-label="anchor" href="#features-2-0-0"></a></h3>
+<ul><li>Add many new components (<a href="https://github.com/flujoo/gm/issues/11" class="external-link">#11</a> <a href="https://github.com/flujoo/gm/issues/4" class="external-link">#4</a>).</li>
+<li>Represent music with data frames.</li>
+<li>Refactor code. Now it’s more developer-friendly.</li>
+<li>Reduce package dependencies.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="breaking-changes-2-0-0">Breaking Changes<a class="anchor" aria-label="anchor" href="#breaking-changes-2-0-0"></a></h3>
+<ul><li>Deprecate argument <code>tie</code> of <code><a href="../reference/Line.html">Line()</a></code>. Use <code><a href="../reference/Tie.html">Tie()</a></code> instead.</li>
+<li>Deprecate argument <code>unit</code> of <code><a href="../reference/Tempo.html">Tempo()</a></code>. Use <code>marking</code> instead.</li>
+<li>Change arguments of <code><a href="../reference/export.Music.html">export()</a></code>.</li>
+<li>Remove <code>tuplet()</code> and <code>Tupler()</code>. Use argument <code>durations</code> of <code><a href="../reference/Line.html">Line()</a></code> instead.</li>
+</ul></div>
+</div>
+    <div class="section level2">
 <h2 class="page-header" data-toc-text="1.0.4" id="gm-104">gm 1.0.4<a class="anchor" aria-label="anchor" href="#gm-104"></a></h2>
 <ul><li>Recognize Shiny apps.</li>
 </ul></div>
@@ -77,7 +91,7 @@
 <h2 class="page-header" data-toc-text="1.0.3" id="gm-103">gm 1.0.3<a class="anchor" aria-label="anchor" href="#gm-103"></a></h2>
 <ul><li>Change default score margin to 0.</li>
 <li>Add “MuseScore Command Line Options” in <code><a href="../articles/gm.html">vignette("gm")</a></code>.</li>
-<li>Improve <code><a href="../reference/show.html">show()</a></code> and <code><a href="../reference/export.html">export()</a></code> to accept MuseScore command line options (<a href="https://github.com/flujoo/gm/issues/10" class="external-link">#10</a>).</li>
+<li>Improve <code><a href="../reference/show.Music.html">show()</a></code> and <code><a href="../reference/export.Music.html">export()</a></code> to accept MuseScore command line options (<a href="https://github.com/flujoo/gm/issues/10" class="external-link">#10</a>).</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.0.2" id="gm-102">gm 1.0.2<small>2021-04-17</small><a class="anchor" aria-label="anchor" href="#gm-102"></a></h2>
@@ -108,7 +122,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
   <p class="preferably">Using <a href="https://preferably.amirmasoudabdol.name/?source=footer" class="external-link">preferably</a> template.</p>
 </div>
 

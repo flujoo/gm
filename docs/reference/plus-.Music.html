@@ -29,16 +29,13 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gm</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav"><li>
   <a href="../articles/gm.html">Complete Guide</a>
-</li>
-<li>
-  <a href="../articles/cn.html">中文导论</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -66,7 +63,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Add Component to <code>Music</code> Object</h1>
-    <small class="dont-index">Source: <a href="https://github.com/flujoo/gm/blob/HEAD/R/music.R" class="external-link"><code>R/music.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/flujoo/gm/blob/HEAD/R/2-add-music.R" class="external-link"><code>R/2-add-music.R</code></a></small>
     <div class="hidden name"><code>plus-.Music.Rd</code></div>
     </div>
 
@@ -76,111 +73,81 @@
 
     <div id="ref-usage">
     <div class="sourceCode"><pre><code># S3 method for Music
-+(music, term)</code></pre></div>
++(music, object)</code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>music</dt>
 <dd><p>A <code>Music</code> object.</p></dd>
-<dt>term</dt>
-<dd><p>A <code>Line</code>, <code>Meter</code>, <code>Key</code>, <code>Clef</code> or <code>Tempo</code> object.</p></dd>
+
+
+<dt>object</dt>
+<dd><p>An object of class <code>Line</code>, <code>Meter</code>, <code>Key</code>, <code>Tempo</code>, <code>Clef</code>, <code>Instrument</code>, <code>Pedal</code>, <code>Slur</code>, <code>Hairpin</code>, <code>Notehead</code>, <code>Accidental</code>, <code>Velocity</code>, <code>Dynamic</code>, <code>Grace</code>, <code>Stem</code>, <code>Lyric</code>, <code>Tie</code>, <code>Articulation</code>, <code>Fermata</code>, <code>Breath</code>, <code>Trill</code>, <code>Turn</code>, <code>Mordent</code>, <code>Schleifer</code> or <code>Tremolo</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list with class <code>Music</code>.</p>
+    
+
+<p>A list of class <code>Music</code>.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
-    <div class="dont-index"><p><code><a href="Music.html">Music()</a></code> for initializing a <code>Music</code> object.</p>
-<p><code><a href="Line.html">Line()</a></code>, <code><a href="Meter.html">Meter()</a></code>, <code><a href="Key.html">Key()</a></code>, <code><a href="Clef.html">Clef()</a></code> and <code><a href="Tempo.html">Tempo()</a></code>
-for creating objects of corresponding classes.</p></div>
+    <div class="dont-index"><p><code><a href="Music.html">Music()</a></code> for initialization of a <code>Music</code> object.</p></div>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># initialize a Music object</span></span>
-<span class="r-in"><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="Music.html">Music</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># add a Line object</span></span>
-<span class="r-in"><span class="va">m</span> <span class="op">&lt;-</span> <span class="va">m</span> <span class="op">+</span> <span class="fu"><a href="Line.html">Line</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"C4"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">m</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Music</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Initialize a `Music` object</span></span></span>
+<span class="r-in"><span><span class="va">music</span> <span class="op">&lt;-</span> <span class="fu"><a href="Music.html">Music</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Add a `Line`</span></span></span>
+<span class="r-in"><span><span class="va">music</span> <span class="op">&lt;-</span> <span class="va">music</span> <span class="op">+</span> <span class="fu"><a href="Line.html">Line</a></span><span class="op">(</span><span class="st">"C4"</span>, <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">music</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Music </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Line 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $notes</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    line     i     j pitch  midi duration length</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     1     1    <span style="color: #BB0000;">NA</span> C4       60 <span style="color: #BB0000;">NA</span>            1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> * as part 1 staff 1 voice 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> * of length 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> * of pitch C4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> * of duration 1 </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># add a Meter object</span></span>
-<span class="r-in"><span class="va">m</span> <span class="op">&lt;-</span> <span class="va">m</span> <span class="op">+</span> <span class="fu"><a href="Meter.html">Meter</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">4</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">m</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Music</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $lines</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    part staff voice segment   bar offset name </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     1     1     1       1     1      0 <span style="color: #BB0000;">NA</span>   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Line 1</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Add a `Meter`</span></span></span>
+<span class="r-in"><span><span class="va">music</span> <span class="op">&lt;-</span> <span class="va">music</span> <span class="op">+</span> <span class="fu"><a href="Meter.html">Meter</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">4</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">music</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Music </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> * as part 1 staff 1 voice 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> * of length 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> * of pitch C4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> * of duration 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $notes</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    line     i     j pitch  midi duration length</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     1     1    <span style="color: #BB0000;">NA</span> C4       60 <span style="color: #BB0000;">NA</span>            1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Meter 4/4 </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># add a Key object</span></span>
-<span class="r-in"><span class="va">m</span> <span class="op">&lt;-</span> <span class="va">m</span> <span class="op">+</span> <span class="fu"><a href="Key.html">Key</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">m</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Music</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $lines</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 7</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    part staff voice segment   bar offset name </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     1     1     1       1     1      0 <span style="color: #BB0000;">NA</span>   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Line 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $meters</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     bar number  unit actual_number actual_unit invisible</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     1      4     4             4           4 FALSE    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> * as part 1 staff 1 voice 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> * of length 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> * of pitch C4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> * of duration 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Meter 4/4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Key G major (E minor) </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># add a Clef object</span></span>
-<span class="r-in"><span class="va">m</span> <span class="op">&lt;-</span> <span class="va">m</span> <span class="op">+</span> <span class="fu"><a href="Clef.html">Clef</a></span><span class="op">(</span><span class="st">"G"</span>, to <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">m</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Music</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Line 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> * as part 1 staff 1 voice 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> * of length 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> * of pitch C4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> * of duration 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Meter 4/4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Key G major (E minor)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> treble Clef for part 1 staff 1 </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># add a Tempo object</span></span>
-<span class="r-in"><span class="va">m</span> <span class="op">&lt;-</span> <span class="va">m</span> <span class="op">+</span> <span class="fu"><a href="Tempo.html">Tempo</a></span><span class="op">(</span><span class="fl">120</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">m</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Music</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Line 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> * as part 1 staff 1 voice 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> * of length 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> * of pitch C4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> * of duration 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Meter 4/4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Key G major (E minor)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> treble Clef for part 1 staff 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Tempo quarter = 120 </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Generate the music score</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="show.Music.html">show</a></span><span class="op">(</span><span class="va">music</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -195,7 +162,7 @@ for creating objects of corresponding classes.</p></div>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
   <p class="preferably">Using <a href="https://preferably.amirmasoudabdol.name/?source=footer" class="external-link">preferably</a> template.</p>
 </div>
 
