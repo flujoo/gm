@@ -1017,3 +1017,15 @@ music <-
   
 show(music)
 ```
+
+
+## MuseScore
+
+You can pass [MuseScore command line options](https://musescore.org/en/handbook/4/command-line-usage) to `export()` and `show()`.
+
+For example, you can change score's DPI and margin:
+
+```{r}
+music <- Music() + Meter(4, 4) + Line("C5")
+show(music, "score", musescore = "-r 400 -T 100")
+```
