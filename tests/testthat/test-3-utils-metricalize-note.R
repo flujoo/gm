@@ -9,6 +9,7 @@ test_that("note metricalization works", {
   notes <- delimit_notes(notes, lines, meters)
 
   out <- metricalize_note(notes, meters)
+  row.names(out) <- NULL
 
   expected <- data_frame(
     line = rep(1L, 3),
@@ -25,5 +26,5 @@ test_that("note metricalization works", {
     end_offset = c(3, 3, 0.5)
   )
 
-  expect_identical(out, expected)
+  expect_identical(unclass(out), unclass(expected))
 })

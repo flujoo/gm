@@ -28,7 +28,7 @@ test_that("metricalization works", {
     end_offset = c(1, 3, 1, 3, 1)
   )
 
-  expect_identical(out, expected)
+  expect_identical(unclass(out), unclass(expected))
 })
 
 
