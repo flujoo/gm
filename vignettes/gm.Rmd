@@ -474,18 +474,31 @@ All supported clefs:
 
 ```{r}
 Clef("G")
+
 Clef("G", line = 1)
+
 Clef("G", octave = 1)
+
 Clef("G", octave = -1)
+
 Clef("F")
+
 Clef("F", line = 3)
+
 Clef("F", line = 5)
+
 Clef("F", octave = 1)
+
 Clef("F", octave = -1)
+
 Clef("C")
+
 Clef("C", line = 1)
+
 Clef("C", line = 2)
+
 Clef("C", line = 4)
+
 Clef("C", line = 5)
 ```
 
