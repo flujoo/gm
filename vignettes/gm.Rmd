@@ -997,3 +997,23 @@ music <-
 
 show(music)
 ```
+
+
+## Lyrics
+
+You can add lyrics by using `Lyric()`. For example:
+
+```{r}
+music <-
+  Music() +
+  Meter(4, 4) +
+  Line(60:63) +
+  Lyric("My_love-", 1) +
+  Lyric("-ly", 2) +
+  Lyric("cat_", 3) +
+  Lyric("_", 4) +
+  Lyric("Hey", 1, verse = 2) +
+  Lyric("Jude", 2, verse = 2)
+  
+show(music)
+```
