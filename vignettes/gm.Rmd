@@ -854,3 +854,55 @@ music <-
 
 show(music)
 ```
+
+
+## Loudness
+
+### Dynamics
+
+You can use `Dynamic()` to add dynamic markings. For example:
+
+```{r}
+music <-
+  Music() +
+  Meter(4, 4) +
+  Line(60:67) +
+  Dynamic("p", 1) +
+  Dynamic("mf", 3) +
+  Dynamic("fff", 5) +
+  Dynamic("pp", 7)
+
+show(music)
+```
+
+### Velocity
+
+You can use `Velocity()` to adjust note loudness more precisely. For example:
+
+```{r}
+pitches <- 74:50
+velocities <- seq(5, 127, 5)
+music <- Music() + Meter(4, 4) + Tempo(200) + Line(pitches, 0.5)
+
+for (i in seq_along(velocities)) {
+  music <- music + Velocity(velocities[i], 1, i)
+}
+
+show(music)
+```
+
+### Dynamic Change
+
+You can use `Hairpin()` to add crescendo and decrescendo symbols. For example:
+
+```{r}
+music <-
+  Music() +
+  Meter(4, 4) +
+  Line(60:67) +
+  Dynamic("pp", 1) +
+  Dynamic("ff", 8) +
+  Hairpin("<", 2, 7)
+
+show(music)
+```
