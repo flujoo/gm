@@ -185,6 +185,21 @@ show(music)
 
 The musical line is inserted at the second beat of the second bar.
 
+A more interesting example:
+
+```{r}
+pitches <- c(64, 65, 69, 71, 72, 76)
+music <- Music() + Meter(4, 4)
+
+for (i in 0:8) {
+  music <- music + Line(pitches, offset = 0.5 * i)
+}
+
+show(music)
+```
+
+The music contains nine parts, with identical pitches and durations. The difference lies in their insertion positions, creating an interesting echo sound effect.
+
 ### Multiple Musical Lines
 
 Music can contain more than one musical line. For example:
