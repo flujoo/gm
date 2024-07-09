@@ -10,8 +10,8 @@
 #'
 #' @param inverted Optional. A single logical, which indicates if it is
 #' an inverted turn. The default value is `FALSE`. See MusicXML
-#' specification of [turn](`r to_url("elements/turn")`) and
-#' [inverted turn](`r to_url("elements/inverted-turn")`).
+#' specification of [turn](`r to_url("elements/turn/")`) and
+#' [inverted turn](`r to_url("elements/inverted-turn/")`).
 #'
 #' @returns A list of class `Turn`.
 #'

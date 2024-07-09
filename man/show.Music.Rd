@@ -19,7 +19,7 @@ are displayed. You can change the default behavior by setting the
 
 \item{musescore}{Optional. A character vector, which represents
 the command line options passed to MuseScore. See
-\href{https://musescore.org/en/handbook/4/command-line-options}{MuseScore command line usage} for details.}
+\href{https://musescore.org/en/handbook/4/command-line-usage}{MuseScore command line usage} for details.}
 }
 \value{
 An invisible \code{NULL}. A music score or audio file will be

@@ -15,8 +15,8 @@ which indicates the musical line where to add the turn.}
 
 \item{inverted}{Optional. A single logical, which indicates if it is
 an inverted turn. The default value is \code{FALSE}. See MusicXML
-specification of \href{https://w3c.github.io/musicxml/musicxml-reference/elements/turn}{turn} and
-\href{https://w3c.github.io/musicxml/musicxml-reference/elements/inverted-turn}{inverted turn}.}
+specification of \href{https://w3c.github.io/musicxml/musicxml-reference/elements/turn/}{turn} and
+\href{https://w3c.github.io/musicxml/musicxml-reference/elements/inverted-turn/}{inverted turn}.}
 }
 \value{
 A list of class \code{Turn}.

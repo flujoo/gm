@@ -20,7 +20,7 @@
 #' @param musescore Optional. A character vector, which represents
 #' the command line options passed to MuseScore. See
 #' [MuseScore command line usage](
-#' https://musescore.org/en/handbook/4/command-line-options) for details.
+#' https://musescore.org/en/handbook/4/command-line-usage) for details.
 #'
 #' @returns An invisible `NULL`. A music score or audio file will be
 #' displayed.

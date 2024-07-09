@@ -21,7 +21,7 @@ supported file extensions.}
 
 \item{musescore}{Optional. A character vector, which represents
 the command line options passed to MuseScore. See
-\href{https://musescore.org/en/handbook/4/command-line-options}{MuseScore command line usage} for details.}
+\href{https://musescore.org/en/handbook/4/command-line-usage}{MuseScore command line usage} for details.}
 }
 \value{
 An invisible \code{NULL}. A file is generated in the specified path.
