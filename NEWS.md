@@ -12,7 +12,7 @@
 * Deprecate argument `tie` of `Line()`. Use `Tie()` instead.
 * Deprecate argument `unit` of `Tempo()`. Use `marking` instead.
 * Change arguments of `export()`.
-* Remove `tuplet()` and `Tupler()`. See argument `durations` of `Line()`.
+* Remove `tuplet()` and `Tupler()`. Use argument `durations` of `Line()` instead.
 
 
 # gm 1.0.4
