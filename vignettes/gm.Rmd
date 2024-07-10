@@ -130,11 +130,7 @@ music <-
   Music() +
   Meter(4, 4) +
   Line(c("C5", "D5", "E5", "F5"))
-  
-show(music)
-```
 
-```{r}
 music
 ```
 
@@ -156,7 +152,7 @@ line <- Line(
 )
 
 music <- Music() + Meter(5, 4) + line
-show(music)
+show(music, "score")
 ```
 
 If `pitches` and `durations` have different lengths, the shorter one will be recycled. This feature is useful for repeating a pattern. For example:
@@ -180,7 +176,7 @@ You can insert a musical line at positions other than the first beat of the firs
 ```{r}
 line <- Line(c("C5", "D5", "E5"), bar = 2, offset = 1)
 music <- Music() + Meter(4, 4) + line
-show(music)
+show(music, "score")
 ```
 
 The musical line is inserted at the second beat of the second bar.
@@ -209,7 +205,7 @@ line_1 <- Line(c("C5", "D5", "E5", "F5"))
 line_2 <- Line(c("E4", "G4"), 2)
 line_3 <- Line("C4", 4)
 music <- Music() + Meter(4, 4) + line_1 + line_2 + line_3
-show(music)
+show(music, "score")
 ```
 
 You can assign a name to a musical line with argument `name`. For example:
@@ -219,7 +215,7 @@ line_1 <- Line(c("C5", "D5", "E5", "F5"), name = "a")
 line_2 <- Line(c("E4", "G4"), 2, name = "b")
 line_3 <- Line("C4", 4, name = "c")
 music <- Music() + Meter(4, 4) + line_1 + line_2 + line_3
-show(music)
+show(music, "score")
 ```
 
 By default, a musical line is added to the end. You can change it with argument `to` and `after`. For example:
@@ -229,7 +225,7 @@ line_1 <- Line(c("C5", "D5", "E5", "F5"), name = "a")
 line_2 <- Line(c("E4", "G4"), 2, name = "b")
 line_3 <- Line("C4", 4, name = "c", to = "a", after = FALSE)
 music <- Music() + Meter(4, 4) + line_1 + line_2 + line_3
-show(music)
+show(music, "score")
 ```
 
 Now the third musical line is added to the beginning.
@@ -258,7 +254,7 @@ music <-
   Line(c("C5", "D5", "E5", "F5")) +
   Line(c("C4", "G4"), 2, as = "part")
 
-show(music)
+show(music, "score")
 ```
 
 The following music has one part, and this part has two staffs:
@@ -270,7 +266,7 @@ music <-
   Line(c("C5", "D5", "E5", "F5")) +
   Line(c("C4", "G4"), 2, as = "staff")
 
-show(music)
+show(music, "score")
 ```
 
 The following music has one part of one staff, and this staff has two voices:
@@ -282,7 +278,7 @@ music <-
   Line(c("C5", "D5", "E5", "F5")) +
   Line(c("C4", "G4"), 2, as = "voice")
 
-show(music)
+show(music, "score")
 ```
 
 Actually, the three examples above all sound the same. The hierarchy of musical lines is only discernible from the score.
@@ -296,7 +292,7 @@ music <-
   Line(c("C5", "D5", "E5", "F5")) +
   Line(c("C4", "G4"), 2, as = "segment", bar = 2)
 
-show(music)
+show(music, "score")
 ```
 
 Segments are used to insert musical lines into other musical lines.
@@ -310,7 +306,7 @@ line_1 <- Line(c("C5", "D5", "E5", "F5"), name = "a")
 line_2 <- Line(c("E4", "G4"), 2, name = "b", as = "voice")
 line_3 <- Line("C4", 2, name = "c", as = "staff", offset = 2)
 music <- Music() + Meter(4, 4) + line_1 + line_2 + line_3
-show(music)
+show(music, "score")
 ```
 
 ```{r}
@@ -329,7 +325,7 @@ You can use [scientific pitch notations](https://en.wikipedia.org/wiki/Scientifi
 ```{r}
 pitches <- c("C4", "C#4", "D-4", "C##4", "D--4")
 music <- Music() + Meter(5, 4) + Line(pitches)
-show(music)
+show(music, "score")
 ```
 
 A pitch notation consists of
@@ -345,7 +341,7 @@ A MIDI note number is a number between 12 and 127. You can also use MIDI note nu
 ```{r}
 pitches <- 61:64
 music <- Music() + Meter(4, 4) + Line(pitches)
-show(music)
+show(music, "score")
 ```
 
 See a [conversion table](https://en.wikipedia.org/wiki/Scientific_pitch_notation#Table_of_note_frequencies) of pitch notations and MIDI note numbers.
@@ -371,7 +367,7 @@ However, a disadvantage of MIDI note numbers is ambiguity. For example, there is
 ```{r}
 pitches <- c("C#5", "D-5", "B##4")
 music <- Music() + Meter(3, 4) + Line(pitches)
-show(music)
+show(music, "score")
 ```
 
 gm interprets MIDI note numbers based on keys and neighbor pitches. In the following example, MIDI note number 73 is interpreted as C#5 in the first measure, but as D-5 in the second measure:
@@ -379,7 +375,7 @@ gm interprets MIDI note numbers based on keys and neighbor pitches. In the follo
 ```{r}
 pitches <- c(73, 73)
 music <- Music() + Meter(1, 4) + Key(7) + Key(-7, bar = 2) + Line(pitches)
-show(music)
+show(music, "score")
 ```
 
 ### Rest
@@ -389,7 +385,7 @@ You can use `NA` to specify rests. For example:
 ```{r}
 pitches <- c("C4", NA, "D4", NA)
 music <- Music() + Meter(4, 4) + Line(pitches)
-show(music)
+show(music, "score")
 ```
 
 Sometimes rests are added by gm automatically. In the following example, the musical line is inserted at the second bar, so a rest is added to the first bar:
@@ -397,7 +393,7 @@ Sometimes rests are added by gm automatically. In the following example, the mus
 ```{r}
 pitches <- c("C4", NA, "D4", NA)
 music <- Music() + Meter(4, 4) + Line(pitches, bar = 2)
-show(music)
+show(music, "score")
 ```
 
 In the following example, the musical line doesn’t fill the entire bar, so some rests are added to the end:
@@ -405,7 +401,7 @@ In the following example, the musical line doesn’t fill the entire bar, so som
 ```{r}
 pitches <- "C4"
 music <- Music() + Meter(4, 4) + Line(pitches)
-show(music)
+show(music, "score")
 ```
 
 ### Chord
@@ -439,7 +435,7 @@ for (i in seq_along(keys)) {
   music <- music + Key(keys[i], bar = i)
 }
 
-show(music)
+show(music, "score")
 ```
 
 You can add a key signature only to a part or staff. For example:
@@ -455,7 +451,7 @@ music <-
   Key(1, to = 1) +
   Key(-1, to = 3, scope = "staff")
 
-show(music)
+show(music, "score")
 ```
 
 `Key(1, to = 1)` adds a G major to the first musical line and it affects the whole part, while `Key(-1, to = 3, scope = "staff")` adds an F major to the third musical line and it affects only that corresponding staff.
@@ -467,7 +463,7 @@ You can use `Clef()` to add a clef. For example:
 ```{r}
 clef <- Clef("F")
 music <- Music() + Meter(2, 4) + Line(c("C3", "D3")) + clef
-show(music)
+show(music, "score")
 ```
 
 All supported clefs:
@@ -511,7 +507,7 @@ music <-
   Line(c("C3", "D3"), bar = 2) +
   Clef("F", bar = 2, offset = 1)
 
-show(music)
+show(music, "score")
 ```
 
 
@@ -524,7 +520,7 @@ You can use duration notations to specify durations. For example:
 ```{r}
 durations <- c("q.", "eighth", "quarter..", "16th")
 music <- Music() + Meter(4, 4) + Line(durations = durations)
-show(music)
+show(music, "score")
 ```
 
 A duration notation can have two parts:
@@ -555,7 +551,7 @@ You can also use duration values to specify durations. For example:
 ```{r}
 durations <- 1:5
 music <- Music() + Meter(5, 4) + Line("C4", durations)
-show(music)
+show(music, "score")
 ```
 
 A valid duration value should be equal to the total length of one or more duration types. For example, 0.5 is equal to the length of eighth; 1.5 is equal to the total length of quarter and eighth; 1.1 is not valid.
@@ -567,7 +563,7 @@ You can specify tuplets with more complex duration notations. For example:
 ```{r}
 durations <- rep("half/3", 3)
 music <- Music() + Meter(2, 4) + Line(durations = durations)
-show(music)
+show(music, "score")
 ```
 
 Here we use "/3" to divide the half note into three tuplets. In the following example, we divide the half note into two tuplets of different lengths:
@@ -575,7 +571,7 @@ Here we use "/3" to divide the half note into three tuplets. In the following ex
 ```{r}
 durations <- c("half/3", "half/3*(half/quarter)")
 music <- Music() + Meter(2, 4) + Line(durations = durations)
-show(music)
+show(music, "score")
 ```
 
 Please note that tuplets should come in groups. For example, two half/3 tuplets or four half/3 tuplets cannot form a valid group. And a tuplet group should not cross bar lines.
@@ -597,7 +593,7 @@ music <-
   Meter(2, 4, bar = 2) +
   Line(c("C4", "E4", "G4"))
 
-show(music)
+show(music, "score")
 ```
 
 To apply `show()` to a `Music` object, there must be a time signature at the first bar.
@@ -611,7 +607,7 @@ music <-
   Meter(4, 4, bar = 2, invisible = TRUE) +
   Line(c("A4", "B4", "C5", "D5", "E5"))
 
-show(music)
+show(music, "score")
 ```
 
 ### Tempo
@@ -641,7 +637,7 @@ music <-
   Tempo(200, offset = 2, marking = "quarter. = quarter") +
   Tempo(120, bar = 2, marking = "Allegro (quarter = 110-130)")
 
-show(music)
+show(music, "score")
 ```
 
 
@@ -659,7 +655,7 @@ music <-
   Meter(4, 4) +
   Line(list("C4", NA, c("C4", "E4")), list(1, "quarter", 2))
 
-show(music)
+show(music, "score")
 ```
 
 ```{r}
@@ -684,7 +680,7 @@ You can tie together two notes with `Tie()`. For example:
 notes <- Line(c("C4", "C4"))
 tie <- Tie(1)
 music <- Music() + Meter(2, 4) + notes + tie
-show(music)
+show(music, "score")
 ```
 
 You can tie together some notes in chords or the whole chords. For example:
@@ -693,14 +689,14 @@ You can tie together some notes in chords or the whole chords. For example:
 chords <- Line(list(c("C4", "E4"), c("C4", "E4")))
 tie <- Tie(1, 2)
 music <- Music() + Meter(2, 4) + chords + tie
-show(music)
+show(music, "score")
 ```
 
 ```{r}
 chords <- Line(list(c("C4", "E4"), c("C4", "E4")))
 tie <- Tie(1)
 music <- Music() + Meter(2, 4) + chords + tie
-show(music)
+show(music, "score")
 ```
 
 gm automatically splits cross-bar notes and adds ties. For example:
@@ -708,7 +704,7 @@ gm automatically splits cross-bar notes and adds ties. For example:
 ```{r}
 cross_bar_note <- Line("C4", 4)
 music <- Music() + Meter(1, 4) + cross_bar_note
-show(music)
+show(music, "score")
 ```
 
 ### Grace Note
@@ -730,7 +726,7 @@ gm adds accidentals to notes based on the key. You can change default accidental
 ```{r}
 accidental <- Accidental("natural", 2)
 music <- Music() + Meter(2, 4) + Line(c("C4", "C4")) + accidental
-show(music)
+show(music, "score")
 ```
 
 ### Notehead
@@ -740,7 +736,7 @@ You can change the shape or color of a note with `Notehead()`. For example:
 ```{r}
 notehead <- Notehead(1, shape = "diamond", color = "#FF0000")
 music <- Music() + Meter(2, 4) + Line(c("C4", "C4")) + notehead
-show(music)
+show(music, "score")
 ```
 
 ### Stem
@@ -750,7 +746,7 @@ You can change the stem of a note with `Stem()`. For example:
 ```{r}
 stem <- Stem("none", 1)
 music <- Music() + Meter(2, 4) + Line(c("C4", "C4")) + stem
-show(music)
+show(music, "score")
 ```
 
 ### Articulation
@@ -789,7 +785,7 @@ music <-
   Line(c("C4", "D4", "E4", "F4")) +
   Fermata(4, shape = "square")
   
-show(music)
+show(music, "score")
 ```
 
 ### Breath Mark
@@ -803,7 +799,7 @@ music <-
   Line(c("C4", "D4", "E4", "F4")) +
   Breath(2)
   
-show(music)
+show(music, "score")
 ```
 
 ### Ornament
@@ -839,7 +835,7 @@ You can add a slur to notes with `Slur()`. For example:
 
 ```{r}
 music <- Music() + Meter(4, 4) + Line(60:63) + Slur(1, 4)
-show(music)
+show(music, "score")
 ```
 
 Slurs can cross staffs. For example:
@@ -852,7 +848,7 @@ music <-
   Line(c("E4", "F4"), offset = 2, as = "staff") +
   Slur(1, 2, to = 1, to_j = 2)
 
-show(music)
+show(music, "score")
 ```
 
 
@@ -1015,7 +1011,7 @@ music <-
   Lyric("Hey", 1, verse = 2) +
   Lyric("Jude", 2, verse = 2)
   
-show(music)
+show(music, "score")
 ```
 
 
