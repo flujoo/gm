@@ -24,8 +24,11 @@ show.MusicXML <- function(x, to, musescore = NULL) {
 #'
 #' @noRd
 get_show_paths <- function(name_path, to) {
-  file_paths <- list.files(tempdir(), full.names = TRUE)
-  file_paths <- file_paths[grepl(name_path, file_paths)]
+  file_paths <- list.files(
+    tempdir(),
+    full.names = TRUE,
+    pattern = basename(name_path)
+  )
 
   # The MusicXML file is excluded in the meantime
   file_paths <- sapply(
